@@ -1,9 +1,10 @@
-import { MockRequest, MockStatusError } from '@delon/mock';
-// TIPS: mockjs 一些优化细节见：http://ng-alain.com/docs/mock
-// import * as Mock from 'mockjs';
+import { MockRequest, MockStatusError } from '@delon/mock'
 
-const list = [];
-const total = 50;
+// TIPS: mockjs 一些优化细节见：http://ng-alain.com/docs/mock
+// import * as Mock from 'mockjs'
+
+const list = []
+const total = 50
 
 for (let i = 0; i < total; i += 1) {
   list.push({
@@ -23,29 +24,29 @@ for (let i = 0; i < total; i += 1) {
     updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     progress: Math.ceil(Math.random() * 100),
-  });
+  })
 }
 
 function genData(params: any) {
-  let ret = [...list];
+  let ret = [...list]
   const pi = +params.pi,
     ps = +params.ps,
-    start = (pi - 1) * ps;
+    start = (pi - 1) * ps
 
   if (params.no) {
-    ret = ret.filter(data => data.no.indexOf(params.no) > -1);
+    ret = ret.filter(data => data.no.indexOf(params.no) > -1)
   }
 
-  return { total: ret.length, list: ret.slice(start, ps * pi) };
+  return { total: ret.length, list: ret.slice(start, ps * pi) }
 }
 
 function saveData(id: number, value: any) {
-  const item = list.find(w => w.id === id);
+  const item = list.find(w => w.id === id)
   if (!item) {
-    return { msg: '无效用户信息' };
+    return { msg: '无效用户信息' }
   }
-  Object.assign(item, value);
-  return { msg: 'ok' };
+  Object.assign(item, value)
+  return { msg: 'ok' }
 }
 
 export const USERS = {
@@ -64,6 +65,6 @@ export const USERS = {
   '/users/:id': (req: MockRequest) => req.params, // /users/100, output: { id: 100 }
   // 发送 Status 错误
   '/404': () => {
-    throw new MockStatusError(404);
+    throw new MockStatusError(404)
   },
-};
+}
