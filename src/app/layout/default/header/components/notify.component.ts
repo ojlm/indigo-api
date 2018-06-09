@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
-import { NzMessageService } from 'ng-zorro-antd';
-import { NoticeItem, NoticeIconList } from '@delon/abc';
+import { Component } from '@angular/core'
+import { NoticeIconList, NoticeItem } from '@delon/abc'
+import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+import { NzMessageService } from 'ng-zorro-antd'
 
 /**
  * 菜单通知
@@ -44,38 +44,38 @@ export class HeaderNotifyComponent {
         'https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg',
       clearText: '清空待办',
     },
-  ];
-  count = 5;
-  loading = false;
+  ]
+  count = 5
+  loading = false
 
-  constructor(private msg: NzMessageService) {}
+  constructor(private msg: NzMessageService) { }
 
   updateNoticeData(notices: NoticeIconList[]): NoticeItem[] {
-    const data = this.data.slice();
-    data.forEach(i => (i.list = []));
+    const data = this.data.slice()
+    data.forEach(i => (i.list = []))
 
     notices.forEach(item => {
-      const newItem = { ...item };
+      const newItem = { ...item }
       if (newItem.datetime)
         newItem.datetime = distanceInWordsToNow(item.datetime, {
           locale: (window as any).__locale__,
-        });
+        })
       if (newItem.extra && newItem.status) {
         newItem.color = {
           todo: undefined,
           processing: 'blue',
           urgent: 'red',
           doing: 'gold',
-        }[newItem.status];
+        }[newItem.status]
       }
-      data.find(w => w.title === newItem.type).list.push(newItem);
-    });
-    return data;
+      data.find(w => w.title === newItem.type).list.push(newItem)
+    })
+    return data
   }
 
   loadData() {
-    if (this.loading) return;
-    this.loading = true;
+    if (this.loading) return
+    this.loading = true
     setTimeout(() => {
       this.data = this.updateNoticeData([
         {
@@ -180,17 +180,17 @@ export class HeaderNotifyComponent {
           status: 'processing',
           type: '待办',
         },
-      ]);
+      ])
 
-      this.loading = false;
-    }, 1000);
+      this.loading = false
+    }, 1000)
   }
 
   clear(type: string) {
-    this.msg.success(`清空了 ${type}`);
+    this.msg.success(`清空了 ${type}`)
   }
 
   select(res: any) {
-    this.msg.success(`点击了 ${res.title} 的 ${res.item.title}`);
+    this.msg.success(`点击了 ${res.title} 的 ${res.item.title}`)
   }
 }

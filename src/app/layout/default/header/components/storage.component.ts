@@ -1,5 +1,5 @@
-import { Component, HostListener } from '@angular/core';
-import { NzModalService, NzMessageService } from 'ng-zorro-antd';
+import { Component, HostListener } from '@angular/core'
+import { NzMessageService, NzModalService } from 'ng-zorro-antd'
 
 @Component({
   selector: 'header-storage',
@@ -21,9 +21,9 @@ export class HeaderStorageComponent {
     this.confirmServ.confirm({
       nzTitle: 'Make sure clear all local storage?',
       nzOnOk: () => {
-        localStorage.clear();
-        this.messageServ.success('Clear Finished!');
+        localStorage.clear()
+        this.messageServ.success('Clear Finished!')
       }
-    });
+    })
   }
 }

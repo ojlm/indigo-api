@@ -1,14 +1,14 @@
-import { Router } from '@angular/router';
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SettingsService } from '@delon/theme';
+import { Component } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { SettingsService } from '@delon/theme'
 
 @Component({
   selector: 'passport-lock',
   templateUrl: './lock.component.html',
 })
 export class UserLockComponent {
-  f: FormGroup;
+  f: FormGroup
 
   constructor(
     public settings: SettingsService,
@@ -17,19 +17,19 @@ export class UserLockComponent {
   ) {
     this.f = fb.group({
       password: [null, Validators.required],
-    });
+    })
   }
 
   submit() {
     // tslint:disable-next-line:forin
     for (const i in this.f.controls) {
-      this.f.controls[i].markAsDirty();
-      this.f.controls[i].updateValueAndValidity();
+      this.f.controls[i].markAsDirty()
+      this.f.controls[i].updateValueAndValidity()
     }
     if (this.f.valid) {
-      console.log('Valid!');
-      console.log(this.f.value);
-      this.router.navigate(['dashboard']);
+      console.log('Valid!')
+      console.log(this.f.value)
+      this.router.navigate(['dashboard'])
     }
   }
 }

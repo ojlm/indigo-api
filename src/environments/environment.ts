@@ -6,7 +6,7 @@ export const environment = {
   SERVER_URL: `./`,
   production: false,
   useHash: true,
-};
+}
 
 /*
  * In development mode, to ignore zone related error stack frames such as

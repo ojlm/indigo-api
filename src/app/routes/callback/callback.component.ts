@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SocialService } from '@delon/auth';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { SocialService } from '@delon/auth'
 
 @Component({
   selector: 'app-callback',
@@ -8,19 +8,19 @@ import { SocialService } from '@delon/auth';
   providers: [SocialService],
 })
 export class CallbackComponent implements OnInit {
-  type: string;
+  type: string
 
   constructor(
     private socialService: SocialService,
     private route: ActivatedRoute,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.type = params['type'];
-      this.mockModel();
-    });
+      this.type = params['type']
+      this.mockModel()
+    })
   }
 
   private mockModel() {
@@ -30,6 +30,6 @@ export class CallbackComponent implements OnInit {
       email: `${this.type}@${this.type}.com`,
       id: 10000,
       time: +new Date(),
-    });
+    })
   }
 }

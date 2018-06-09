@@ -1,12 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
+import { Component, OnDestroy } from '@angular/core'
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { NzMessageService } from 'ng-zorro-antd'
 
 @Component({
   selector: 'passport-register',
@@ -14,18 +9,20 @@ import { NzMessageService } from 'ng-zorro-antd';
   styleUrls: ['./register.component.less'],
 })
 export class UserRegisterComponent implements OnDestroy {
-  form: FormGroup;
-  error = '';
-  type = 0;
-  loading = false;
-  visible = false;
-  status = 'pool';
-  progress = 0;
+  form: FormGroup
+  error = ''
+  type = 0
+  loading = false
+  visible = false
+  status = 'pool'
+  progress = 0
   passwordProgressMap = {
     ok: 'success',
     pass: 'normal',
     pool: 'exception',
-  };
+  }
+  count = 0
+  interval$: any
 
   constructor(
     fb: FormBuilder,
@@ -53,81 +50,77 @@ export class UserRegisterComponent implements OnDestroy {
       mobilePrefix: ['+86'],
       mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
       captcha: [null, [Validators.required]],
-    });
+    })
   }
 
   static checkPassword(control: FormControl) {
-    if (!control) return null;
-    const self: any = this;
-    self.visible = !!control.value;
-    if (control.value && control.value.length > 9) self.status = 'ok';
-    else if (control.value && control.value.length > 5) self.status = 'pass';
-    else self.status = 'pool';
+    if (!control) return null
+    const self: any = this
+    self.visible = !!control.value
+    if (control.value && control.value.length > 9) self.status = 'ok'
+    else if (control.value && control.value.length > 5) self.status = 'pass'
+    else self.status = 'pool'
 
     if (self.visible)
       self.progress =
-        control.value.length * 10 > 100 ? 100 : control.value.length * 10;
+        control.value.length * 10 > 100 ? 100 : control.value.length * 10
   }
 
   static passwordEquar(control: FormControl) {
-    if (!control || !control.parent) return null;
+    if (!control || !control.parent) return null
     if (control.value !== control.parent.get('password').value) {
-      return { equar: true };
+      return { equar: true }
     }
-    return null;
+    return null
   }
 
   // region: fields
 
   get mail() {
-    return this.form.controls.mail;
+    return this.form.controls.mail
   }
   get password() {
-    return this.form.controls.password;
+    return this.form.controls.password
   }
   get confirm() {
-    return this.form.controls.confirm;
+    return this.form.controls.confirm
   }
   get mobile() {
-    return this.form.controls.mobile;
+    return this.form.controls.mobile
   }
   get captcha() {
-    return this.form.controls.captcha;
+    return this.form.controls.captcha
   }
 
   // endregion
 
   // region: get captcha
-
-  count = 0;
-  interval$: any;
-
   getCaptcha() {
-    this.count = 59;
+    this.count = 59
     this.interval$ = setInterval(() => {
-      this.count -= 1;
-      if (this.count <= 0) clearInterval(this.interval$);
-    }, 1000);
+      this.count -= 1
+      if (this.count <= 0) clearInterval(this.interval$)
+    }, 1000)
   }
 
   // endregion
 
   submit() {
-    this.error = '';
-    for (const i in this.form.controls) {
-      this.form.controls[i].markAsDirty();
-      this.form.controls[i].updateValueAndValidity();
+    this.error = ''
+    for (const i of Object.keys(this.form.controls)) {
+      this.form.controls[i].markAsDirty()
+      this.form.controls[i].updateValueAndValidity()
     }
-    if (this.form.invalid) return;
+    if (this.form.invalid) return
     // mock http
-    this.loading = true;
+    this.loading = true
     setTimeout(() => {
-      this.loading = false;
-      this.router.navigate(['/passport/register-result']);
-    }, 1000);
+      this.loading = false
+      this.router.navigate(['/passport/register-result'])
+    }, 1000)
   }
 
   ngOnDestroy(): void {
-    if (this.interval$) clearInterval(this.interval$);
+    if (this.interval$) clearInterval(this.interval$)
   }
 }

@@ -1,11 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import {
-  SettingsService,
-  MenuService,
-  TitleService,
-  ALAIN_I18N_TOKEN,
-} from '@delon/theme';
-import { I18NService } from '@core/i18n/i18n.service';
+import { Component, Inject } from '@angular/core'
+import { I18NService } from '@core/i18n/i18n.service'
+import { ALAIN_I18N_TOKEN, SettingsService } from '@delon/theme'
 
 @Component({
   selector: 'header-i18n',
@@ -25,17 +20,17 @@ import { I18NService } from '@core/i18n/i18n.service';
   `,
 })
 export class HeaderI18nComponent {
-  langs: any[];
+  langs: any[]
 
   constructor(
     public settings: SettingsService,
     @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
   ) {
-    this.langs = this.i18n.getLangs();
+    this.langs = this.i18n.getLangs()
   }
 
   change(lang: string) {
-    this.i18n.use(lang);
-    this.settings.setLayout('lang', lang);
+    this.i18n.use(lang)
+    this.settings.setLayout('lang', lang)
   }
 }
