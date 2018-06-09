@@ -30,12 +30,12 @@ const routes: Routes = [
     ]
   },
   // 全屏布局
-  // {
-  //     path: 'fullscreen',
-  //     component: LayoutFullScreenComponent,
-  //     children: [
-  //     ]
-  // },
+  {
+    path: 'fullscreen',
+    component: LayoutFullScreenComponent,
+    children: [
+    ]
+  },
   // passport
   {
     path: 'passport',
