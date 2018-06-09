@@ -1,10 +1,11 @@
 {
-  "name": "open-indigo",
+  "name": "indigo",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
     "build": "ng build --prod --build-optimizer",
+    "dev": "ng serve --proxy-config proxy.conf.js --disable-host-check true",
     "test": "ng test",
     "lint": "npm run lint:ts && npm run lint:style",
     "e2e": "ng e2e",
