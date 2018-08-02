@@ -75,7 +75,7 @@ export class StartupService {
     }
     const user: any = {
       name: 'Indigo',
-      avatar: './assets/tmp/img/avatar.jpg',
+      avatar: './assets/tmp/img/avatar.png',
       email: '',
       token: '123456789'
     }
