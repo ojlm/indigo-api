@@ -4,6 +4,7 @@ import { SharedModule } from '@shared/shared.module'
 import { LayoutFullScreenComponent } from './fullscreen/fullscreen.component'
 import { HeaderFullScreenComponent } from './indigo/header/components/fullscreen.component'
 import { HeaderI18nComponent } from './indigo/header/components/i18n.component'
+import { HeaderNewComponent } from './indigo/header/components/new.component'
 import { HeaderSearchComponent } from './indigo/header/components/search.component'
 import { HeaderStorageComponent } from './indigo/header/components/storage.component'
 import { HeaderUserComponent } from './indigo/header/components/user.component'
@@ -22,7 +23,8 @@ const HEADERCOMPONENTS = [
   HeaderFullScreenComponent,
   HeaderI18nComponent,
   HeaderStorageComponent,
-  HeaderUserComponent
+  HeaderUserComponent,
+  HeaderNewComponent
 ]
 
 // passport

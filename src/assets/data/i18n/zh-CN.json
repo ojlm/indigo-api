@@ -1,4 +1,9 @@
 {
+  "common-group": "分组",
+  "common-project": "项目",
+  "menu-new-group": "新建分组",
+  "menu-new-project": "新建项目",
+  "menu-new-job": "新建任务",
   "menu-main_case": "用例管理",
   "menu-groups": "分组页",
   "menu-projects": "项目页",

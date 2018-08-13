@@ -1,4 +1,9 @@
 {
+  "common-group": "Group",
+  "common-project": "Project",
+  "menu-new-group": "New Group",
+  "menu-new-project": "New Project",
+  "menu-new-job": "New Job",
   "home": "Home",
   "settings": "Settings",
   "profile": "Profile",

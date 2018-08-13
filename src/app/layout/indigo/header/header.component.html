@@ -6,6 +6,18 @@
 </div>
 <div class="top-nav-wrap">
   <ul class="top-nav">
+    <li class="hidden-xs">
+      <a [routerLink]="['/dashboard/groups']">
+        <span class="header-item-btn">{{'common-group' | translate}}</span>
+      </a>
+    </li>
+    <li class="hidden-xs">
+      <a [routerLink]="['/dashboard/projects']">
+        <span class="header-item-btn">{{'common-project' | translate}}</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="top-nav">
     <!-- Search Button -->
     <li class="header-search__btn" (click)="searchToggleChange()">
       <div class="item">
@@ -15,9 +27,12 @@
   </ul>
   <header-search class="header-search" [toggleChange]="searchToggleStatus"></header-search>
   <ul class="top-nav">
+    <li class="hidden-xs">
+      <header-new></header-new>
+    </li>
     <!-- Settings -->
     <li class="hidden-xs">
-      <nz-dropdown nzTrigger="click" nzPlacement="bottomRight">
+      <nz-dropdown nzPlacement="bottomRight">
         <div class="item" nz-dropdown>
           <i class="anticon anticon-setting"></i>
         </div>
