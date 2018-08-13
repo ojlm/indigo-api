@@ -4,12 +4,18 @@ div.indigo-content {
   margin-top: @header-hg;
 }
 
+@header-bg: #009688;
 .header-item-btn {
   color: white;
   padding-left: 10px;
   padding-right: 10px;
 }
 
+@header-item-hover-color: wheat;
 .header-item-btn:hover {
-  color: wheat;
+  color: @header-item-hover-color;
+}
+
+.header-item-btn-active>span {
+  color: @header-item-hover-color;
 }
