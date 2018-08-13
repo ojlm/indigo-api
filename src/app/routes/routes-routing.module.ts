@@ -6,7 +6,7 @@ import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.compo
 import { LayoutIndigoComponent } from '../layout/indigo/indigo.component'
 import { LayoutPassportComponent } from '../layout/passport/passport.component'
 import { CallbackComponent } from './callback/callback.component'
-import { DashboardComponent } from './dashboard/dashboard.component'
+import { HomeComponent } from './dashboard/home/home.component'
 import { Exception403Component } from './exception/403.component'
 import { Exception404Component } from './exception/404.component'
 import { Exception500Component } from './exception/500.component'
@@ -15,17 +15,13 @@ import { UserLoginComponent } from './passport/login/login.component'
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
 import { UserRegisterComponent } from './passport/register/register.component'
 
-// layout
-// dashboard pages
-// passport pages
-// single pages
 const routes: Routes = [
   {
     path: '',
     component: LayoutIndigoComponent,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: DashboardComponent, data: { title: '主页' } },
+      { path: 'home', component: HomeComponent, data: { title: '主页' } },
       // 业务子模块
       // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }
     ]
