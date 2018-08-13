@@ -1,27 +1,28 @@
 import { NgModule } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router'
+import { RouterModule, Routes } from '@angular/router'
 import { environment } from '@env/environment'
-// layout
-import { LayoutDefaultComponent } from '../layout/default/default.component'
+
 import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component'
+import { LayoutIndigoComponent } from '../layout/indigo/indigo.component'
 import { LayoutPassportComponent } from '../layout/passport/passport.component'
-// dashboard pages
-import { DashboardComponent } from './dashboard/dashboard.component'
-// passport pages
-import { UserLoginComponent } from './passport/login/login.component'
-import { UserRegisterComponent } from './passport/register/register.component'
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
-// single pages
 import { CallbackComponent } from './callback/callback.component'
-import { UserLockComponent } from './passport/lock/lock.component'
+import { DashboardComponent } from './dashboard/dashboard.component'
 import { Exception403Component } from './exception/403.component'
 import { Exception404Component } from './exception/404.component'
 import { Exception500Component } from './exception/500.component'
+import { UserLockComponent } from './passport/lock/lock.component'
+import { UserLoginComponent } from './passport/login/login.component'
+import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
+import { UserRegisterComponent } from './passport/register/register.component'
 
+// layout
+// dashboard pages
+// passport pages
+// single pages
 const routes: Routes = [
   {
     path: '',
-    component: LayoutDefaultComponent,
+    component: LayoutIndigoComponent,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: DashboardComponent, data: { title: '主页' } },

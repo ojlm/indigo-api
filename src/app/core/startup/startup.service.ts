@@ -29,8 +29,8 @@ export class StartupService {
 
   private viaHttp(resolve: any, reject: any) {
     zip(
-      this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
-      this.httpClient.get('assets/tmp/app-data.json')
+      this.httpClient.get(`assets/data/i18n/${this.i18n.defaultLang}.json`),
+      this.httpClient.get('assets/data/app-data.json')
     ).pipe(
       // 接收其他拦截器后产生的异常消息
       catchError(([langData, appData]) => {
@@ -51,7 +51,7 @@ export class StartupService {
       // ACL：设置权限为全量
       this.aclService.setFull(true)
       // 初始化菜单
-      this.menuService.add(res.menu)
+      // this.menuService.add(res.menu)
       // 设置页面标题的后缀
       this.titleService.suffix = res.app.name
     },
@@ -75,7 +75,7 @@ export class StartupService {
     }
     const user: any = {
       name: 'Indigo',
-      avatar: './assets/tmp/img/avatar.png',
+      avatar: './assets/data/img/avatar.png',
       email: '',
       token: '123456789'
     }

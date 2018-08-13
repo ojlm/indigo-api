@@ -14,18 +14,18 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module'
 
 import { AppComponent } from './app.component'
-import { CoreModule } from './core/core.module'
+import { CoreModule } from '@core/core.module'
 import { DelonModule } from './delon.module'
 import { LayoutModule } from './layout/layout.module'
 import { RoutesModule } from './routes/routes.module'
-import { SharedModule } from './shared/shared.module'
+import { SharedModule } from '@shared/shared.module'
 
 // angular i18n
 registerLocaleData(localeZhHans)
 // i18n
 // 加载i18n语言文件
 export function I18nHttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `assets/tmp/i18n/`, '.json')
+  return new TranslateHttpLoader(http, `assets/data/i18n/`, '.json')
 }
 
 // @delon/form: JSON Schema form
