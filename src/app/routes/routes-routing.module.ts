@@ -6,7 +6,7 @@ import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.compo
 import { LayoutIndigoComponent } from '../layout/indigo/indigo.component'
 import { LayoutPassportComponent } from '../layout/passport/passport.component'
 import { CallbackComponent } from './callback/callback.component'
-import { HomeComponent } from './dashboard/home/home.component'
+import { HomeComponent } from './home/home.component'
 import { Exception403Component } from './exception/403.component'
 import { Exception404Component } from './exception/404.component'
 import { Exception500Component } from './exception/500.component'
@@ -22,8 +22,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, data: { title: '主页' } },
-      // 业务子模块
-      // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }
+      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' }
     ]
   },
   // 全屏布局
