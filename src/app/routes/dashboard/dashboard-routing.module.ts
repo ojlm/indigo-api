@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { GroupsComponent } from './groups/groups.component'
 
 const routes: Routes = [
-  { path: 'groups', component: GroupsComponent },
+  { path: 'groups', component: GroupsComponent, data: { title: 'Groups' } },
 ]
 
 @NgModule({
