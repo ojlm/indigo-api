@@ -22,6 +22,7 @@ export interface Label extends LabelRef {
 
 export interface Group extends BaseDoc {
   id?: string
+  avatar?: string
 }
 
 export interface Project extends BaseDoc {

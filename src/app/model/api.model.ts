@@ -52,3 +52,8 @@ export const ActorEventType = {
   NOTIFY: 'notify',
   ERROR: 'error',
 }
+
+export interface QueryPage {
+  from?: number
+  size?: number
+}
