@@ -14,8 +14,10 @@ import { Router } from '@angular/router'
 import { _HttpClient } from '@delon/theme'
 import { environment } from '@env/environment'
 import { NzMessageService } from 'ng-zorro-antd'
-import { Observable, of } from 'rxjs'
+import { Observable, of, throwError } from 'rxjs'
 import { catchError, mergeMap } from 'rxjs/operators'
+
+import { APICODE, ApiResObj } from '../../model/api.model'
 
 /**
  * 默认HTTP拦截器，其注册细节见 `app.module.ts`
@@ -44,21 +46,20 @@ export class DefaultInterceptor implements HttpInterceptor {
         // 例如响应内容：
         //  错误内容：{ status: 1, msg: '非法参数' }
         //  正确内容：{ status: 0, response: {  } }
-        // 则以下代码片断可直接适用
-        // if (event instanceof HttpResponse) {
-        //     const body: any = event.body
-        //     if (body && body.status !== 0) {
-        //         this.msg.error(body.msg)
-        //         // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
-        //         // this.http.get('/').subscribe() 并不会触发
-        //         return throwError({})
-        //     } else {
-        //         // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
-        //         return of(new HttpResponse(Object.assign(event, { body: body.response })))
-        //         // 或者依然保持完整的格式
-        //         return of(event)
-        //     }
-        // }
+        if (event instanceof HttpResponse) {
+          const body: ApiResObj = event.body
+          if (body && body.code !== APICODE.OK) {
+            this.msg.error(body.msg)
+            // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
+            // this.http.get('/').subscribe() 并不会触发
+            return throwError({})
+          } else {
+            // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
+            // return of(new HttpResponse(Object.assign(event, { body: body.response })))
+            // 或者依然保持完整的格式
+            return of(event)
+          }
+        }
         break
       case 401: // 未登录状态码
         this.goTo('/passport/login')
@@ -103,10 +104,12 @@ export class DefaultInterceptor implements HttpInterceptor {
     return next.handle(newReq).pipe(
       mergeMap((event: any) => {
         // 允许统一对请求错误处理，这是因为一个请求若是业务上错误的情况下其HTTP请求的状态是200的情况下需要
-        if (event instanceof HttpResponse && event.status === 200)
+        if (event instanceof HttpResponse && event.status === 200 && req.url.startsWith('api/')) {
           return this.handleData(event)
-        // 若一切都正常，则后续操作
-        return of(event)
+        } else {
+          // 若一切都正常，则后续操作
+          return of(event)
+        }
       }),
       catchError((err: HttpErrorResponse) => this.handleData(err)),
     )
