@@ -1,6 +1,6 @@
 {
   "field-id": "标识",
-  "field-id-err": "唯一标识, 只允许[a-z][A-Z]-_.*等字符",
+  "field-id-err": "唯一标识, 只允许[a-z][A-Z]-_.等字符",
   "field-summary": "名字",
   "field-description": "描述",
   "field-creator": "创建人",
@@ -44,7 +44,10 @@
   "field-namespace": "命名空间",
   "field-email": "邮箱",
   "field-username": "用户名",
+  "field-avatar": "头像",
   "field-nickname": "昵称",
+  "btn-commit": "提交",
+  "btn-back": "返回",
   "new-group": "新建分组",
   "new-job": "新建任务",
   "new-project": "新建项目",

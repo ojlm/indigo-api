@@ -239,3 +239,7 @@ export interface QueryJobReport {
   from?: number
   size?: number
 }
+
+export interface IndexDocResponse {
+  id?: string
+}

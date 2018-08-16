@@ -1,0 +1,43 @@
+<div>
+  <div class="content__title">
+    <h1 style="padding-left: 10px;">{{'new-group'|translate}}</h1>
+  </div>
+  <nz-card [nzBordered]="false">
+    <form nz-form [formGroup]="form" (ngSubmit)="submit()">
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="id">{{'field-id'|translate}}</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="id" id="id" [placeholder]="'field-id-err'|translate">
+          <nz-form-explain *ngIf="form.get('id').dirty && form.get('id').errors">{{'field-id-err'|translate}}</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="summary">{{'field-summary'|translate}}</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="summary" id="summary" [placeholder]="'field-summary'|translate">
+          <nz-form-explain *ngIf="form.get('summary').dirty && form.get('summary').errors">{{'field-id-err'|translate}}</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="description">{{'field-description'|translate}}</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{minRows: 4}" [placeholder]="'field-description'|translate"></textarea>
+          <nz-form-explain *ngIf="form.get('description').dirty && form.get('description').errors">{{'field-description'|translate}}</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="avatar">{{'field-avatar'|translate}}</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="avatar" id="avatar" [placeholder]="'field-avatar'|translate">
+          <nz-form-explain *ngIf="form.get('avatar').dirty && form.get('avatar').errors">{{'field-avatar'|translate}}</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
+          <button nz-button class="ml-sm" (click)="back()">{{'btn-back'|translate}}</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-card>
+</div>

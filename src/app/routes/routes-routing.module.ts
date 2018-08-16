@@ -10,6 +10,7 @@ import { CallbackComponent } from './callback/callback.component'
 import { Exception403Component } from './exception/403.component'
 import { Exception404Component } from './exception/404.component'
 import { Exception500Component } from './exception/500.component'
+import { GroupModelComponent } from './group/group-model/group-model.component'
 import { HomeComponent } from './home/home.component'
 import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
@@ -24,7 +25,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, data: { title: '主页' } },
-      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' }
+      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+      { path: 'groups/new', component: GroupModelComponent }
     ]
   },
   // 全屏布局

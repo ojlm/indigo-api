@@ -5,6 +5,7 @@ import { CallbackComponent } from './callback/callback.component'
 import { Exception403Component } from './exception/403.component'
 import { Exception404Component } from './exception/404.component'
 import { Exception500Component } from './exception/500.component'
+import { GroupModelComponent } from './group/group-model/group-model.component'
 import { HomeComponent } from './home/home.component'
 import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
@@ -23,7 +24,9 @@ const COMPONENTS = [
   UserLockComponent,
   Exception403Component,
   Exception404Component,
-  Exception500Component
+  Exception500Component,
+  // group
+  GroupModelComponent
 ]
 const COMPONENTS_NOROUNT = []
 
