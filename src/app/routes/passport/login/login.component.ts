@@ -30,7 +30,7 @@ export class UserLoginComponent implements OnDestroy {
     private startupSrv: StartupService,
   ) {
     this.form = fb.group({
-      userName: [null, [Validators.required, Validators.minLength(5)]],
+      userName: [null, [Validators.required]],
       password: [null, Validators.required],
       remember: [true],
     })
