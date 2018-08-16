@@ -1,6 +1,5 @@
-import { Component, Inject } from '@angular/core'
+import { Component } from '@angular/core'
 import { Router } from '@angular/router'
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth'
 import { SettingsService } from '@delon/theme'
 
 @Component({
@@ -26,12 +25,12 @@ export class HeaderNewComponent {
   ) { }
 
   newGroup() {
-
+    this.router.navigateByUrl('/groups/new')
   }
   newProject() {
-
+    this.router.navigateByUrl('/projects/new')
   }
   newJob() {
-
+    this.router.navigateByUrl('/jobs/new')
   }
 }
