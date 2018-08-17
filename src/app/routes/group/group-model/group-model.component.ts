@@ -13,6 +13,7 @@ import { Group } from '../../../model/es.model'
 })
 export class GroupModelComponent implements OnInit {
 
+  avatar = ''
   form: FormGroup
   submitting = false
   group: Group = {}
