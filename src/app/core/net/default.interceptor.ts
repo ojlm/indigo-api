@@ -14,8 +14,8 @@ import { Router } from '@angular/router'
 import { _HttpClient } from '@delon/theme'
 import { environment } from '@env/environment'
 import { NzMessageService } from 'ng-zorro-antd'
-import { Observable, of, throwError } from 'rxjs'
-import { catchError, mergeMap } from 'rxjs/operators'
+import { Observable, of } from 'rxjs'
+import { mergeMap } from 'rxjs/operators'
 
 import { APICODE, ApiResObj } from '../../model/api.model'
 
@@ -43,20 +43,12 @@ export class DefaultInterceptor implements HttpInterceptor {
     switch (event.status) {
       case 200:
         // 业务层级错误处理，以下是假定restful有一套统一输出格式（指不管成功与否都有相应的数据格式）情况下进行处理
-        // 例如响应内容：
-        //  错误内容：{ status: 1, msg: '非法参数' }
-        //  正确内容：{ status: 0, response: {  } }
         if (event instanceof HttpResponse) {
           const body: ApiResObj = event.body
           if (body && body.code !== APICODE.OK) {
             this.msg.error(body.msg)
-            // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
-            // this.http.get('/').subscribe() 并不会触发
-            return throwError({})
+            return Observable.create(obs => obs.error(event))
           } else {
-            // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
-            // return of(new HttpResponse(Object.assign(event, { body: body.response })))
-            // 或者依然保持完整的格式
             return of(event)
           }
         }
@@ -111,7 +103,6 @@ export class DefaultInterceptor implements HttpInterceptor {
           return of(event)
         }
       }),
-      catchError((err: HttpErrorResponse) => this.handleData(err)),
     )
   }
 }
