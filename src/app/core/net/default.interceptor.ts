@@ -11,6 +11,7 @@ import {
 } from '@angular/common/http'
 import { Injectable, Injector } from '@angular/core'
 import { Router } from '@angular/router'
+import { I18NService } from '@core/i18n/i18n.service'
 import { _HttpClient } from '@delon/theme'
 import { environment } from '@env/environment'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -28,6 +29,10 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   get msg(): NzMessageService {
     return this.injector.get(NzMessageService)
+  }
+
+  get i18N(): I18NService {
+    return this.injector.get(I18NService)
   }
 
   private goTo(url: string) {
@@ -89,9 +94,10 @@ export class DefaultInterceptor implements HttpInterceptor {
     if (!url.startsWith('https://') && !url.startsWith('http://')) {
       url = environment.SERVER_URL + url
     }
-
+    const lang = this.i18N.currentLang
     const newReq = req.clone({
       url: url,
+      headers: req.headers.append('Local', lang)
     })
     return next.handle(newReq).pipe(
       mergeMap((event: any) => {
