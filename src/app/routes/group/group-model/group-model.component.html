@@ -40,7 +40,7 @@
       <nz-form-item>
         <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
           <button nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
-          <button nz-button class="ml-sm" (click)="back()">{{'btn-back'|translate}}</button>
+          <button nz-button type="button" class="ml-sm" (click)="goBack()">{{'btn-back'|translate}}</button>
         </nz-form-control>
       </nz-form-item>
     </form>

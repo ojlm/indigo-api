@@ -1,13 +1,14 @@
+<div class="content__title">
+  <h1 style="padding-left: 10px;">{{'field-group'|translate}}</h1>
+</div>
 <nz-card>
-  <div *ngIf="groups.length===0">
-    NO GROUPS
-  </div>
-  <nz-list *ngIf="groups.length>0" [nzDataSource]="groups" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination">
+  <nz-list [nzDataSource]="groups" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination" [nzLoading]="loading">
     <ng-template #item let-item>
       <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
         <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
           <ng-template #nzAvatar>
-            <nz-avatar nzSize="large" [nzText]="item.summary" [nzSrc]="item.avatar"></nz-avatar>
+            <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="item.summary?item.summary[0].toUpperCase():''" [nzSrc]="item.avatar"
+              (click)="goGroup(item)"></nz-avatar>
           </ng-template>
           <ng-template #nzTitle>
             <a [routerLink]="['/group/'+item.id]">{{item.summary}}</a>
@@ -17,14 +18,12 @@
           </ng-template>
         </nz-list-item-meta>
         <ng-template #edit>
-          <a (click)="edit(item)">
-            <i class="anticon anticon-edit"></i>
-          </a>
+          <button nz-button nzType="default" nzShape="circle" (click)="goSettings(item)"><i class="anticon anticon-setting"></i></button>
         </ng-template>
       </nz-list-item>
     </ng-template>
     <ng-template #pagination>
-      <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="pageTotal"></nz-pagination>
+      <nz-pagination *ngIf="groups.length>0" [nzPageIndex]="pageIndex" [nzTotal]="pageTotal"></nz-pagination>
     </ng-template>
   </nz-list>
 </nz-card>

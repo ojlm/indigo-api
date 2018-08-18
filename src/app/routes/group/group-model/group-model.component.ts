@@ -50,7 +50,7 @@ export class GroupModelComponent implements OnInit {
     })
   }
 
-  back() {
+  goBack() {
     this.location.back()
   }
 }
