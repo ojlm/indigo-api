@@ -5,7 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 
 @Component({
   selector: 'layout-indigo',
-  templateUrl: './indigo.component.html',
+  templateUrl: './layout-indigo.component.html',
 })
 export class LayoutIndigoComponent {
   isFetching = false

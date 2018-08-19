@@ -9,7 +9,7 @@ import { HeaderSearchComponent } from './indigo/header/components/search.compone
 import { HeaderStorageComponent } from './indigo/header/components/storage.component'
 import { HeaderUserComponent } from './indigo/header/components/user.component'
 import { HeaderComponent } from './indigo/header/header.component'
-import { LayoutIndigoComponent } from './indigo/indigo.component'
+import { LayoutIndigoComponent } from './indigo/layout-indigo/layout-indigo.component'
 import { LayoutPassportComponent } from './passport/passport.component'
 
 const COMPONENTS = [

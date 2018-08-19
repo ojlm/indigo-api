@@ -4,7 +4,7 @@ import { JWTGuard } from '@delon/auth'
 import { environment } from '@env/environment'
 
 import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component'
-import { LayoutIndigoComponent } from '../layout/indigo/indigo.component'
+import { LayoutIndigoComponent } from '../layout/indigo/layout-indigo/layout-indigo.component'
 import { LayoutPassportComponent } from '../layout/passport/passport.component'
 import { CallbackComponent } from './callback/callback.component'
 import { Exception403Component } from './exception/403.component'
