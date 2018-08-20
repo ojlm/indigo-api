@@ -23,8 +23,7 @@ const routes: Routes = [
     component: LayoutIndigoComponent,
     canActivateChild: [JWTGuard],
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent, data: { title: '主页' } },
+      { path: '', component: HomeComponent },
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
       { path: 'groups/new', component: GroupModelComponent }
     ]
@@ -53,7 +52,7 @@ const routes: Routes = [
   { path: '403', component: Exception403Component },
   { path: '404', component: Exception404Component },
   { path: '500', component: Exception500Component },
-  { path: '**', redirectTo: 'home' }
+  { path: '**', redirectTo: '' }
 ]
 
 @NgModule({
