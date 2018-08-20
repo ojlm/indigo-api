@@ -9,13 +9,15 @@ import { HeaderSearchComponent } from './indigo/header/components/search.compone
 import { HeaderStorageComponent } from './indigo/header/components/storage.component'
 import { HeaderUserComponent } from './indigo/header/components/user.component'
 import { HeaderComponent } from './indigo/header/header.component'
+import { LayoutGroupComponent } from './indigo/layout-group/layout-group.component'
 import { LayoutIndigoComponent } from './indigo/layout-indigo/layout-indigo.component'
 import { LayoutPassportComponent } from './passport/passport.component'
 
 const COMPONENTS = [
+  HeaderComponent,
   LayoutIndigoComponent,
   LayoutFullScreenComponent,
-  HeaderComponent,
+  LayoutGroupComponent,
 ]
 
 const HEADERCOMPONENTS = [

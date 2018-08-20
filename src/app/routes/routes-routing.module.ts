@@ -4,6 +4,7 @@ import { JWTGuard } from '@delon/auth'
 import { environment } from '@env/environment'
 
 import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component'
+import { LayoutGroupComponent } from '../layout/indigo/layout-group/layout-group.component'
 import { LayoutIndigoComponent } from '../layout/indigo/layout-indigo/layout-indigo.component'
 import { LayoutPassportComponent } from '../layout/passport/passport.component'
 import { CallbackComponent } from './callback/callback.component'
@@ -52,6 +53,12 @@ const routes: Routes = [
   { path: '403', component: Exception403Component },
   { path: '404', component: Exception404Component },
   { path: '500', component: Exception500Component },
+  // group layout
+  {
+    path: ':group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', loadChildren: './group/group.module#GroupModule' },
+    ]
+  },
   { path: '**', redirectTo: '' }
 ]
 
