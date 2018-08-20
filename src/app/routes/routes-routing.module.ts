@@ -23,9 +23,9 @@ const routes: Routes = [
     component: LayoutIndigoComponent,
     canActivateChild: [JWTGuard],
     children: [
-      { path: '', component: HomeComponent },
+      { path: '', component: HomeComponent, data: { titleI18n: 'title-home' } },
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-      { path: 'groups/new', component: GroupModelComponent }
+      { path: 'groups/new', component: GroupModelComponent, data: { titleI18n: 'title-group-new' } }
     ]
   },
   // 全屏布局
@@ -41,14 +41,14 @@ const routes: Routes = [
     path: 'passport',
     component: LayoutPassportComponent,
     children: [
-      { path: 'login', component: UserLoginComponent, data: { title: '登录' } },
-      { path: 'register', component: UserRegisterComponent, data: { title: '注册' } },
-      { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果' } }
+      { path: 'login', component: UserLoginComponent, data: { titleI18n: 'title-login' } },
+      { path: 'register', component: UserRegisterComponent, data: { titleI18n: 'title-register' } },
+      { path: 'register-result', component: UserRegisterResultComponent, data: { titleI18n: 'title-register-result' } }
     ]
   },
   // 单页不包裹Layout
   { path: 'callback/:type', component: CallbackComponent },
-  { path: 'lock', component: UserLockComponent, data: { title: '锁屏' } },
+  { path: 'lock', component: UserLockComponent, data: { titleI18n: 'title-lock' } },
   { path: '403', component: Exception403Component },
   { path: '404', component: Exception404Component },
   { path: '500', component: Exception500Component },

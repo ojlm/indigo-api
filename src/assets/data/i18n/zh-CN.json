@@ -62,5 +62,12 @@
   "fullscreen": "全屏",
   "fullscreen-exit": "退出全屏",
   "clear-local-storage": "清理本地缓存",
-  "language": "语言"
+  "language": "语言",
+  "title-home": "主页",
+  "title-groups": "分组",
+  "title-group-new": "新建分组",
+  "title-login": "登录",
+  "title-register": "注册",
+  "title-register-result": "注册结果",
+  "title-lock": "锁屏"
 }
