@@ -44,7 +44,7 @@ export class GroupModelComponent implements OnInit {
     this.submitting = true
     this.groupService.index(group).subscribe(res => {
       this.submitting = false
-      this.router.navigateByUrl(`/group/${res.data.id}`)
+      this.router.navigateByUrl(`/${res.data.id}`)
     }, errRes => {
       this.submitting = false
     })
