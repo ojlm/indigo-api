@@ -23,7 +23,7 @@ export class GroupsComponent extends PageSingleModel implements OnInit {
   }
 
   goGroup(item: Group) {
-    this.router.navigateByUrl(`/group/${item.id}`)
+    this.router.navigateByUrl(`/${item.id}`)
   }
 
   goSettings(item: Group) {
