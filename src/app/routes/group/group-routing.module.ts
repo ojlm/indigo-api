@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
+import { GroupJobsComponent } from './group-jobs/group-jobs.component'
 import { GroupProjectsComponent } from './group-projects/group-projects.component'
+import { GroupSettingsComponent } from './group-settings/group-settings.component'
 
 const routes: Routes = [
-  { path: '', component: GroupProjectsComponent, data: { titleI18n: 'title-groups' } },
+  { path: 'jobs', component: GroupJobsComponent },
+  { path: 'settings', component: GroupSettingsComponent }
 ]
 
 @NgModule({

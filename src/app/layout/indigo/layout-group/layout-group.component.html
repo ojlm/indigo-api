@@ -3,6 +3,15 @@
   <layout-header class="header"></layout-header>
   <div class="aside">
     <div class="aside-inner">
+      <nz-dropdown nzTrigger="click" class="user-block">
+        <div nz-dropdown class="user-block-dropdown">
+          <nz-avatar class="avatar" [nzSrc]="group.avatar" [nzText]="group.id?group.id[0].toUpperCase():''"></nz-avatar>
+          <div class="info">
+            <strong>{{group.summary}}</strong>
+            <p class="text-truncate mb0">{{group.description}}</p>
+          </div>
+        </div>
+      </nz-dropdown>
       <sidebar-nav class="d-block py-lg"></sidebar-nav>
     </div>
   </div>

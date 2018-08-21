@@ -12,6 +12,7 @@ import { Exception403Component } from './exception/403.component'
 import { Exception404Component } from './exception/404.component'
 import { Exception500Component } from './exception/500.component'
 import { GroupModelComponent } from './group/group-model/group-model.component'
+import { GroupProjectsComponent } from './group/group-projects/group-projects.component'
 import { HomeComponent } from './home/home.component'
 import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
@@ -56,6 +57,11 @@ const routes: Routes = [
   // group layout
   {
     path: ':group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: GroupProjectsComponent, data: { titleI18n: 'title-groups' } }
+    ]
+  },
+  {
+    path: 'group/:group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [
       { path: '', loadChildren: './group/group.module#GroupModule' },
     ]
   },

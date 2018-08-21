@@ -2,11 +2,13 @@ import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
 
-import { GroupProjectsComponent } from './group-projects/group-projects.component'
+import { GroupJobsComponent } from './group-jobs/group-jobs.component'
 import { GroupRoutingModule } from './group-routing.module'
+import { GroupSettingsComponent } from './group-settings/group-settings.component'
 
 const COMPONENT = [
-  GroupProjectsComponent,
+  GroupJobsComponent,
+  GroupSettingsComponent,
 ]
 
 const COMPONENT_NOROUNT = []

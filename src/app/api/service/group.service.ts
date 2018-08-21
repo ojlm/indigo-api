@@ -19,6 +19,10 @@ export class GroupService {
   index(group: Group) {
     return this.http.put(API_GROUP, group)
   }
+
+  getById(id: string) {
+    return this.http.get<ApiRes<Group>>(`${API_GROUP}/${id}`)
+  }
 }
 
 export interface QueryGroup extends QueryPage {

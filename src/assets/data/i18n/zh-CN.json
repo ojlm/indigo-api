@@ -1,4 +1,8 @@
 {
+  "menu-main-navigation": "主导航",
+  "menu-projects": "项目",
+  "menu-jobs": "任务",
+  "menu-settings": "设置",
   "field-id": "标识",
   "field-id-err": "唯一标识, 只允许[a-z][A-Z][0-9]-_.等字符",
   "field-summary": "名字",
@@ -70,5 +74,6 @@
   "title-register": "注册",
   "title-register-result": "注册结果",
   "title-lock": "锁屏",
-  "content-title-group-projects": "分组项目"
+  "content-title-group-projects": "分组项目",
+  "content-title-group-jobs": "分组任务"
 }
