@@ -12,6 +12,7 @@ import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
 import { UserRegisterComponent } from './passport/register/register.component'
+import { ProjectModelComponent } from './project/group-model/project-model.component'
 import { RouteRoutingModule } from './routes-routing.module'
 
 const COMPONENTS = [
@@ -28,7 +29,8 @@ const COMPONENTS = [
   Exception500Component,
   // group
   GroupModelComponent,
-  GroupProjectsComponent
+  GroupProjectsComponent,
+  ProjectModelComponent
 ]
 const COMPONENTS_NOROUNT = []
 

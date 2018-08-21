@@ -18,6 +18,7 @@ import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
 import { UserRegisterComponent } from './passport/register/register.component'
+import { ProjectModelComponent } from './project/group-model/project-model.component'
 
 const routes: Routes = [
   {
@@ -27,7 +28,8 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent, data: { titleI18n: 'title-home' } },
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-      { path: 'groups/new', component: GroupModelComponent, data: { titleI18n: 'title-group-new' } }
+      { path: 'groups/new', component: GroupModelComponent, data: { titleI18n: 'title-group-new' } },
+      { path: 'projects/new', component: ProjectModelComponent, data: { titleI18n: 'title-project-new' } }
     ]
   },
   // 全屏布局
