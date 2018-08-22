@@ -16,8 +16,10 @@ import { UserProfile } from '../../../model/user.model'
   styleUrls: ['./login.component.less'],
 })
 export class UserLoginComponent implements OnDestroy {
+
   form: FormGroup
   error = ''
+  loading = false
 
   constructor(
     fb: FormBuilder,
@@ -44,6 +46,9 @@ export class UserLoginComponent implements OnDestroy {
     return this.form.controls.password
   }
 
+  switch(index: number) {
+  }
+
   submit() {
     this.error = ''
     this.userName.markAsDirty()
@@ -51,12 +56,14 @@ export class UserLoginComponent implements OnDestroy {
     this.password.markAsDirty()
     this.password.updateValueAndValidity()
     if (this.userName.invalid || this.password.invalid) return
+    this.loading = false
     this.http.get<ApiRes<UserProfile>>(API_USER_LOGIN, { username: this.userName.value, password: this.password.value }).subscribe(res => {
       this.tokenService.set({
         token: res.data.token
       })
+      this.loading = true
       this.startupSrv.load(res.data).then(() => this.router.navigate(['/']))
-    })
+    }, err => this.loading = false)
   }
 
   ngOnDestroy(): void {
