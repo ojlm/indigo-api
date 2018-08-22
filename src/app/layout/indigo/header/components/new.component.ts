@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { SettingsService } from '@delon/theme'
 
 @Component({
@@ -19,18 +19,36 @@ import { SettingsService } from '@delon/theme'
   `,
 })
 export class HeaderNewComponent {
+
+  group: string
+  project: string
+
   constructor(
     public settings: SettingsService,
     private router: Router,
-  ) { }
+    private route: ActivatedRoute,
+  ) {
+    route.paramMap.subscribe(param => {
+      this.group = param.get('group')
+      this.project = param.get('project')
+    })
+  }
 
   newGroup() {
     this.router.navigateByUrl('/groups/new')
   }
   newProject() {
-    this.router.navigateByUrl('/projects/new')
+    if (this.group) {
+      this.router.navigateByUrl(`/projects/new?group=${this.group}`)
+    } else {
+      this.router.navigateByUrl('/projects/new')
+    }
   }
   newJob() {
-    this.router.navigateByUrl('/jobs/new')
+    if (this.group) {
+      this.router.navigateByUrl('/jobs/new?group=${this.group}')
+    } else {
+      this.router.navigateByUrl('/jobs/new')
+    }
   }
 }

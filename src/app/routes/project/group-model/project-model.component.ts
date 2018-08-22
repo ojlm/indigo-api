@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { GroupService, QueryGroup } from '../../../api/service/group.service'
+import { ProjectService } from '../../../api/service/project.service'
 import { ApiRes } from '../../../model/api.model'
 import { Group, Project } from '../../../model/es.model'
 
@@ -25,6 +26,7 @@ export class ProjectModelComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private groupService: GroupService,
+    private projectService: ProjectService,
     private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
@@ -35,6 +37,7 @@ export class ProjectModelComponent implements OnInit {
     this.isLoading = true
     this.groupQuerySubject.next({ id: id })
   }
+
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(param => {
       const groupId = param.get('group')
@@ -65,7 +68,10 @@ export class ProjectModelComponent implements OnInit {
     if (this.form.invalid) return
     const project = this.form.value as Project
     this.submitting = true
-    console.log(project)
+    this.projectService.index(project).subscribe(res => {
+      this.submitting = false
+      this.router.navigateByUrl(`/${project.group}/${res.data.id}`)
+    }, err => this.submitting = false)
   }
 
   goBack() {
