@@ -23,8 +23,8 @@ export class ProjectService extends BaseService {
     return this.http.put(API_PROJECT, project)
   }
 
-  getById(id: string) {
-    return this.http.get<ApiRes<Project>>(`${API_PROJECT}/${id}`)
+  getById(group: string, id: string) {
+    return this.http.get<ApiRes<Project>>(`${API_PROJECT}/${group}/${id}`)
   }
 
   newQuerySubject(response: Subject<ApiRes<Project[]>>) {

@@ -14,6 +14,10 @@ import { SettingsService } from '@delon/theme'
       <li nz-menu-divider></li>
       <div nz-menu-item (click)="newProject()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-project' | translate}}</div>
       <div nz-menu-item (click)="newJob()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-job' | translate}}</div>
+      <li *ngIf="project" nz-menu-divider></li>
+      <div *ngIf="project" nz-menu-item (click)="newApi()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-api' | translate}}</div>
+      <div *ngIf="project" nz-menu-item (click)="newScenario()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-scenario' | translate}}</div>
+      <div *ngIf="project" nz-menu-item (click)="newEnv()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-env' | translate}}</div>
     </div>
   </nz-dropdown>
   `,
@@ -46,9 +50,18 @@ export class HeaderNewComponent {
   }
   newJob() {
     if (this.group) {
-      this.router.navigateByUrl('/jobs/new?group=${this.group}')
+      this.router.navigateByUrl(`/jobs/new?group=${this.group}`)
     } else {
       this.router.navigateByUrl('/jobs/new')
     }
+  }
+  newApi() {
+    this.router.navigateByUrl(`/apis/new?group=${this.group}&project=${this.project}`)
+  }
+  newScenario() {
+    this.router.navigateByUrl(`/scenarios/new?group=${this.group}&project=${this.project}`)
+  }
+  newEnv() {
+    this.router.navigateByUrl(`/envs/new?group=${this.group}&project=${this.project}`)
   }
 }

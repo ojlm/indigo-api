@@ -6,6 +6,7 @@ import { environment } from '@env/environment'
 import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component'
 import { LayoutGroupComponent } from '../layout/indigo/layout-group/layout-group.component'
 import { LayoutIndigoComponent } from '../layout/indigo/layout-indigo/layout-indigo.component'
+import { LayoutProjectComponent } from '../layout/indigo/layout-project/layout-project.component'
 import { LayoutPassportComponent } from '../layout/passport/passport.component'
 import { CallbackComponent } from './callback/callback.component'
 import { Exception403Component } from './exception/403.component'
@@ -18,7 +19,8 @@ import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
 import { UserRegisterComponent } from './passport/register/register.component'
-import { ProjectModelComponent } from './project/group-model/project-model.component'
+import { ProjectApisComponent } from './project/project-apis/project-apis.component'
+import { ProjectModelComponent } from './project/project-model/project-model.component'
 
 const routes: Routes = [
   {
@@ -60,6 +62,12 @@ const routes: Routes = [
   {
     path: ':group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: GroupProjectsComponent, data: { titleI18n: 'title-groups' } }
+    ]
+  },
+  // project layout
+  {
+    path: ':group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectApisComponent, data: { titleI18n: 'title-projects' } }
     ]
   },
   {

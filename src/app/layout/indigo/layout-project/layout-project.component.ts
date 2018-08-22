@@ -4,15 +4,16 @@ import { Menu, MenuService, ScrollService, SettingsService } from '@delon/theme'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { GroupService } from '../../../api/service/group.service'
-import { Group } from '../../../model/es.model'
+import { ProjectService } from '../../../api/service/project.service'
+import { Project } from '../../../model/es.model'
 
 @Component({
-  selector: 'layout-group',
-  templateUrl: './layout-group.component.html',
+  selector: 'layout-project',
+  templateUrl: './layout-project.component.html',
 })
-export class LayoutGroupComponent {
+export class LayoutProjectComponent {
   isFetching = false
-  group: Group = {}
+  project: Project = {}
   constructor(
     router: Router,
     scroll: ScrollService,
@@ -21,6 +22,7 @@ export class LayoutGroupComponent {
     public settings: SettingsService,
     private route: ActivatedRoute,
     private groupService: GroupService,
+    private projectService: ProjectService
   ) {
     // scroll to top in change page
     router.events.subscribe(evt => {
@@ -41,11 +43,14 @@ export class LayoutGroupComponent {
     })
     // set menu and group infomation
     route.paramMap.subscribe(param => {
-      const groupId = param.get('group')
-      groupService.getById(groupId).subscribe(
-        res => this.group = res.data,
-        err => router.navigateByUrl('/')
-      )
+      const group = param.get('group')
+      const project = param.get('project')
+      if (project) {
+        this.projectService.getById(group, project).subscribe(
+          res => this.project = res.data,
+          err => router.navigateByUrl('/')
+        )
+      }
       menuSrv.clear()
       const menus: Menu[] = [
         {
@@ -55,23 +60,35 @@ export class LayoutGroupComponent {
           'hideInBreadcrumb': true,
           children: [
             {
-              'text': '项目',
-              'i18n': 'menu-projects',
-              'icon': 'anticon antanticon anticon-database',
-              'link': `/${groupId}`
+              'text': '接口',
+              'i18n': 'menu-apis',
+              'icon': 'anticon antanticon anticon-api',
+              'link': `/${group}/${project}`
+            },
+            {
+              'text': '用例',
+              'i18n': 'menu-cases',
+              'icon': 'anticon antanticon anticon-book',
+              'link': `/case/${group}/${project}`
+            },
+            {
+              'text': '场景',
+              'i18n': 'menu-scenarios',
+              'icon': 'anticon antanticon anticon-picture',
+              'link': `/scenario/${group}/${project}`
             },
             {
               'text': '任务',
               'i18n': 'menu-jobs',
               'icon': 'anticon antanticon anticon-schedule',
-              'link': `/group/${groupId}/jobs`
+              'link': `/job/${group}/${project}`
             },
             {
-              'text': '设置',
-              'i18n': 'menu-settings',
-              'icon': 'anticon antanticon anticon-setting',
-              'link': `/group/${groupId}/settings`
-            }
+              'text': '环境',
+              'i18n': 'menu-envs',
+              'icon': 'anticon antanticon anticon-environment-o',
+              'link': `/env/${group}/${project}`
+            },
           ]
         },
       ]

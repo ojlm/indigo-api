@@ -70,7 +70,7 @@ export class ProjectModelComponent implements OnInit {
     this.submitting = true
     this.projectService.index(project).subscribe(res => {
       this.submitting = false
-      this.router.navigateByUrl(`/${project.group}/${res.data.id}`)
+      this.router.navigateByUrl(`/${project.group}/${project.id}`)
     }, err => this.submitting = false)
   }
 
