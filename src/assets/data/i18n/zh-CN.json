@@ -79,5 +79,6 @@
   "content-title-group-projects": "分组项目",
   "content-title-group-jobs": "分组任务",
   "content-title-group-settings": "分组设置",
-  "tips-loading-data": "加载数据..."
+  "tips-loading-data": "加载数据...",
+  "tips-no-data": "没有数据"
 }
