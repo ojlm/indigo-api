@@ -1,23 +1,35 @@
 // 可以通过 http://ng-alain.com/theme 生成相应的参数代码
 @header-hg: 48px;
 div.indigo-content {
-    margin-top: @header-hg;
+  margin-top: @header-hg;
 }
 
 @header-bg: #009688;
 .header-item-btn {
-    color: white;
-    padding-left: 10px;
-    padding-right: 10px;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 @header-item-hover-color: wheat;
 .header-item-btn:hover {
-    color: @header-item-hover-color;
+  color: @header-item-hover-color;
 }
 
 .header-item-btn-active>span {
-    color: @header-item-hover-color;
+  color: @header-item-hover-color;
 }
 
 @avatar-bg: lightblue;
+@aside-collapsed-wd: @layout-gutter * 6;
+@aside-padding-bottom: 32px;
+.aside-fold-btn {
+  position: absolute;
+  bottom: 0px;
+  height: @aside-padding-bottom;
+  width: 100%;
+}
+
+.aside-inner-padding {
+  padding-bottom: @aside-padding-bottom;
+}

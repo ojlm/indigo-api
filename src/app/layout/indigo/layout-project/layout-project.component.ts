@@ -12,8 +12,10 @@ import { Project } from '../../../model/es.model'
   templateUrl: './layout-project.component.html',
 })
 export class LayoutProjectComponent {
+
   isFetching = false
   project: Project = {}
+
   constructor(
     router: Router,
     scroll: ScrollService,
@@ -94,5 +96,9 @@ export class LayoutProjectComponent {
       ]
       menuSrv.add(menus)
     })
+  }
+
+  toggleCollapsedSidebar() {
+    this.settings.setLayout('collapsed', !this.settings.layout.collapsed)
   }
 }

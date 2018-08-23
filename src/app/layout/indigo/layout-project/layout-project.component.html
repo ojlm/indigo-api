@@ -2,7 +2,7 @@
   <div class="router-progress-bar" *ngIf="isFetching"></div>
   <layout-header class="header"></layout-header>
   <div class="aside">
-    <div class="aside-inner">
+    <div class="aside-inner aside-inner-padding">
       <nz-dropdown nzTrigger="click" class="user-block">
         <div nz-dropdown class="user-block-dropdown">
           <nz-avatar class="avatar" [nzSrc]="project.avatar" [nzText]="project.id?project.id[0].toUpperCase():''"></nz-avatar>
@@ -13,6 +13,11 @@
         </div>
       </nz-dropdown>
       <sidebar-nav class="d-block py-lg"></sidebar-nav>
+      <div>
+        <button class="aside-fold-btn" nz-button nzType="dashed" (click)="toggleCollapsedSidebar()">
+          <i class="anticon anticon-menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+        </button>
+      </div>
     </div>
   </div>
   <section class="content">
