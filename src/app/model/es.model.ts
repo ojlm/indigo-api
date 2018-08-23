@@ -28,6 +28,7 @@ export interface Group extends BaseDoc {
 export interface Project extends BaseDoc {
   id?: string
   group?: string
+  avatar?: string
 }
 
 export interface Api extends BaseDoc {

@@ -16,9 +16,8 @@ export class ProjectApisComponent extends PageSingleModel implements OnInit {
 
   avatar = ''
   form: FormGroup
-  submitting = false
   apis: Api[] = []
-  isLoading = false
+  loading = false
   group: string
   project: string
 
@@ -32,10 +31,12 @@ export class ProjectApisComponent extends PageSingleModel implements OnInit {
 
   loadData() {
     if (this.group && this.project) {
+      this.loading = true
       this.apiService.query({ group: this.group, project: this.project, ...this.toPageQuery() }).subscribe(res => {
         this.apis = res.data.list
         this.pageTotal = res.data.total
-      })
+        this.loading = false
+      }, err => this.loading = false)
     }
   }
 
