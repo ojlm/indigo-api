@@ -14,6 +14,7 @@ export class GroupsComponent extends PageSingleModel implements OnInit {
 
   loading = false
   groups: Group[] = []
+
   constructor(
     private groupService: GroupService,
     private msg: NzMessageService,
@@ -30,12 +31,20 @@ export class GroupsComponent extends PageSingleModel implements OnInit {
     this.router.navigateByUrl(`/group/${item.id}/settings`)
   }
 
-  ngOnInit() {
+  loadData() {
     this.loading = true
     this.groupService.query(this.toPageQuery()).subscribe(res => {
       this.groups = res.data.list
       this.pageTotal = res.data.total
       this.loading = false
     }, err => this.loading = false)
+  }
+
+  pageChange() {
+    this.loadData()
+  }
+
+  ngOnInit() {
+    this.loadData()
   }
 }

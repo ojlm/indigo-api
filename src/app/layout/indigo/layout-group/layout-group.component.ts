@@ -41,8 +41,8 @@ export class LayoutGroupComponent {
     })
     // set menu and group infomation
     route.paramMap.subscribe(param => {
-      const groupId = param.get('group')
-      groupService.getById(groupId).subscribe(
+      const group = param.get('group')
+      groupService.getById(group).subscribe(
         res => this.group = res.data,
         err => router.navigateByUrl('/')
       )
@@ -58,19 +58,19 @@ export class LayoutGroupComponent {
               'text': '项目',
               'i18n': 'menu-projects',
               'icon': 'anticon antanticon anticon-database',
-              'link': `/${groupId}`
+              'link': `/${group}`
             },
             {
               'text': '任务',
               'i18n': 'menu-jobs',
               'icon': 'anticon antanticon anticon-schedule',
-              'link': `/group/${groupId}/jobs`
+              'link': `/group/${group}/jobs`
             },
             {
               'text': '设置',
               'i18n': 'menu-settings',
               'icon': 'anticon antanticon anticon-setting',
-              'link': `/group/${groupId}/settings`
+              'link': `/group/${group}/settings`
             }
           ]
         },

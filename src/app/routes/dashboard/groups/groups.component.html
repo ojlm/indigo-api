@@ -2,7 +2,8 @@
   <h1 style="padding-left: 10px;">{{'field-group'|translate}}</h1>
 </div>
 <nz-card>
-  <nz-list [nzDataSource]="groups" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination" [nzLoading]="loading">
+  <nz-list *ngIf="groups.length>0" [nzDataSource]="groups" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
+    [nzLoading]="loading">
     <ng-template #item let-item>
       <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
         <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
@@ -25,7 +26,8 @@
       </nz-list-item>
     </ng-template>
     <ng-template #pagination>
-      <nz-pagination *ngIf="groups.length>0" [nzPageIndex]="pageIndex" [nzTotal]="pageTotal"></nz-pagination>
+      <nz-pagination *ngIf="groups.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()"></nz-pagination>
     </ng-template>
   </nz-list>
+  <div *ngIf="loading===false&&groups.length===0">{{'tips-no-data'|translate}}</div>
 </nz-card>
