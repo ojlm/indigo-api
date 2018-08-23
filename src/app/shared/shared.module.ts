@@ -7,6 +7,7 @@ import { DelonACLModule } from '@delon/acl'
 import { DelonFormModule } from '@delon/form'
 import { AlainThemeModule } from '@delon/theme'
 import { TranslateModule } from '@ngx-translate/core'
+import { ProjectBreadcrumbComponent } from '@shared/project-breadcrumb/project-breadcrumb.component'
 import { NgZorroAntdModule } from 'ng-zorro-antd'
 import { CountdownModule } from 'ngx-countdown'
 
@@ -20,7 +21,9 @@ const THIRDMODULES = [
 // endregion
 
 // region: your componets & directives
-const COMPONENTS = []
+const COMPONENTS = [
+  ProjectBreadcrumbComponent,
+]
 const DIRECTIVES = []
 // endregion
 
