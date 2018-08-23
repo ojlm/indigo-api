@@ -16,7 +16,6 @@ import { Group, Project } from '../../../model/es.model'
 })
 export class ProjectModelComponent implements OnInit {
 
-  avatar = ''
   form: FormGroup
   submitting = false
   groups: Group[] = []

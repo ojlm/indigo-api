@@ -44,13 +44,13 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control [nzOffset]="7" nzXs="24" nzSm="12" nzMd="10">
-          <nz-avatar nzSize="large" nzIcon="anticon anticon-user" [nzSrc]="avatar"></nz-avatar>
+          <nz-avatar nzSize="large" nzIcon="anticon anticon-user" [nzSrc]="form.get('avatar').value"></nz-avatar>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzXs="24" nzSm="7" nzFor="avatar">{{'field-avatar'|translate}}</nz-form-label>
         <nz-form-control nzXs="24" nzSm="12" nzMd="10">
-          <input nz-input formControlName="avatar" id="avatar" [(ngModel)]="avatar" [placeholder]="'field-avatar'|translate">
+          <input nz-input formControlName="avatar" id="avatar" [placeholder]="'field-avatar'|translate">
           <nz-form-explain *ngIf="form.get('avatar').dirty && form.get('avatar').errors">{{'field-avatar'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
