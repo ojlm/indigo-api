@@ -10,3 +10,7 @@ export const API_GROUP_QUERY = API_GROUP + '/query'
 
 export const API_PROJECT = BASE_URL + '/project'
 export const API_PROJECT_QUERY = API_PROJECT + '/query'
+
+export const API_API = BASE_URL + '/api'
+export const API_API_GET_ONE = API_API + '/getOne'
+export const API_API_QUERY = API_API + '/query'

@@ -4,6 +4,35 @@
     <app-project-breadcrumb></app-project-breadcrumb>
   </div>
   <nz-card [nzBordered]="false">
-    apis
+    <nz-list *ngIf="apis.length>0" [nzDataSource]="apis" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
+      [nzLoading]="loading">
+      <ng-template #item let-item>
+        <nz-list-item [nzContent]="nzContent" [nzActions]="[edit, case]">
+          <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
+            <ng-template #nzTitle>
+              <nz-tag [nzColor]="methodTagColor(item)">{{item.method}}</nz-tag>
+              <a [routerLink]="[apiRouter(item)]">{{item.path}}</a>
+            </ng-template>
+            <ng-template #nzDescription>
+              <div>{{item.summary}}</div>
+            </ng-template>
+          </nz-list-item-meta>
+          <ng-template #edit>
+            <button nz-button nzType="default" nzShape="circle" (click)="goSettings(item)">
+              <i class="anticon anticon-setting"></i>
+            </button>
+          </ng-template>
+          <ng-template #case>
+            <button nz-button nzType="default" nzShape="circle" (click)="editCase(item)">
+              <i class="anticon anticon-book"></i>
+            </button>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+      <ng-template #pagination>
+        <nz-pagination *ngIf="apis.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()"></nz-pagination>
+      </ng-template>
+    </nz-list>
+    <div *ngIf="loading===false&&apis.length===0">{{'tips-no-data'|translate}}</div>
   </nz-card>
 </div>

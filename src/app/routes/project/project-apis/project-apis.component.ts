@@ -1,49 +1,80 @@
 import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NzMessageService } from 'ng-zorro-antd'
-import { Subject } from 'rxjs'
 
-import { GroupService, QueryGroup } from '../../../api/service/group.service'
-import { ProjectService } from '../../../api/service/project.service'
-import { Group } from '../../../model/es.model'
+import { ApiService } from '../../../api/service/api.service'
+import { Api } from '../../../model/es.model'
+import { PageSingleModel } from '../../../model/page.model'
 
 @Component({
   selector: 'app-project-apis',
   templateUrl: './project-apis.component.html',
 })
-export class ProjectApisComponent implements OnInit {
+export class ProjectApisComponent extends PageSingleModel implements OnInit {
 
   avatar = ''
   form: FormGroup
   submitting = false
-  groups: Group[] = []
+  apis: Api[] = []
   isLoading = false
-  groupQuerySubject: Subject<QueryGroup>
+  group: string
+  project: string
 
   constructor(
-    private fb: FormBuilder,
-    private groupService: GroupService,
-    private projectService: ProjectService,
+    private apiService: ApiService,
     private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-  ) { }
+  ) { super() }
 
-  searchGroup(id: string) {
-    this.isLoading = true
-    this.groupQuerySubject.next({ id: id })
+  loadData() {
+    if (this.group && this.project) {
+      this.apiService.query({ group: this.group, project: this.project, ...this.toPageQuery() }).subscribe(res => {
+        this.apis = res.data.list
+        this.pageTotal = res.data.total
+      })
+    }
+  }
+
+  apiRouter(api: Api) {
+    return `/api/${this.group}/${this.project}/${api._id}`
+  }
+
+  methodTagColor(item: Api) {
+    switch (item.method) {
+      case 'GET':
+        return 'green'
+      case 'DELETE':
+        return 'red'
+      case 'POST':
+        return 'cyan'
+      case 'PUT':
+        return 'blue'
+      default:
+        return 'purple'
+    }
+  }
+
+  goSettings(api: Api) {
+    this.router.navigateByUrl(this.apiRouter(api))
+  }
+
+  editCase(api: Api) {
+    this.router.navigateByUrl(`/case/${this.group}/${this.project}/${api._id}`)
+  }
+
+  pageChange() {
+    this.loadData()
   }
 
   ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
-      const group = params['group']
-      const project = params['project']
-      if (group && project) {
-        console.log('apis:', group, project)
-      }
+      this.group = params['group']
+      this.project = params['project']
+      this.loadData()
     })
   }
 }
