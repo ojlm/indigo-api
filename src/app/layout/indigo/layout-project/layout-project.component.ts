@@ -65,31 +65,92 @@ export class LayoutProjectComponent {
               'text': '接口',
               'i18n': 'menu-apis',
               'icon': 'anticon antanticon anticon-api',
-              'link': `/${group}/${project}`
+              children: [
+                {
+                  'text': '列表',
+                  'i18n': 'menu-list',
+                  'link': `/${group}/${project}`,
+                },
+                {
+                  'text': '新建',
+                  'i18n': 'menu-new',
+                  'link': `/apis/${group}/${project}/new`,
+                },
+                {
+                  'text': 'OpenApi',
+                  'i18n': 'menu-openapi',
+                  'link': `/apis/${group}/${project}/openapi`,
+                },
+              ]
             },
             {
               'text': '用例',
               'i18n': 'menu-cases',
               'icon': 'anticon antanticon anticon-book',
-              'link': `/case/${group}/${project}`
+              children: [
+                {
+                  'text': '列表',
+                  'i18n': 'menu-list',
+                  'link': `/case/${group}/${project}`,
+                },
+                {
+                  'text': '新建',
+                  'i18n': 'menu-new',
+                  'link': `/cases/${group}/${project}/new`,
+                },
+              ]
             },
             {
               'text': '场景',
               'i18n': 'menu-scenarios',
               'icon': 'anticon antanticon anticon-picture',
-              'link': `/scenario/${group}/${project}`
+              children: [
+                {
+                  'text': '列表',
+                  'i18n': 'menu-list',
+                  'link': `/scenario/${group}/${project}`,
+                },
+                {
+                  'text': '新建',
+                  'i18n': 'menu-new',
+                  'link': `/scenarios/${group}/${project}/new`,
+                },
+              ]
             },
             {
               'text': '任务',
               'i18n': 'menu-jobs',
               'icon': 'anticon antanticon anticon-schedule',
-              'link': `/job/${group}/${project}`
+              'link': `/job/${group}/${project}`,
+              children: [
+                {
+                  'text': '列表',
+                  'i18n': 'menu-list',
+                  'link': `/job/${group}/${project}`,
+                },
+                {
+                  'text': '新建',
+                  'i18n': 'menu-new',
+                  'link': `/jobs/${group}/${project}/new`,
+                },
+              ]
             },
             {
               'text': '环境',
               'i18n': 'menu-envs',
               'icon': 'anticon antanticon anticon-environment-o',
-              'link': `/env/${group}/${project}`
+              children: [
+                {
+                  'text': '列表',
+                  'i18n': 'menu-list',
+                  'link': `/env/${group}/${project}`,
+                },
+                {
+                  'text': '新建',
+                  'i18n': 'menu-new',
+                  'link': `/envs/${group}/${project}/new`,
+                },
+              ]
             },
           ]
         },

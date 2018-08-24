@@ -19,6 +19,7 @@ import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
 import { UserRegisterComponent } from './passport/register/register.component'
+import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 
@@ -58,6 +59,11 @@ const routes: Routes = [
   { path: '403', component: Exception403Component },
   { path: '404', component: Exception404Component },
   { path: '500', component: Exception500Component },
+  {
+    path: 'apis/:group/:project/new', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectApiNewComponent, data: { titleI18n: 'title-api-new' } }
+    ]
+  },
   // group layout
   {
     path: ':group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [

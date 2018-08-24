@@ -15,9 +15,10 @@ import { SettingsService } from '@delon/theme'
       <div nz-menu-item (click)="newProject()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-project' | translate}}</div>
       <div nz-menu-item (click)="newJob()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-job' | translate}}</div>
       <li *ngIf="project" nz-menu-divider></li>
-      <div *ngIf="project" nz-menu-item (click)="newApi()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-api' | translate}}</div>
-      <div *ngIf="project" nz-menu-item (click)="newScenario()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-scenario' | translate}}</div>
-      <div *ngIf="project" nz-menu-item (click)="newEnv()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-env' | translate}}</div>
+      <div *ngIf="project" nz-menu-item (click)="newApi()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-api' | translate}}</div>
+      <div *ngIf="project" nz-menu-item (click)="newCase()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-case' | translate}}</div>
+      <div *ngIf="project" nz-menu-item (click)="newScenario()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-scenario' | translate}}</div>
+      <div *ngIf="project" nz-menu-item (click)="newEnv()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-env' | translate}}</div>
     </div>
   </nz-dropdown>
   `,
@@ -56,12 +57,15 @@ export class HeaderNewComponent {
     }
   }
   newApi() {
-    this.router.navigateByUrl(`/apis/new?group=${this.group}&project=${this.project}`)
+    this.router.navigateByUrl(`/apis/${this.group}/${this.project}/new`)
+  }
+  newCase() {
+    this.router.navigateByUrl(`/cases/${this.group}/${this.project}/new`)
   }
   newScenario() {
-    this.router.navigateByUrl(`/scenarios/new?group=${this.group}&project=${this.project}`)
+    this.router.navigateByUrl(`/scenarios/${this.group}/${this.project}/new`)
   }
   newEnv() {
-    this.router.navigateByUrl(`/envs/new?group=${this.group}&project=${this.project}`)
+    this.router.navigateByUrl(`/envs/${this.group}/${this.project}/new`)
   }
 }

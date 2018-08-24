@@ -1,5 +1,5 @@
 {
-  "menu-main-navigation": "主导航",
+  "menu-main-navigation": "导航",
   "menu-projects": "项目",
   "menu-jobs": "任务列表",
   "menu-settings": "设置",
@@ -7,6 +7,9 @@
   "menu-cases": "用例管理",
   "menu-scenarios": "场景管理",
   "menu-envs": "环境配置",
+  "menu-new": "新建",
+  "menu-list": "列表",
+  "menu-openapi": "OpenApi",
   "field-id": "标识",
   "field-id-err": "唯一标识, 只允许[a-z][A-Z][0-9]-_.等字符",
   "field-summary": "名字",
@@ -60,6 +63,7 @@
   "new-job": "新建任务",
   "new-project": "新建项目",
   "new-api": "新建接口",
+  "new-case": "新建用例",
   "new-scenario": "新建场景",
   "new-env": "新建环境",
   "home": "主页",
@@ -80,6 +84,7 @@
   "title-group-new": "新建分组",
   "title-project-new": "新建项目",
   "title-project-job": "新建任务",
+  "title-api-new": "新建接口",
   "title-login": "登录",
   "title-register": "注册",
   "title-register-result": "注册结果",
@@ -88,6 +93,7 @@
   "content-title-group-jobs": "分组任务",
   "content-title-group-settings": "分组设置",
   "content-title-project-apis": "项目接口",
+  "content-title-api-new": "新建接口",
   "tips-loading-data": "加载数据...",
   "tips-no-data": "没有数据"
 }

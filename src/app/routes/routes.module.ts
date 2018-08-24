@@ -12,6 +12,7 @@ import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
 import { UserRegisterComponent } from './passport/register/register.component'
+import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 import { RouteRoutingModule } from './routes-routing.module'
@@ -31,8 +32,10 @@ const COMPONENTS = [
   // group
   GroupModelComponent,
   GroupProjectsComponent,
+  // project
   ProjectModelComponent,
-  ProjectApisComponent
+  ProjectApisComponent,
+  ProjectApiNewComponent,
 ]
 const COMPONENTS_NOROUNT = []
 
