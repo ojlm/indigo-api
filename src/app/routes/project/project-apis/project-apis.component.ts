@@ -63,7 +63,7 @@ export class ProjectApisComponent extends PageSingleModel implements OnInit {
     this.router.navigateByUrl(this.apiRouter(api))
   }
 
-  editCase(api: Api) {
+  editItem(api: Api) {
     this.router.navigateByUrl(`/case/${this.group}/${this.project}/${api._id}`)
   }
 
