@@ -21,6 +21,7 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 import { UserRegisterComponent } from './passport/register/register.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
+import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 
 const routes: Routes = [
@@ -62,6 +63,11 @@ const routes: Routes = [
   {
     path: 'apis/:group/:project/new', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectApiNewComponent, data: { titleI18n: 'title-api-new' } }
+    ]
+  },
+  {
+    path: 'case/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectCasesComponent, data: { titleI18n: 'title-case-list' } }
     ]
   },
   // group layout

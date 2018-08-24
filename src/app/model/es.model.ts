@@ -72,6 +72,7 @@ export interface MediaObject {
 export interface CaseRequest {
   protocol?: string
   host?: string
+  urlPath?: string
   port?: number
   auth?: Authorization
   method?: string

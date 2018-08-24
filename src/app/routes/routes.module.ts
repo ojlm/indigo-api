@@ -14,6 +14,7 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 import { UserRegisterComponent } from './passport/register/register.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
+import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 import { RouteRoutingModule } from './routes-routing.module'
 
@@ -36,6 +37,7 @@ const COMPONENTS = [
   ProjectModelComponent,
   ProjectApisComponent,
   ProjectApiNewComponent,
+  ProjectCasesComponent,
 ]
 const COMPONENTS_NOROUNT = []
 
