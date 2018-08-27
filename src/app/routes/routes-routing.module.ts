@@ -67,7 +67,13 @@ const routes: Routes = [
   },
   {
     path: 'case/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', component: ProjectCasesComponent, data: { titleI18n: 'title-case-list' } }
+      { path: '', component: ProjectCasesComponent, data: { titleI18n: 'title-case-list' } },
+      { path: ':id', loadChildren: './case/case.module#CaseModule' }
+    ]
+  },
+  {
+    path: 'cases/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: 'new', loadChildren: './case/case.module#CaseModule' }
     ]
   },
   // group layout

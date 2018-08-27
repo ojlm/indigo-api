@@ -17,6 +17,7 @@
   "field-creator": "创建人",
   "field-created-at": "创建时间",
   "field-path": "路径",
+  "field-case": "用例",
   "field-group": "分组",
   "field-project": "项目",
   "field-type": "类型",
@@ -96,6 +97,7 @@
   "content-title-group-settings": "分组设置",
   "content-title-project-apis": "项目接口",
   "content-title-api-new": "新建接口",
+  "content-title-case": "用例",
   "tips-loading-data": "加载数据...",
   "tips-no-data": "没有数据"
 }
