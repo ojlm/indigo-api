@@ -22,6 +22,8 @@ import { UserRegisterComponent } from './passport/register/register.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
+import { ProjectEnvModelComponent } from './project/project-env-model/project-env-model.component'
+import { ProjectEnvsComponent } from './project/project-envs/project-envs.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 
 const routes: Routes = [
@@ -74,6 +76,17 @@ const routes: Routes = [
   {
     path: 'cases/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: 'new', loadChildren: './case/case.module#CaseModule' }
+    ]
+  },
+  {
+    path: 'env/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectEnvsComponent, data: { titleI18n: 'title-env-list' } },
+      { path: ':id', loadChildren: './case/case.module#CaseModule' }
+    ]
+  },
+  {
+    path: 'envs/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: 'new', component: ProjectEnvModelComponent, data: { titleI18n: 'title-env-new' } }
     ]
   },
   // group layout

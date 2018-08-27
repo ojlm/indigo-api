@@ -91,6 +91,9 @@
   "title-register-result": "注册结果",
   "title-lock": "锁屏",
   "title-case-list": "用例列表",
+  "title-env-list": "环境列表",
+  "title-env-new": "新建环境",
+  "content-title-env": "环境配置",
   "content-title-case-list": "用例列表",
   "content-title-group-projects": "分组项目",
   "content-title-group-jobs": "分组任务",
@@ -98,6 +101,7 @@
   "content-title-project-apis": "项目接口",
   "content-title-api-new": "新建接口",
   "content-title-case": "用例",
+  "content-title-env-list": "环境列表",
   "tips-loading-data": "加载数据...",
   "tips-no-data": "没有数据"
 }
