@@ -34,8 +34,8 @@
   "field-cookie": "Cookie",
   "field-content-type": "ContentType",
   "field-body": "Body",
-  "field-key": "Key",
-  "field-value": "Value",
+  "field-key": "键",
+  "field-value": "值",
   "field-version": "版本",
   "field-labels": "标签",
   "field-job": "任务",
@@ -58,6 +58,7 @@
   "field-username": "用户名",
   "field-avatar": "头像",
   "field-nickname": "昵称",
+  "field-custom": "自定义值",
   "btn-commit": "提交",
   "btn-back": "返回",
   "new-group": "新建分组",
@@ -103,5 +104,7 @@
   "content-title-case": "用例",
   "content-title-env-list": "环境列表",
   "tips-loading-data": "加载数据...",
-  "tips-no-data": "没有数据"
+  "tips-no-data": "没有数据",
+  "tips-namespace": "代理表命名空间, 用于使用代理功能",
+  "error-empty-summary": "名称不能为空"
 }
