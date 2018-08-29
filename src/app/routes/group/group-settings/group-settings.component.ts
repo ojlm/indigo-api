@@ -1,7 +1,7 @@
 import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { GroupService } from '../../../api/service/group.service'
@@ -22,20 +22,27 @@ export class GroupSettingsComponent implements OnInit {
     private groupService: GroupService,
     private msgService: NzMessageService,
     private router: Router,
+    private route: ActivatedRoute,
     private location: Location,
     private sharedService: SharedService,
   ) {
     this.form = this.fb.group({
+      id: [null, []],
       summary: [null, []],
       description: [null, []],
       avatar: [null, []],
     })
-    sharedService.currentGroup.subscribe(group => {
-      this.form = this.fb.group({
-        id: [group.id, []],
-        summary: [group.summary, []],
-        description: [group.description, []],
-        avatar: [group.avatar, []],
+    route.paramMap.subscribe(param => {
+      const group = param.get('group')
+      groupService.getById(group).subscribe(res => {
+        const g = res.data
+        sharedService.currentGroup.next(g)
+        this.form = this.fb.group({
+          id: [g.id, []],
+          summary: [g.summary, []],
+          description: [g.description, []],
+          avatar: [g.avatar, []],
+        })
       })
     })
   }
