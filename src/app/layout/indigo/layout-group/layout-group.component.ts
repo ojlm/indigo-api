@@ -4,6 +4,7 @@ import { Menu, MenuService, ScrollService, SettingsService } from '@delon/theme'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { GroupService } from '../../../api/service/group.service'
+import { SharedService } from '../../../api/service/shared.service'
 import { Group } from '../../../model/es.model'
 
 @Component({
@@ -21,7 +22,9 @@ export class LayoutGroupComponent {
     public settings: SettingsService,
     private route: ActivatedRoute,
     private groupService: GroupService,
+    private sharedService: SharedService,
   ) {
+    sharedService.currentGroup.subscribe(group => this.group = group)
     // scroll to top in change page
     router.events.subscribe(evt => {
       if (!this.isFetching && evt instanceof RouteConfigLoadStart) {
@@ -43,7 +46,9 @@ export class LayoutGroupComponent {
     route.paramMap.subscribe(param => {
       const group = param.get('group')
       groupService.getById(group).subscribe(
-        res => this.group = res.data,
+        res => {
+          sharedService.currentGroup.next(res.data)
+        },
         err => router.navigateByUrl('/')
       )
       menuSrv.clear()

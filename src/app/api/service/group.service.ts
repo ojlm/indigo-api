@@ -3,7 +3,7 @@ import { _HttpClient } from '@delon/theme'
 import { Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
-import { ApiRes, QueryPage } from '../../model/api.model'
+import { ApiRes, ApiResObj, QueryPage } from '../../model/api.model'
 import { Group } from '../../model/es.model'
 import { API_GROUP, API_GROUP_QUERY } from '../path'
 import { BaseService } from './base.service'
@@ -21,6 +21,10 @@ export class GroupService extends BaseService {
 
   index(group: Group) {
     return this.http.put(API_GROUP, group)
+  }
+
+  update(group: Group) {
+    return this.http.post<ApiResObj>(API_GROUP, group)
   }
 
   getById(id: string) {

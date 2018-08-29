@@ -15,7 +15,7 @@ export class GroupModelComponent implements OnInit {
 
   form: FormGroup
   submitting = false
-  group: Group = {}
+
   constructor(
     private fb: FormBuilder,
     private groupService: GroupService,
