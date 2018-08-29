@@ -143,8 +143,8 @@ export interface Environment extends BaseDoc {
   host?: string
   port?: number
   auth?: Authorization
-  creator?: string
-  createdAt?: string
+  namespace?: string
+  custom?: KeyValueObject[]
 }
 
 export interface IndexResultData {
