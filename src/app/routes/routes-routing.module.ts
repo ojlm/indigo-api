@@ -102,6 +102,11 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'project/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', loadChildren: './project/project.module#ProjectModule' }
+    ]
+  },
+  {
     path: 'group/:group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [
       { path: '', loadChildren: './group/group.module#GroupModule' },
     ]

@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 
 import { GroupService } from '../../../api/service/group.service'
 import { ProjectService } from '../../../api/service/project.service'
+import { SharedService } from '../../../api/service/shared.service'
 import { Project } from '../../../model/es.model'
 
 @Component({
@@ -24,8 +25,10 @@ export class LayoutProjectComponent {
     public settings: SettingsService,
     private route: ActivatedRoute,
     private groupService: GroupService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private sharedService: SharedService,
   ) {
+    sharedService.currentProject.subscribe(project => this.project = project)
     // scroll to top in change page
     router.events.subscribe(evt => {
       if (!this.isFetching && evt instanceof RouteConfigLoadStart) {
@@ -152,6 +155,12 @@ export class LayoutProjectComponent {
                 },
               ]
             },
+            {
+              'text': '设置',
+              'i18n': 'menu-settings',
+              'icon': 'anticon antanticon anticon-setting',
+              'link': `/project/${group}/${project}/settings`
+            }
           ]
         },
       ]

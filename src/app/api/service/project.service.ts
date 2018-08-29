@@ -3,7 +3,7 @@ import { _HttpClient } from '@delon/theme'
 import { Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
-import { ApiRes, QueryPage } from '../../model/api.model'
+import { ApiRes, ApiResObj, QueryPage } from '../../model/api.model'
 import { Project } from '../../model/es.model'
 import { API_PROJECT, API_PROJECT_QUERY } from '../path'
 import { BaseService } from './base.service'
@@ -21,6 +21,10 @@ export class ProjectService extends BaseService {
 
   index(project: Project) {
     return this.http.put(API_PROJECT, project)
+  }
+
+  update(project: Project) {
+    return this.http.post<ApiResObj>(API_PROJECT, project)
   }
 
   getById(group: string, id: string) {

@@ -7,8 +7,8 @@
         <div nz-dropdown class="user-block-dropdown">
           <nz-avatar class="avatar" [nzSrc]="project.avatar" [nzText]="project.id?project.id[0].toUpperCase():''"></nz-avatar>
           <div class="info">
-            <strong>{{project.summary}}</strong>
-            <p class="text-truncate mb0">{{project.description}}</p>
+            <strong>{{project.id}}</strong>
+            <p class="text-truncate mb0">{{project.summary}}:{{project.description}}</p>
           </div>
         </div>
       </nz-dropdown>
