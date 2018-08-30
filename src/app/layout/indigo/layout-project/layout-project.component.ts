@@ -50,7 +50,8 @@ export class LayoutProjectComponent {
     route.paramMap.subscribe(param => {
       const group = param.get('group')
       const project = param.get('project')
-      if (project) {
+      const settingsUrl = `/project/${group}/${project}/settings`
+      if (group && project && router.url !== settingsUrl) {
         this.projectService.getById(group, project).subscribe(
           res => this.project = res.data,
           err => router.navigateByUrl('/')

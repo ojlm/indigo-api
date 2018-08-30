@@ -45,12 +45,13 @@ export class LayoutGroupComponent {
     // set menu and group infomation
     route.paramMap.subscribe(param => {
       const group = param.get('group')
-      groupService.getById(group).subscribe(
-        res => {
-          sharedService.currentGroup.next(res.data)
-        },
-        err => router.navigateByUrl('/')
-      )
+      const settingsUrl = `/group/${group}/settings`
+      if (group && router.url !== settingsUrl) {
+        groupService.getById(group).subscribe(
+          res => sharedService.currentGroup.next(res.data),
+          err => router.navigateByUrl('/')
+        )
+      }
       menuSrv.clear()
       const menus: Menu[] = [
         {
