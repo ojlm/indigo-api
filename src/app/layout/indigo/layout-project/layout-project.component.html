@@ -8,7 +8,7 @@
           <nz-avatar class="avatar" [nzSrc]="project.avatar" [nzText]="project.id?project.id[0].toUpperCase():''"></nz-avatar>
           <div class="info">
             <strong>{{project.id}}</strong>
-            <p class="text-truncate mb0">{{project.summary}}:{{project.description}}</p>
+            <p class="text-truncate mb0" [title]="project.description">{{project.summary}}:{{project.description}}</p>
           </div>
         </div>
       </nz-dropdown>
