@@ -108,5 +108,16 @@
   "tips-loading-data": "加载数据...",
   "tips-no-data": "没有数据",
   "tips-namespace": "代理表命名空间, 用于使用代理功能",
-  "error-empty-summary": "名称不能为空"
+  "tips-enter-url": "输入 URL",
+  "btn-send": "发送",
+  "btn-save": "保存",
+  "btn-save-as": "另存为",
+  "item-path-variable": "路径变量",
+  "item-params": "Params",
+  "item-headers": "Headers",
+  "item-cookies": "Cookies",
+  "item-body": "Body",
+  "item-result-assert": "结果和断言",
+  "error-empty-summary": "名称不能为空",
+  "error-invalid-url": "无效的URL地址"
 }

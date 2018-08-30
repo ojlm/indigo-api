@@ -72,6 +72,7 @@ export interface MediaObject {
 export interface CaseRequest {
   protocol?: string
   host?: string
+  rawUrl?: string
   urlPath?: string
   port?: number
   auth?: Authorization
@@ -105,7 +106,7 @@ export interface CaseResult {
   statis?: CaseStatis
 }
 
-export const METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'CONNECT', 'HEAD', 'OPTIONS', 'TRACE']
+export const METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS', 'TRACE']
 export const PROTOCOLS = ['http', 'https']
 export const ContentTypes = {
   JSON: 'application/json',

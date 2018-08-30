@@ -3,11 +3,13 @@
  * location search convert to a object
  */
 export function searchToObj(searchStr?: string): Object {
-  var query = searchStr || location.search.replace(/\?/, '')
-  return query.split('&').reduce(function(obj, item, i) {
+  const query = searchStr || location.search.replace(/\?/, '')
+  return query.split('&').reduce(function (obj, item, i) {
     if (item) {
-      let splits = item.split('=')
+      const splits = item.split('=')
       obj[splits[0]] = splits[1]
+      return obj
+    } else {
       return obj
     }
   }, {})
@@ -18,7 +20,7 @@ export function searchToObj(searchStr?: string): Object {
  */
 export function objToSearchStr(obj: Object): string {
   let s = '?'
-  for(let k in obj) {
+  for (const k in obj) {
     if (obj[k] !== null || obj[k] !== undefined || obj[k] !== '') {
       s += `${k}=${obj[k]}&`
     }
