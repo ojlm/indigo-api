@@ -1,4 +1,4 @@
-<nz-table #nzTable [nzSize]="'default'" [nzData]="values" [nzShowPagination]="false">
+<nz-table #nzTable [nzSize]="'default'" [nzData]="values" [nzShowPagination]="false" [nzFrontPagination]="false">
   <thead>
     <tr>
       <th *ngIf="hasCheckbox" style="padding:3px;width:24px;"></th>
@@ -17,13 +17,13 @@
         <label style="margin:0px;" nz-checkbox [(ngModel)]="item.enabled" (ngModelChange)="modelChange(item,i)"></label>
       </td>
       <td style="padding:2px;">
-        <input nz-input [(ngModel)]="item.key" (ngModelChange)="modelChange(item,i)" (focus)="inputFocus(item,i)">
+        <input nz-input [(ngModel)]="item.key" (ngModelChange)="modelChange(item,i)">
       </td>
       <td style="padding:2px;">
-        <input nz-input [(ngModel)]="item.value" (ngModelChange)="modelChange(item,i)" (focus)="inputFocus(item,i)">
+        <input nz-input [(ngModel)]="item.value" (ngModelChange)="modelChange(item,i)">
       </td>
       <td style="padding:2px;">
-        <i class="anticon anticon-close click-icon" (click)="remove(i)"></i>
+        <i *ngIf="i<values.length-1" class="anticon anticon-close click-icon" (click)="remove(i)"></i>
       </td>
     </tr>
   </tbody>

@@ -12,14 +12,11 @@ export class KeyValueComponent implements OnInit {
   values: KeyValueObject[] = []
   @Input()
   get data() {
-    return this.values
+    return this.values.filter(item => Object.keys(item).length > 0)
   }
   set data(val: KeyValueObject[]) {
     if (!val) val = []
-    if (val.length === 0) {
-      val.push({})
-    }
-    this.values = val
+    this.values = [...val, {}]
   }
   @Output()
   dataChange = new EventEmitter<KeyValueObject[]>()
@@ -41,20 +38,14 @@ export class KeyValueComponent implements OnInit {
   }
 
   remove(index: number) {
-    if (this.data.length > 1) {
+    if (index === this.data.length) return
+    if (this.data.length > 0) {
       this.values.splice(index, 1)
       this.values = [...this.values]
       this.dataChange.emit(this.data)
     } else {
       this.values = []
       this.dataChange.emit(this.data)
-    }
-  }
-
-  inputFocus(item: KeyValueObject, index: number) {
-    if (index === this.values.length - 1) {
-      this.values.push({})
-      this.values = [...this.values]
     }
   }
 
