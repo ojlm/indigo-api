@@ -12,7 +12,7 @@ import { searchToObj } from '../../../util/urlutils'
 
 @Component({
   selector: 'app-case-model',
-  styles: ['.affixed {zoom:1.1;background-color:white;box-shadow:0px 0px 10px wheat;}'],
+  styles: ['.affixed {transform:scale(1.03);;background-color:white;box-shadow:0px 0px 10px wheat;}'],
   templateUrl: './case-model.component.html',
 })
 export class CaseModelComponent implements OnInit {

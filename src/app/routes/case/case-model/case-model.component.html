@@ -9,7 +9,7 @@
       </nz-input-group>
     </nz-row>
     <!-- url row start -->
-    <nz-affix [nzOffsetTop]="50" (nzChange)="onAffixChange($event)">
+    <nz-affix [nzOffsetTop]="54" (nzChange)="onAffixChange($event)">
       <div [class]="isAffixed?'affixed':''" style="height:32px;line-height:32px;display:flex;">
         <div style="width:100%;">
           <nz-input-group [nzSize]="'default'" [nzAddOnBefore]="addOnBeforeTemplate">
@@ -29,7 +29,7 @@
               <span>{{'btn-send'|translate}}</span>
             </span>
           </button>
-          <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;">
+          <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'" [nzPlacement]="'bottomRight'">
             <span>
               <i class="anticon anticon-save"></i>
               <span>{{'btn-save'|translate}}</span>
