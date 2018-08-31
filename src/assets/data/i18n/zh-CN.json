@@ -12,7 +12,7 @@
   "menu-openapi": "OpenApi",
   "field-id": "标识",
   "field-id-err": "唯一标识, 只允许[a-z][A-Z][0-9]-_.等字符",
-  "field-summary": "名字",
+  "field-summary": "名称",
   "field-description": "描述",
   "field-creator": "创建人",
   "field-created-at": "创建时间",

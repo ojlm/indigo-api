@@ -3,63 +3,70 @@
     <h1 style="padding-left: 10px;">{{'content-title-case'|translate}}</h1>
   </div>
   <nz-card [nzBordered]="true">
-    <!-- url row start -->
-    <nz-row [nzGutter]="1">
-      <div nz-col [nzSpan]="19">
-        <nz-input-group [nzSize]="'default'" [nzAddOnBefore]="addOnBeforeTemplate">
-          <input nz-input style="width:100%;" [placeholder]="'tips-enter-url'|translate" [(ngModel)]="case.request.rawUrl"
-            (ngModelChange)="urlChange()">
-        </nz-input-group>
-        <ng-template #addOnBeforeTemplate>
-          <nz-select style="width:100px;" [(ngModel)]="case.request.method" (ngModelChange)="csModelChange()">
-            <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
-          </nz-select>
-        </ng-template>
-      </div>
-      <div nz-col [nzSpan]="5" style="text-align:right;">
-        <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="send()">
-          <span>
-            <i class="anticon anticon-scan"></i>
-            <span>{{'btn-send'|translate}}</span>
-          </span>
-        </button>
-        <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;">
-          <span>
-            <i class="anticon anticon-save"></i>
-            <span>{{'btn-save'|translate}}</span>
-          </span>
-          <ul nz-menu>
-            <li nz-menu-item (click)="saveAs()">
-              <a>{{'btn-save-as'|translate}}</a>
-            </li>
-          </ul>
-        </nz-dropdown-button>
-      </div>
+    <nz-row style="margin-bottom:4px;">
+      <nz-input-group [nzSize]="'small'" [nzAddOnBefore]="'field-summary'|translate">
+        <input type="text" nz-input [(ngModel)]="case.summary">
+      </nz-input-group>
     </nz-row>
+    <!-- url row start -->
+    <nz-affix [nzOffsetTop]="50" (nzChange)="onAffixChange($event)">
+      <div [class]="isAffixed?'affixed':''" style="height:32px;line-height:32px;display:flex;">
+        <div style="width:100%;">
+          <nz-input-group [nzSize]="'default'" [nzAddOnBefore]="addOnBeforeTemplate">
+            <input nz-input style="width:100%;" [placeholder]="'tips-enter-url'|translate" [(ngModel)]="case.request.rawUrl"
+              (ngModelChange)="urlChange()">
+          </nz-input-group>
+          <ng-template #addOnBeforeTemplate>
+            <nz-select style="width:100px;" [(ngModel)]="case.request.method">
+              <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
+            </nz-select>
+          </ng-template>
+        </div>
+        <div style="display:flex;padding-left:20px;">
+          <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="send()">
+            <span>
+              <i class="anticon anticon-scan"></i>
+              <span>{{'btn-send'|translate}}</span>
+            </span>
+          </button>
+          <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;">
+            <span>
+              <i class="anticon anticon-save"></i>
+              <span>{{'btn-save'|translate}}</span>
+            </span>
+            <ul nz-menu>
+              <li nz-menu-item (click)="saveAs()">
+                <a>{{'btn-save-as'|translate}}</a>
+              </li>
+            </ul>
+          </nz-dropdown-button>
+        </div>
+      </div>
+    </nz-affix>
     <!-- url row end -->
     <div style="height:7px;"></div>
     <nz-tabset [nzSize]="'default'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false">
       <nz-tab [nzTitle]="'item-path-variable'|translate">
         <div>
-          <app-key-value [(data)]="case.request.path" (dataChange)="csModelChange()"></app-key-value>
+          <app-key-value [(data)]="case.request.path"></app-key-value>
         </div>
       </nz-tab>
-      <nz-tab [nzTitle]="'item-path-variable'|translate">
+      <nz-tab [nzTitle]="'item-params'|translate">
         <div>
-          <app-key-value [(data)]="case.request.query" (dataChange)="csModelChange()"></app-key-value>
+          <app-key-value [(data)]="case.request.query" (dataChange)="paramsChange()"></app-key-value>
         </div>
       </nz-tab>
       <nz-tab [nzTitle]="'item-headers'|translate">
         <div>
-          <app-key-value [(data)]="case.request.header" (dataChange)="csModelChange()"></app-key-value>
+          <app-key-value [(data)]="case.request.header"></app-key-value>
         </div>
       </nz-tab>
       <nz-tab [nzTitle]="'item-cookies'|translate">
         <div>
-          <app-key-value [(data)]="case.request.cookie" (dataChange)="csModelChange()"></app-key-value>
+          <app-key-value [(data)]="case.request.cookie"></app-key-value>
         </div>
       </nz-tab>
-      <nz-tab [nzTitle]="'item-body'|translate" [nzDisabled]="'GET' === case.request.method">
+      <nz-tab [nzTitle]="'item-body'|translate" [nzDisabled]="'GET'===case.request.method">
         <div>
           body data
         </div>
