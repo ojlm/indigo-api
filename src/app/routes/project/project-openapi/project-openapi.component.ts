@@ -2,6 +2,7 @@ import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { MonacoService } from '@core/config/monaco.service'
 import { NzMessageService } from 'ng-zorro-antd'
 import { DiffEditorModel } from 'ngx-monaco-editor'
 
@@ -18,11 +19,7 @@ export class ProjectOpenapiComponent implements OnInit {
   project: string
   submitting = false
 
-  editorOptions = {
-    theme: 'vs-dark',
-    language: 'javascript',
-    automaticLayout: true
-  }
+  editorOptions = this.monacoService.getJavascriptOption()
   code = 'function x() {\nconsole.log("Hello world!");\n}'
   options = {
     theme: 'vs-dark'
@@ -44,6 +41,7 @@ export class ProjectOpenapiComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
+    private monacoService: MonacoService,
   ) { }
 
 
