@@ -14,6 +14,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module'
 import { SharedModule } from '@shared/shared.module'
+import { MonacoEditorModule } from 'ngx-monaco-editor'
 
 import { AppComponent } from './app.component'
 import { DelonModule } from './delon.module'
@@ -55,7 +56,8 @@ export function StartupServiceFactory(startupService: StartupService): Function 
       }
     }),
     // JSON-Schema form
-    JsonSchemaModule
+    JsonSchemaModule,
+    MonacoEditorModule.forRoot()
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'zh-Hans' },

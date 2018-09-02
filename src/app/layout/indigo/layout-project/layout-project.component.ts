@@ -83,7 +83,7 @@ export class LayoutProjectComponent {
                 {
                   'text': 'OpenApi',
                   'i18n': 'menu-openapi',
-                  'link': `/apis/${group}/${project}/openapi`,
+                  'link': `/project/${group}/${project}/openapi`,
                 },
               ]
             },

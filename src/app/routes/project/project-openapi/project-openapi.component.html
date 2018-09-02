@@ -1,0 +1,11 @@
+<div>
+  <div class="content__title">
+    <h1 style="padding-left: 10px;">{{'new-project'|translate}}</h1>
+  </div>
+  <nz-card [nzBordered]="false">
+    OPENAPI
+    <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+    DIFF
+    <ngx-monaco-diff-editor [options]="options" [originalModel]="originalModel" [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor>
+  </nz-card>
+</div>

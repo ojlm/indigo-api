@@ -4978,6 +4978,10 @@ ngx-highlight-js@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/ngx-highlight-js/-/ngx-highlight-js-2.0.4.tgz#48613e796eb1d4b256f2868194c43d347c0b6ea0"
 
+ngx-monaco-editor@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-monaco-editor/-/ngx-monaco-editor-6.0.0.tgz#c427c9a3d6dcd91b8e51a47d6cb3f7b7df899de5"
+
 ngx-notify@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/ngx-notify/-/ngx-notify-2.0.2.tgz#3430bfb1738ef34c75990b65cec8652161b3572f"
