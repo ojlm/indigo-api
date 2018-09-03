@@ -11,6 +11,7 @@ import { MediaObject } from '../../../model/es.model'
 
 @Component({
   selector: 'app-media-object',
+  styles: ['.code-editor {height:360px;}'],
   templateUrl: './media-object.component.html',
 })
 export class MediaObjectComponent implements OnInit {
