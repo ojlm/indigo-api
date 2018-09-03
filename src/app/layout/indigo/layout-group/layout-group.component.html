@@ -13,6 +13,11 @@
         </div>
       </nz-dropdown>
       <sidebar-nav class="d-block py-lg"></sidebar-nav>
+      <div>
+        <button class="aside-fold-btn" nz-button nzType="dashed" (click)="toggleCollapsedSidebar()">
+          <i class="anticon anticon-menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+        </button>
+      </div>
     </div>
   </div>
   <section class="content">

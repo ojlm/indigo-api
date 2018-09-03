@@ -84,4 +84,8 @@ export class LayoutGroupComponent {
       menuSrv.add(menus)
     })
   }
+
+  toggleCollapsedSidebar() {
+    this.settings.setLayout('collapsed', !this.settings.layout.collapsed)
+  }
 }
