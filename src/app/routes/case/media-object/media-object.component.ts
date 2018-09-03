@@ -16,7 +16,10 @@ import { MediaObject } from '../../../model/es.model'
 export class MediaObjectComponent implements OnInit {
 
   contentType: string
-  mediaObjects: { [key: string]: string } = {}
+  mediaObjects: { [key: string]: any } = {
+    'application/x-www-form-urlencoded': []
+  }
+
   @Input()
   get type() {
     return this.contentType
@@ -27,8 +30,19 @@ export class MediaObjectComponent implements OnInit {
   @Output()
   typeChange = new EventEmitter<string>()
   @Input()
+  get data() {
+    const mos: MediaObject[] = []
+    for (const k in this.mediaObjects) {
+      mos.push({ contentType: k, data: this.mediaObjects[k] })
+    }
+    return mos
+  }
   set data(objs: MediaObject[]) {
-
+    if (objs && objs.length > 0) {
+      objs.forEach(obj => {
+        this.mediaObjects[obj.contentType] = obj.data
+      })
+    }
   }
   @Output()
   dataChange = new EventEmitter<MediaObject[]>()
@@ -49,7 +63,9 @@ export class MediaObjectComponent implements OnInit {
   contentTypeChange() {
     this.typeChange.emit(this.contentType)
   }
-
+  modelChange() {
+    this.dataChange.emit(this.data)
+  }
   ngOnInit(): void {
   }
 }

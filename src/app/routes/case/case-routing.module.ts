@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { CaseModelComponent } from './case-model/case-model.component'
 
 const routes: Routes = [
-  { path: '', component: CaseModelComponent, data: { titleI18n: 'field-case' } },
+  { path: 'new', component: CaseModelComponent, data: { titleI18n: 'field-case' } },
 ]
 
 @NgModule({

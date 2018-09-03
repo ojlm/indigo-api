@@ -66,7 +66,7 @@ export interface KeyValueObject {
 
 export interface MediaObject {
   contentType?: string
-  data?: string
+  data?: any
 }
 
 export interface CaseRequest {

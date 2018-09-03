@@ -1,13 +1,14 @@
 import { Location } from '@angular/common'
 import { Component, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { I18NService } from '@core/i18n/i18n.service'
 import { EventEmitter } from 'events'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { GroupService } from '../../../api/service/group.service'
 import { Case, KeyValueObject, METHODS } from '../../../model/es.model'
+import { HttpContentTypes } from '../../../model/http.model'
 import { searchToObj } from '../../../util/urlutils'
 
 @Component({
@@ -17,6 +18,8 @@ import { searchToObj } from '../../../util/urlutils'
 })
 export class CaseModelComponent implements OnInit {
 
+  group: string
+  project: string
   isAffixed = false
   @Input()
   get data() { return this.case }
@@ -37,6 +40,7 @@ export class CaseModelComponent implements OnInit {
     private groupService: GroupService,
     private msgService: NzMessageService,
     private router: Router,
+    private route: ActivatedRoute,
     private location: Location,
     private i18nService: I18NService,
   ) { }
@@ -119,19 +123,44 @@ export class CaseModelComponent implements OnInit {
   }
 
   send() {
-    console.log(this.case)
+    const cs = this.preHandleCaseBeforeRequest(this.case)
+    console.log(cs)
   }
 
   save() {
-    console.log(this.case)
+    const cs = this.preHandleCaseBeforeRequest(this.case)
+    console.log(cs)
   }
 
   saveAs() {
-    console.log(this.case)
+    const cs = this.preHandleCaseBeforeRequest(this.case)
+    console.log(cs)
   }
 
   ngOnInit(): void {
-    initCaseField(this.case)
+    if (!this.case._id) {
+      initCaseField(this.case)
+    }
+    this.route.parent.params.subscribe(params => {
+      this.group = params['group']
+      this.project = params['project']
+    })
+  }
+
+  preHandleCaseBeforeRequest(cs: Case) {
+    const c: Case = JSON.parse(JSON.stringify(cs))
+    c.group = this.group
+    c.project = this.project
+    // handle reqeust
+    const req = c.request
+    if (req && req.body) {
+      req.body.forEach(item => {
+        if (HttpContentTypes.X_WWW_FORM_URLENCODED === item.contentType && item.data) {
+          item.data = JSON.stringify(item.data)
+        }
+      })
+    }
+    return c
   }
 }
 

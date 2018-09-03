@@ -10,18 +10,16 @@
       <span>text/plain</span>
     </label>
   </nz-radio-group>
-  <div style="width:100%;">
-    <hr style="margin:5px;">
-  </div>
+  <div style="width:100%;margin:5px;"></div>
   <div nz-row [ngSwitch]="contentType">
     <div *ngSwitchCase="'application/json'">
-      <ngx-monaco-editor [options]="jsonEditorOptions" [(ngModel)]="mediaObjects['application/json']"></ngx-monaco-editor>
+      <ngx-monaco-editor [options]="jsonEditorOptions" [(ngModel)]="mediaObjects['application/json']" (ngModelChange)="modelChange()"></ngx-monaco-editor>
     </div>
     <div *ngSwitchCase="'application/x-www-form-urlencoded'">
-      form data
+      <app-key-value [(data)]="mediaObjects['application/x-www-form-urlencoded']" (dataChange)="modelChange()"></app-key-value>
     </div>
     <div *ngSwitchCase="'text/plain'">
-      <ngx-monaco-editor [options]="textEditorOptions" [(ngModel)]="mediaObjects['text/plain']"></ngx-monaco-editor>
+      <ngx-monaco-editor [options]="textEditorOptions" [(ngModel)]="mediaObjects['text/plain']" (ngModelChange)="modelChange()"></ngx-monaco-editor>
     </div>
   </div>
 </div>
