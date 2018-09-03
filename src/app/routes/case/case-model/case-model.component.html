@@ -13,8 +13,7 @@
       <div [class]="isAffixed?'affixed':''" style="height:32px;line-height:32px;display:flex;">
         <div style="width:100%;">
           <nz-input-group [nzSize]="'default'" [nzAddOnBefore]="addOnBeforeTemplate">
-            <input nz-input style="width:100%;" [placeholder]="'tips-enter-url'|translate" [(ngModel)]="case.request.rawUrl"
-              (ngModelChange)="urlChange()">
+            <input nz-input style="width:100%;" [placeholder]="'tips-enter-url'|translate" [(ngModel)]="case.request.rawUrl" (ngModelChange)="urlChange()">
           </nz-input-group>
           <ng-template #addOnBeforeTemplate>
             <nz-select style="width:100px;" [(ngModel)]="case.request.method">
@@ -68,7 +67,7 @@
       </nz-tab>
       <nz-tab [nzTitle]="'item-body'|translate" [nzDisabled]="'GET'===case.request.method">
         <div>
-          body data
+          <app-media-object [(type)]="case.request.contentType" [data]="case.request.body"></app-media-object>
         </div>
       </nz-tab>
       <nz-tab [nzTitle]="'item-result-assert'|translate">

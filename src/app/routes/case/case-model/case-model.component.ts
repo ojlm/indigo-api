@@ -138,7 +138,7 @@ export class CaseModelComponent implements OnInit {
 export function initCaseField(cs: Case) {
   cs.request = {
     method: METHODS[0],
-    contentType: '',
+    contentType: 'application/x-www-form-urlencoded',
     body: [],
     auth: { type: '', data: {} }
   }
