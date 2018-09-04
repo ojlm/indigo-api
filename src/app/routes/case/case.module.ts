@@ -6,10 +6,12 @@ import { MonacoEditorModule } from 'ngx-monaco-editor'
 import { CaseModelComponent } from './case-model/case-model.component'
 import { CaseRoutingModule } from './case-routing.module'
 import { MediaObjectComponent } from './media-object/media-object.component'
+import { ResultAssertComponent } from './result-assert/result-assert.component'
 
 const COMPONENT = [
   CaseModelComponent,
   MediaObjectComponent,
+  ResultAssertComponent,
 ]
 
 const COMPONENT_NOROUNT = []

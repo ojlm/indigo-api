@@ -23,7 +23,7 @@
           </ng-template>
         </div>
         <div style="display:flex;padding-left:20px;">
-          <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="send()">
+          <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()">
             <span>
               <i class="anticon anticon-scan"></i>
               <span>{{'btn-send'|translate}}</span>
@@ -47,34 +47,22 @@
     <div style="height:7px;"></div>
     <nz-tabset [nzSize]="'default'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false">
       <nz-tab [nzTitle]="'item-path-variable'|translate">
-        <div>
-          <app-key-value [(data)]="case.request.path"></app-key-value>
-        </div>
+        <app-key-value [(data)]="case.request.path"></app-key-value>
       </nz-tab>
       <nz-tab [nzTitle]="'item-params'|translate">
-        <div>
-          <app-key-value [(data)]="case.request.query" (dataChange)="paramsChange()"></app-key-value>
-        </div>
+        <app-key-value [(data)]="case.request.query" (dataChange)="paramsChange()"></app-key-value>
       </nz-tab>
       <nz-tab [nzTitle]="'item-headers'|translate">
-        <div>
-          <app-key-value [(data)]="case.request.header"></app-key-value>
-        </div>
+        <app-key-value [(data)]="case.request.header"></app-key-value>
       </nz-tab>
       <nz-tab [nzTitle]="'item-cookies'|translate">
-        <div>
-          <app-key-value [(data)]="case.request.cookie"></app-key-value>
-        </div>
+        <app-key-value [(data)]="case.request.cookie"></app-key-value>
       </nz-tab>
       <nz-tab [nzTitle]="'item-body'|translate" [nzDisabled]="'GET'===case.request.method">
-        <div>
-          <app-media-object [(type)]="case.request.contentType" [(data)]="case.request.body"></app-media-object>
-        </div>
+        <app-media-object [(type)]="case.request.contentType" [(data)]="case.request.body"></app-media-object>
       </nz-tab>
       <nz-tab [nzTitle]="'item-result-assert'|translate">
-        <div>
-          结果和断言
-        </div>
+        <app-result-assert [(index)]="assertResultTabIndex" [result]="testResult" [(assert)]="case.assert"></app-result-assert>
       </nz-tab>
     </nz-tabset>
   </nz-card>

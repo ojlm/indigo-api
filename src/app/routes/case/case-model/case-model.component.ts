@@ -6,8 +6,9 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { EventEmitter } from 'events'
 import { NzMessageService } from 'ng-zorro-antd'
 
+import { CaseService } from '../../../api/service/case.service'
 import { GroupService } from '../../../api/service/group.service'
-import { Case, KeyValueObject, METHODS } from '../../../model/es.model'
+import { Case, CaseResult, KeyValueObject, METHODS } from '../../../model/es.model'
 import { HttpContentTypes } from '../../../model/http.model'
 import { searchToObj } from '../../../util/urlutils'
 
@@ -34,6 +35,9 @@ export class CaseModelComponent implements OnInit {
   case: Case = {}
   methods = METHODS
   tabIndex = 0
+  isSending = false
+  assertResultTabIndex = 0
+  testResult: CaseResult = {}
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +47,7 @@ export class CaseModelComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private i18nService: I18NService,
+    private caseService: CaseService,
   ) { }
 
   onAffixChange(status: boolean) {
@@ -123,8 +128,19 @@ export class CaseModelComponent implements OnInit {
   }
 
   send() {
+    this.isSending = true
+    this.testResult = {}
     const cs = this.preHandleCaseBeforeRequest(this.case)
-    console.log(cs)
+    this.caseService.test(cs).subscribe(res => {
+      this.isSending = false
+      this.testResult = res.data
+      this.tabIndex = 5
+      if (this.case.assert && Object.keys(this.case.assert).length > 0) {
+        this.assertResultTabIndex = 3
+      } else {
+        this.assertResultTabIndex = 0
+      }
+    }, err => this.isSending = false)
   }
 
   save() {

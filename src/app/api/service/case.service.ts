@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
-import { Subject } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { Case } from '../../model/es.model'
-import { API_CASE, API_CASE_QUERY } from '../path'
+import { Case, CaseResult, IndexDocResponse } from '../../model/es.model'
+import { API_CASE, API_CASE_QUERY, API_CASE_TEST } from '../path'
 import { BaseService } from './base.service'
 
 @Injectable({
@@ -20,7 +20,11 @@ export class CaseService extends BaseService {
   }
 
   index(cs: Case) {
-    return this.http.put(API_CASE, cs)
+    return this.http.put(API_CASE, cs) as Observable<ApiRes<IndexDocResponse>>
+  }
+
+  test(cs: Case) {
+    return this.http.post<ApiRes<CaseResult>>(API_CASE_TEST, cs)
   }
 
   getById(id: string) {

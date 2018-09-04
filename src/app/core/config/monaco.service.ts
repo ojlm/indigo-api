@@ -8,40 +8,44 @@ export class MonacoService {
 
   DEFAULT_THEME = 'vs-dark'
 
-  getPlainTextOption() {
+  getPlainTextOption(readOnly = false) {
     return {
       theme: this.DEFAULT_THEME,
       language: 'plaintext',
       automaticLayout: true,
-      contextmenu: false
+      contextmenu: false,
+      readOnly: readOnly
     }
   }
 
-  getMarkdownOption() {
+  getMarkdownOption(readOnly = false) {
     return {
       theme: this.DEFAULT_THEME,
       language: 'markdown',
       automaticLayout: true,
       contextmenu: false,
-      lineNumbers: 'off'
+      lineNumbers: 'off',
+      readOnly: readOnly
     }
   }
 
-  getJsonOption() {
+  getJsonOption(readOnly = false) {
     return {
       theme: this.DEFAULT_THEME,
       language: 'json',
       automaticLayout: true,
-      contextmenu: false
+      contextmenu: false,
+      readOnly: readOnly
     }
   }
 
-  getJavascriptOption() {
+  getJavascriptOption(readOnly = false) {
     return {
       theme: this.DEFAULT_THEME,
       language: 'javascript',
       automaticLayout: true,
-      contextmenu: false
+      contextmenu: false,
+      readOnly: readOnly
     }
   }
 }

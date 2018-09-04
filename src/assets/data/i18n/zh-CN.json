@@ -117,7 +117,13 @@
   "item-headers": "Headers",
   "item-cookies": "Cookies",
   "item-body": "Body",
+  "item-response": "响应",
+  "item-assert": "断言",
   "item-result-assert": "结果和断言",
+  "item-response-assert": "响应断言",
+  "item-rendered-request": "渲染请求",
+  "item-assert-result": "断言结果",
+  "item-assert-summary": "结果统计",
   "error-empty-summary": "名称不能为空",
   "error-invalid-url": "无效的URL地址"
 }

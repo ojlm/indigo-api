@@ -17,6 +17,7 @@ export const API_API_QUERY = API_API + '/query'
 
 export const API_CASE = BASE_URL + '/cs'
 export const API_CASE_QUERY = API_CASE + '/query'
+export const API_CASE_TEST = API_CASE + '/test'
 
 export const API_ENV = BASE_URL + '/env'
 export const API_ENV_QUERY = API_ENV + '/query'
