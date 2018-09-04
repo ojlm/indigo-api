@@ -13,7 +13,7 @@
   <div style="width:100%;margin:5px;"></div>
   <div nz-row [ngSwitch]="contentType">
     <div *ngSwitchCase="'application/json'">
-      <ngx-monaco-editor class="code-editor" [options]="jsonEditorOptions" [(ngModel)]="mediaObjects['application/json']"
+      <ngx-monaco-editor class="code-editor" [options]="textEditorOptions" [(ngModel)]="mediaObjects['application/json']"
         (ngModelChange)="modelChange()"></ngx-monaco-editor>
     </div>
     <div *ngSwitchCase="'application/x-www-form-urlencoded'">

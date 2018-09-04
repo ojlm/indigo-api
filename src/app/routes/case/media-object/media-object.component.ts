@@ -47,7 +47,6 @@ export class MediaObjectComponent implements OnInit {
   }
   @Output()
   dataChange = new EventEmitter<MediaObject[]>()
-  jsonEditorOptions = this.monocoService.getJsonOption()
   textEditorOptions = this.monocoService.getPlainTextOption()
 
   constructor(
