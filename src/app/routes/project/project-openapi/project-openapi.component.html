@@ -1,10 +1,27 @@
 <div>
   <div class="content__title">
-    <h1 style="padding-left: 10px;">{{'new-project'|translate}}</h1>
+    <h1 style="padding-left: 10px;">{{'content-title-openapi'|translate}}</h1>
+    <div>
+      <nz-tag *ngIf="!needSave" style="margin-right:5px;" [nzColor]="'green'">
+        <span>
+          <i class="anticon anticon-save"></i>
+          <span>{{'tips-saved'|translate}}</span>
+        </span>
+      </nz-tag>
+      <nz-tag *ngIf="needSave" style="margin-right:5px;" [nzColor]="'red'">
+        <span>
+          <i class="anticon anticon-warning"></i>
+          <span>{{'tips-wait-save'|translate}}</span>
+        </span>
+      </nz-tag>
+      <button style="margin-right:10px;" nzSize="small" nzType="dashed" nz-button (click)="reload()">
+        <i class="anticon anticon-reload"></i>
+      </button>
+    </div>
   </div>
   <nz-spin [(nzSpinning)]="loading">
-    <nz-card [nzBodyStyle]="{'padding':'0px'}" [nzBordered]="false">
-      <iframe [style.height]="ifameHeight" class="openapi-ifame" src="/openapi/editor" frameborder="0" scrolling="no"></iframe>
+    <nz-card [nzBodyStyle]="{'padding':'0px'}" [nzBordered]="false" [nzExtra]="extra">
+      <iframe [style.height]="ifameHeight" class="openapi-ifame" [src]="openapiEditorUrl" frameborder="0" scrolling="no"></iframe>
     </nz-card>
   </nz-spin>
 </div>

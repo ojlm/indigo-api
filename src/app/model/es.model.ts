@@ -29,6 +29,7 @@ export interface Project extends BaseDoc {
   id?: string
   group?: string
   avatar?: string
+  openapi?: string
 }
 
 export interface Api extends BaseDoc {
@@ -46,13 +47,11 @@ export interface Api extends BaseDoc {
 
 export interface Case extends BaseDoc {
   creator?: string
-  api?: string
   project?: string
   group?: string
   request?: CaseRequest
   assert?: Object
   env?: string
-  useEnv?: boolean
   labels?: LabelRef[]
   namespace?: string
   useProxy?: boolean
@@ -245,4 +244,9 @@ export interface QueryJobReport {
 
 export interface IndexDocResponse {
   id?: string
+}
+
+export interface UpdateDocResponse {
+  id?: string
+  result?: string
 }

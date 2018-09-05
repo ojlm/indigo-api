@@ -21,3 +21,5 @@ export const API_CASE_TEST = API_CASE + '/test'
 
 export const API_ENV = BASE_URL + '/env'
 export const API_ENV_QUERY = API_ENV + '/query'
+
+export const API_OPENAPI = BASE_URL + '/openapi'
