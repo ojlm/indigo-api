@@ -1,3 +1,3 @@
 # Indigo
 
-[DEMO](http://indigo.asura.pro)
+[DEMO](https://asura.pro)
