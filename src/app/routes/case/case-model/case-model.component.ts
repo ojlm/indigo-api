@@ -2,6 +2,7 @@ import { Location } from '@angular/common'
 import { Component, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { EventEmitter } from 'events'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -88,7 +89,7 @@ export class CaseModelComponent implements OnInit {
         this.case.request.query = []
       }
     } catch (error) {
-      this.msgService.warning(this.i18nService.fanyi('error-invalid-url'))
+      this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorInvalidUrl))
     }
   }
 
@@ -128,29 +129,44 @@ export class CaseModelComponent implements OnInit {
   }
 
   send() {
-    this.isSending = true
-    this.testResult = {}
     const cs = this.preHandleCaseBeforeRequest(this.case)
-    this.caseService.test(cs).subscribe(res => {
-      this.isSending = false
-      this.testResult = res.data
-      this.tabIndex = 5
-      if (this.case.assert && Object.keys(this.case.assert).length > 0) {
-        this.assertResultTabIndex = 3
-      } else {
-        this.assertResultTabIndex = 0
-      }
-    }, err => this.isSending = false)
+    if (cs) {
+      console.log(cs)
+      this.isSending = true
+      this.testResult = {}
+      this.caseService.test(cs).subscribe(res => {
+        this.isSending = false
+        this.testResult = res.data
+        this.tabIndex = 5
+        if (this.case.assert && Object.keys(this.case.assert).length > 0) {
+          this.assertResultTabIndex = 3
+        } else {
+          this.assertResultTabIndex = 0
+        }
+      }, err => this.isSending = false)
+    }
   }
 
   save() {
-    const cs = this.preHandleCaseBeforeRequest(this.case)
-    console.log(cs)
+    if (this.case.summary) {
+      const cs = this.preHandleCaseBeforeRequest(this.case)
+      if (cs) {
+        console.log(cs)
+      }
+    } else {
+      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidSummary))
+    }
   }
 
   saveAs() {
-    const cs = this.preHandleCaseBeforeRequest(this.case)
-    console.log(cs)
+    if (this.case.summary) {
+      const cs = this.preHandleCaseBeforeRequest(this.case)
+      if (cs) {
+        console.log(cs)
+      }
+    } else {
+      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidSummary))
+    }
   }
 
   ngOnInit(): void {
@@ -163,18 +179,38 @@ export class CaseModelComponent implements OnInit {
     })
   }
 
+  /**
+   * 处理格式满足后端数据结构和类型需求
+   */
   preHandleCaseBeforeRequest(cs: Case) {
     const c: Case = JSON.parse(JSON.stringify(cs))
+    c._id = undefined
+    c.creator = undefined
+    c.createdAt = undefined
     c.group = this.group
     c.project = this.project
     // handle reqeust
     const req = c.request
     if (req && req.body) {
+      if (!req.rawUrl) {
+        this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidUrl))
+        return
+      }
       req.body.forEach(item => {
         if (HttpContentTypes.X_WWW_FORM_URLENCODED === item.contentType && item.data) {
           item.data = JSON.stringify(item.data)
         }
       })
+    }
+    // assert
+    if (c.assert) {
+      try {
+        c.assert = JSON.parse(c.assert)
+      } catch (error) {
+        console.error(error)
+        this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidAssert))
+        return
+      }
     }
     return c
   }
@@ -183,7 +219,7 @@ export class CaseModelComponent implements OnInit {
 export function initCaseField(cs: Case) {
   cs.request = {
     method: METHODS[0],
-    contentType: 'application/x-www-form-urlencoded',
+    contentType: '',
     body: [],
     auth: { type: '', data: {} }
   }

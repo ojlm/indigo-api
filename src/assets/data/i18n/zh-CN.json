@@ -129,5 +129,7 @@
   "item-assert-result": "断言结果",
   "item-assert-summary": "结果统计",
   "error-empty-summary": "名称不能为空",
-  "error-invalid-url": "无效的URL地址"
+  "error-invalid-url": "无效的URL地址",
+  "error-invalid-assert": "无效的断言格式",
+  "error-invalid-summary": "名称不能为空"
 }

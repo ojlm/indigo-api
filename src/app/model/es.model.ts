@@ -50,7 +50,8 @@ export interface Case extends BaseDoc {
   project?: string
   group?: string
   request?: CaseRequest
-  assert?: Object
+  /** 后端为Map类型, 前端组件内为 string */
+  assert?: any
   env?: string
   labels?: LabelRef[]
   namespace?: string
