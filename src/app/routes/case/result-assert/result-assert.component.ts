@@ -9,6 +9,7 @@ import * as screenfull from 'screenfull'
 import { GroupService } from '../../../api/service/group.service'
 import { ProjectService } from '../../../api/service/project.service'
 import { CaseResult } from '../../../model/es.model'
+import { formatJson } from '../../../util/json'
 
 @Component({
   selector: 'app-result-assert',
@@ -33,24 +34,9 @@ export class ResultAssertComponent implements OnInit {
   indexChange = new EventEmitter<number>()
   @Input()
   set result(val: CaseResult) {
-    try {
-      this.caseContext = JSON.stringify(val.context, null, '  ')
-    } catch (error) {
-      console.error(error)
-      this.caseContext = ''
-    }
-    try {
-      this.caseRequest = JSON.stringify(val.request, null, '  ')
-    } catch (error) {
-      console.error(error)
-      this.caseRequest = ''
-    }
-    try {
-      this.caseAssertResult = JSON.stringify(val.result, null, '  ')
-    } catch (error) {
-      console.error(error)
-      this.caseAssertResult = ''
-    }
+    this.caseContext = formatJson(val.context)
+    this.caseRequest = formatJson(val.request)
+    this.caseAssertResult = formatJson(val.result)
   }
   @Input()
   get assert() {
@@ -61,7 +47,7 @@ export class ResultAssertComponent implements OnInit {
       if (typeof val === 'string') {
         this._assert = val
       } else if (typeof val === 'object') {
-        this._assert = JSON.stringify(val, null, '  ')
+        this._assert = formatJson(val)
       }
     }
   }

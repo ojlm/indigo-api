@@ -38,3 +38,12 @@ export function syntaxHighlight(json: string | Object, newWindow = true) {
     return html
   }
 }
+
+export function formatJson(val: any) {
+  try {
+    return JSON.stringify(val, null, '    ')
+  } catch (error) {
+    console.error(error)
+    return ''
+  }
+}

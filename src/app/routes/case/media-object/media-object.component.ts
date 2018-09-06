@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 import { GroupService } from '../../../api/service/group.service'
 import { ProjectService } from '../../../api/service/project.service'
 import { MediaObject } from '../../../model/es.model'
+import { HttpContentTypes } from '../../../model/http.model'
 
 @Component({
   selector: 'app-media-object',
@@ -26,7 +27,7 @@ export class MediaObjectComponent implements OnInit {
     return this.contentType
   }
   set type(val: string) {
-    this.contentType = val
+    this.contentType = val || HttpContentTypes.X_WWW_FORM_URLENCODED
   }
   @Output()
   typeChange = new EventEmitter<string>()
