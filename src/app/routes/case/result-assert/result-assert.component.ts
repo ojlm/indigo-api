@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { NzMessageService } from 'ng-zorro-antd'
+import { DiffEditorModel } from 'ngx-monaco-editor'
 import * as screenfull from 'screenfull'
 
 import { GroupService } from '../../../api/service/group.service'
@@ -25,9 +26,16 @@ export class ResultAssertComponent implements OnInit {
   caseContext = ''
   caseRequest = ''
   caseAssertResult = ''
+  originalModel: DiffEditorModel = {
+    code: '',
+    language: 'json'
+  }
+  modifiedModel: DiffEditorModel = {
+    code: '',
+    language: 'json'
+  }
   @Input()
   set index(val: number) {
-    console.log(val)
     this.tabIndex = val
   }
   @Output()
@@ -35,6 +43,7 @@ export class ResultAssertComponent implements OnInit {
   @Input()
   set result(val: CaseResult) {
     this.caseContext = formatJson(val.context)
+    this.modifiedModel = { code: this.caseContext || '', language: 'json' }
     this.caseRequest = formatJson(val.request)
     this.caseAssertResult = formatJson(val.result)
   }
@@ -53,6 +62,13 @@ export class ResultAssertComponent implements OnInit {
   }
   @Output()
   assertChange = new EventEmitter<string>()
+  @Input()
+  set lastResult(val: any) {
+    try {
+      this.originalModel = { code: formatJson(val) || '', language: 'json' }
+    } catch (error) { console.error(error) }
+  }
+  wraped = false
   jsonRoEditorOption = this.monocoService.getJsonOption(true)
   jsonEditorOption = this.monocoService.getJsonOption(false)
 
@@ -72,7 +88,6 @@ export class ResultAssertComponent implements OnInit {
     this.isFullscreen = !this.isFullscreen
     const container = this.el.nativeElement.firstChild
     if (this.isFullscreen && screenfull.enabled) {
-      console.log(container, screenfull)
       screenfull.request(container)
       this.containerStyle = {
         height: '100%',
@@ -84,6 +99,22 @@ export class ResultAssertComponent implements OnInit {
       this.editorFullHeight = '480px'
       screenfull.exit()
     }
+  }
+  wrap() {
+    this.wraped = !this.wraped
+    if (this.wraped) {
+      this.jsonEditorOption = { ...this.jsonEditorOption, 'wordWrap': 'on' }
+      this.jsonRoEditorOption = { ...this.jsonRoEditorOption, 'wordWrap': 'on' }
+    } else {
+      this.jsonEditorOption = { ...this.jsonEditorOption, 'wordWrap': 'off' }
+      this.jsonRoEditorOption = { ...this.jsonRoEditorOption, 'wordWrap': 'off' }
+    }
+  }
+  formatAssert() {
+    try {
+      this._assert = formatJson(this._assert)
+      this.modelChange()
+    } catch (error) { console.error(error) }
   }
   tabIndexChange() {
     this.indexChange.emit(this.tabIndex)

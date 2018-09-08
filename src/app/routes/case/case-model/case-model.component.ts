@@ -39,6 +39,7 @@ export class CaseModelComponent implements OnInit {
   isSending = false
   assertResultTabIndex = 0
   testResult: CaseResult = {}
+  lastResult = {}
 
   constructor(
     private fb: FormBuilder,
@@ -133,13 +134,16 @@ export class CaseModelComponent implements OnInit {
     if (cs) {
       console.log(cs)
       this.isSending = true
+      if (this.testResult) {
+        this.lastResult = this.testResult.context
+      }
       this.testResult = {}
       this.caseService.test(cs).subscribe(res => {
         this.isSending = false
         this.testResult = res.data
         this.tabIndex = 5
         if (this.case.assert && Object.keys(this.case.assert).length > 0) {
-          this.assertResultTabIndex = 3
+          this.assertResultTabIndex = 4
         } else {
           this.assertResultTabIndex = 0
         }
@@ -211,6 +215,8 @@ export class CaseModelComponent implements OnInit {
         this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidAssert))
         return
       }
+    } else {
+      c.assert = {}
     }
     return c
   }

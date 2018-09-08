@@ -29,7 +29,7 @@ export class MonacoService {
     }
   }
 
-  getJsonOption(readOnly = false) {
+  getJsonOption(readOnly = false): any {
     return {
       theme: this.DEFAULT_THEME,
       language: 'json',
@@ -39,7 +39,7 @@ export class MonacoService {
     }
   }
 
-  getJavascriptOption(readOnly = false) {
+  getJavascriptOption(readOnly = false): any {
     return {
       theme: this.DEFAULT_THEME,
       language: 'javascript',

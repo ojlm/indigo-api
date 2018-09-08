@@ -40,10 +40,15 @@ export function syntaxHighlight(json: string | Object, newWindow = true) {
 }
 
 export function formatJson(val: any) {
+  if (!val) return
   try {
-    return JSON.stringify(val, null, '    ')
+    if (typeof val === 'string') {
+      return JSON.stringify(JSON.parse(val), null, '    ')
+    } else {
+      return JSON.stringify(val, null, '    ')
+    }
   } catch (error) {
     console.error(error)
-    return ''
+    return val
   }
 }

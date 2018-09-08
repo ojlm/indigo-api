@@ -20,12 +20,23 @@
     <nz-tab [nzTitle]="'item-assert-result'|translate">
       <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="caseAssertResult"></ngx-monaco-editor>
     </nz-tab>
+    <nz-tab [nzTitle]="'item-last-diff'|translate">
+      <ngx-monaco-diff-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [originalModel]="originalModel"
+        [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor>
+    </nz-tab>
     <nz-tab [nzTitle]="'item-assert-summary'|translate">
       {{'item-assert-summary'|translate}}
     </nz-tab>
   </nz-tabset>
   <ng-template #extraTemplate>
-    <button style="margin-right:5px;" nzSize="small" nzType="dashed" nz-button (click)="btnClick()">
+    <button [title]="'tips-word-wrap'|translate" nzSize="small" [nzType]="wraped?'primary':'dashed'" nz-button (click)="wrap()">
+      <i class="anticon anticon-bars"></i>
+    </button>
+    <button [title]="'tips-format'|translate" nzSize="small" nzType="dashed" nz-button (click)="formatAssert()">
+      <i class="anticon anticon-layout"></i>
+    </button>
+    <button [title]="'tips-fullscreen'|translate" style="margin-right:5px;" nzSize="small" nzType="dashed" nz-button
+      (click)="btnClick()">
       <i class="anticon anticon-{{isFullscreen?'shrink':'arrows-alt'}}"></i>
     </button>
   </ng-template>

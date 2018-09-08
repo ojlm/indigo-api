@@ -62,7 +62,7 @@
         <app-media-object [(type)]="case.request.contentType" [(data)]="case.request.body"></app-media-object>
       </nz-tab>
       <nz-tab [nzTitle]="'item-result-assert'|translate">
-        <app-result-assert [(index)]="assertResultTabIndex" [result]="testResult" [(assert)]="case.assert"></app-result-assert>
+        <app-result-assert [(index)]="assertResultTabIndex" [result]="testResult" [(assert)]="case.assert" [lastResult]="lastResult"></app-result-assert>
       </nz-tab>
     </nz-tabset>
   </nz-card>
