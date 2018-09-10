@@ -63,19 +63,28 @@ const routes: Routes = [
   { path: '404', component: Exception404Component },
   { path: '500', component: Exception500Component },
   {
+    path: ':group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectCasesComponent, data: { titleI18n: 'title-case-list' } }
+    ]
+  },
+  {
+    path: 'cases/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', loadChildren: './case/case.module#CaseModule' }
+    ]
+  },
+  {
+    path: 'api/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectApisComponent, data: { titleI18n: 'title-projects' } }
+    ]
+  },
+  {
     path: 'apis/:group/:project/new', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectApiNewComponent, data: { titleI18n: 'title-api-new' } }
     ]
   },
   {
     path: 'case/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', component: ProjectCasesComponent, data: { titleI18n: 'title-case-list' } },
       { path: ':id', loadChildren: './case/case.module#CaseModule' }
-    ]
-  },
-  {
-    path: 'cases/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', loadChildren: './case/case.module#CaseModule' }
     ]
   },
   {
@@ -89,16 +98,9 @@ const routes: Routes = [
       { path: 'new', component: ProjectEnvModelComponent, data: { titleI18n: 'title-env-new' } }
     ]
   },
-  // group layout
   {
     path: ':group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: GroupProjectsComponent, data: { titleI18n: 'title-groups' } }
-    ]
-  },
-  // project layout
-  {
-    path: ':group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', component: ProjectApisComponent, data: { titleI18n: 'title-projects' } }
     ]
   },
   {

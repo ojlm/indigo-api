@@ -66,6 +66,23 @@ export class LayoutProjectComponent {
           'hideInBreadcrumb': true,
           children: [
             {
+              'text': '用例',
+              'i18n': 'menu-cases',
+              'icon': 'anticon antanticon anticon-book',
+              children: [
+                {
+                  'text': '列表',
+                  'i18n': 'menu-list',
+                  'link': `/${group}/${project}`,
+                },
+                {
+                  'text': '新建',
+                  'i18n': 'menu-new',
+                  'link': `/cases/${group}/${project}/new`,
+                },
+              ]
+            },
+            {
               'text': '接口',
               'i18n': 'menu-apis',
               'icon': 'anticon antanticon anticon-api',
@@ -73,7 +90,7 @@ export class LayoutProjectComponent {
                 {
                   'text': '列表',
                   'i18n': 'menu-list',
-                  'link': `/${group}/${project}`,
+                  'link': `/api/${group}/${project}`,
                 },
                 {
                   'text': '新建',
@@ -84,23 +101,6 @@ export class LayoutProjectComponent {
                   'text': 'OpenApi',
                   'i18n': 'menu-openapi',
                   'link': `/project/${group}/${project}/openapi`,
-                },
-              ]
-            },
-            {
-              'text': '用例',
-              'i18n': 'menu-cases',
-              'icon': 'anticon antanticon anticon-book',
-              children: [
-                {
-                  'text': '列表',
-                  'i18n': 'menu-list',
-                  'link': `/case/${group}/${project}`,
-                },
-                {
-                  'text': '新建',
-                  'i18n': 'menu-new',
-                  'link': `/cases/${group}/${project}/new`,
                 },
               ]
             },
