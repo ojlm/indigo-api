@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { CaseHistoryComponent } from './case-history/case-history.component'
 import { CaseModelComponent } from './case-model/case-model.component'
 import { CaseRoutingModule } from './case-routing.module'
 import { MediaObjectComponent } from './media-object/media-object.component'
@@ -12,6 +13,7 @@ const COMPONENT = [
   CaseModelComponent,
   MediaObjectComponent,
   ResultAssertComponent,
+  CaseHistoryComponent,
 ]
 
 const COMPONENT_NOROUNT = []

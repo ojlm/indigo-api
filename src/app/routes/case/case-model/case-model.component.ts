@@ -40,6 +40,8 @@ export class CaseModelComponent implements OnInit {
   assertResultTabIndex = 0
   testResult: CaseResult = {}
   lastResult = {}
+  isSaved = false
+  historyVisible = false
 
   constructor(
     private fb: FormBuilder,
@@ -90,7 +92,7 @@ export class CaseModelComponent implements OnInit {
         this.case.request.query = []
       }
     } catch (error) {
-      this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorInvalidUrl))
+      // this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorInvalidUrl))
     }
   }
 
@@ -155,7 +157,16 @@ export class CaseModelComponent implements OnInit {
     if (this.case.summary) {
       const cs = this.preHandleCaseBeforeRequest(this.case)
       if (cs) {
-        console.log(cs)
+        if (this.case._id) {
+          this.caseService.update(this.case._id, cs).subscribe(res => {
+            this.isSaved = true
+          })
+        } else {
+          this.caseService.index(cs).subscribe(res => {
+            this.case._id = res.data.id
+            this.isSaved = true
+          })
+        }
       }
     } else {
       this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidSummary))
@@ -171,6 +182,19 @@ export class CaseModelComponent implements OnInit {
     } else {
       this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidSummary))
     }
+  }
+
+  reset() {
+    this.case = {}
+    initCaseField(this.case)
+  }
+
+  history() {
+    this.historyVisible = true
+  }
+
+  editCase(id: string) {
+    console.log('edit cs:', id)
   }
 
   ngOnInit(): void {

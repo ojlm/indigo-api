@@ -1,6 +1,12 @@
 <div>
   <div class="content__title">
     <h1 style="padding-left: 10px;">{{'content-title-case'|translate}}</h1>
+    <span>
+      <span [style.color]="isSaved?'black':'lightsalmon'">{{case.summary}}</span>
+      <span *ngIf="case._id">
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/case/'+group+'/'+project+'/'+case._id]">({{case._id}})</a>
+      </span>
+    </span>
   </div>
   <nz-card [nzBordered]="true">
     <nz-row style="margin-bottom:4px;">
@@ -38,8 +44,17 @@
               <li nz-menu-item (click)="saveAs()">
                 <a>{{'btn-save-as'|translate}}</a>
               </li>
+              <li nz-menu-item (click)="reset()">
+                <a>{{'btn-reset'|translate}}</a>
+              </li>
             </ul>
           </nz-dropdown-button>
+          <button nz-button [nzType]="'default'" [nzSize]="'default'" style="margin-left:5px;padding:0px 10px;" (click)="history()">
+            <span>
+              <i class="anticon anticon-cloud-o"></i>
+              <span>{{'btn-history'|translate}}</span>
+            </span>
+          </button>
         </div>
       </div>
     </nz-affix>
@@ -66,4 +81,9 @@
       </nz-tab>
     </nz-tabset>
   </nz-card>
+  <!-- drawer -->
+  <nz-drawer [nzClosable]="true" [nzVisible]="historyVisible" nzPlacement="right" [nzTitle]="'title-case-history'|translate"
+    (nzOnClose)="historyVisible=false">
+    <app-case-history [group]="group" [project]="project" (onclick)="editCase($event)"></app-case-history>
+  </nz-drawer>
 </div>

@@ -4,8 +4,8 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { Case, CaseResult, IndexDocResponse } from '../../model/es.model'
-import { API_CASE, API_CASE_QUERY, API_CASE_TEST } from '../path'
+import { Case, CaseResult, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
+import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE } from '../path'
 import { BaseService } from './base.service'
 
 @Injectable({
@@ -21,6 +21,10 @@ export class CaseService extends BaseService {
 
   index(cs: Case) {
     return this.http.put(API_CASE, cs) as Observable<ApiRes<IndexDocResponse>>
+  }
+
+  update(id: string, cs: Case) {
+    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_CASE_UPDATE}/${id}`, cs)
   }
 
   test(cs: Case) {

@@ -16,6 +16,7 @@ export const API_API_GET_ONE = API_API + '/getOne'
 export const API_API_QUERY = API_API + '/query'
 
 export const API_CASE = BASE_URL + '/cs'
+export const API_CASE_UPDATE = API_CASE + '/update'
 export const API_CASE_QUERY = API_CASE + '/query'
 export const API_CASE_TEST = API_CASE + '/test'
 
