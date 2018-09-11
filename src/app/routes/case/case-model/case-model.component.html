@@ -2,16 +2,16 @@
   <div class="content__title">
     <h1 style="padding-left: 10px;">{{'content-title-case'|translate}}</h1>
     <span>
-      <span [style.color]="isSaved?'black':'lightsalmon'">{{case.summary}}</span>
+      <span [style.color]="isSaved?'black':'lightseagreen'">{{case.summary}}</span>
       <span *ngIf="case._id">
-        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/case/'+group+'/'+project+'/'+case._id]">({{case._id}})</a>
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/case', case.group, case.project, case._id]">({{case._id}})</a>
       </span>
     </span>
   </div>
   <nz-card [nzBordered]="true">
     <nz-row style="margin-bottom:4px;">
       <nz-input-group [nzSize]="'small'" [nzAddOnBefore]="'field-summary'|translate">
-        <input type="text" nz-input [(ngModel)]="case.summary">
+        <input type="text" nz-input [(ngModel)]="case.summary" (ngModelChange)="modelChange()">
       </nz-input-group>
     </nz-row>
     <!-- url row start -->
@@ -23,7 +23,7 @@
               (ngModelChange)="urlChange()">
           </nz-input-group>
           <ng-template #addOnBeforeTemplate>
-            <nz-select style="width:100px;" [(ngModel)]="case.request.method">
+            <nz-select style="width:100px;" [(ngModel)]="case.request.method" (ngModelChange)="modelChange()">
               <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
             </nz-select>
           </ng-template>
@@ -36,7 +36,7 @@
             </span>
           </button>
           <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'" [nzPlacement]="'bottomRight'">
-            <span>
+            <span [style.color]="isSaved?'lightgray':'orangered'">
               <i class="anticon anticon-save"></i>
               <span>{{'btn-save'|translate}}</span>
             </span>
@@ -62,22 +62,26 @@
     <div style="height:7px;"></div>
     <nz-tabset [nzSize]="'default'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false">
       <nz-tab [nzTitle]="'item-path-variable'|translate">
-        <app-key-value [(data)]="case.request.path"></app-key-value>
+        <app-key-value [(data)]="case.request.path" (dataChange)="modelChange()"></app-key-value>
       </nz-tab>
       <nz-tab [nzTitle]="'item-params'|translate">
         <app-key-value [(data)]="case.request.query" (dataChange)="paramsChange()"></app-key-value>
       </nz-tab>
       <nz-tab [nzTitle]="'item-headers'|translate">
-        <app-key-value [(data)]="case.request.header"></app-key-value>
+        <app-key-value [(data)]="case.request.header" (dataChange)="modelChange()"></app-key-value>
       </nz-tab>
       <nz-tab [nzTitle]="'item-cookies'|translate">
-        <app-key-value [(data)]="case.request.cookie"></app-key-value>
+        <app-key-value [(data)]="case.request.cookie" (dataChange)="modelChange()"></app-key-value>
       </nz-tab>
       <nz-tab [nzTitle]="'item-body'|translate" [nzDisabled]="'GET'===case.request.method">
-        <app-media-object [(type)]="case.request.contentType" [(data)]="case.request.body"></app-media-object>
+        <app-media-object [(type)]="case.request.contentType" [(data)]="case.request.body" (typeChange)="modelChange()"
+          (dataChange)="modelChange()">
+        </app-media-object>
       </nz-tab>
       <nz-tab [nzTitle]="'item-result-assert'|translate">
-        <app-result-assert [(index)]="assertResultTabIndex" [result]="testResult" [(assert)]="case.assert" [lastResult]="lastResult"></app-result-assert>
+        <app-result-assert [(index)]="assertResultTabIndex" [result]="testResult" [(assert)]="case.assert" [lastResult]="lastResult"
+          (assertChange)="modelChange()">
+        </app-result-assert>
       </nz-tab>
     </nz-tabset>
   </nz-card>

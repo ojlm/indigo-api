@@ -22,6 +22,8 @@ export class ResultAssertComponent implements OnInit {
   editorFullHeight = '480px'
   isFullscreen = false
   tabIndex = 0
+  /** for first modelChange event bug */
+  originAssert = ''
   _assert = ''
   caseContext = ''
   caseRequest = ''
@@ -52,13 +54,8 @@ export class ResultAssertComponent implements OnInit {
     return this._assert
   }
   set assert(val: string) {
-    if (val) {
-      if (typeof val === 'string') {
-        this._assert = val
-      } else if (typeof val === 'object') {
-        this._assert = formatJson(val)
-      }
-    }
+    this._assert = formatJson(val)
+    this.originAssert = this._assert
   }
   @Output()
   assertChange = new EventEmitter<string>()
@@ -100,6 +97,7 @@ export class ResultAssertComponent implements OnInit {
       screenfull.exit()
     }
   }
+
   wrap() {
     this.wraped = !this.wraped
     if (this.wraped) {
@@ -110,18 +108,25 @@ export class ResultAssertComponent implements OnInit {
       this.jsonRoEditorOption = { ...this.jsonRoEditorOption, 'wordWrap': 'off' }
     }
   }
+
   formatAssert() {
     try {
       this._assert = formatJson(this._assert)
       this.modelChange()
     } catch (error) { console.error(error) }
   }
+
   tabIndexChange() {
     this.indexChange.emit(this.tabIndex)
   }
+
   modelChange() {
-    this.assertChange.emit(this._assert)
+    if (this.originAssert !== this._assert) {
+      this.originAssert = null
+      this.assertChange.emit(this._assert)
+    }
   }
+
   ngOnInit(): void {
   }
 }

@@ -69,7 +69,12 @@ const routes: Routes = [
   },
   {
     path: 'cases/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', loadChildren: './case/case.module#CaseModule' }
+      { path: 'new', loadChildren: './case/case.module#CaseModule' }
+    ]
+  },
+  {
+    path: 'case/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: ':id', loadChildren: './case/case.module#CaseModule' }
     ]
   },
   {
@@ -80,11 +85,6 @@ const routes: Routes = [
   {
     path: 'apis/:group/:project/new', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectApiNewComponent, data: { titleI18n: 'title-api-new' } }
-    ]
-  },
-  {
-    path: 'case/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: ':id', loadChildren: './case/case.module#CaseModule' }
     ]
   },
   {

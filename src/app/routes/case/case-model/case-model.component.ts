@@ -1,10 +1,9 @@
 import { Location } from '@angular/common'
-import { Component, Input, OnInit, Output } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
-import { EventEmitter } from 'events'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { CaseService } from '../../../api/service/case.service'
@@ -20,27 +19,18 @@ import { searchToObj } from '../../../util/urlutils'
 })
 export class CaseModelComponent implements OnInit {
 
-  group: string
-  project: string
+  group = ''
+  project = ''
+  caseRoute = ''
   isAffixed = false
-  @Input()
-  get data() { return this.case }
-  set data(val: Case) {
-    const cs: Case = { ...val }
-    if (!val._id) {
-      initCaseField(cs)
-    }
-    this.case = cs
-  }
-  @Output() dataChange = new EventEmitter()
   case: Case = {}
   methods = METHODS
-  tabIndex = 0
+  tabIndex = 1
   isSending = false
   assertResultTabIndex = 0
   testResult: CaseResult = {}
   lastResult = {}
-  isSaved = false
+  isSaved = true
   historyVisible = false
 
   constructor(
@@ -54,11 +44,16 @@ export class CaseModelComponent implements OnInit {
     private caseService: CaseService,
   ) { }
 
+  modelChange() {
+    this.isSaved = false
+  }
+
   onAffixChange(status: boolean) {
     this.isAffixed = status
   }
 
   urlChange() {
+    this.modelChange()
     let urlStr = this.case.request.rawUrl
     try {
       if (urlStr) {
@@ -97,6 +92,7 @@ export class CaseModelComponent implements OnInit {
   }
 
   paramsChange() {
+    this.modelChange()
     if (this.case.request.query.length > 0) {
       let search = '?'
       this.case.request.query.forEach(item => {
@@ -164,6 +160,7 @@ export class CaseModelComponent implements OnInit {
         } else {
           this.caseService.index(cs).subscribe(res => {
             this.case._id = res.data.id
+            this.updateCaseRoute()
             this.isSaved = true
           })
         }
@@ -177,7 +174,11 @@ export class CaseModelComponent implements OnInit {
     if (this.case.summary) {
       const cs = this.preHandleCaseBeforeRequest(this.case)
       if (cs) {
-        console.log(cs)
+        this.caseService.index(cs).subscribe(res => {
+          this.case._id = res.data.id
+          this.updateCaseRoute()
+          this.isSaved = true
+        })
       }
     } else {
       this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidSummary))
@@ -197,14 +198,8 @@ export class CaseModelComponent implements OnInit {
     console.log('edit cs:', id)
   }
 
-  ngOnInit(): void {
-    if (!this.case._id) {
-      initCaseField(this.case)
-    }
-    this.route.parent.params.subscribe(params => {
-      this.group = params['group']
-      this.project = params['project']
-    })
+  updateCaseRoute() {
+    this.caseRoute = `/case/${this.group}/${this.project}/${this.case._id}`
   }
 
   /**
@@ -233,7 +228,9 @@ export class CaseModelComponent implements OnInit {
     // assert
     if (c.assert) {
       try {
-        c.assert = JSON.parse(c.assert)
+        if (typeof c.assert === 'string') {
+          c.assert = JSON.parse(c.assert)
+        }
       } catch (error) {
         console.error(error)
         this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidAssert))
@@ -243,6 +240,28 @@ export class CaseModelComponent implements OnInit {
       c.assert = {}
     }
     return c
+  }
+
+  ngOnInit(): void {
+    this.route.parent.parent.params.subscribe(params => {
+      this.group = params['group']
+      this.project = params['project']
+    })
+    this.route.parent.params.subscribe(params => {
+      const caseId = params['id']
+      if (caseId) { // edit
+        initCaseField(this.case)
+        this.caseService.getById(caseId).subscribe(res => {
+          this.case = res.data
+          this.case._id = caseId
+          this.updateCaseRoute()
+        })
+      } else {
+        if (!this.case._id) {
+          initCaseField(this.case)
+        }
+      }
+    })
   }
 }
 
