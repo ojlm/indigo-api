@@ -13,7 +13,7 @@ import { PageSingleModel } from '../../../model/page.model'
 export class GroupsComponent extends PageSingleModel implements OnInit {
 
   loading = false
-  groups: Group[] = []
+  items: Group[] = []
 
   constructor(
     private groupService: GroupService,
@@ -23,7 +23,7 @@ export class GroupsComponent extends PageSingleModel implements OnInit {
     super()
   }
 
-  goGroup(item: Group) {
+  goItem(item: Group) {
     this.router.navigateByUrl(`/${item.id}`)
   }
 
@@ -34,7 +34,7 @@ export class GroupsComponent extends PageSingleModel implements OnInit {
   loadData() {
     this.loading = true
     this.groupService.query(this.toPageQuery()).subscribe(res => {
-      this.groups = res.data.list
+      this.items = res.data.list
       this.pageTotal = res.data.total
       this.loading = false
     }, err => this.loading = false)

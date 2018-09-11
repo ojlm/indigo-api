@@ -2,18 +2,18 @@
   <h1 style="padding-left: 10px;">{{'field-group'|translate}}</h1>
 </div>
 <nz-card>
-  <nz-list *ngIf="groups.length>0" [nzDataSource]="groups" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
+  <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
     [nzPagination]="pagination" [nzLoading]="loading">
     <ng-template #item let-item>
       <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
         <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
           <ng-template #nzAvatar>
             <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="item.id?item.id[0].toUpperCase():''" [nzSrc]="item.avatar"
-              (click)="goGroup(item)">
+              (click)="goItem(item)">
             </nz-avatar>
           </ng-template>
           <ng-template #nzTitle>
-            <span (click)="goGroup(item)" style="cursor:pointer;">{{item.id}}</span>
+            <span (click)="goItem(item)" style="cursor:pointer;">{{item.id}}</span>
             <span style="color:lightgray;"> - </span>
             <a [routerLink]="['/'+item.id]">{{item.summary}}</a>
           </ng-template>
@@ -29,7 +29,7 @@
       </nz-list-item>
     </ng-template>
     <ng-template #pagination>
-      <nz-pagination *ngIf="groups.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
+      <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
         [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
       </nz-pagination>
       <ng-template #totalTemplate let-total>
@@ -41,5 +41,5 @@
       </ng-template>
     </ng-template>
   </nz-list>
-  <div *ngIf="loading===false&&groups.length===0">{{'tips-no-data'|translate}}</div>
+  <div *ngIf="loading===false&&items.length===0">{{'tips-no-data'|translate}}</div>
 </nz-card>
