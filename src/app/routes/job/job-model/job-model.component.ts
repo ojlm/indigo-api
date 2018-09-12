@@ -1,11 +1,11 @@
 import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { JobService } from '../../../api/service/job.service'
-import { Job } from '../../../model/es.model'
+import { JobMeta } from '../../../model/job.model'
 
 @Component({
   selector: 'app-job-model',
@@ -13,10 +13,23 @@ import { Job } from '../../../model/es.model'
 })
 export class JobModelComponent implements OnInit {
 
+  card1BodyStyle = {
+    'padding': '12px',
+    'background-color': 'aliceblue'
+  }
+  card2BodyStyle = {
+    'padding': '12px',
+    'background-color': 'seashell'
+  }
+  transferStyle = {
+    'width.px': 300,
+    'height.px': 300
+  }
   group: string
   project: string
-  form: FormGroup
   submitting = false
+  jobMeta: JobMeta = {}
+  list = []
 
   constructor(
     private fb: FormBuilder,
@@ -28,12 +41,6 @@ export class JobModelComponent implements OnInit {
   ) { }
 
   submit() {
-    for (const i in this.form.controls) {
-      this.form.controls[i].markAsDirty()
-      this.form.controls[i].updateValueAndValidity()
-    }
-    if (this.form.invalid) return
-    const job = { ...this.form.value as Job }
     // this.submitting = true
     // this.jobService.index({}).subscribe(res => {
     //   this.submitting = false
@@ -48,10 +55,6 @@ export class JobModelComponent implements OnInit {
     this.route.parent.params.subscribe(params => {
       this.group = params['group']
       this.project = params['project']
-      this.form = this.fb.group({
-        summary: [null, [Validators.required]],
-        description: [null, []],
-      })
     })
   }
 }

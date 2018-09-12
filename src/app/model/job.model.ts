@@ -3,6 +3,7 @@ import { Job } from './es.model'
 export interface JobMeta {
   name?: string
   group?: string
+  project?: string
   desc?: string
   scheduler?: string
   classAlias?: string
