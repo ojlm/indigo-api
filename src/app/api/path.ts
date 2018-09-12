@@ -1,5 +1,6 @@
 export const BASE_URL = 'api'
 
+export const API_HOME = BASE_URL + '/home'
 export const API_USER_LOGIN = BASE_URL + '/user/login'
 export const API_USER_LOGOUT = BASE_URL + '/user/logout'
 /**
