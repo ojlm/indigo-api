@@ -1,0 +1,44 @@
+<div class="content__title">
+  <h1 style="padding-left: 10px;">{{'field-job'|translate}}</h1>
+</div>
+<nz-card>
+  <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
+    [nzPagination]="pagination" [nzLoading]="loading">
+    <ng-template #item let-item>
+      <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
+          <ng-template #nzTitle>
+            <span (click)="goGroup(item)" style="cursor:pointer;">{{item.group}}</span>
+            <span style="color:lightgray;"> / </span>
+            <span (click)="goProject(item)" style="cursor:pointer;">{{item.project}}</span>
+            <span style="color:lightgray;"> / </span>
+            <span (click)="goItem(item)" style="cursor:pointer;">{{item.id}}</span>
+            <span style="color:lightgray;"> - </span>
+            <a [routerLink]="['/'+item.group+'/'+item.id]">{{item.summary}}</a>
+          </ng-template>
+          <ng-template #nzDescription>
+            <div>{{item.description}}</div>
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #edit>
+          <button nz-button nzType="default" nzShape="circle" (click)="goSettings(item)">
+            <i class="anticon anticon-setting"></i>
+          </button>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+    <ng-template #pagination>
+      <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
+        [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+      </nz-pagination>
+      <ng-template #totalTemplate let-total>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{total}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+    </ng-template>
+  </nz-list>
+  <div *ngIf="loading===false&&items.length===0">{{'tips-no-data'|translate}}</div>
+</nz-card>

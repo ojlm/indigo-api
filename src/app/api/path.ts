@@ -25,3 +25,6 @@ export const API_ENV = BASE_URL + '/env'
 export const API_ENV_QUERY = API_ENV + '/query'
 
 export const API_OPENAPI = BASE_URL + '/openapi'
+
+export const API_JOB = BASE_URL + '/job'
+export const API_JOB_QUERY = API_JOB + '/query'

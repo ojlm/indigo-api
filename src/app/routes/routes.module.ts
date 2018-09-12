@@ -17,6 +17,7 @@ import { ProjectApisComponent } from './project/project-apis/project-apis.compon
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
 import { ProjectEnvModelComponent } from './project/project-env-model/project-env-model.component'
 import { ProjectEnvsComponent } from './project/project-envs/project-envs.component'
+import { ProjectJobsComponent } from './project/project-jobs/project-jobs.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 import { RouteRoutingModule } from './routes-routing.module'
 
@@ -41,7 +42,8 @@ const COMPONENTS = [
   ProjectApiNewComponent,
   ProjectCasesComponent,
   ProjectEnvsComponent,
-  ProjectEnvModelComponent
+  ProjectEnvModelComponent,
+  ProjectJobsComponent,
 ]
 const COMPONENTS_NOROUNT = []
 

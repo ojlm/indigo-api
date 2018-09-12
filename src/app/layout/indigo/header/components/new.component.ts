@@ -13,8 +13,8 @@ import { SettingsService } from '@delon/theme'
       <div nz-menu-item (click)="newGroup()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-group' | translate}}</div>
       <li nz-menu-divider></li>
       <div nz-menu-item (click)="newProject()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-project' | translate}}</div>
-      <div nz-menu-item (click)="newJob()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-job' | translate}}</div>
       <li *ngIf="project" nz-menu-divider></li>
+      <div *ngIf="project" nz-menu-item (click)="newJob()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-job' | translate}}</div>
       <div *ngIf="project" nz-menu-item (click)="newApi()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-api' | translate}}</div>
       <div *ngIf="project" nz-menu-item (click)="newCase()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-case' | translate}}</div>
       <div *ngIf="project" nz-menu-item (click)="newScenario()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-scenario' | translate}}</div>
@@ -50,11 +50,7 @@ export class HeaderNewComponent {
     }
   }
   newJob() {
-    if (this.group) {
-      this.router.navigateByUrl(`/jobs/new?group=${this.group}`)
-    } else {
-      this.router.navigateByUrl('/jobs/new')
-    }
+    this.router.navigateByUrl(`/jobs/${this.group}/${this.project}/new`)
   }
   newApi() {
     this.router.navigateByUrl(`/apis/${this.group}/${this.project}/new`)

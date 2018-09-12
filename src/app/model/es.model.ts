@@ -174,7 +174,7 @@ export interface Job extends BaseDoc {
   classAlias?: string
   createdAt?: string
   group?: string
-  name?: string
+  project?: string
   scheduler?: string
   state?: string
   jobData?: JobData

@@ -1,0 +1,29 @@
+<div>
+  <div class="content__title">
+    <h1 style="padding-left: 10px;">{{'content-title-job'|translate}}</h1>
+  </div>
+  <nz-card style="padding:20px;" [nzBordered]="false">
+    <form nz-form [nzLayout]="'vertical'" [formGroup]="form" (ngSubmit)="submit()">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="summary">{{'field-summary'|translate}}</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="summary" id="summary" [placeholder]="'field-summary'|translate">
+          <nz-form-explain *ngIf="form.get('summary').dirty && form.get('summary').errors">{{'error-empty-summary'|translate}}</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="description">{{'field-description'|translate}}</nz-form-label>
+        <nz-form-control>
+          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{minRows: 2}" [placeholder]="'field-description'|translate"></textarea>
+          <nz-form-explain *ngIf="form.get('description').dirty && form.get('description').errors">{{'field-description'|translate}}</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
+          <button nz-button type="button" class="ml-sm" (click)="goBack()">{{'btn-back'|translate}}</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-card>
+</div>

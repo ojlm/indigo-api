@@ -24,6 +24,7 @@ import { ProjectApisComponent } from './project/project-apis/project-apis.compon
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
 import { ProjectEnvModelComponent } from './project/project-env-model/project-env-model.component'
 import { ProjectEnvsComponent } from './project/project-envs/project-envs.component'
+import { ProjectJobsComponent } from './project/project-jobs/project-jobs.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 
 const routes: Routes = [
@@ -96,6 +97,17 @@ const routes: Routes = [
   {
     path: 'envs/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: 'new', component: ProjectEnvModelComponent, data: { titleI18n: 'title-env-new' } }
+    ]
+  },
+  {
+    path: 'job/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectJobsComponent, data: { titleI18n: 'title-job-list' } },
+      { path: ':id', loadChildren: './job/job.module#JobModule' }
+    ]
+  },
+  {
+    path: 'jobs/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: 'new', loadChildren: './job/job.module#JobModule' }
     ]
   },
   {

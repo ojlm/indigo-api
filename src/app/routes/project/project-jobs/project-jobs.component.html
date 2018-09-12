@@ -1,0 +1,30 @@
+<div>
+  <div class="content__title">
+    <h1 style="padding-left: 10px;">{{'content-title-job-list'|translate}}</h1>
+    <app-project-breadcrumb></app-project-breadcrumb>
+  </div>
+  <nz-card [nzBordered]="false">
+    <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
+      [nzPagination]="pagination" [nzLoading]="loading">
+      <ng-template #item let-item>
+        <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+          <nz-list-item-meta [nzTitle]="nzTitle">
+            <ng-template #nzTitle>
+              <a [routerLink]="[getRouter(item)]">{{item.summary}}</a>
+            </ng-template>
+          </nz-list-item-meta>
+          <ng-template #edit>
+            <button nz-button nzType="default" nzShape="circle" (click)="editItem(item)">
+              <i class="anticon anticon-setting"></i>
+            </button>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+      <ng-template #pagination>
+        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzPageSize]="pageSize"
+          (nzPageIndexChange)="pageChange()"></nz-pagination>
+      </ng-template>
+    </nz-list>
+    <div *ngIf="loading===false&&items.length===0">{{'tips-no-data'|translate}}</div>
+  </nz-card>
+</div>

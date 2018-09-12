@@ -4,11 +4,13 @@ import { SharedModule } from '@shared/shared.module'
 
 import { DashboardRoutingModule } from './dashboard-routing.module'
 import { GroupsComponent } from './groups/groups.component'
+import { JobsComponent } from './jobs/jobs.component'
 import { ProjectsComponent } from './projects/projects.component'
 
 const COMPONENT = [
   GroupsComponent,
   ProjectsComponent,
+  JobsComponent,
 ]
 
 const COMPONENT_NOROUNT = []
