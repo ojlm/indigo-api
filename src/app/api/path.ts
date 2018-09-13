@@ -28,3 +28,6 @@ export const API_OPENAPI = BASE_URL + '/openapi'
 
 export const API_JOB = BASE_URL + '/job'
 export const API_JOB_QUERY = API_JOB + '/query'
+
+export const API_WS_JOB_TEST = '/api/ws/job/test'
+export const API_WS_JOB_MANUAL = '/api/ws/job/manual'

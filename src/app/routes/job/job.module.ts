@@ -4,11 +4,13 @@ import { SharedModule } from '@shared/shared.module'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
 import { CaseModule } from '../case/case.module'
+import { CaseSelectorComponent } from './case-selector/case-selector.component'
 import { JobModelComponent } from './job-model/job-model.component'
 import { JobRoutingModule } from './job-routing.module'
 
 const COMPONENT = [
-  JobModelComponent
+  JobModelComponent,
+  CaseSelectorComponent,
 ]
 
 const COMPONENT_NOROUNT = []

@@ -34,32 +34,7 @@
   </nz-card>
   <!-- job data -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
-    <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzHeader]="nzHeader" [nzFooter]="nzFooter"
-      [nzRenderItem]="item">
-      <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent"></nz-list-item>
-        <ng-template #nzContent>
-          <div style="padding-left:3px;">
-            <a href="javascript:void(0);" (click)="viewCase(item)">{{item.summary}}</a>
-          </div>
-        </ng-template>
-      </ng-template>
-    </nz-list>
-    <ng-template #nzHeader>
-      <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="value">
-    </ng-template>
-    <ng-template #nzFooter>
-      <nz-pagination *ngIf="items.length>0" [nzSize]="'small'" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate"
-        [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
-      </nz-pagination>
-      <ng-template #totalTemplate let-total>
-        <span style="color:lightgray;">
-          <span>{{'item-total'|translate}}</span>
-          <span> {{total}} </span>
-          <span>{{'item-item'|translate}}</span>
-        </span>
-      </ng-template>
-    </ng-template>
+    <app-case-selector [(data)]="jobCaseIds"></app-case-selector>
   </nz-card>
   <div style="margin-top:7px;">
     <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="test()">
@@ -71,8 +46,4 @@
     <button nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-commit'|translate}}</button>
     <button nz-button nzType="default" (click)="goBack()">{{'btn-back'|translate}}</button>
   </div>
-  <!-- case draw -->
-  <nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="840" [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
-    <app-case-model [id]="editCaseId"></app-case-model>
-  </nz-drawer>
 </div>

@@ -12,7 +12,7 @@ export interface JobMeta {
 export interface TriggerMeta {
   name?: string
   group?: string
-  desc?: string
+  project?: string
   startNow?: boolean
   startDate?: number | Date
   endDate?: number | Date
@@ -45,6 +45,11 @@ export interface JobExecLog {
   startAt: string
   endAt: string
   status: number
+}
+
+export interface JobTestMessage {
+  jobMeta?: JobMeta
+  jobData?: JobData
 }
 
 export const TriggerType = {

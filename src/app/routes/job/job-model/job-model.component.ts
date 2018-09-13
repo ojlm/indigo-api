@@ -5,11 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
-import { CaseService, QueryCase } from '../../../api/service/case.service'
+import { CaseService } from '../../../api/service/case.service'
 import { JobService } from '../../../api/service/job.service'
-import { ApiRes } from '../../../model/api.model'
-import { Case } from '../../../model/es.model'
-import { JobMeta } from '../../../model/job.model'
+import { ActorEvent, APICODE } from '../../../model/api.model'
+import { JobExecDesc } from '../../../model/es.model'
+import { JobMeta, JobTestMessage } from '../../../model/job.model'
 import { PageSingleModel } from '../../../model/page.model'
 
 @Component({
@@ -24,7 +24,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   }
   card2BodyStyle = {
     'padding': '12px',
-    'background-color': 'seashell'
+    'background-color': 'snow'
   }
   transferStyle = {
     'width.px': 300,
@@ -34,10 +34,9 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   project: string
   submitting = false
   jobMeta: JobMeta = {}
-  items: Case[] = []
-  searchCase: Subject<QueryCase>
-  caseDrawerVisible = false
-  editCaseId: string
+  jobCaseIds = []
+  testWs: WebSocket
+  logSubject = new Subject<ActorEvent<JobExecDesc>>()
 
   constructor(
     private fb: FormBuilder,
@@ -49,22 +48,36 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
     private location: Location,
   ) {
     super()
-    const response = new Subject<ApiRes<Case[]>>()
-    response.subscribe(res => {
-      this.pageTotal = res.data.total
-      this.items = res.data.list
-    })
-    this.searchCase = this.caseService.newQuerySubject(response)
-  }
-
-  viewCase(item: Case) {
-    console.log(item)
-    this.editCaseId = item._id
-    this.caseDrawerVisible = true
   }
 
   test() {
-
+    if (this.testWs) {
+      this.testWs.close()
+      this.testWs = null
+    }
+    this.testWs = this.jobService.newTestWs()
+    this.testWs.onopen = (event) => {
+      const testMessage: JobTestMessage = {
+        jobMeta: {},
+        jobData: {}
+      }
+      this.testWs.send(JSON.stringify(testMessage))
+    }
+    this.testWs.onmessage = (event) => {
+      if (event.data) {
+        try {
+          const res = JSON.parse(event.data) as ActorEvent<JobExecDesc>
+          if (APICODE.OK === res.code) {
+            this.logSubject.next(res)
+          } else {
+            this.msgService.error(res.msg)
+          }
+        } catch (error) {
+          this.msgService.error(error)
+          this.testWs.close()
+        }
+      }
+    }
   }
 
   submit() {
@@ -82,7 +95,6 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
     this.route.parent.parent.params.subscribe(params => {
       this.group = params['group']
       this.project = params['project']
-      this.searchCase.next({ group: this.group, project: this.project })
     })
   }
 }
