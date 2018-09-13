@@ -48,6 +48,7 @@
   </div>
 </div>
 <!-- console draw -->
-<nz-drawer [nzVisible]="consoleDrawVisible" [nzWidth]="640" [nzClosable]="false" (nzOnClose)="consoleDrawVisible=false">
+<nz-drawer [nzMask]="true" [nzPlacement]="top" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
+  [nzVisible]="consoleDrawVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="consoleDrawVisible=false">
   <app-console-report></app-console-report>
 </nz-drawer>
