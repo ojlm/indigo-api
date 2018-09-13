@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { CaseModule } from '../case/case.module'
 import { JobModelComponent } from './job-model/job-model.component'
 import { JobRoutingModule } from './job-routing.module'
 
@@ -17,7 +18,8 @@ const COMPONENT_NOROUNT = []
     CommonModule,
     MonacoEditorModule,
     SharedModule,
-    JobRoutingModule
+    JobRoutingModule,
+    CaseModule
   ],
   providers: [],
   declarations: [...COMPONENT, ...COMPONENT_NOROUNT],

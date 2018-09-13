@@ -20,6 +20,7 @@ const COMPONENT_NOROUNT = []
 
 @NgModule({
   imports: [CommonModule, MonacoEditorModule, SharedModule, CaseRoutingModule],
+  exports: [...COMPONENT],
   providers: [],
   declarations: [...COMPONENT, ...COMPONENT_NOROUNT],
   entryComponents: COMPONENT_NOROUNT,
