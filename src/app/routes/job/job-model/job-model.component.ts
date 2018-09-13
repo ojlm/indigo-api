@@ -37,6 +37,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   jobCaseIds = []
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
+  consoleDrawVisible = false
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +52,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   }
 
   test() {
+    this.consoleDrawVisible = true
     if (this.testWs) {
       this.testWs.close()
       this.testWs = null

@@ -47,3 +47,7 @@
     <button nz-button nzType="default" (click)="goBack()">{{'btn-back'|translate}}</button>
   </div>
 </div>
+<!-- console draw -->
+<nz-drawer [nzVisible]="consoleDrawVisible" [nzWidth]="640" [nzClosable]="false" (nzOnClose)="consoleDrawVisible=false">
+  <app-console-report></app-console-report>
+</nz-drawer>

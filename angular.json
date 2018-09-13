@@ -32,7 +32,8 @@
               }
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.less",
+              "./node_modules/xterm/dist/xterm.css"
             ],
             "scripts": []
           },
