@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
@@ -19,6 +19,21 @@ import { searchToObj } from '../../../util/urlutils'
 })
 export class CaseModelComponent implements OnInit {
 
+  @Input()
+  set id(caseId: string) {
+    if (caseId) {
+      initCaseField(this.case)
+      this.testResult = {}
+      this.lastResult = {}
+      this.tabIndex = 1
+      this.assertResultTabIndex = 0
+      this.caseService.getById(caseId).subscribe(res => {
+        this.case = res.data
+        this.case._id = caseId
+        this.updateCaseRoute()
+      })
+    }
+  }
   group = ''
   project = ''
   caseRoute = ''
