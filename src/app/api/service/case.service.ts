@@ -52,4 +52,5 @@ export interface QueryCase extends QueryPage {
   method?: string
   path?: string
   text?: string
+  ids?: string[]
 }
