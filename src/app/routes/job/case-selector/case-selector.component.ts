@@ -11,7 +11,19 @@ import { PageSingleModel } from '../../../model/page.model'
 
 @Component({
   selector: 'app-case-selector',
-  styles: ['.click-icon{font-weight:bold;font-style:oblique;}'],
+  styles: [`
+    .click-icon {
+      font-weight: bold;
+      font-style: oblique;
+    }
+    .hover-red {
+      transition: all 0.3s ease;
+    }
+    .hover-red:hover {
+      color:red;
+      transform: rotate(180deg);
+    }
+  `],
   templateUrl: './case-selector.component.html',
 })
 export class CaseSelectorComponent extends PageSingleModel implements OnInit {
