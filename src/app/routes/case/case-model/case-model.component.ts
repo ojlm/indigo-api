@@ -21,6 +21,7 @@ export class CaseModelComponent implements OnInit {
 
   @Input()
   set id(caseId: string) {
+    this.renderTitle = false
     if (caseId) {
       initCaseField(this.case)
       this.testResult = {}
@@ -34,6 +35,7 @@ export class CaseModelComponent implements OnInit {
       })
     }
   }
+  renderTitle = true
   group = ''
   project = ''
   caseRoute = ''
