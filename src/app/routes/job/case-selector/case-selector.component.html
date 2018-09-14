@@ -32,6 +32,7 @@
           <span>{{'item-item'|translate}}</span>
         </span>
       </ng-template>
+      <div *ngIf="items.length<=0">{{'tips-no-data'|translate}}</div>
     </ng-template>
   </div>
   <div nz-col nzSpan="10">
@@ -52,7 +53,10 @@
       </ng-template>
     </nz-list>
     <ng-template #nzAddedHeader>
-      {{'tips-items-added-to-job'|translate}}
+      <div>
+        <span>{{'tips-items-added-to-job'|translate}}</span>
+        <nz-badge [nzShowZero]="true" [nzCount]="addedItems.length" [nzStyle]="{backgroundColor:'#52c41a','margin-left':'5px'}"></nz-badge>
+      </div>
     </ng-template>
   </div>
   <!-- case draw -->
