@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 import { ITerminalOptions, ITheme, Terminal } from 'xterm'
 import { fit } from 'xterm/lib/addons/fit/fit'
+import { webLinksInit } from 'xterm/lib/addons/webLinks/webLinks'
 
 import { ActorEvent, APICODE } from '../../../model/api.model'
 import { JobExecDesc } from '../../../model/es.model'
@@ -43,18 +44,12 @@ export class ConsoleReportComponent implements AfterViewInit {
     disableStdin: true,
   }
   xterm = new Terminal(this.option)
-  style = {
-    'width': `${window.innerWidth}px`,
-    'height': '360px'
-  }
+  style = {}
   @Input() log: Subject<ActorEvent<JobExecDesc>>
 
   @HostListener('window:resize')
   resize() {
-    this.style = {
-      'width': `${window.innerWidth}px`,
-      'height': '360px'
-    }
+    this.initStyle()
     fit(this.xterm)
   }
 
@@ -64,12 +59,25 @@ export class ConsoleReportComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private location: Location,
     private el: ElementRef<HTMLDivElement>,
-  ) { }
+  ) {
+    this.initStyle()
+  }
+
+  initStyle() {
+    this.style = {
+      'position': 'relative',
+      'width': `${window.innerWidth}px`,
+      'height': '360px',
+      'top': '0px',
+      'left': '0px'
+    }
+  }
 
   ngAfterViewInit(): void {
     const xtermEl = this.el.nativeElement.getElementsByClassName('xterm')[0] as HTMLElement
     this.xterm.open(xtermEl)
     fit(this.xterm)
+    webLinksInit(this.xterm)
     if (this.log) {
       this.log.subscribe(event => {
         console.log(event)
