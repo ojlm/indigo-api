@@ -1,22 +1,54 @@
 import { Location } from '@angular/common'
-import { AfterViewInit, Component, ElementRef, HostListener } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, HostListener, Input } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NzMessageService } from 'ng-zorro-antd'
-import { ITheme, Terminal } from 'xterm'
+import { Subject } from 'rxjs'
+import { ITerminalOptions, ITheme, Terminal } from 'xterm'
 import { fit } from 'xterm/lib/addons/fit/fit'
+
+import { ActorEvent, APICODE } from '../../../model/api.model'
+import { JobExecDesc } from '../../../model/es.model'
 
 @Component({
   selector: 'app-console-report',
   templateUrl: './console-report.component.html',
+  styles: [`
+    .tool-icon {
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 5px;
+      font-size: larger;
+      color: wheat;
+      z-index: 4;
+    }
+    .tool-icon:hover {
+      font-size: large;
+    }
+  `]
 })
 export class ConsoleReportComponent implements AfterViewInit {
 
-  xterm = new Terminal()
-  theme: ITheme = { foreground: 'white', background: '#000000a9', cursor: 'wheat' }
+  theme: ITheme = {
+    foreground: 'white',
+    background: '#000000a9',
+    cursor: 'wheat',
+  }
+  option: ITerminalOptions = {
+    theme: this.theme,
+    allowTransparency: true,
+    cursorBlink: true,
+    cursorStyle: 'block',
+    fontFamily: 'monospace',
+    disableStdin: true,
+  }
+  xterm = new Terminal(this.option)
   style = {
     'width': `${window.innerWidth}px`,
     'height': '360px'
   }
+  @Input() log: Subject<ActorEvent<JobExecDesc>>
+
   @HostListener('window:resize')
   resize() {
     this.style = {
@@ -36,13 +68,31 @@ export class ConsoleReportComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const xtermEl = this.el.nativeElement.getElementsByClassName('xterm')[0] as HTMLElement
-    this.xterm.setOption('allowTransparency', true)
-    this.xterm.setOption('cursorStyle', 'block')
-    this.xterm.setOption('theme', this.theme)
     this.xterm.open(xtermEl)
     fit(this.xterm)
-    setInterval(() => {
-      this.xterm.writeln('🤔 : ' + new Date())
-    }, 2000)
+    if (this.log) {
+      this.log.subscribe(event => {
+        console.log(event)
+        if (APICODE.OK === event.code) {
+          this.printlnOkMsg(event.msg)
+        } else {
+          this.printlnErrMsg(event.msg)
+        }
+      })
+    } else {
+      this.xterm.writeln(`🤔 : no log subject injected`)
+    }
+  }
+
+  clear() {
+    this.xterm.clear()
+  }
+
+  printlnOkMsg(msg: string) {
+    this.xterm.writeln(`${msg}`)
+  }
+
+  printlnErrMsg(msg: string) {
+    this.xterm.writeln(`💩 ${msg}`)
   }
 }
