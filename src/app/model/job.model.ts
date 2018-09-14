@@ -1,10 +1,10 @@
 import { Job } from './es.model'
 
 export interface JobMeta {
-  name?: string
   group?: string
   project?: string
-  desc?: string
+  summary?: string
+  description?: string
   scheduler?: string
   classAlias?: string
 }

@@ -130,6 +130,7 @@
   "btn-save-as": "另存为",
   "btn-reset": "重置",
   "btn-history": "历史",
+  "btn-progress": "进度",
   "item-path-variable": "路径变量",
   "item-params": "Params",
   "item-headers": "Headers",

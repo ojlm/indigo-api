@@ -7,7 +7,7 @@ import { Subject } from 'rxjs'
 
 import { CaseService } from '../../../api/service/case.service'
 import { JobService } from '../../../api/service/job.service'
-import { ActorEvent, APICODE } from '../../../model/api.model'
+import { ActorEvent } from '../../../model/api.model'
 import { JobExecDesc } from '../../../model/es.model'
 import { JobMeta, JobTestMessage } from '../../../model/job.model'
 import { PageSingleModel } from '../../../model/page.model'
@@ -34,7 +34,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   project: string
   submitting = false
   jobMeta: JobMeta = {}
-  jobCaseIds = []
+  jobCaseIds: string[] = []
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
   consoleDrawVisible = false
@@ -61,7 +61,11 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
     this.testWs.onopen = (event) => {
       const testMessage: JobTestMessage = {
         jobMeta: {},
-        jobData: {}
+        jobData: {
+          cs: this.jobCaseIds.map(id => {
+            return { id: id }
+          })
+        }
       }
       this.testWs.send(JSON.stringify(testMessage))
     }
@@ -69,11 +73,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
       if (event.data) {
         try {
           const res = JSON.parse(event.data) as ActorEvent<JobExecDesc>
-          if (APICODE.OK === res.code) {
-            this.logSubject.next(res)
-          } else {
-            this.msgService.error(res.msg)
-          }
+          this.logSubject.next(res)
         } catch (error) {
           this.msgService.error(error)
           this.testWs.close()
@@ -83,10 +83,11 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   }
 
   submit() {
-    // this.submitting = true
-    // this.jobService.index({}).subscribe(res => {
-    //   this.submitting = false
-    // }, err => this.submitting = false)
+    this.submitting = true
+    // TODO
+    this.jobService.index({}).subscribe(res => {
+      this.submitting = false
+    }, err => this.submitting = false)
   }
 
   goBack() {

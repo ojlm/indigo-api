@@ -6,7 +6,7 @@
   <nz-card [nzBordered]="false" [nzBodyStyle]="card1BodyStyle">
     <div>
       <nz-input-group [nzAddOnBefore]="summaryTpl">
-        <input nz-input [placeholder]="'field-summary'|translate" [(ngModel)]="jobMeta.name">
+        <input nz-input [placeholder]="'field-summary'|translate" [(ngModel)]="jobMeta.summary">
       </nz-input-group>
       <ng-template #summaryTpl>
         <label>
@@ -18,7 +18,7 @@
     <div style="margin-top:7px;">
       <nz-input-group [nzAddOnBefore]="descTpl">
         <textarea nz-input [nzAutosize]="{minRows:2, maxRows:4}" [placeholder]="'field-description'|translate"
-          [(ngModel)]="jobMeta.desc"></textarea>
+          [(ngModel)]="jobMeta.description"></textarea>
       </nz-input-group>
       <ng-template #descTpl>
         <label>
@@ -37,18 +37,19 @@
     <app-case-selector [(data)]="jobCaseIds"></app-case-selector>
   </nz-card>
   <div style="margin-top:7px;">
-    <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="test()">
+    <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="test()">
       <span>
         <i class="anticon anticon-scan"></i>
         <span>{{'btn-test'|translate}}</span>
       </span>
     </button>
     <button nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-commit'|translate}}</button>
+    <button nz-button nzType="default" (click)="consoleDrawVisible=!consoleDrawVisible">{{'btn-progress'|translate}}</button>
     <button nz-button nzType="default" (click)="goBack()">{{'btn-back'|translate}}</button>
   </div>
 </div>
 <!-- console draw -->
-<nz-drawer [nzMask]="true" [nzPlacement]="top" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
+<nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
   [nzVisible]="consoleDrawVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="consoleDrawVisible=false">
-  <app-console-report></app-console-report>
+  <app-console-report [log]="logSubject"></app-console-report>
 </nz-drawer>
