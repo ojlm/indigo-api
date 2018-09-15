@@ -75,7 +75,7 @@ const routes: Routes = [
   },
   {
     path: 'case/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: ':id', loadChildren: './case/case.module#CaseModule' }
+      { path: ':caseId', loadChildren: './case/case.module#CaseModule' }
     ]
   },
   {
@@ -102,7 +102,7 @@ const routes: Routes = [
   {
     path: 'job/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectJobsComponent, data: { titleI18n: 'title-job-list' } },
-      { path: ':id', loadChildren: './job/job.module#JobModule' }
+      { path: ':jobId', loadChildren: './job/job.module#JobModule' }
     ]
   },
   {

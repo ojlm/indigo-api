@@ -265,7 +265,7 @@ export class CaseModelComponent implements OnInit {
       this.project = params['project']
     })
     this.route.parent.params.subscribe(params => {
-      const caseId = params['id']
+      const caseId = params['caseId']
       if (caseId) { // edit
         initCaseField(this.case)
         this.caseService.getById(caseId).subscribe(res => {
