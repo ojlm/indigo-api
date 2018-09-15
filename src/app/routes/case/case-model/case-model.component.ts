@@ -183,7 +183,7 @@ export class CaseModelComponent implements OnInit {
         }
       }
     } else {
-      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidSummary))
+      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorEmptySummary))
     }
   }
 
@@ -198,7 +198,7 @@ export class CaseModelComponent implements OnInit {
         })
       }
     } else {
-      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidSummary))
+      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorEmptySummary))
     }
   }
 

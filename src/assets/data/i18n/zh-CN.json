@@ -147,8 +147,11 @@
   "item-total": "共",
   "item-item": "项",
   "error-empty-summary": "名称不能为空",
+  "error-empty-group": "分组不能为空",
+  "error-empty-project": "项目不能为空",
   "error-invalid-url": "无效的URL地址",
   "error-invalid-assert": "无效的断言格式",
-  "error-invalid-summary": "名称不能为空",
-  "error-ws-onerror": "WebSocket 链接错误, 检查 Console 查看详细信息"
+  "error-empty-case-scenario-count": "用例和场景个数不能为零",
+  "error-ws-onerror": "WebSocket 链接错误, 检查 Console 查看详细信息",
+  "msg-success": "操作成功"
 }

@@ -1,5 +1,10 @@
 export const I18nKey = {
   ErrorInvalidUrl: 'error-invalid-url',
   ErrorInvalidAssert: 'error-invalid-assert',
-  ErrorInvalidSummary: 'error-invalid-summary',
+  ErrorEmptySummary: 'error-empty-summary',
+  ErrorWsOnError: 'error-ws-onerror',
+  ErrorEmptyGroup: 'error-empty-group',
+  ErrorEmptyProject: 'error-empty-project',
+  ErrorEmptyCaseScenarioCount: 'error-empty-case-scenario-count',
+  MsgSuccess: 'msg-success',
 }
