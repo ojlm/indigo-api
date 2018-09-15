@@ -42,7 +42,7 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
   @Input()
   set data(ids: string[]) {
     if (ids.length > 0 && this.addedItems.length === 0) {
-      this.caseService.query({ ids: this.data }).subscribe(res => {
+      this.caseService.query({ ids: ids }).subscribe(res => {
         this.addedItems = res.data.list
         this.addedItems.forEach(item => this.addedItemsMap[item._id] = true)
       })
