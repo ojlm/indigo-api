@@ -7,8 +7,8 @@ import { ITerminalOptions, ITheme, Terminal } from 'xterm'
 import { fit } from 'xterm/lib/addons/fit/fit'
 import { webLinksInit } from 'xterm/lib/addons/webLinks/webLinks'
 
-import { ActorEvent, APICODE } from '../../../model/api.model'
-import { JobExecDesc } from '../../../model/es.model'
+import { ActorEvent, APICODE } from '../../model/api.model'
+import { JobExecDesc } from '../../model/es.model'
 
 @Component({
   selector: 'app-console-report',

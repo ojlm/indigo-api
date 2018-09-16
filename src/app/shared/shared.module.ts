@@ -7,6 +7,7 @@ import { DelonACLModule } from '@delon/acl'
 import { DelonFormModule } from '@delon/form'
 import { AlainThemeModule } from '@delon/theme'
 import { TranslateModule } from '@ngx-translate/core'
+import { ConsoleReportComponent } from '@shared/console-report/console-report.component'
 import { KeyValueComponent } from '@shared/key-value/key-value.component'
 import { ProjectBreadcrumbComponent } from '@shared/project-breadcrumb/project-breadcrumb.component'
 import { NgZorroAntdModule } from 'ng-zorro-antd'
@@ -26,6 +27,7 @@ const THIRDMODULES = [
 const COMPONENTS = [
   ProjectBreadcrumbComponent,
   KeyValueComponent,
+  ConsoleReportComponent,
 ]
 const DIRECTIVES = []
 // endregion
