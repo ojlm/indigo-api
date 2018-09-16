@@ -21,6 +21,9 @@ export const API_CASE_UPDATE = API_CASE + '/update'
 export const API_CASE_QUERY = API_CASE + '/query'
 export const API_CASE_TEST = API_CASE + '/test'
 
+export const API_SCENARIO = BASE_URL + '/scenario'
+export const API_SCENARIO_QUERY = API_SCENARIO + '/query'
+
 export const API_ENV = BASE_URL + '/env'
 export const API_ENV_QUERY = API_ENV + '/query'
 
@@ -30,5 +33,6 @@ export const API_JOB = BASE_URL + '/job'
 export const API_JOB_QUERY = API_JOB + '/query'
 export const API_JOB_CRON = API_JOB + '/cron'
 
+export const API_WS_SCENARIO_TEST = '/api/ws/scenario/test'
 export const API_WS_JOB_TEST = '/api/ws/job/test'
 export const API_WS_JOB_MANUAL = '/api/ws/job/manual'

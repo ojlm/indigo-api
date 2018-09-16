@@ -26,6 +26,7 @@ import { ProjectEnvModelComponent } from './project/project-env-model/project-en
 import { ProjectEnvsComponent } from './project/project-envs/project-envs.component'
 import { ProjectJobsComponent } from './project/project-jobs/project-jobs.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
+import { ProjectScenariosComponent } from './project/project-scenarios/project-scenarios.component'
 
 const routes: Routes = [
   {
@@ -108,6 +109,17 @@ const routes: Routes = [
   {
     path: 'jobs/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: 'new', loadChildren: './job/job.module#JobModule' }
+    ]
+  },
+  {
+    path: 'scenario/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectScenariosComponent, data: { titleI18n: 'title-scenario-list' } },
+      { path: ':scenarioId', loadChildren: './scenario/scenario.module#ScenarioModule' }
+    ]
+  },
+  {
+    path: 'scenarios/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: 'new', loadChildren: './scenario/scenario.module#ScenarioModule' }
     ]
   },
   {

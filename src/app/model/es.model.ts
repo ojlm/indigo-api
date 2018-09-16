@@ -1,4 +1,4 @@
-import { JobData } from './job.model'
+import { DocRef, JobData } from './job.model'
 
 interface BaseDoc {
   _id?: string
@@ -46,7 +46,6 @@ export interface Api extends BaseDoc {
 }
 
 export interface Case extends BaseDoc {
-  creator?: string
   project?: string
   group?: string
   request?: CaseRequest
@@ -56,6 +55,13 @@ export interface Case extends BaseDoc {
   labels?: LabelRef[]
   namespace?: string
   useProxy?: boolean
+}
+
+export interface Scenario extends BaseDoc {
+  group?: string
+  project?: string
+  cases?: DocRef[]
+  labels?: LabelRef[]
 }
 
 export interface KeyValueObject {
