@@ -1,6 +1,12 @@
 <div>
   <div class="content__title">
     <h1 style="padding-left: 10px;">{{'content-title-job'|translate}}</h1>
+    <span>
+      <span [style.color]="'lightseagreen'">{{jobMeta.summary}}</span>
+      <span *ngIf="jobId">
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/job', jobMeta.group, jobMeta.project, jobId]">({{jobId}})</a>
+      </span>
+    </span>
   </div>
   <!-- basic info -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card1BodyStyle">
@@ -30,7 +36,7 @@
   </nz-card>
   <!-- trigger -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
-    Trigger TODO
+    <app-job-trigger [(data)]="triggerMeta"></app-job-trigger>
   </nz-card>
   <!-- job data -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
@@ -43,7 +49,9 @@
         <span>{{'btn-test'|translate}}</span>
       </span>
     </button>
-    <button nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-commit'|translate}}</button>
+    <button *ngIf="!jobId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-new'|translate}}</button>
+    <button *ngIf="jobId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-update'|translate}}</button>
+    <button *ngIf="!jobId" nz-button nzType="default" (click)="reset()">{{'btn-reset'|translate}}</button>
     <button nz-button nzType="default" (click)="consoleDrawVisible=!consoleDrawVisible">{{'btn-progress'|translate}}</button>
     <button nz-button nzType="default" (click)="goBack()">{{'btn-back'|translate}}</button>
   </div>

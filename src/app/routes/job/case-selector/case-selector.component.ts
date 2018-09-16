@@ -46,6 +46,9 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
         this.addedItems = res.data.list
         this.addedItems.forEach(item => this.addedItemsMap[item._id] = true)
       })
+    } else if (ids.length === 0 && this.addedItems.length !== 0) {
+      this.addedItems = []
+      this.addedItemsMap = {}
     }
   }
   get data() {
