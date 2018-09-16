@@ -1,5 +1,6 @@
 import { registerLocaleData } from '@angular/common'
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http'
+import zh from '@angular/common/locales/zh'
 import localeZhHans from '@angular/common/locales/zh-Hans'
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
@@ -23,6 +24,7 @@ import { RoutesModule } from './routes/routes.module'
 
 // angular i18n
 registerLocaleData(localeZhHans)
+registerLocaleData(zh)
 // i18n
 // 加载i18n语言文件
 export function I18nHttpLoaderFactory(http: HttpClient) {

@@ -1,0 +1,77 @@
+<div (mouseleave)="mouseleave()">
+  <nz-tabset [nzTabPosition]="'top'" [nzType]="'line'" [nzSize]="'small'" [nzTabBarStyle]="tabBarStyle"
+    [(nzSelectedIndex)]="tabIndex" (nzSelectedIndexChange)="tabChange()">
+    <nz-tab [nzTitle]="'title-manual'|translate">
+      <nz-alert nzType="info" [nzMessage]="'msg-trigger-manual'|translate" nzShowIcon></nz-alert>
+    </nz-tab>
+    <nz-tab [nzTitle]="'title-simple'|translate">
+      <div style="padding-left:10px;">
+        <div nz-row>
+          <div nz-col [nzSpan]="2">
+            <span>{{'content-start-time'|translate}}</span>
+          </div>
+          <div nz-col [nzSpan]="4">
+            <label nz-checkbox [(ngModel)]="trigger.startNow" (ngModelChange)="isStartNow($event)">
+              <span>{{'content-start-now'|translate}}</span>
+            </label>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <nz-date-picker style="width:80%;" [nzStyle]="{'width':'100%'}" [(ngModel)]="startDate" nzShowTime [nzSize]="'small'"
+              [nzFormat]="'YYYY-MM-DD HH:mm:ss'" nzAllowClear (ngModelChange)="startDateChange($event)">
+            </nz-date-picker>
+          </div>
+          <div nz-col [nzSpan]="2">
+            <span>{{'content-end-time'|translate}}</span>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <nz-date-picker style="width:80%;" [nzStyle]="{'width':'100%'}" [(ngModel)]="endDate" nzShowTime [nzFormat]="'YYYY-MM-DD HH:mm:ss'"
+              [nzSize]="'small'" nzAllowClear (ngModelChange)="endDateChange($event)">
+            </nz-date-picker>
+          </div>
+        </div>
+        <div nz-row style="margin-top:1px;">
+          <div nz-col [nzSpan]="2">
+            <span>{{'content-repeat-count'|translate}}</span>
+          </div>
+          <div nz-col [nzSpan]="4">
+            <label nz-checkbox [(ngModel)]="repeatForever" (ngModelChange)="isRepeatForever($event)">
+              <span>{{'content-repeat-forever'|translate}}</span>
+            </label>
+          </div>
+          <div nz-col [nzSpan]="2">
+            <nz-input-number [nzSize]="'small'" style="width:100%;" [nzMin]="0" [nzStep]="1" [(ngModel)]="trigger.repeatCount"
+              (ngModelChange)="repeatForever=false">
+            </nz-input-number>
+          </div>
+        </div>
+        <div nz-row>
+          <div nz-col [nzSpan]="2">
+            <span>{{'content-repeat-interval'|translate}}</span>
+          </div>
+          <div nz-col [nzSpan]="4">
+            <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1" [(ngModel)]="trigger.interval"></nz-input-number>
+            <span>{{'content-seconds'|translate}}</span>
+          </div>
+        </div>
+      </div>
+    </nz-tab>
+    <nz-tab [nzTitle]="'title-cron'|translate">
+      <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+        <input type="text" nz-input placeholder="cron expression" [(ngModel)]="trigger.cron" (ngModelChange)="cronInputChange()">
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" (click)="checkCron()"><i class="anticon anticon-schedule"></i></button>
+      </ng-template>
+      <nz-alert *ngIf="cronErrorMsg" style="padding-top:5px;" nzType="error" [nzMessage]="cronErrorMsg" nzShowIcon></nz-alert>
+      <nz-alert *ngIf="cronDates.length>0" style="padding-top:5px;" nzType="info" [nzMessage]="nzMessage" nzShowIcon></nz-alert>
+      <ng-template #nzMessage>
+        <div *ngFor="let item of cronDates">
+          {{item}}
+        </div>
+      </ng-template>
+    </nz-tab>
+    <nz-tab [nzTitle]="'title-api'|translate">
+      <nz-alert nzType="info" [nzMessage]="'contact the maintainer'" nzShowIcon></nz-alert>
+    </nz-tab>
+  </nz-tabset>
+</div>

@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@angular/core'
+import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
@@ -7,11 +8,12 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { Job } from '../../model/es.model'
+import { IndexDocResponse, Job } from '../../model/es.model'
 import { JobData, JobMeta, TriggerMeta } from '../../model/job.model'
 import { newWS } from '../../util/ws'
-import { API_JOB, API_JOB_QUERY, API_WS_JOB_TEST } from '../path'
+import { API_JOB, API_JOB_CRON, API_JOB_QUERY, API_WS_JOB_TEST } from '../path'
 import { BaseService } from './base.service'
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +27,16 @@ export class JobService extends BaseService {
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
   ) { super() }
 
+  checkCron(cron: String) {
+    return this.http.post(API_JOB_CRON, cron) as Observable<ApiRes<string[]>>
+  }
+
   index(job: NewJob) {
-    return this.http.put(API_JOB) as Observable<ApiRes<string>>
+    return this.http.put(API_JOB, job) as Observable<ApiRes<IndexDocResponse>>
+  }
+
+  update(id: string, job: NewJob) {
+    return this.http.post(API_JOB, { id, ...job })
   }
 
   query(query: QueryJob) {
@@ -51,7 +61,7 @@ export class JobService extends BaseService {
     const ws = newWS(`${API_WS_JOB_TEST}?token=${this.tokenService.get()['token']}`)
     ws.onerror = (event) => {
       console.error(event)
-      this.msgService.warning(this.i18nService.fanyi('error-ws-onerror'))
+      this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorWsOnError))
     }
     return ws
   }

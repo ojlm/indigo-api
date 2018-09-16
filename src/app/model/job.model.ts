@@ -10,16 +10,15 @@ export interface JobMeta {
 }
 
 export interface TriggerMeta {
-  name?: string
   group?: string
   project?: string
-  startNow?: boolean
-  startDate?: number | Date
-  endDate?: number | Date
-  repeatCount?: number
-  interval?: number
   cron?: string
   triggerType?: string
+  startNow?: boolean
+  startDate?: number
+  endDate?: number
+  repeatCount?: number
+  interval?: number
 }
 
 export interface DocRef {
@@ -45,11 +44,6 @@ export interface JobExecLog {
   startAt: string
   endAt: string
   status: number
-}
-
-export interface JobTestMessage {
-  jobMeta?: JobMeta
-  jobData?: JobData
 }
 
 export const TriggerType = {

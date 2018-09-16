@@ -158,12 +158,11 @@ export interface IndexResultData {
 
 
 export interface JobTrigger {
-  name?: string
+  project?: string
   group?: string
-  description?: string
   startNow?: boolean
-  startDate?: number | Date
-  endDate?: number | Date
+  startDate?: number
+  endDate?: number
   repeatCount?: number
   interval?: number
   cron?: string
@@ -176,7 +175,6 @@ export interface Job extends BaseDoc {
   group?: string
   project?: string
   scheduler?: string
-  state?: string
   jobData?: JobData
   trigger?: JobTrigger[]
 }
