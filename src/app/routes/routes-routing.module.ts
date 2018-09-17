@@ -92,7 +92,7 @@ const routes: Routes = [
   {
     path: 'env/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectEnvsComponent, data: { titleI18n: 'title-env-list' } },
-      { path: ':id', loadChildren: './case/case.module#CaseModule' }
+      { path: ':envId', component: ProjectEnvModelComponent, data: { titleI18n: 'title-env' } }
     ]
   },
   {

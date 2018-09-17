@@ -102,6 +102,7 @@
   "title-simple": "简单定时",
   "title-cron": "Cron定时",
   "title-api": "查看接口",
+  "title-env": "环境",
   "title-scenario-list": "场景列表",
   "content-title-env": "环境配置",
   "content-title-case-list": "用例列表",

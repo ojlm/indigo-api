@@ -1,6 +1,12 @@
 <div>
   <div class="content__title">
     <h1 style="padding-left: 10px;">{{'content-title-env'|translate}}</h1>
+    <span>
+      <span [style.color]="isSaved?'black':'lightseagreen'">{{form.get('summary').value}}</span>
+      <span *ngIf="envId">
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/env', group, project, envId]">({{envId}})</a>
+      </span>
+    </span>
   </div>
   <nz-card style="padding:20px;" [nzBordered]="false">
     <form nz-form [nzLayout]="'vertical'" [formGroup]="form" (ngSubmit)="submit()">
@@ -27,12 +33,13 @@
       <nz-form-item>
         <nz-form-label>{{'field-custom'|translate}}</nz-form-label>
         <nz-form-control>
-          <app-key-value [(data)]="env.custom" [hasCheckbox]="false"></app-key-value>
+          <app-key-value [(data)]="custom" [hasCheckbox]="false"></app-key-value>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
-          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
+          <button *ngIf="!envId" nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
+          <button *ngIf="envId" nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-update'|translate}}</button>
           <button nz-button type="button" class="ml-sm" (click)="goBack()">{{'btn-back'|translate}}</button>
         </nz-form-control>
       </nz-form-item>

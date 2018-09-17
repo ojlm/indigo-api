@@ -4,13 +4,16 @@
     <app-project-breadcrumb></app-project-breadcrumb>
   </div>
   <nz-card [nzBordered]="false">
-    <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
-      [nzLoading]="loading">
+    <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
+      [nzPagination]="pagination" [nzLoading]="loading">
       <ng-template #item let-item>
         <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
-          <nz-list-item-meta [nzTitle]="nzTitle">
+          <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
               <a [routerLink]="[getRouter(item)]">{{item.summary}}</a>
+            </ng-template>
+            <ng-template #nzDescription>
+              <span>{{item.description}}</span>
             </ng-template>
           </nz-list-item-meta>
           <ng-template #edit>
@@ -21,7 +24,15 @@
         </nz-list-item>
       </ng-template>
       <ng-template #pagination>
-        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()"></nz-pagination>
+        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
+          [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()"></nz-pagination>
+        <ng-template #totalTemplate let-total>
+          <span style="color:lightgray;">
+            <span>{{'item-total'|translate}}</span>
+            <span> {{total}} </span>
+            <span>{{'item-item'|translate}}</span>
+          </span>
+        </ng-template>
       </ng-template>
     </nz-list>
     <div *ngIf="loading===false&&items.length===0">{{'tips-no-data'|translate}}</div>

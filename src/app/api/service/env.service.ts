@@ -4,7 +4,7 @@ import { Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { Environment } from '../../model/es.model'
+import { Environment, UpdateDocResponse } from '../../model/es.model'
 import { API_ENV, API_ENV_QUERY } from '../path'
 import { BaseService } from './base.service'
 
@@ -20,11 +20,15 @@ export class EnvService extends BaseService {
   }
 
   index(env: Environment) {
-    return this.http.put(API_ENV, env)
+    return this.http.put(`${API_ENV}/${env.group}/${env.project}`, env)
   }
 
   getById(id: string) {
     return this.http.get<ApiRes<Environment>>(`${API_ENV}/${id}`)
+  }
+
+  update(id: string, env: Environment) {
+    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_ENV}/${env.group}/${env.project}/${id}`, env)
   }
 
   newQuerySubject(response: Subject<ApiRes<Environment[]>>) {
