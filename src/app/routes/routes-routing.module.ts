@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { JWTGuard } from '@delon/auth'
 import { environment } from '@env/environment'
+import { EnvModelComponent } from '@shared/env-model/env-model.component'
 
 import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component'
 import { LayoutGroupComponent } from '../layout/indigo/layout-group/layout-group.component'
@@ -22,7 +23,6 @@ import { UserRegisterComponent } from './passport/register/register.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
-import { ProjectEnvModelComponent } from './project/project-env-model/project-env-model.component'
 import { ProjectEnvsComponent } from './project/project-envs/project-envs.component'
 import { ProjectJobsComponent } from './project/project-jobs/project-jobs.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
@@ -92,12 +92,12 @@ const routes: Routes = [
   {
     path: 'env/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectEnvsComponent, data: { titleI18n: 'title-env-list' } },
-      { path: ':envId', component: ProjectEnvModelComponent, data: { titleI18n: 'title-env' } }
+      { path: ':envId', component: EnvModelComponent, data: { titleI18n: 'title-env' } }
     ]
   },
   {
     path: 'envs/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: 'new', component: ProjectEnvModelComponent, data: { titleI18n: 'title-env-new' } }
+      { path: 'new', component: EnvModelComponent, data: { titleI18n: 'title-env-new' } }
     ]
   },
   {

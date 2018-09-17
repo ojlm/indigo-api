@@ -15,7 +15,6 @@ import { UserRegisterComponent } from './passport/register/register.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
-import { ProjectEnvModelComponent } from './project/project-env-model/project-env-model.component'
 import { ProjectEnvsComponent } from './project/project-envs/project-envs.component'
 import { ProjectJobsComponent } from './project/project-jobs/project-jobs.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
@@ -43,7 +42,6 @@ const COMPONENTS = [
   ProjectApiNewComponent,
   ProjectCasesComponent,
   ProjectEnvsComponent,
-  ProjectEnvModelComponent,
   ProjectJobsComponent,
   ProjectScenariosComponent,
 ]

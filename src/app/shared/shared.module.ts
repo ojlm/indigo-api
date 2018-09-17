@@ -8,6 +8,7 @@ import { DelonFormModule } from '@delon/form'
 import { AlainThemeModule } from '@delon/theme'
 import { TranslateModule } from '@ngx-translate/core'
 import { ConsoleReportComponent } from '@shared/console-report/console-report.component'
+import { EnvModelComponent } from '@shared/env-model/env-model.component'
 import { KeyValueComponent } from '@shared/key-value/key-value.component'
 import { ProjectBreadcrumbComponent } from '@shared/project-breadcrumb/project-breadcrumb.component'
 import { NgZorroAntdModule } from 'ng-zorro-antd'
@@ -28,6 +29,7 @@ const COMPONENTS = [
   ProjectBreadcrumbComponent,
   KeyValueComponent,
   ConsoleReportComponent,
+  EnvModelComponent,
 ]
 const DIRECTIVES = []
 // endregion
