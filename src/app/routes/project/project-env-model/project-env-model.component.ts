@@ -52,10 +52,20 @@ export class ProjectEnvModelComponent implements OnInit {
       }, err => this.submitting = false)
     } else {
       this.envService.index(env).subscribe(res => {
+        this.envId = res.data.id
         this.submitting = false
         this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
       }, err => this.submitting = false)
     }
+  }
+
+  reset() {
+    this.form = this.fb.group({
+      summary: [null, [Validators.required]],
+      description: [null, []],
+      namespace: [null, []],
+    })
+    this.custom = []
   }
 
   goBack() {

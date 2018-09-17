@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
-import { Subject } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { Environment, UpdateDocResponse } from '../../model/es.model'
+import { Environment, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
 import { API_ENV, API_ENV_QUERY } from '../path'
 import { BaseService } from './base.service'
 
@@ -20,7 +20,7 @@ export class EnvService extends BaseService {
   }
 
   index(env: Environment) {
-    return this.http.put(`${API_ENV}/${env.group}/${env.project}`, env)
+    return this.http.put(`${API_ENV}/${env.group}/${env.project}`, env) as Observable<ApiRes<IndexDocResponse>>
   }
 
   getById(id: string) {

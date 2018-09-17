@@ -152,9 +152,6 @@ export interface Authorization {
 export interface Environment extends BaseDoc {
   group?: string
   project?: string
-  protocol?: string
-  host?: string
-  port?: number
   auth?: Authorization
   namespace?: string
   custom?: KeyValueObject[]
