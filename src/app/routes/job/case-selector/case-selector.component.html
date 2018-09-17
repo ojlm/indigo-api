@@ -60,7 +60,7 @@
     </ng-template>
   </div>
   <!-- case draw -->
-  <nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="840" [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
+  <nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
     <app-case-model [id]="editCaseId"></app-case-model>
   </nz-drawer>
 </div>

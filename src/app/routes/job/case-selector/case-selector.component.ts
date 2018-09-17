@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
@@ -8,6 +8,7 @@ import { CaseService, QueryCase } from '../../../api/service/case.service'
 import { ApiRes } from '../../../model/api.model'
 import { Case } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
+import { calcDrawerWidth } from '../../../util/drawer'
 
 @Component({
   selector: 'app-case-selector',
@@ -28,6 +29,7 @@ import { PageSingleModel } from '../../../model/page.model'
 })
 export class CaseSelectorComponent extends PageSingleModel implements OnInit {
 
+  drawerWidth = calcDrawerWidth()
   pageSize = 10
   group: string
   project: string
@@ -55,6 +57,10 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
     return this.addedItems.map(item => item._id)
   }
   @Output() dataChange = new EventEmitter<string[]>()
+  @HostListener('window:resize')
+  resize() {
+    this.drawerWidth = calcDrawerWidth()
+  }
 
   constructor(
     private caseService: CaseService,
