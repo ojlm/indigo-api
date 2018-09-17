@@ -67,7 +67,7 @@ export class ConsoleReportComponent implements AfterViewInit {
     this.style = {
       'position': 'relative',
       'width': `${window.innerWidth}px`,
-      'height': '360px',
+      'height': `${Math.round(window.innerHeight * 0.4)}px`,
       'top': '0px',
       'left': '0px'
     }
