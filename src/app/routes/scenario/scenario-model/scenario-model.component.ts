@@ -121,6 +121,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
         this.scenarioId = scenarioId
         this.scenarioService.getById(scenarioId).subscribe(res => {
           this.scenario = res.data
+          if (!this.scenario.steps) { this.scenario.steps = [] }
         })
       }
     })
