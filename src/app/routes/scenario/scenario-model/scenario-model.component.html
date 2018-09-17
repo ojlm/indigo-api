@@ -1,8 +1,9 @@
 <div>
   <div class="content__title">
     <h1 style="padding-left: 10px;">{{'content-title-scenario'|translate}}</h1>
-    <span *ngIf="scenarioId">
-      <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/scenario', scenario.group, scenario.project, scenarioId]">({{scenarioId}})</a>
+    <span>
+      <span [style.color]="'lightseagreen'">{{scenario.summary}}</span>
+      <a *ngIf="scenarioId" style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/scenario', scenario.group, scenario.project, scenarioId]">({{scenarioId}})</a>
     </span>
   </div>
   <!-- basic info -->
@@ -30,6 +31,9 @@
         </label>
       </ng-template>
     </div>
+  </nz-card>
+  <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
+    <app-steps-selector [(data)]="scenario.steps"></app-steps-selector>
   </nz-card>
   <div style="margin-top:7px;">
     <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="test()">

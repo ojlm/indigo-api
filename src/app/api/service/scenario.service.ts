@@ -66,3 +66,7 @@ export interface QueryScenario extends QueryPage {
   project?: string
   text?: string
 }
+
+export const ScenarioStepType = {
+  CASE: 'case'
+}

@@ -6,9 +6,11 @@ import { MonacoEditorModule } from 'ngx-monaco-editor'
 import { CaseModule } from '../case/case.module'
 import { ScenarioModelComponent } from './scenario-model/scenario-model.component'
 import { ScenarioRoutingModule } from './scenario-routing.module'
+import { StepsSelectorComponent } from './steps-selector/steps-selector.component'
 
 const COMPONENT = [
-  ScenarioModelComponent
+  ScenarioModelComponent,
+  StepsSelectorComponent,
 ]
 
 const COMPONENT_NOROUNT = []

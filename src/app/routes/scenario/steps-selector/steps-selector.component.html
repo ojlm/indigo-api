@@ -1,0 +1,65 @@
+<div nz-row nzType="flex" nzJustify="start" [nzGutter]="3">
+  <div nz-col nzSpan="10" style="border:1px solid lightgray;border-radius:5px;">
+    <nz-divider style="margin-top:5px;" [nzText]="nzText" nzOrientation="left">
+      <ng-template #nzText>
+        <span style="font-size:small;color:darkgray;">{{'field-steps'|translate}}</span>
+      </ng-template>
+    </nz-divider>
+    <nz-steps [nzCurrent]="stepCurrent" nzDirection="vertical" nzSize="small">
+      <nz-step class="step" style="margin-left:10px;margin-right:10px;" *ngFor="let item of addedItems" [nzTitle]="nzTitle"
+        [nzDescription]="nzDescription" (click)="viewCase(item)">
+        <ng-template #nzTitle>
+          <div class="step-title">
+            <a (click)="removeItem(item, i);$event.stopPropagation();"><i class="anticon anticon-close click-icon hover-red"></i></a>
+            <span style="padding-left:3px;color:darkgray;cursor:pointer;">{{item.summary}}</span>
+          </div>
+        </ng-template>
+        <ng-template #nzDescription>
+          <div style="padding-left:3px;">
+            <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
+            <span style="font-size:smaller;color:lightgray;">{{item.request.urlPath}}</span>
+          </div>
+        </ng-template>
+      </nz-step>
+    </nz-steps>
+  </div>
+  <div nz-col nzSpan="14">
+    <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzHeader]="nzHeader" [nzFooter]="nzFooter"
+      [nzRenderItem]="item">
+      <ng-template #item let-item>
+        <nz-list-item [nzContent]="nzContent" [nzActions]="[addAction]"></nz-list-item>
+        <ng-template #nzContent>
+          <div style="padding-left:3px;">
+            <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
+            <span>{{item.request.urlPath}}</span>
+            <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);" (click)="viewCase(item)">{{item.summary}}</a>
+          </div>
+        </ng-template>
+        <ng-template #addAction>
+          <a (click)="addItem(item)"><i class="anticon anticon-plus-circle-o  click-icon"></i></a>
+        </ng-template>
+      </ng-template>
+    </nz-list>
+    <ng-template #nzHeader>
+      <input nz-input [nzSize]="'small'" style="background-color:transparent;" [placeholder]="'tips-search'|translate"
+        [(ngModel)]="searchText" (ngModelChange)="search()">
+    </ng-template>
+    <ng-template #nzFooter>
+      <nz-pagination *ngIf="items.length>0" [nzSize]="'small'" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate"
+        [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="search()">
+      </nz-pagination>
+      <ng-template #totalTemplate let-total>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{total}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+      <div *ngIf="items.length<=0">{{'tips-no-data'|translate}}</div>
+    </ng-template>
+  </div>
+  <!-- case draw -->
+  <nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
+    <app-case-model [id]="editCaseId"></app-case-model>
+  </nz-drawer>
+</div>

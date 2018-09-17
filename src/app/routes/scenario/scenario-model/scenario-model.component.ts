@@ -23,12 +23,15 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     'padding': '12px',
     'background-color': 'aliceblue'
   }
+  card2BodyStyle = {
+    'padding': '12px',
+    'background-color': 'snow'
+  }
   group: string
   project: string
-  scenario: Scenario = {}
+  scenario: Scenario = { steps: [] }
   scenarioId: string
   submitting = false
-  caseIds: string[] = []
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
   consoleDrawVisible = false
@@ -93,10 +96,11 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   }
 
   validateAndBuild() {
+    if (!this.scenario.summary) {
+      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorEmptySummary))
+      return
+    }
     const scenario = { ...this.scenario }
-    scenario.cases = this.caseIds.map(id => {
-      return { id: id }
-    })
     return scenario
   }
 
