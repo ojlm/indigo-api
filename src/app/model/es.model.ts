@@ -1,4 +1,4 @@
-import { DocRef, JobData } from './job.model'
+import { JobData } from './job.model'
 
 interface BaseDoc {
   _id?: string
@@ -57,10 +57,16 @@ export interface Case extends BaseDoc {
   useProxy?: boolean
 }
 
+export interface ScenarioStep {
+  id?: string
+  type?: string
+  data?: any
+}
+
 export interface Scenario extends BaseDoc {
   group?: string
   project?: string
-  cases?: DocRef[]
+  steps?: ScenarioStep[]
   labels?: LabelRef[]
 }
 
