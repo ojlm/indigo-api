@@ -15,6 +15,8 @@ import { KeyValueComponent } from '@shared/key-value/key-value.component'
 import { ProjectBreadcrumbComponent } from '@shared/project-breadcrumb/project-breadcrumb.component'
 import { NgZorroAntdModule } from 'ng-zorro-antd'
 import { CountdownModule } from 'ngx-countdown'
+import { MarkdownModule } from 'ngx-markdown'
+import { MonacoEditorModule } from 'ngx-monaco-editor'
 
 // delon
 // i18n
@@ -45,6 +47,8 @@ const DIRECTIVES = []
     RouterModule,
     ReactiveFormsModule,
     AlainThemeModule.forChild(),
+    MarkdownModule.forChild(),
+    MonacoEditorModule,
     DelonABCModule,
     DelonACLModule,
     DelonFormModule,

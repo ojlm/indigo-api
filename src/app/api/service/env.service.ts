@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { Environment, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
+import { AuthorizeAndValidate, Environment, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
 import { API_ENV, API_ENV_QUERY } from '../path'
 import { BaseService } from './base.service'
 
@@ -14,6 +14,10 @@ import { BaseService } from './base.service'
 export class EnvService extends BaseService {
 
   constructor(private http: _HttpClient) { super() }
+
+  getAllAuth() {
+    return this.http.get<ApiRes<AuthorizeAndValidate[]>>(`${API_ENV}/auth/all`)
+  }
 
   query(query: QueryEnv) {
     return this.http.post<ApiRes<Environment[]>>(API_ENV_QUERY, query)
