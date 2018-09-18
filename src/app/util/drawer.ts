@@ -1,3 +1,3 @@
-export function calcDrawerWidth() {
-  return Math.round(window.innerWidth * 0.6)
+export function calcDrawerWidth(dot = 0.6) {
+  return Math.round(window.innerWidth * dot)
 }
