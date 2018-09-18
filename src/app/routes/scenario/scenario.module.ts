@@ -23,6 +23,7 @@ const COMPONENT_NOROUNT = []
     ScenarioRoutingModule,
     CaseModule
   ],
+  exports: [...COMPONENT],
   providers: [],
   declarations: [...COMPONENT, ...COMPONENT_NOROUNT],
   entryComponents: COMPONENT_NOROUNT,

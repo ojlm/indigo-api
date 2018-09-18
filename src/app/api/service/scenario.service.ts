@@ -65,6 +65,7 @@ export interface QueryScenario extends QueryPage {
   group?: string
   project?: string
   text?: string
+  ids?: string[]
 }
 
 export const ScenarioStepType = {

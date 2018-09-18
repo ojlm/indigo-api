@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
@@ -19,6 +19,7 @@ import { PageSingleModel } from '../../../model/page.model'
 })
 export class ScenarioModelComponent extends PageSingleModel implements OnInit {
 
+  fromSelector = false
   card1BodyStyle = {
     'padding': '12px',
     'background-color': 'aliceblue'
@@ -34,7 +35,15 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   submitting = false
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
-  consoleDrawVisible = false
+  scenarioDrawerVisible = false
+  @Input()
+  set id(id: string) {
+    if (id) {
+      this.fromSelector = true
+      this.scenarioId = id
+      this.loadDataById()
+    }
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -50,7 +59,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   }
 
   test() {
-    this.consoleDrawVisible = true
+    this.scenarioDrawerVisible = true
     if (this.testWs) {
       this.testWs.close()
       this.testWs = null
@@ -108,6 +117,15 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     this.location.back()
   }
 
+  loadDataById() {
+    if (this.scenarioId) {
+      this.scenarioService.getById(this.scenarioId).subscribe(res => {
+        this.scenario = res.data
+        if (!this.scenario.steps) { this.scenario.steps = [] }
+      })
+    }
+  }
+
   ngOnInit(): void {
     this.route.parent.parent.params.subscribe(params => {
       this.group = params['group']
@@ -119,10 +137,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
       const scenarioId = params['scenarioId']
       if (scenarioId) {
         this.scenarioId = scenarioId
-        this.scenarioService.getById(scenarioId).subscribe(res => {
-          this.scenario = res.data
-          if (!this.scenario.steps) { this.scenario.steps = [] }
-        })
+        this.loadDataById()
       }
     })
   }

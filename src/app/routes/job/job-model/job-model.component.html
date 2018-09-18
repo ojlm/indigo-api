@@ -40,7 +40,14 @@
   </nz-card>
   <!-- job data -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
-    <app-case-selector [(data)]="jobCaseIds"></app-case-selector>
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false" [nzSize]="'small'">
+      <nz-tab [nzTitle]="'field-case'|translate">
+        <app-case-selector [(data)]="jobCaseIds"></app-case-selector>
+      </nz-tab>
+      <nz-tab [nzTitle]="'field-scenario'|translate">
+        <app-scenario-selector [(data)]="jobScenarioIds"></app-scenario-selector>
+      </nz-tab>
+    </nz-tabset>
   </nz-card>
   <div style="margin-top:7px;">
     <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="test()">

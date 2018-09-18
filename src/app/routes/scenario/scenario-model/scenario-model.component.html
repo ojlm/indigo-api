@@ -1,5 +1,5 @@
 <div>
-  <div class="content__title">
+  <div *ngIf="!fromSelector" class="content__title">
     <h1 style="padding-left: 10px;">{{'content-title-scenario'|translate}}</h1>
     <span>
       <span [style.color]="'lightseagreen'">{{scenario.summary}}</span>
@@ -45,12 +45,12 @@
     <button *ngIf="!scenarioId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-new'|translate}}</button>
     <button *ngIf="scenarioId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-update'|translate}}</button>
     <button *ngIf="!scenarioId" nz-button nzType="default" (click)="reset()">{{'btn-reset'|translate}}</button>
-    <button nz-button nzType="default" (click)="consoleDrawVisible=!consoleDrawVisible">{{'btn-progress'|translate}}</button>
-    <button nz-button nzType="default" (click)="goBack()">{{'btn-back'|translate}}</button>
+    <button nz-button nzType="default" (click)="consoleDrawerVisible=!consoleDrawerVisible">{{'btn-progress'|translate}}</button>
+    <button *ngIf="!fromSelector" nz-button nzType="default" (click)="goBack()">{{'btn-back'|translate}}</button>
   </div>
 </div>
 <!-- console draw -->
 <nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
-  [nzVisible]="consoleDrawVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="consoleDrawVisible=false">
+  [nzVisible]="consoleDrawerVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="consoleDrawerVisible=false">
   <app-console-report [log]="logSubject"></app-console-report>
 </nz-drawer>
