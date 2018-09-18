@@ -7,11 +7,16 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { EnvService } from '../../api/service/env.service'
-import { Environment, KeyValueObject } from '../../model/es.model'
+import { Authorization, Environment, KeyValueObject } from '../../model/es.model'
 
 @Component({
   selector: 'app-env-model',
   templateUrl: './env-model.component.html',
+  styles: [`
+    .form-item {
+      margin-bottom:10px;
+    }
+  `]
 })
 export class EnvModelComponent implements OnInit {
 
@@ -21,6 +26,7 @@ export class EnvModelComponent implements OnInit {
   group: string
   project: string
   form: FormGroup
+  auth: Authorization[] = []
   custom: KeyValueObject[] = []
   submitting = false
 

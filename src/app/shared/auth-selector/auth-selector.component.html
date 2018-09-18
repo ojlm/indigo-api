@@ -1,0 +1,29 @@
+<div>
+  <div nz-row>
+    <div nz-col nzSpan="4" class="border" [ngStyle]="authStyle">
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-select style="width:100%;" nzShowSearch nzAllowClear nzPlaceHolder="No Auth" [(ngModel)]="currentAuth"
+            (ngModelChange)="authChange()">
+            <nz-option *ngFor="let item of supports" [nzLabel]="item.type" [nzValue]="item"></nz-option>
+          </nz-select>
+        </div>
+        <div nz-col nzSpan="24">
+          <button type="button" style="margin-top:6px;margin-bottom:3px;" nz-button nzType="dashed" [nzSize]="small"
+            (click)="add()">
+            <span>{{'btn-add'|translate}}</span>
+          </button>
+        </div>
+        <div nz-col nzSpan="24">
+          <nz-tag *ngFor="let item of auth;let i=index;" nzMode="closeable" [nzColor]="'#108ee9'" (nzOnClose)="closeTag(i)">{{item.type}}</nz-tag>
+        </div>
+      </div>
+    </div>
+    <div nz-col nzSpan="20" class="border" [ngStyle]="authStyle">
+      <div *ngIf="auth.length===0" style="color:lightgray;">No Auth</div>
+      <div *ngIf="auth.length>0">
+        // TODO
+      </div>
+    </div>
+  </div>
+</div>

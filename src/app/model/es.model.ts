@@ -144,6 +144,11 @@ export interface AuthorizationData {
   password?: string
 }
 
+export interface AuthorizeAndValidate {
+  type?: string
+  description?: string
+}
+
 export interface Authorization {
   type?: string
   data?: AuthorizationData

@@ -7,6 +7,7 @@ import { DelonACLModule } from '@delon/acl'
 import { DelonFormModule } from '@delon/form'
 import { AlainThemeModule } from '@delon/theme'
 import { TranslateModule } from '@ngx-translate/core'
+import { AuthSelectorComponent } from '@shared/auth-selector/auth-selector.component'
 import { ConsoleReportComponent } from '@shared/console-report/console-report.component'
 import { EnvModelComponent } from '@shared/env-model/env-model.component'
 import { EnvSelectorComponent } from '@shared/env-selector/env-selector.component'
@@ -32,6 +33,7 @@ const COMPONENTS = [
   ConsoleReportComponent,
   EnvModelComponent,
   EnvSelectorComponent,
+  AuthSelectorComponent,
 ]
 const DIRECTIVES = []
 // endregion
