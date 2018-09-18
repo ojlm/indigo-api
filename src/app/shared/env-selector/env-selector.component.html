@@ -1,0 +1,14 @@
+<nz-input-group style="width:180px;margin-left:12px;margin-right:16px;" nzSearch [nzSize]="'small'" [nzSuffix]="suffixIconButton">
+  <input nz-input type="text" style="color:darkgreen;padding-right:64px;" readonly [placeholder]="'tips-select-env'|translate"
+    [(ngModel)]="envName">
+</nz-input-group>
+<ng-template #suffixIconButton>
+  <nz-button-group>
+    <button nz-button [nzSize]="'small'" nzType="default" (click)="viewEnv()"><i class="anticon anticon-eye-o"></i></button>
+    <button nz-button [nzSize]="'small'" nzType="default" (click)="selectEnv()"><i class="anticon anticon-select"></i></button>
+  </nz-button-group>
+</ng-template>
+<nz-drawer [nzClosable]="false" [nzVisible]="envModelDrawerVisible" nzPlacement="right" [nzWidth]="drawerWidth"
+  [nzBodyStyle]="drawerBodyStyle" (nzOnClose)="envModelDrawerVisible=false">
+  <app-env-model [(data)]="env" (dataChange)="modelChange()" [(name)]="envName"></app-env-model>
+</nz-drawer>

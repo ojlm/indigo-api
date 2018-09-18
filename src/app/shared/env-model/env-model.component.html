@@ -1,5 +1,5 @@
 <div>
-  <div class="content__title">
+  <div *ngIf="!fromSelector" class="content__title">
     <h1 style="padding-left: 10px;">{{'content-title-env'|translate}}</h1>
     <span>
       <span [style.color]="isSaved?'black':'lightseagreen'">{{form.get('summary').value}}</span>
@@ -41,7 +41,8 @@
           <button *ngIf="!envId" nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
           <button *ngIf="envId" nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-update'|translate}}</button>
           <button *ngIf="!envId" nz-button nzType="default" (click)="reset()">{{'btn-reset'|translate}}</button>
-          <button nz-button type="button" class="ml-sm" (click)="goBack()">{{'btn-back'|translate}}</button>
+          <button *ngIf="!fromSelector" nz-button type="button" class="ml-sm" (click)="goBack()">{{'btn-back'|translate}}</button>
+          <button *ngIf="fromSelector&&envId" nz-button type="button" class="ml-sm" (click)="initByEnvId()">{{'btn-refresh'|translate}}</button>
         </nz-form-control>
       </nz-form-item>
     </form>

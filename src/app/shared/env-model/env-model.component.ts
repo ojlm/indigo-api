@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
@@ -15,12 +15,42 @@ import { Environment, KeyValueObject } from '../../model/es.model'
 })
 export class EnvModelComponent implements OnInit {
 
+  fromSelector = false
+  isIndexed = false
   envId: string
   group: string
   project: string
   form: FormGroup
   custom: KeyValueObject[] = []
   submitting = false
+
+  @Input()
+  set data(value: string) {
+    this.fromSelector = true
+    this.envId = value
+    if (!this.isIndexed) { // prevent perform new request after index
+      this.initByEnvId()
+    }
+    this.route.parent.parent.params.subscribe(params => {
+      if (!this.group && !this.project) {
+        this.group = params['group']
+        this.project = params['project']
+      }
+    })
+  }
+  get data() {
+    return this.envId
+  }
+  @Output()
+  dataChange = new EventEmitter<string>()
+  @Input()
+  set name(value: string) {
+  }
+  get name() {
+    return this.form.get('summary').value
+  }
+  @Output()
+  nameChange = new EventEmitter<string>()
 
   constructor(
     private fb: FormBuilder,
@@ -53,6 +83,11 @@ export class EnvModelComponent implements OnInit {
     } else {
       this.envService.index(env).subscribe(res => {
         this.envId = res.data.id
+        this.isIndexed = true
+        if (this.fromSelector) {
+          this.dataChange.emit(this.envId)
+          this.nameChange.emit(this.name)
+        }
         this.submitting = false
         this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
       }, err => this.submitting = false)
@@ -72,10 +107,27 @@ export class EnvModelComponent implements OnInit {
     this.location.back()
   }
 
+  initByEnvId() {
+    if (this.envId) {
+      this.envService.getById(this.envId).subscribe(res => {
+        if (res.data.custom) {
+          this.custom = res.data.custom
+        }
+        this.form = this.fb.group({
+          summary: [res.data.summary, [Validators.required]],
+          description: [res.data.description, []],
+          namespace: [res.data.namespace, []],
+        })
+      })
+    }
+  }
+
   ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
-      this.group = params['group']
-      this.project = params['project']
+      if (!this.group && !this.project) {
+        this.group = params['group']
+        this.project = params['project']
+      }
       this.form = this.fb.group({
         summary: [null, [Validators.required]],
         description: [null, []],
@@ -84,18 +136,7 @@ export class EnvModelComponent implements OnInit {
     })
     this.route.params.subscribe(params => {
       this.envId = params['envId']
-      if (this.envId) {
-        this.envService.getById(this.envId).subscribe(res => {
-          if (res.data.custom) {
-            this.custom = res.data.custom
-          }
-          this.form = this.fb.group({
-            summary: [res.data.summary, [Validators.required]],
-            description: [res.data.description, []],
-            namespace: [res.data.namespace, []],
-          })
-        })
-      }
+      this.initByEnvId()
     })
   }
 }

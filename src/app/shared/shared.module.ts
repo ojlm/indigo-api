@@ -9,6 +9,7 @@ import { AlainThemeModule } from '@delon/theme'
 import { TranslateModule } from '@ngx-translate/core'
 import { ConsoleReportComponent } from '@shared/console-report/console-report.component'
 import { EnvModelComponent } from '@shared/env-model/env-model.component'
+import { EnvSelectorComponent } from '@shared/env-selector/env-selector.component'
 import { KeyValueComponent } from '@shared/key-value/key-value.component'
 import { ProjectBreadcrumbComponent } from '@shared/project-breadcrumb/project-breadcrumb.component'
 import { NgZorroAntdModule } from 'ng-zorro-antd'
@@ -30,6 +31,7 @@ const COMPONENTS = [
   KeyValueComponent,
   ConsoleReportComponent,
   EnvModelComponent,
+  EnvSelectorComponent,
 ]
 const DIRECTIVES = []
 // endregion
