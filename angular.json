@@ -33,9 +33,13 @@
             ],
             "styles": [
               "src/styles.less",
-              "./node_modules/xterm/dist/xterm.css"
+              "./node_modules/xterm/dist/xterm.css",
+              "./node_modules/prismjs/themes/prism-okaidia.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/prismjs/prism.js",
+              "./node_modules/prismjs/components/prism-json.min.js"
+            ]
           },
           "configurations": {
             "production": {
