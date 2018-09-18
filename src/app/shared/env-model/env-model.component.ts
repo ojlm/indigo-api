@@ -77,6 +77,9 @@ export class EnvModelComponent implements OnInit {
     this.submitting = true
     if (this.envId) {
       this.envService.update(this.envId, env).subscribe(res => {
+        if (this.fromSelector) {
+          this.nameChange.emit(this.name)
+        }
         this.submitting = false
         this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
       }, err => this.submitting = false)
@@ -112,6 +115,9 @@ export class EnvModelComponent implements OnInit {
       this.envService.getById(this.envId).subscribe(res => {
         if (res.data.custom) {
           this.custom = res.data.custom
+        }
+        if (this.fromSelector) {
+          this.nameChange.emit(res.data.summary)
         }
         this.form = this.fb.group({
           summary: [res.data.summary, [Validators.required]],

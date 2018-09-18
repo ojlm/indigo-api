@@ -6,7 +6,7 @@
       <span *ngIf="case._id">
         <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/case', case.group, case.project, case._id]">({{case._id}})</a>
       </span>
-      <app-env-selector [(env)]="case.env"></app-env-selector>
+      <app-env-selector [(env)]="case.env" (envChange)="modelChange()"></app-env-selector>
     </span>
   </div>
   <nz-card [nzBordered]="true">
