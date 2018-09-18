@@ -51,6 +51,7 @@ export class EnvModelComponent implements OnInit {
   }
   @Output()
   nameChange = new EventEmitter<string>()
+  @Output() onclear = new EventEmitter<string>()
 
   constructor(
     private fb: FormBuilder,
@@ -104,6 +105,14 @@ export class EnvModelComponent implements OnInit {
       namespace: [null, []],
     })
     this.custom = []
+  }
+
+  clear() {
+    this.reset()
+    this.envId = ''
+    this.dataChange.emit('')
+    this.nameChange.emit('')
+    this.onclear.emit('')
   }
 
   goBack() {

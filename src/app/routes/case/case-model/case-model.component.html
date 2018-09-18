@@ -4,7 +4,7 @@
     <span>
       <span [style.color]="isSaved?'black':'lightseagreen'">{{case.summary}}</span>
       <span *ngIf="case._id">
-        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/case', case.group, case.project, case._id]">({{case._id}})</a>
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/case', group, project, case._id]">({{case._id}})</a>
       </span>
       <app-env-selector [(env)]="case.env" (envChange)="modelChange()"></app-env-selector>
     </span>

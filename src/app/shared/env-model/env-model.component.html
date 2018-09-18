@@ -38,11 +38,12 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
-          <button *ngIf="!envId" nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
+          <button *ngIf="!envId" nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-new'|translate}}</button>
           <button *ngIf="envId" nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-update'|translate}}</button>
           <button *ngIf="!envId" nz-button nzType="default" (click)="reset()">{{'btn-reset'|translate}}</button>
           <button *ngIf="!fromSelector" nz-button type="button" class="ml-sm" (click)="goBack()">{{'btn-back'|translate}}</button>
           <button *ngIf="fromSelector&&envId" nz-button type="button" class="ml-sm" (click)="initByEnvId()">{{'btn-refresh'|translate}}</button>
+          <button *ngIf="envId&&fromSelector" nz-button nzType="default" (click)="clear()">{{'btn-clear'|translate}}</button>
         </nz-form-control>
       </nz-form-item>
     </form>

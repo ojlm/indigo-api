@@ -144,6 +144,7 @@
   "btn-new": "新建",
   "btn-update": "更新",
   "btn-refresh": "刷新",
+  "btn-clear": "清除",
   "item-path-variable": "路径变量",
   "item-params": "Params",
   "item-headers": "Headers",
