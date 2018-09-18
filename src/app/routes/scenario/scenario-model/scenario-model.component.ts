@@ -35,7 +35,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   submitting = false
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
-  scenarioDrawerVisible = false
+  consoleDrawerVisible = false
   @Input()
   set id(id: string) {
     if (id) {
@@ -59,7 +59,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   }
 
   test() {
-    this.scenarioDrawerVisible = true
+    this.consoleDrawerVisible = true
     if (this.testWs) {
       this.testWs.close()
       this.testWs = null
