@@ -53,8 +53,6 @@ export interface Case extends BaseDoc {
   assert?: any
   env?: string
   labels?: LabelRef[]
-  namespace?: string
-  useProxy?: boolean
 }
 
 export interface ScenarioStep {
@@ -159,6 +157,7 @@ export interface Environment extends BaseDoc {
   project?: string
   auth?: Authorization
   namespace?: string
+  enableProxy?: boolean
   custom?: KeyValueObject[]
 }
 

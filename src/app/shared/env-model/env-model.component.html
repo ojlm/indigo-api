@@ -25,9 +25,16 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item class="form-item">
-        <nz-form-label nzFor="namespace">{{'field-namespace'|translate}}</nz-form-label>
+        <nz-form-label nzFor="namespace">
+          <span>{{'field-namespace'|translate}}</span>
+        </nz-form-label>
         <nz-form-control>
-          <input nz-input formControlName="namespace" id="namespace" [placeholder]="'tips-namespace'|translate">
+          <nz-input-group [nzSuffix]="suffixTag">
+            <input nz-input formControlName="namespace" id="namespace" [placeholder]="'tips-namespace'|translate">
+          </nz-input-group>
+          <ng-template #suffixTag>
+            <nz-tag [nzColor]="enableProxy?'#108ee9':'#f50'" nzMode="checkable" [(nzChecked)]="enableProxy">{{(enableProxy?'btn-enable':'btn-disable')|translate}}</nz-tag>
+          </ng-template>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item class="form-item">

@@ -146,6 +146,8 @@
   "btn-update": "更新",
   "btn-refresh": "刷新",
   "btn-clear": "清除",
+  "btn-enable": "启用中",
+  "btn-disable": "禁用中",
   "item-path-variable": "路径变量",
   "item-params": "Params",
   "item-headers": "Headers",

@@ -26,6 +26,7 @@ export class EnvModelComponent implements OnInit {
   group: string
   project: string
   form: FormGroup
+  enableProxy = false
   auth: Authorization[] = []
   custom: KeyValueObject[] = []
   submitting = false
@@ -79,6 +80,7 @@ export class EnvModelComponent implements OnInit {
       group: this.group,
       project: this.project,
       custom: this.custom,
+      enableProxy: this.enableProxy,
       ...this.form.value as Environment,
     }
     this.submitting = true
@@ -110,7 +112,9 @@ export class EnvModelComponent implements OnInit {
       description: [null, []],
       namespace: [null, []],
     })
+    this.enableProxy = false
     this.custom = []
+    this.auth = []
   }
 
   clear() {
@@ -134,6 +138,7 @@ export class EnvModelComponent implements OnInit {
         if (this.fromSelector) {
           this.nameChange.emit(res.data.summary)
         }
+        this.enableProxy = res.data.enableProxy
         this.form = this.fb.group({
           summary: [res.data.summary, [Validators.required]],
           description: [res.data.description, []],
