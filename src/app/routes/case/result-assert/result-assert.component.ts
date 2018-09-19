@@ -20,7 +20,8 @@ export class ResultAssertComponent implements OnInit {
   containerStyle = {}
   tabBarStyle = {
     'background-color': 'snow',
-    'margin': '0px'
+    'margin': '0px',
+    'height': '40px'
   }
   editorFullHeight = '480px'
   isFullscreen = false
