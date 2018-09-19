@@ -262,3 +262,8 @@ export interface UpdateDocResponse {
   id?: string
   result?: string
 }
+
+export interface Assertion {
+  name?: string
+  description?: string
+}

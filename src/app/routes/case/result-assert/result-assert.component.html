@@ -1,16 +1,16 @@
 <div [ngStyle]="containerStyle">
   <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" (nzSelectedIndexChange)="tabIndexChange()"
-    [nzAnimated]="false" [nzTabBarExtraContent]="extraTemplate">
+    [nzAnimated]="false" [nzTabBarExtraContent]="extraTemplate" [nzTabBarStyle]="tabBarStyle">
     <nz-tab [nzTitle]="'item-response-assert'|translate">
-      <div nz-row>
+      <div nz-row style="background-color:white;">
         <div nz-col nzSpan="12">
-          <nz-tag [nzColor]="'cyan'">{{'item-response'|translate}}</nz-tag>
           <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="caseContext"></ngx-monaco-editor>
         </div>
         <div nz-col nzSpan="12">
-          <nz-tag [nzColor]="'red'">{{'item-assert'|translate}}</nz-tag>
-          <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonEditorOption" [(ngModel)]="_assert"
-            (ngModelChange)="modelChange()"></ngx-monaco-editor>
+          <app-assertion-list *ngIf="assertSimpleEditorMode" [assertions]="assertions"></app-assertion-list>
+          <ngx-monaco-editor *ngIf="!assertSimpleEditorMode" [style.height]="editorFullHeight" [options]="jsonEditorOption"
+            [(ngModel)]="_assert" (ngModelChange)="modelChange()">
+          </ngx-monaco-editor>
         </div>
       </div>
     </nz-tab>
@@ -29,6 +29,10 @@
     </nz-tab>
   </nz-tabset>
   <ng-template #extraTemplate>
+    <button [title]="'tips-assert-mode'|translate" nzSize="small" [nzType]="assertSimpleEditorMode?'primary':'dashed'"
+      nz-button (click)="assertEditorModeChange()">
+      <i style="font-size:smaller;">{{(assertSimpleEditorMode?'btn-simple':'btn-full')|translate}}</i>
+    </button>
     <button [title]="'tips-word-wrap'|translate" nzSize="small" [nzType]="wraped?'primary':'dashed'" nz-button (click)="wrap()">
       <i class="anticon anticon-bars"></i>
     </button>
@@ -36,7 +40,7 @@
       <i class="anticon anticon-layout"></i>
     </button>
     <button [title]="'tips-fullscreen'|translate" style="margin-right:5px;" nzSize="small" nzType="dashed" nz-button
-      (click)="btnClick()">
+      (click)="fullBtnClick()">
       <i class="anticon anticon-{{isFullscreen?'shrink':'arrows-alt'}}"></i>
     </button>
   </ng-template>

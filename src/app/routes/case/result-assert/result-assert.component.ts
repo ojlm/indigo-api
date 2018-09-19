@@ -7,9 +7,8 @@ import { NzMessageService } from 'ng-zorro-antd'
 import { DiffEditorModel } from 'ngx-monaco-editor'
 import * as screenfull from 'screenfull'
 
-import { GroupService } from '../../../api/service/group.service'
-import { ProjectService } from '../../../api/service/project.service'
-import { CaseResult } from '../../../model/es.model'
+import { CaseService } from '../../../api/service/case.service'
+import { Assertion, CaseResult } from '../../../model/es.model'
 import { formatJson } from '../../../util/json'
 
 @Component({
@@ -19,6 +18,10 @@ import { formatJson } from '../../../util/json'
 export class ResultAssertComponent implements OnInit {
 
   containerStyle = {}
+  tabBarStyle = {
+    'background-color': 'snow',
+    'margin': '0px'
+  }
   editorFullHeight = '480px'
   isFullscreen = false
   tabIndex = 0
@@ -36,6 +39,8 @@ export class ResultAssertComponent implements OnInit {
     code: '',
     language: 'json'
   }
+  assertSimpleEditorMode = true
+  assertions: Assertion[] = []
   @Input()
   set index(val: number) {
     this.tabIndex = val
@@ -71,8 +76,7 @@ export class ResultAssertComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private groupService: GroupService,
-    private projectService: ProjectService,
+    private caseService: CaseService,
     private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
@@ -81,7 +85,7 @@ export class ResultAssertComponent implements OnInit {
     private el: ElementRef<HTMLDivElement>,
   ) { }
 
-  btnClick() {
+  fullBtnClick() {
     this.isFullscreen = !this.isFullscreen
     const container = this.el.nativeElement.firstChild
     if (this.isFullscreen && screenfull.enabled) {
@@ -109,6 +113,10 @@ export class ResultAssertComponent implements OnInit {
     }
   }
 
+  assertEditorModeChange() {
+    this.assertSimpleEditorMode = !this.assertSimpleEditorMode
+  }
+
   formatAssert() {
     try {
       this._assert = formatJson(this._assert)
@@ -128,5 +136,10 @@ export class ResultAssertComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.assertions && this.assertions.length === 0) {
+      this.caseService.getAllAssertions().subscribe(res => {
+        this.assertions = res.data
+      })
+    }
   }
 }

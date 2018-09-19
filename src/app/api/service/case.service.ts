@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { Case, CaseResult, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
+import { Case, CaseResult, IndexDocResponse, UpdateDocResponse, Assertion } from '../../model/es.model'
 import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE } from '../path'
 import { BaseService } from './base.service'
 
@@ -43,6 +43,10 @@ export class CaseService extends BaseService {
         err => response.error(err))
     })
     return querySubject
+  }
+
+  getAllAssertions() {
+    return this.http.get<ApiRes<Assertion[]>>(`${API_CASE}/assertion/all`)
   }
 }
 
