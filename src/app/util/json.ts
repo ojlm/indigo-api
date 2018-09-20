@@ -48,7 +48,6 @@ export function formatJson(val: any) {
       return JSON.stringify(val, null, '    ')
     }
   } catch (error) {
-    console.error(error)
     return val
   }
 }
