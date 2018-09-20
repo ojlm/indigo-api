@@ -1,3 +1,38 @@
-<div>
-  assertion-list
+<div [style.height]="editorFullHeight" class="assertion-list">
+  <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzFooter]="nzFooter" [nzRenderItem]="item">
+    <ng-template #item let-item let-i="index">
+      <nz-list-item [nzContent]="nzContent" [nzActions]="[removeAction]">
+        <ng-template #nzContent>
+          <div nz-row nzGutter="3" nzType="flex" nzJustify="start">
+            <div nz-col nzSpan="9">
+              <input nz-input [nzSize]="'small'" [placeholder]="'tips-input-json-path'|translate" [(ngModel)]="item.path">
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-select style="width:100%;" [nzSize]="'small'" nzShowSearch [(ngModel)]="item.operator">
+                <nz-option *ngFor="let item of assertions" [nzCustomContent]="true" [nzLabel]="item.name|translate"
+                  [nzValue]="item.name">
+                  <div>
+                    <span>{{item.name|translate}}</span>
+                  </div>
+                </nz-option>
+              </nz-select>
+            </div>
+            <div nz-col nzSpan="9">
+              <input nz-input [nzSize]="'small'" [(ngModel)]="item.value">
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #removeAction>
+          <a style="color:lightslategray;" (click)="copy(item, i)"><i class="anticon anticon-copy"></i></a>
+          <a style="color:lightcoral;padding-left:3px;" (click)="remove(item, i)"><i class="anticon anticon-delete"></i></a>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+  <ng-template #nzFooter>
+    <button nz-button nzSize="small" nzType="dashed" (click)="addItem()">
+      <span><i class="anticon anticon-plus"></i></span>
+      <span style="margin-left:2px;">{{'btn-add-assertion'|translate}}</span>
+    </button>
+  </ng-template>
 </div>
