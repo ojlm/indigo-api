@@ -1,14 +1,16 @@
-<div [style.height]="editorFullHeight" class="assertion-list">
-  <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzFooter]="nzFooter" [nzRenderItem]="item">
+<div [style.height]="editorHeight" class="assertion-list">
+  <nz-list [nzDataSource]="items.items" nzBordered nzSize="small" [nzFooter]="nzFooter" [nzRenderItem]="item">
     <ng-template #item let-item let-i="index">
-      <nz-list-item [nzContent]="nzContent" [nzActions]="[removeAction]">
+      <nz-list-item [nzContent]="nzContent" [nzActions]="[nzAction]">
         <ng-template #nzContent>
-          <div nz-row nzGutter="3" nzType="flex" nzJustify="start">
+          <div nz-row nzGutter="3" style="width:100%;">
             <div nz-col nzSpan="9">
-              <input nz-input [nzSize]="'small'" [placeholder]="'tips-input-json-path'|translate" [(ngModel)]="item.path">
+              <input nz-input [nzSize]="'small'" [placeholder]="'tips-input-json-path'|translate" [(ngModel)]="item.path"
+                (ngModelChange)="modelChange()">
             </div>
             <div nz-col nzSpan="6">
-              <nz-select style="width:100%;" [nzSize]="'small'" nzShowSearch [(ngModel)]="item.operator">
+              <nz-select style="width:100%;" [nzSize]="'small'" nzShowSearch [(ngModel)]="item.operator"
+                [nzDropdownMatchSelectWidth]="false" (ngModelChange)="modelChange()">
                 <nz-option *ngFor="let item of assertions" [nzCustomContent]="true" [nzLabel]="item.name|translate"
                   [nzValue]="item.name">
                   <div>
@@ -18,11 +20,11 @@
               </nz-select>
             </div>
             <div nz-col nzSpan="9">
-              <input nz-input [nzSize]="'small'" [(ngModel)]="item.value">
+              <input nz-input [nzSize]="'small'" [(ngModel)]="item.value" (ngModelChange)="modelChange()">
             </div>
           </div>
         </ng-template>
-        <ng-template #removeAction>
+        <ng-template #nzAction>
           <a style="color:lightslategray;" (click)="copy(item, i)"><i class="anticon anticon-copy"></i></a>
           <a style="color:lightcoral;padding-left:3px;" (click)="remove(item, i)"><i class="anticon anticon-delete"></i></a>
         </ng-template>
@@ -33,6 +35,10 @@
     <button nz-button nzSize="small" nzType="dashed" (click)="addItem()">
       <span><i class="anticon anticon-plus"></i></span>
       <span style="margin-left:2px;">{{'btn-add-assertion'|translate}}</span>
+    </button>
+    <button [title]="'tips-assertion-and-or'|translate" nzSize="small" [nzType]="'and'===items.logic?'primary':'danger'"
+      nz-button (click)="btnLogicChange()">
+      <i style="font-size:smaller;">{{('and'===items.logic?'btn-logic-and':'btn-logic-or')|translate}}</i>
     </button>
   </ng-template>
 </div>

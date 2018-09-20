@@ -27,20 +27,20 @@ import { Assertion } from '../../../model/es.model'
 })
 export class AssertionListComponent implements OnInit {
 
-  editorFullHeight = '470px'
-  items: AssertionItem[] = []
+  @Input() editorHeight = ''
+  items: AssertionItems = { logic: 'and', items: [] }
   @Input() assertions: Assertion[] = []
   @Input()
   get data() {
     return this.items
   }
-  set data(value: AssertionItem[]) {
-    if (value && value.length > 0) {
+  set data(value: AssertionItems) {
+    if (value.items && value.items.length > 0) {
       this.items = value
     }
   }
   @Output()
-  dataChange = new EventEmitter<AssertionItem[]>()
+  dataChange = new EventEmitter<AssertionItems>()
 
   constructor(
     private msgService: NzMessageService,
@@ -50,18 +50,26 @@ export class AssertionListComponent implements OnInit {
   ) { }
 
   addItem() {
-    this.items.push({ path: '', operator: '$eq', value: '' })
+    this.items.items.push({ path: '', operator: '$eq', value: '' })
     this.modelChange()
   }
 
   copy(item: AssertionItem, index: number) {
-    this.items.push({ ...item })
+    this.items.items.push({ ...item })
     this.modelChange()
   }
 
   remove(item: AssertionItem, index: number) {
-    this.items.splice(index, 1)
+    this.items.items.splice(index, 1)
     this.modelChange()
+  }
+
+  btnLogicChange() {
+    if ('and' === this.items.logic) {
+      this.items.logic = 'or'
+    } else {
+      this.items.logic = 'and'
+    }
   }
 
   modelChange() {
@@ -75,5 +83,10 @@ export class AssertionListComponent implements OnInit {
 export interface AssertionItem {
   path?: string
   operator?: string
-  value?: string
+  value?: any
+}
+
+export interface AssertionItems {
+  logic?: string
+  items?: AssertionItem[]
 }

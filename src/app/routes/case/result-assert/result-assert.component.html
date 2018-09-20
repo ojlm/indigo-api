@@ -7,7 +7,8 @@
           <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="caseContext"></ngx-monaco-editor>
         </div>
         <div nz-col nzSpan="12">
-          <app-assertion-list *ngIf="assertSimpleEditorMode" [assertions]="assertions"></app-assertion-list>
+          <app-assertion-list *ngIf="assertSimpleEditorMode" [editorHeight]="assertionEditorHeight" [assertions]="assertions"
+            [(data)]="assertionItems" (dataChange)="assertionItemsChange()"></app-assertion-list>
           <ngx-monaco-editor *ngIf="!assertSimpleEditorMode" [style.height]="editorFullHeight" [options]="jsonEditorOption"
             [(ngModel)]="_assert" (ngModelChange)="modelChange()">
           </ngx-monaco-editor>

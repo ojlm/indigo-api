@@ -10,6 +10,7 @@ import * as screenfull from 'screenfull'
 import { CaseService } from '../../../api/service/case.service'
 import { Assertion, CaseResult } from '../../../model/es.model'
 import { formatJson } from '../../../util/json'
+import { AssertionItem, AssertionItems } from '../assertion-list/assertion-list.component'
 
 @Component({
   selector: 'app-result-assert',
@@ -24,6 +25,7 @@ export class ResultAssertComponent implements OnInit {
     'height': '40px'
   }
   editorFullHeight = '480px'
+  assertionEditorHeight = '470px'
   isFullscreen = false
   tabIndex = 0
   /** for first modelChange event bug */
@@ -42,6 +44,7 @@ export class ResultAssertComponent implements OnInit {
   }
   assertSimpleEditorMode = true
   assertions: Assertion[] = []
+  assertionItems: AssertionItems = { logic: 'and', items: [] }
   @Input()
   set index(val: number) {
     this.tabIndex = val
@@ -60,7 +63,14 @@ export class ResultAssertComponent implements OnInit {
     return this._assert
   }
   set assert(val: string) {
-    this._assert = formatJson(val)
+    if (typeof val === 'string') {
+      this._assert = val
+    } else {
+      this._assert = formatJson(val)
+    }
+    if (!this.originAssert) {
+      this.syncToAssertionList()
+    }
     this.originAssert = this._assert
   }
   @Output()
@@ -86,6 +96,54 @@ export class ResultAssertComponent implements OnInit {
     private el: ElementRef<HTMLDivElement>,
   ) { }
 
+  assertionItemsChange() {
+    try {
+      const list = this.assertionItems.items.map(item => {
+        const pathObj = {}
+        const path = item.path
+        const operator = item.operator
+        let value = null
+        if (item.value) {
+          const num = Number(item.value)
+          if (isNaN(num)) {
+            if ('true' === item.value) {
+              value = true
+            } else if ('false' === item.value) {
+              value = false
+            } else {
+              value = item.value
+            }
+          } else {
+            value = num
+          }
+        }
+        const assertionObj = {}
+        assertionObj[operator] = value
+        pathObj[path] = assertionObj
+        return pathObj
+      })
+      let assert = {}
+      try {
+        if (this._assert) {
+          assert = JSON.parse(this._assert)
+        }
+      } catch (error) {
+        console.error(error, this._assert)
+      }
+      if ('or' === this.assertionItems.logic) {
+        assert['$list_or'] = list
+        delete assert['$list_and']
+      } else {
+        assert['$list_and'] = list
+        delete assert['$list_or']
+      }
+      this._assert = formatJson(assert)
+      this.assertChange.emit(this._assert)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   fullBtnClick() {
     this.isFullscreen = !this.isFullscreen
     const container = this.el.nativeElement.firstChild
@@ -96,9 +154,11 @@ export class ResultAssertComponent implements OnInit {
         width: '100%',
       }
       this.editorFullHeight = `${screen.height}px`
+      this.assertionEditorHeight = `${screen.height - 40}px`
     } else {
       this.containerStyle = {}
       this.editorFullHeight = '480px'
+      this.assertionEditorHeight = '470px'
       screenfull.exit()
     }
   }
@@ -116,6 +176,7 @@ export class ResultAssertComponent implements OnInit {
 
   assertEditorModeChange() {
     this.assertSimpleEditorMode = !this.assertSimpleEditorMode
+    this.tabIndex = 0
   }
 
   formatAssert() {
@@ -133,7 +194,47 @@ export class ResultAssertComponent implements OnInit {
     if (this.originAssert !== this._assert) {
       this.originAssert = null
       this.assertChange.emit(this._assert)
+      this.syncToAssertionList()
     }
+  }
+
+  syncToAssertionList() {
+    try {
+      if (!this._assert) return
+      let items = null
+      const assert = JSON.parse(this._assert)
+      let loginOp = 'and'
+      if (assert['$list_or']) {
+        items = assert['$list_or']
+        loginOp = 'or'
+      } else {
+        items = assert['$list_and']
+      }
+      if (items) {
+        const assertionItems: AssertionItem[] = []
+        for (const item of items) {
+          const paths = Object.keys(item)
+          if (paths && paths.length === 1) {
+            const path = paths[0]
+            const assertionObj = item[path]
+            if (assertionObj) {
+              const ops = Object.keys(assertionObj)
+              if (ops && ops.length === 1) {
+                assertionItems.push({
+                  path: path,
+                  operator: ops[0],
+                  value: assertionObj[ops[0]]
+                })
+              }
+            }
+          }
+        }
+        this.assertionItems = {
+          logic: loginOp,
+          items: assertionItems
+        }
+      }
+    } catch (error) { }
   }
 
   ngOnInit(): void {
