@@ -70,6 +70,7 @@ export class AssertionListComponent implements OnInit {
     } else {
       this.items.logic = 'and'
     }
+    this.modelChange()
   }
 
   modelChange() {
