@@ -1,4 +1,4 @@
-<div [ngStyle]="containerStyle">
+<div class="{{isFullDocument?'full-doc':''}}">
   <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" (nzSelectedIndexChange)="tabIndexChange()"
     [nzAnimated]="false" [nzTabBarExtraContent]="extraTemplate" [nzTabBarStyle]="tabBarStyle">
     <nz-tab [nzTitle]="'item-response-assert'|translate">
@@ -34,14 +34,19 @@
       nz-button (click)="assertEditorModeChange()">
       <i style="font-size:smaller;">{{(assertSimpleEditorMode?'btn-simple':'btn-full')|translate}}</i>
     </button>
-    <button [title]="'tips-word-wrap'|translate" nzSize="small" [nzType]="wraped?'primary':'dashed'" nz-button (click)="wrap()">
+    <button [title]="'tips-word-wrap'|translate" style="margin-left:3px;" nzSize="small" [nzType]="wraped?'primary':'dashed'"
+      nz-button (click)="wrap()">
       <i class="anticon anticon-bars"></i>
     </button>
-    <button [title]="'tips-format'|translate" nzSize="small" nzType="dashed" nz-button (click)="formatAssert()">
+    <button [title]="'tips-format'|translate" style="margin-left:3px;" nzSize="small" nzType="dashed" nz-button (click)="formatAssert()">
       <i class="anticon anticon-layout"></i>
     </button>
-    <button [title]="'tips-fullscreen'|translate" style="margin-right:5px;" nzSize="small" nzType="dashed" nz-button
-      (click)="fullBtnClick()">
+    <button [title]="'tips-full-window'|translate" style="margin-left:3px;" nzSize="small" [nzType]="isFullDocument?'primary':'dashed'"
+      nz-button (click)="fullWindowBtnClick()">
+      <i class="anticon anticon-windows-o"></i>
+    </button>
+    <button [title]="'tips-fullscreen'|translate" style="margin-left:3px;margin-right:3px;" nzSize="small" [nzType]="isFullscreen?'primary':'dashed'"
+      nz-button (click)="fullScreenBtnClick()">
       <i class="anticon anticon-{{isFullscreen?'shrink':'arrows-alt'}}"></i>
     </button>
   </ng-template>

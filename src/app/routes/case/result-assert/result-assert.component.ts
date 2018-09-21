@@ -15,10 +15,10 @@ import { AssertionItem, AssertionItems } from '../assertion-list/assertion-list.
 @Component({
   selector: 'app-result-assert',
   templateUrl: './result-assert.component.html',
+  styleUrls: ['./result-assert.component.css']
 })
 export class ResultAssertComponent implements OnInit {
 
-  containerStyle = {}
   tabBarStyle = {
     'background-color': 'snow',
     'margin': '0px',
@@ -27,6 +27,7 @@ export class ResultAssertComponent implements OnInit {
   editorFullHeight = '480px'
   assertionEditorHeight = '470px'
   isFullscreen = false
+  isFullDocument = false
   tabIndex = 0
   /** for first modelChange event bug */
   originAssert = ''
@@ -144,19 +145,29 @@ export class ResultAssertComponent implements OnInit {
     }
   }
 
-  fullBtnClick() {
+  fullWindowBtnClick() {
+    if (!this.isFullscreen) {
+      this.isFullDocument = !this.isFullDocument
+      if (this.isFullDocument) {
+        this.editorFullHeight = `${window.innerHeight}px`
+        this.assertionEditorHeight = `${window.innerHeight - 40}px`
+      } else {
+        this.editorFullHeight = '480px'
+        this.assertionEditorHeight = '470px'
+      }
+    }
+  }
+
+  fullScreenBtnClick() {
     this.isFullscreen = !this.isFullscreen
-    const container = this.el.nativeElement.firstChild
+    const container = document.body
     if (this.isFullscreen && screenfull.enabled) {
       screenfull.request(container)
-      this.containerStyle = {
-        height: '100%',
-        width: '100%',
-      }
+      this.isFullDocument = true
       this.editorFullHeight = `${screen.height}px`
       this.assertionEditorHeight = `${screen.height - 40}px`
     } else {
-      this.containerStyle = {}
+      this.isFullDocument = false
       this.editorFullHeight = '480px'
       this.assertionEditorHeight = '470px'
       screenfull.exit()
