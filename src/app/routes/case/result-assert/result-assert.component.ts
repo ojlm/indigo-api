@@ -132,11 +132,11 @@ export class ResultAssertComponent implements OnInit {
         console.error(error, this._assert)
       }
       if ('or' === this.assertionItems.logic) {
-        assert['$list_or'] = list
-        delete assert['$list_and']
+        assert['$list-or'] = list
+        delete assert['$list-and']
       } else {
-        assert['$list_and'] = list
-        delete assert['$list_or']
+        assert['$list-and'] = list
+        delete assert['$list-or']
       }
       this._assert = formatJson(assert)
       this.assertChange.emit(this._assert)
@@ -215,11 +215,11 @@ export class ResultAssertComponent implements OnInit {
       let items = null
       const assert = JSON.parse(this._assert)
       let loginOp = 'and'
-      if (assert['$list_or']) {
-        items = assert['$list_or']
+      if (assert['$list-or']) {
+        items = assert['$list-or']
         loginOp = 'or'
       } else {
-        items = assert['$list_and']
+        items = assert['$list-and']
       }
       if (items) {
         const assertionItems: AssertionItem[] = []
