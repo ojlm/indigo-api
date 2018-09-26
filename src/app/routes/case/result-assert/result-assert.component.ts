@@ -8,7 +8,7 @@ import { DiffEditorModel } from 'ngx-monaco-editor'
 import * as screenfull from 'screenfull'
 
 import { CaseService } from '../../../api/service/case.service'
-import { Assertion, CaseResult } from '../../../model/es.model'
+import { Assertion, CaseReportItemMetrics, CaseResult, CaseStatis } from '../../../model/es.model'
 import { formatJson } from '../../../util/json'
 import { AssertionItem, AssertionItems } from '../assertion-list/assertion-list.component'
 
@@ -35,6 +35,8 @@ export class ResultAssertComponent implements OnInit {
   caseContext = ''
   caseRequest = ''
   caseAssertResult = ''
+  metrics: CaseReportItemMetrics = {}
+  statis: CaseStatis = {}
   originalModel: DiffEditorModel = {
     code: '',
     language: 'json'
@@ -46,6 +48,7 @@ export class ResultAssertComponent implements OnInit {
   assertSimpleEditorMode = true
   assertions: Assertion[] = []
   assertionItems: AssertionItems = { logic: 'and', items: [] }
+  hasResult = false
   @Input()
   set index(val: number) {
     this.tabIndex = val
@@ -54,10 +57,17 @@ export class ResultAssertComponent implements OnInit {
   indexChange = new EventEmitter<number>()
   @Input()
   set result(val: CaseResult) {
+    if (val && val.statis) {
+      this.hasResult = true
+    } else {
+      this.hasResult = false
+    }
     this.caseContext = formatJson(val.context)
     this.modifiedModel = { code: this.caseContext || '', language: 'json' }
     this.caseRequest = formatJson(val.request)
     this.caseAssertResult = formatJson(val.result)
+    this.metrics = val.metrics || {}
+    this.statis = val.statis || {}
   }
   @Input()
   get assert() {

@@ -25,8 +25,47 @@
       <ngx-monaco-diff-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [originalModel]="originalModel"
         [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor>
     </nz-tab>
-    <nz-tab [nzTitle]="'item-assert-summary'|translate">
-      {{'item-assert-summary'|translate}}
+    <nz-tab [nzTitle]="'item-assert-report'|translate">
+      <div style="padding-top:5px;">
+        <nz-alert *ngIf="!hasResult" [nzMessage]="'tips-no-result'|translate" nzShowIcon></nz-alert>
+        <nz-alert *ngIf="hasResult" [nzType]="statis.isSuccessful?'success':'error'" nzShowIcon [nzDescription]="nzDescription"
+          [nzMessage]="(statis.isSuccessful?'tips-success':'tips-fail')|translate">
+          <ng-template #nzDescription>
+            <div>
+              <span class="metrics-item">
+                <span class="metrics-item-label">{{'tips-assertion-pass'|translate}}: </span>
+                <span class="metrics-item-value">{{statis.passed}}</span>
+              </span>
+              <span class="metrics-item">
+                <span class="metrics-item-label">{{'tips-assertion-fail'|translate}}: </span>
+                <span class="metrics-item-value">{{statis.failed}}</span>
+              </span>
+            </div>
+            <div>
+              <span class="metrics-item">
+                <span class="metrics-item-label">{{'tips-render-request-time'|translate}}: </span>
+                <span class="metrics-item-value">{{metrics.renderRequestTime}} ms</span>
+              </span>
+              <span class="metrics-item">
+                <span class="metrics-item-label">{{'tips-render-auth-time'|translate}}: </span>
+                <span class="metrics-item-value">{{metrics.renderAuthTime}} ms</span>
+              </span>
+              <span class="metrics-item">
+                <span class="metrics-item-label">{{'tips-request-time'|translate}}: </span>
+                <span class="metrics-item-value">{{metrics.requestTime}} ms</span>
+              </span>
+              <span class="metrics-item">
+                <span class="metrics-item-label">{{'tips-eval-assertion-time'|translate}}: </span>
+                <span class="metrics-item-value">{{metrics.evalAssertionTime}} ms</span>
+              </span>
+              <span class="metrics-item">
+                <span class="metrics-item-label">{{'tips-total-time'|translate}}: </span>
+                <span class="metrics-item-value">{{metrics.totalTime}} ms</span>
+              </span>
+            </div>
+          </ng-template>
+        </nz-alert>
+      </div>
     </nz-tab>
   </nz-tabset>
   <ng-template #extraTemplate>

@@ -7,3 +7,17 @@
   top: 0;
   z-index: 1000;
 }
+
+.metrics-item:not(:first-child) {
+  padding-left: 10px;
+}
+
+.metrics-item .metrics-item-label {
+  font-size: small;
+  color: darkgray;
+}
+
+.metrics-item .metrics-item-value {
+  font-size: small;
+  color: lightseagreen;
+}

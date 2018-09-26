@@ -104,16 +104,34 @@ export interface CaseStatis {
 export interface CaseResultRequest {
   method?: string
   url?: string
-  headers?: KeyValueObject[]
+  headers?: Object
   body?: string
 }
 
+export interface CaseResultResponse {
+  statusCode?: number
+  statusMsg?: string
+  headers?: Object
+  body?: string
+}
+
+export interface CaseReportItemMetrics {
+  renderRequestTime?: number
+  renderAuthTime?: number
+  requestTime?: number
+  evalAssertionTime?: number
+  totalTime?: number
+}
+
 export interface CaseResult {
+  caseId?: string
   assert?: any
   context?: any
-  result?: any
   request?: CaseResultRequest
+  response?: CaseResultResponse
   statis?: CaseStatis
+  metrics?: CaseReportItemMetrics
+  result?: Object
 }
 
 export const METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS', 'TRACE']
