@@ -9,7 +9,7 @@ import { Subject } from 'rxjs'
 
 import { CaseService } from '../../../api/service/case.service'
 import { ScenarioService } from '../../../api/service/scenario.service'
-import { ActorEvent } from '../../../model/api.model'
+import { ActorEvent, ActorEventType } from '../../../model/api.model'
 import { JobExecDesc, Scenario } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -73,7 +73,14 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
       if (event.data) {
         try {
           const res = JSON.parse(event.data) as ActorEvent<JobExecDesc>
-          this.logSubject.next(res)
+          console.log(res)
+          if (ActorEventType.ITEM === res.type) {
+            // set case result
+          } else if (ActorEventType.OVER === res.type) {
+            // set scenario report
+          } else {
+            this.logSubject.next(res)
+          }
         } catch (error) {
           this.msgService.error(error)
           this.testWs.close()

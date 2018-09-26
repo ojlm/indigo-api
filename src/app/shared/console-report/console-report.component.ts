@@ -7,7 +7,7 @@ import { ITerminalOptions, ITheme, Terminal } from 'xterm'
 import { fit } from 'xterm/lib/addons/fit/fit'
 import { webLinksInit } from 'xterm/lib/addons/webLinks/webLinks'
 
-import { ActorEvent, APICODE } from '../../model/api.model'
+import { ActorEvent, ActorEventType } from '../../model/api.model'
 import { JobExecDesc } from '../../model/es.model'
 
 @Component({
@@ -80,11 +80,10 @@ export class ConsoleReportComponent implements AfterViewInit {
     webLinksInit(this.xterm)
     if (this.log) {
       this.log.subscribe(event => {
-        console.log(event)
-        if (APICODE.OK === event.code) {
-          this.printlnOkMsg(event.msg)
-        } else {
+        if (ActorEventType.ERROR === event.type) {
           this.printlnErrMsg(event.msg)
+        } else {
+          this.printlnOkMsg(event.msg)
         }
       })
     } else {
