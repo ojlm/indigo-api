@@ -8,12 +8,11 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { IndexDocResponse, Job } from '../../model/es.model'
+import { IndexDocResponse, Job, QueryJobReport } from '../../model/es.model'
 import { JobData, JobMeta, TriggerMeta } from '../../model/job.model'
 import { newWS } from '../../util/ws'
 import { API_JOB, API_JOB_CRON, API_JOB_QUERY, API_WS_JOB_TEST } from '../path'
 import { BaseService } from './base.service'
-
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +40,10 @@ export class JobService extends BaseService {
 
   query(query: QueryJob) {
     return this.http.post<ApiRes<Job[]>>(API_JOB_QUERY, query)
+  }
+
+  queryReports(query: QueryJobReport) {
+    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/reports`, query)
   }
 
   getById(id: string) {

@@ -137,6 +137,11 @@ export class LayoutProjectComponent {
                   'i18n': 'menu-new',
                   'link': `/jobs/${group}/${project}/new`,
                 },
+                {
+                  'text': '报告',
+                  'i18n': 'menu-report',
+                  'link': `/project/${group}/${project}/report`,
+                },
               ]
             },
             {

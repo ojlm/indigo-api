@@ -210,9 +210,19 @@ export interface Job extends BaseDoc {
   trigger?: JobTrigger[]
 }
 
+export interface JobReportData {
+  dayIndexSuffix?: string
+  cases?: CaseReportItem[]
+  scenarios?: ScenarioReportItem[]
+  ext?: Object
+}
+
 export interface JobReport extends BaseDoc {
   scheduler?: string
   group?: string
+  project?: string
+  type?: string
+  jobId?: string
   jobName?: string
   classAlias?: string
   startAt?: string
@@ -221,10 +231,7 @@ export interface JobReport extends BaseDoc {
   result?: string
   errorMsg?: string
   node?: string
-  data?: {
-    type?: string
-    data?: string
-  }
+  data?: JobReportData
 }
 
 export interface JobExecDesc {
@@ -266,6 +273,8 @@ export interface QueryCase {
 export interface QueryJobReport {
   scheduler?: string
   group?: string
+  project?: string
+  text?: string
   classAlias?: string
   type?: string
   from?: number

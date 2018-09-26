@@ -1,0 +1,81 @@
+<div>
+  <div class="content__title">
+    <h1 style="padding-left: 10px;">{{'content-title-report-list'|translate}}</h1>
+    <app-project-breadcrumb></app-project-breadcrumb>
+  </div>
+  <nz-card [nzBordered]="false">
+    <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzHeader]="nzHeader"
+      [nzPagination]="pagination" [nzLoading]="loading">
+      <ng-template #nzHeader>
+        <div nz-row [nzGutter]="3">
+          <div nz-col nzSpan="4">
+            <nz-select style="width:100%;" nzShowSearch nzAllowClear nzPlaceHolder="trigger type" [(ngModel)]="search.type">
+              <nz-option *ngFor="let type of types" nzCustomContent [nzLabel]="type" [nzValue]="type">
+                <nz-tag [nzColor]="tagColor(type)">{{type}}</nz-tag>
+              </nz-option>
+            </nz-select>
+          </div>
+          <div nz-col nzSpan="20">
+            <nz-input-group [nzSuffix]="suffixButton">
+              <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text">
+              <ng-template #suffixButton>
+                <button nz-button nzType="primary" (click)="loadData()"><i class="anticon anticon-search"></i></button>
+              </ng-template>
+            </nz-input-group>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #item let-item>
+        <nz-list-item [nzContent]="nzContent" [nzActions]="[view,edit]">
+          <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
+            <ng-template #nzTitle>
+              <span>
+                <nz-tag [nzColor]="tagColor(item.type)">{{item.type}}</nz-tag>
+                <a (click)="viewItem(item)">{{item.jobName}}</a>
+              </span>
+            </ng-template>
+            <ng-template #nzDescription>
+              <div style="cursor:pointer;" (click)="viewItem(item)">
+                <span>startAt: {{item.startAt}}</span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <span>endAt: {{item.endAt}}</span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <span>
+                  <span>result: </span>
+                  <span [style.color]="resultColor(item.result)">{{item.result}}</span>
+                </span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <span>
+                  <span>elapse: </span>
+                  <span style="color:lightseagreen;">{{item.elapse}} ms</span>
+                </span>
+              </div>
+            </ng-template>
+          </nz-list-item-meta>
+          <ng-template #view>
+            <button nz-button nzType="default" nzShape="circle" (click)="viewItem(item)">
+              <i class="anticon anticon-dashboard"></i>
+            </button>
+          </ng-template>
+          <ng-template #edit>
+            <button nz-button nzType="default" nzShape="circle" (click)="editItem(item)" [disabled]="!item.jobId">
+              <i class="anticon anticon-setting"></i>
+            </button>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+      <ng-template #pagination>
+        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
+          [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+          <ng-template #totalTemplate let-total>
+            <span style="color:lightgray;">
+              <span>{{'item-total'|translate}}</span>
+              <span> {{total}} </span>
+              <span>{{'item-item'|translate}}</span>
+            </span>
+          </ng-template>
+        </nz-pagination>
+      </ng-template>
+    </nz-list>
+  </nz-card>
+</div>

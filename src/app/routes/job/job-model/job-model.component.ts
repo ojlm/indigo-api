@@ -62,7 +62,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
     this.testWs = this.jobService.newTestWs()
     this.testWs.onopen = (event) => {
       const testMessage = this.validateAndBuildNewJob(true)
-      this.testWs.send(JSON.stringify(testMessage))
+      this.testWs.send(JSON.stringify({ ...testMessage, jobId: this.jobId }))
     }
     this.testWs.onmessage = (event) => {
       if (event.data) {
