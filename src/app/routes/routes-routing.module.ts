@@ -137,6 +137,11 @@ const routes: Routes = [
       { path: '', loadChildren: './group/group.module#GroupModule' },
     ]
   },
+  {
+    path: 'report/job/:group/:project', component: LayoutFullScreenComponent, canActivateChild: [JWTGuard], children: [
+      { path: ':reportId', loadChildren: './report/report.module#ReportModule' },
+    ]
+  },
   { path: '**', redirectTo: '' }
 ]
 
