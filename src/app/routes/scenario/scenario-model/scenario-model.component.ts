@@ -66,7 +66,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     }
     this.testWs = this.scenarioService.newTestWs()
     this.testWs.onopen = (event) => {
-      const testMessage = this.validateAndBuild()
+      const testMessage = this.validateAndBuild(true)
       this.testWs.send(JSON.stringify(testMessage))
     }
     this.testWs.onmessage = (event) => {
@@ -111,8 +111,8 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   reset() {
   }
 
-  validateAndBuild() {
-    if (!this.scenario.summary) {
+  validateAndBuild(isTest: boolean = false) {
+    if (!this.scenario.summary && !isTest) {
       this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorEmptySummary))
       return
     }
