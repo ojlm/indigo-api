@@ -14,7 +14,7 @@
             <span style="color:lightgray;"> / </span>
             <span (click)="goItem(item)" style="cursor:pointer;">{{item.id}}</span>
             <span style="color:lightgray;"> - </span>
-            <a [routerLink]="['/'+item.group+'/'+item.id]">{{item.summary}}</a>
+            <a [routerLink]="['/job/'+item.group+'/'+item.project+'/'+item._id]">{{item.summary}}</a>
           </ng-template>
           <ng-template #nzDescription>
             <div>{{item.description}}</div>
