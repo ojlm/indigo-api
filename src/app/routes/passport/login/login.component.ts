@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http'
 import { Component, Inject, OnDestroy } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
@@ -57,13 +58,16 @@ export class UserLoginComponent implements OnDestroy {
     this.password.updateValueAndValidity()
     if (this.userName.invalid || this.password.invalid) return
     this.loading = false
-    this.http.get<ApiRes<UserProfile>>(API_USER_LOGIN, { username: this.userName.value, password: this.password.value }).subscribe(res => {
-      this.tokenService.set({
-        token: res.data.token
-      })
-      this.loading = true
-      this.startupSrv.load(res.data).then(() => this.router.navigate(['/']))
-    }, err => this.loading = false)
+    const auth = `${this.userName.value}:${this.password.value}`
+    const headers = new HttpHeaders({ 'Authorization': `Basic ${btoa(auth)}` })
+    this.http.get<ApiRes<UserProfile>>(API_USER_LOGIN, null, { headers: headers } as any)
+      .subscribe(res => {
+        this.tokenService.set({
+          token: res.data.token
+        })
+        this.loading = true
+        this.startupSrv.load(res.data).then(() => this.router.navigate(['/']))
+      }, err => this.loading = false)
   }
 
   ngOnDestroy(): void {
