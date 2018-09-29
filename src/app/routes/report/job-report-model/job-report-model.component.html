@@ -1,3 +1,59 @@
-<div>
-  <pre>{{report|json}}</pre>
+<div style="overflow:hidden;padding:10px;">
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <nz-alert [nzType]="report.report==='success'?'success':'error'" nzShowIcon [nzMessage]="nzMessage"
+        [nzDescription]="nzDescription">
+        <ng-template #nzMessage>
+          <span>{{report.jobName}}</span>
+          <span style="padding-left:10px;font-size:small;color:lightgray;">{{report.description}}</span>
+        </ng-template>
+        <ng-template #nzDescription>
+          <div>
+            <span>
+              <span class="span-label">{{'tips-start-at'|translate}}: </span>
+              <span>{{report.startAt}}</span>
+            </span>
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>
+              <span class="span-label">{{'tips-end-at'|translate}}: </span>
+              <span>{{report.endAt}}</span>
+            </span>
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>
+              <span class="span-label">{{'tips-result'|translate}}: </span>
+              <span>{{report.result}}</span>
+            </span>
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>
+              <span class="span-label">{{'tips-elapse'|translate}}: </span>
+              <span>{{report.elapse}} ms</span>
+            </span>
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>
+              <i class="anticon anticon-desktop"></i>
+              <span> {{report.node}}</span>
+            </span>
+            <nz-divider nzType="vertical"></nz-divider>
+            <nz-progress [nzPercent]="statis.okRate" nzType="circle" [nzWidth]="24"></nz-progress>
+            <nz-divider nzType="vertical"></nz-divider>
+            <nz-tag>{{report.type}}</nz-tag>
+          </div>
+        </ng-template>
+      </nz-alert>
+    </div>
+  </div>
+  <nz-card style="width:100%;margin-top:10px;background-color:snow;">
+    <div nz-col nzSpan="12">
+      <ngx-charts-advanced-pie-chart [view]="view" [label]="'tips-total'|translate" [scheme]="colorScheme" [results]="assertions">
+      </ngx-charts-advanced-pie-chart>
+    </div>
+    <div nz-row nzGutter="4">
+      <div nz-col nzSpan="12">
+        <ngx-charts-number-card [view]="view" [scheme]="cardColorScheme" [results]="cardData"></ngx-charts-number-card>
+      </div>
+    </div>
+  </nz-card>
+  <nz-card style="width:100%;margin-top:10px;background-color:snow;">
+    <pre>{{report|json}}</pre>
+  </nz-card>
 </div>

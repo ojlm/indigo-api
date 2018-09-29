@@ -217,6 +217,22 @@ export interface JobReportData {
   ext?: Object
 }
 
+export interface JobReportDataStatistic {
+  caseCount?: number
+  caseOK?: number
+  caseKO?: number
+  scenarioCount?: number
+  scenarioOK?: number
+  scenarioKO?: number
+  scenarioCaseCount?: number
+  scenarioCaseOK?: number
+  scenarioCaseKO?: number
+  scenarioCaseOO?: number
+  okRate?: number
+  assertionPassed?: number
+  assertionFailed?: number
+}
+
 export interface JobReport extends BaseDoc {
   scheduler?: string
   group?: string
@@ -232,6 +248,7 @@ export interface JobReport extends BaseDoc {
   errorMsg?: string
   node?: string
   data?: JobReportData
+  statis?: JobReportDataStatistic
 }
 
 export interface JobExecDesc {
@@ -242,9 +259,10 @@ export interface JobExecDesc {
 export interface CaseReportItem {
   id?: string
   title?: string
+  itemId?: string
   status?: string
   msg?: string
-  result?: CaseResult
+  statis?: CaseStatis
 }
 
 export interface ScenarioReportItem {
