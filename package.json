@@ -37,6 +37,7 @@
     "@delon/util": "^1.4.4",
     "@ngx-translate/core": "^10.0.1",
     "@ngx-translate/http-loader": "^3.0.1",
+    "@swimlane/ngx-charts": "^9.0.0",
     "ajv": "^6.5.3",
     "core-js": "^2.5.4",
     "editorconfig-tools": "^0.1.1",
