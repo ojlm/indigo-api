@@ -39,13 +39,17 @@ export function syntaxHighlight(json: string | Object, newWindow = true) {
   }
 }
 
-export function formatJson(val: any) {
+export function formatJson(val: any, num = 4) {
   if (!val) return
+  const a = []
+  for (let i = 0; i < num; ++i) {
+    a.push(' ')
+  }
   try {
     if (typeof val === 'string') {
-      return JSON.stringify(JSON.parse(val), null, '    ')
+      return JSON.stringify(JSON.parse(val), null, a.join(''))
     } else {
-      return JSON.stringify(val, null, '    ')
+      return JSON.stringify(val, null, a.join(''))
     }
   } catch (error) {
     return val
