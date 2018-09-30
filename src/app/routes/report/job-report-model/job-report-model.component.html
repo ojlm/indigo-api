@@ -59,12 +59,12 @@
       <tbody>
         <tr *ngFor="let item of caseTable.data;let i = index">
           <td>{{(casePageIndex-1)*pageSize+i+1}}</td>
-          <td>{{item.title}}</td>
+          <td><a (click)="viewItem(item)">{{item.title}}</a></td>
           <td>
             <nz-tag [nzColor]="item.status==='pass'?'cyan':'magenta'">{{item.status}}</nz-tag>
           </td>
           <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
-          <td style="width:64px;"><i class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
+          <td style="width:64px;"><i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
         </tr>
       </tbody>
       <ng-template #caseTotalTemplate let-total>
@@ -91,29 +91,29 @@
           <tr [nzExpand]="data.expand">
             <td colspan="3">
               <nz-table #innerTable nzSize="small" [nzData]="data.cases" [nzFrontPagination]="false" [nzShowPagination]="false">
-                <tbody>
-                  <tr *ngFor="let item of innerTable.data;let i = index">
-                    <td>{{i+1}}</td>
-                    <td>{{item.title}}</td>
-                    <td>
-                      <nz-tag [nzColor]="tagColor(item.status)">{{item.status}}</nz-tag>
-                    </td>
-                    <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
-                    <td style="width:64px;"><i class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
-                  </tr>
-                </tbody>
-              </nz-table>
-            </td>
-          </tr>
-        </ng-template>
-      </tbody>
-      <ng-template #scenarioTotalTemplate let-total>
-        <span style="color:lightgray;">
-          <span>{{'item-total'|translate}}</span>
-          <span> {{scenarioTable.data.length}} </span>
-          <span>{{'item-item'|translate}}</span>
-        </span>
+              <tbody>
+                <tr *ngFor="let item of innerTable.data;let i = index">
+                  <td>{{i+1}}</td>
+                  <td><a (click)="viewItem(item)">{{item.title}}</a></td>
+                  <td>
+                    <nz-tag [nzColor]="tagColor(item.status)">{{item.status}}</nz-tag>
+                  </td>
+                  <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
+                  <td style="width:64px;"><i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </td>
+        </tr>
       </ng-template>
+    </tbody>
+    <ng-template #scenarioTotalTemplate let-total>
+      <span style="color:lightgray;">
+        <span>{{'item-total'|translate}}</span>
+        <span> {{scenarioTable.data.length}} </span>
+        <span>{{'item-item'|translate}}</span>
+      </span>
+    </ng-template>
     </nz-table>
   </nz-card>
 </div>

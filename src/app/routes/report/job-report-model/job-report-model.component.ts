@@ -4,13 +4,15 @@ import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
-import { NzMessageService } from 'ng-zorro-antd'
+import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 
 import { CaseService } from '../../../api/service/case.service'
 import { JobService } from '../../../api/service/job.service'
 import { ScenarioService } from '../../../api/service/scenario.service'
 import { CaseReportItem, JobReport, JobReportDataStatistic, ScenarioReportItem } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
+import { calcDrawerWidth } from '../../../util/drawer'
+import { JobReportItemComponent } from '../job-report-item/job-report-item.component'
 
 @Component({
   selector: 'app-job-report-model',
@@ -65,6 +67,7 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
     private fb: FormBuilder,
     private caseService: CaseService,
     private scenarioService: ScenarioService,
+    private drawerService: NzDrawerService,
     private jobService: JobService,
     private msgService: NzMessageService,
     private router: Router,
@@ -76,7 +79,17 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
   }
 
   viewItem(item: CaseReportItem) {
-    console.log(item)
+    if ('skipped' !== item.status) {
+      this.drawerService.create<JobReportItemComponent, { day: string, data: CaseReportItem }, any>({
+        nzTitle: item.title,
+        nzWidth: calcDrawerWidth(),
+        nzContent: JobReportItemComponent,
+        nzContentParams: {
+          day: this.dayIndexSuffix,
+          data: item
+        }
+      })
+    }
   }
 
   tagColor(status: string) {

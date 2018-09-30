@@ -217,6 +217,32 @@ export interface JobReportData {
   ext?: Object
 }
 
+export interface CaseDataItemRequest {
+  method?: string
+  url?: string
+  headers?: object
+  body?: string
+}
+
+export interface CaseDataItemResponse {
+  statusCode?: number
+  statusMsg?: string
+  headers?: object
+  body?: string
+}
+
+export interface JobReportDataItem {
+  reportId?: string
+  caseId?: string
+  scenarioId?: string
+  jobId?: string
+  metrics?: CaseReportItemMetrics
+  request?: CaseDataItemRequest
+  response?: CaseDataItemResponse
+  assertions?: Object
+  assertionsResult?: Object
+}
+
 export interface JobReportDataStatistic {
   caseCount?: number
   caseOK?: number

@@ -8,7 +8,7 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { IndexDocResponse, Job, JobReport, QueryJobReport } from '../../model/es.model'
+import { IndexDocResponse, Job, JobReport, JobReportDataItem, QueryJobReport } from '../../model/es.model'
 import { JobData, JobMeta, TriggerMeta } from '../../model/job.model'
 import { newWS } from '../../util/ws'
 import { API_JOB, API_JOB_CRON, API_JOB_QUERY, API_WS_JOB_TEST } from '../path'
@@ -44,6 +44,10 @@ export class JobService extends BaseService {
 
   getReportById(id: string) {
     return this.http.get<ApiRes<JobReport>>(`${API_JOB}/report/${id}`)
+  }
+
+  getReportItemById(day: string, id: string) {
+    return this.http.get<ApiRes<JobReportDataItem>>(`${API_JOB}/report/item/${day}/${id}`)
   }
 
   queryReports(query: QueryJobReport) {

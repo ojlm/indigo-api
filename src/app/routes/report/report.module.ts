@@ -5,14 +5,18 @@ import { NgxChartsModule } from '@swimlane/ngx-charts'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
 import { ScenarioModule } from '../scenario/scenario.module'
+import { JobReportItemComponent } from './job-report-item/job-report-item.component'
 import { JobReportModelComponent } from './job-report-model/job-report-model.component'
 import { ReportRoutingModule } from './report-routing.module'
 
 const COMPONENT = [
   JobReportModelComponent,
+  JobReportItemComponent,
 ]
 
-const COMPONENT_NOROUNT = []
+const COMPONENT_NOROUNT = [
+  JobReportItemComponent,
+]
 
 @NgModule({
   imports: [

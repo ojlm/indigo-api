@@ -6,11 +6,12 @@ import { Injectable } from '@angular/core'
 })
 export class MonacoService {
 
-  DEFAULT_THEME = 'vs-dark'
+  THEME_WHITE = 'vs'
+  THEME_BLACK = 'vs-dark'
 
   getPlainTextOption(readOnly = false) {
     return {
-      theme: this.DEFAULT_THEME,
+      theme: this.THEME_BLACK,
       language: 'plaintext',
       automaticLayout: true,
       contextmenu: false,
@@ -20,7 +21,7 @@ export class MonacoService {
 
   getMarkdownOption(readOnly = false) {
     return {
-      theme: this.DEFAULT_THEME,
+      theme: this.THEME_BLACK,
       language: 'markdown',
       automaticLayout: true,
       contextmenu: false,
@@ -31,7 +32,7 @@ export class MonacoService {
 
   getJsonOption(readOnly = false): any {
     return {
-      theme: this.DEFAULT_THEME,
+      theme: this.THEME_BLACK,
       language: 'json',
       automaticLayout: true,
       contextmenu: false,
@@ -41,8 +42,18 @@ export class MonacoService {
 
   getJavascriptOption(readOnly = false): any {
     return {
-      theme: this.DEFAULT_THEME,
+      theme: this.THEME_BLACK,
       language: 'javascript',
+      automaticLayout: true,
+      contextmenu: false,
+      readOnly: readOnly
+    }
+  }
+
+  getHtmlOption(readOnly = false) {
+    return {
+      theme: this.THEME_BLACK,
+      language: 'html',
       automaticLayout: true,
       contextmenu: false,
       readOnly: readOnly

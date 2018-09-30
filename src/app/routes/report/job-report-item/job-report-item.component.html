@@ -1,0 +1,106 @@
+<div>
+  <div>
+    <span class="metrics-item">
+      <span class="metrics-item-label">{{'tips-render-request-time'|translate}}: </span>
+      <span class="metrics-item-value">{{metrics.renderRequestTime}} ms</span>
+    </span>
+    <span class="metrics-item">
+      <span class="metrics-item-label">{{'tips-render-auth-time'|translate}}: </span>
+      <span class="metrics-item-value">{{metrics.renderAuthTime}} ms</span>
+    </span>
+    <span class="metrics-item">
+      <span class="metrics-item-label">{{'tips-request-time'|translate}}: </span>
+      <span class="metrics-item-value">{{metrics.requestTime}} ms</span>
+    </span>
+    <span class="metrics-item">
+      <span class="metrics-item-label">{{'tips-eval-assertion-time'|translate}}: </span>
+      <span class="metrics-item-value">{{metrics.evalAssertionTime}} ms</span>
+    </span>
+    <span class="metrics-item">
+      <span class="metrics-item-label">{{'tips-total-time'|translate}}: </span>
+      <span class="metrics-item-value">{{metrics.totalTime}} ms</span>
+    </span>
+  </div>
+  <nz-divider [nzText]="generalText" nzOrientation="left">
+    <ng-template #generalText>
+      <span class="divider-text">
+        <span>General</span>
+      </span>
+    </ng-template>
+  </nz-divider>
+  <div>
+    <div>
+      <span class="label-text">Request URL:</span>
+      <span class="label-value">{{request.url}}</span>
+    </div>
+    <div>
+      <span class="label-text">Request Method:</span>
+      <span class="label-value">{{request.method}}</span>
+    </div>
+    <div>
+      <span class="label-text">Status Code:</span>
+      <span class="label-value">
+        <nz-badge [nzStatus]="response.statusCode<300?'success':'error'"></nz-badge>
+        <span>{{response.statusCode}} {{response.statusMsg}}</span>
+      </span>
+    </div>
+  </div>
+  <nz-divider [nzText]="reqHText" nzOrientation="left">
+    <ng-template #reqHText>
+      <span class="divider-text">
+        <span>Request Headers</span>
+      </span>
+    </ng-template>
+  </nz-divider>
+  <div>
+    <div *ngFor="let item of requestHeaders">
+      <span class="label-text">{{item.key}}:</span>
+      <span class="label-value">{{item.value}}</span>
+    </div>
+  </div>
+  <nz-divider [nzText]="reqBText" nzOrientation="left">
+    <ng-template #reqBText>
+      <span class="divider-text">
+        <span>Request Body</span>
+      </span>
+    </ng-template>
+  </nz-divider>
+  <ngx-monaco-editor *ngIf="request.body" style="height:240px;" [options]="requestBodyEditorOption" [(ngModel)]="request.body"></ngx-monaco-editor>
+  <nz-divider [nzText]="resHText" nzOrientation="left">
+    <ng-template #resHText>
+      <span class="divider-text">
+        <span>Response Headers</span>
+      </span>
+    </ng-template>
+  </nz-divider>
+  <div>
+    <div *ngFor="let item of responseHeaders">
+      <span class="label-text">{{item.key}}:</span>
+      <span class="label-value">{{item.value}}</span>
+    </div>
+  </div>
+  <nz-divider [nzText]="resBText" nzOrientation="left">
+    <ng-template #resBText>
+      <span class="divider-text">
+        <span>Response Body</span>
+      </span>
+    </ng-template>
+  </nz-divider>
+  <ngx-monaco-editor *ngIf="response.body" style="height:240px;" [options]="responseBodyEditorOption" [(ngModel)]="response.body"></ngx-monaco-editor>
+  <nz-divider [nzText]="assertionsText" nzOrientation="left">
+    <ng-template #assertionsText>
+      <span class="divider-text">
+        <span>Assertions</span>
+      </span>
+    </ng-template>
+  </nz-divider>
+  <ngx-monaco-editor style="height:300px;" [options]="jsonEditorOption" [(ngModel)]="itemData.assertions"></ngx-monaco-editor>
+  <nz-divider [nzText]="assertionsRText" nzOrientation="left">
+    <ng-template #assertionsRText>
+      <span class="divider-text">
+        <span>Assertions Result</span>
+      </span>
+    </ng-template>
+  </nz-divider>
+  <ngx-monaco-editor style="height:300px;" [options]="jsonEditorOption" [(ngModel)]="itemData.assertionsResult"></ngx-monaco-editor>
+</div>
