@@ -6,8 +6,8 @@
       </ng-template>
     </nz-divider>
     <nz-steps [nzCurrent]="stepCurrent" nzDirection="vertical" nzSize="small">
-      <nz-step class="step" style="margin-left:10px;margin-right:10px;" *ngFor="let item of addedItems" [nzTitle]="nzTitle"
-        [nzDescription]="nzDescription" (click)="viewCase(item)">
+      <nz-step class="step" style="margin-left:10px;margin-right:10px;" *ngFor="let item of addedItems;let i = index;"
+        [nzTitle]="nzTitle" [nzDescription]="nzDescription" (click)="viewCase(item)">
         <ng-template #nzTitle>
           <div class="step-title">
             <a (click)="removeItem(item, i);$event.stopPropagation();"><i class="anticon anticon-close click-icon hover-red"></i></a>
