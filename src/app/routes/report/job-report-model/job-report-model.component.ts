@@ -113,7 +113,9 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
         ]
         this.dayIndexSuffix = this.report.data.dayIndexSuffix
         this.caseItems = this.report.data.cases
-        this.scenarioItems = this.report.data.scenarios
+        this.scenarioItems = this.report.data.scenarios.map(item => {
+          return { ...item, expand: true }
+        })
       })
     }
   }
