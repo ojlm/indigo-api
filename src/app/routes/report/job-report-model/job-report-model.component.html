@@ -43,19 +43,20 @@
     </div>
   </div>
   <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;">
-    <div nz-col nzSpan="12">
-      <ngx-charts-advanced-pie-chart [view]="view" [label]="'tips-total'|translate" [scheme]="colorScheme" [results]="assertions">
-      </ngx-charts-advanced-pie-chart>
-    </div>
     <div nz-row nzGutter="4">
+      <div nz-col nzSpan="12">
+        <ngx-charts-advanced-pie-chart [view]="view" [label]="'tips-total'|translate" [scheme]="colorScheme" [results]="assertions">
+        </ngx-charts-advanced-pie-chart>
+      </div>
       <div nz-col nzSpan="12">
         <ngx-charts-number-card [view]="view" [scheme]="cardColorScheme" [results]="cardData"></ngx-charts-number-card>
       </div>
     </div>
   </nz-card>
-  <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;">
-    <nz-table #caseTable nzSize="small" [nzTitle]="'field-case'|translate" [nzData]="caseItems" [(nzPageIndex)]="casePageIndex"
-      [nzPageSize]="pageSize" [nzShowTotal]="caseTotalTemplate">
+  <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;" [nzTitle]="'field-case'|translate"
+    [nzBodyStyle]="{'padding':'9px'}">
+    <nz-table #caseTable nzSize="small" [nzData]="caseItems" [(nzPageIndex)]="casePageIndex" [nzPageSize]="pageSize"
+      [nzShowTotal]="caseTotalTemplate">
       <tbody>
         <tr *ngFor="let item of caseTable.data;let i = index">
           <td>{{(casePageIndex-1)*pageSize+i+1}}</td>
@@ -76,9 +77,10 @@
       </ng-template>
     </nz-table>
   </nz-card>
-  <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;">
-    <nz-table #scenarioTable nzSize="small" [nzTitle]="'field-scenario'|translate" [nzData]="scenarioItems"
-      [(nzPageIndex)]="scenarioPageIndex" [nzPageSize]="pageSize" [nzShowTotal]="scenarioTotalTemplate">
+  <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;" [nzTitle]="'field-scenario'|translate"
+    [nzBodyStyle]="{'padding':'9px'}">
+    <nz-table #scenarioTable nzSize="small" [nzData]="scenarioItems" [(nzPageIndex)]="scenarioPageIndex" [nzPageSize]="pageSize"
+      [nzShowTotal]="scenarioTotalTemplate">
       <tbody>
         <ng-template ngFor let-data let-i="index" [ngForOf]="scenarioTable.data">
           <tr style="cursor:pointer;" (click)="data.expand=!data.expand">
@@ -91,21 +93,21 @@
           <tr [nzExpand]="data.expand">
             <td colspan="3">
               <nz-table #innerTable nzSize="small" [nzData]="data.cases" [nzFrontPagination]="false" [nzShowPagination]="false">
-              <tbody>
-                <tr *ngFor="let item of innerTable.data;let i = index">
-                  <td>{{i+1}}</td>
-                  <td><a (click)="viewItem(item)">{{item.title}}</a></td>
-                  <td>
-                    <nz-tag [nzColor]="tagColor(item.status)">{{item.status}}</nz-tag>
-                  </td>
-                  <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
-                  <td style="width:64px;"><i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
-                </tr>
-              </tbody>
-            </nz-table>
+      <tbody>
+        <tr *ngFor="let item of innerTable.data;let i = index">
+          <td>{{i+1}}</td>
+          <td><a (click)="viewItem(item)">{{item.title}}</a></td>
+          <td>
+            <nz-tag [nzColor]="tagColor(item.status)">{{item.status}}</nz-tag>
           </td>
+          <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
+          <td style="width:64px;"><i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
         </tr>
-      </ng-template>
+      </tbody>
+    </nz-table>
+    </td>
+    </tr>
+    </ng-template>
     </tbody>
     <ng-template #scenarioTotalTemplate let-total>
       <span style="color:lightgray;">
@@ -115,5 +117,19 @@
       </span>
     </ng-template>
     </nz-table>
+  </nz-card>
+  <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;" [nzTitle]="'item-trend'|translate">
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <ngx-charts-area-chart [view]="fullView" [scheme]="{'domain':['lightseagreen']}" [results]="okRates" [legend]="false"
+          [xAxis]="true" [yAxis]="true">
+        </ngx-charts-area-chart>
+      </div>
+      <div nz-col nzSpan="24" style="margin-top:100px;">
+        <ngx-charts-line-chart [view]="fullView" [scheme]="coolColorScheme" [results]="statisSeries" [legend]="false"
+          [xAxis]="true" [yAxis]="true">
+        </ngx-charts-line-chart>
+      </div>
+    </div>
   </nz-card>
 </div>

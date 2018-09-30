@@ -32,37 +32,6 @@ import { JobReportItemComponent } from '../job-report-item/job-report-item.compo
 })
 export class JobReportModelComponent extends PageSingleModel implements OnInit {
 
-  group: string
-  project: string
-  reportId: string
-  report: JobReport = {}
-  statis: JobReportDataStatistic = {}
-  pageSize = 10
-  casePageIndex = 1
-  caseItems: CaseReportItem[] = []
-  scenarioPageIndex = 1
-  scenarioItems: ScenarioReportItem[] = []
-  dayIndexSuffix = ''
-  // chart view
-  view = [(window.innerWidth - 100) / 2, 360]
-  // card
-  cardData: NameValue[] = []
-  // pie data
-  assertions: NameValue[] = []
-  colorScheme = {
-    domain: ['deepskyblue', 'darksalmon', '#C7B42C', '#AAAAAA']
-  }
-  cardColorScheme = {
-    domain: [
-      'lightgray', 'deepskyblue', 'darksalmon', 'lightgray', 'deepskyblue',
-      'darksalmon', 'lightgray', 'deepskyblue', 'darksalmon', 'lightpink'
-    ]
-  }
-  @HostListener('window:resize')
-  resize() {
-    this.view = [(window.innerWidth - 100) / 2, 360]
-  }
-
   constructor(
     private fb: FormBuilder,
     private caseService: CaseService,
@@ -76,6 +45,46 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
     private i18nService: I18NService,
   ) {
     super()
+  }
+
+  group: string
+  project: string
+  reportId: string
+  report: JobReport = {}
+  statis: JobReportDataStatistic = {}
+  pageSize = 10
+  casePageIndex = 1
+  caseItems: CaseReportItem[] = []
+  scenarioPageIndex = 1
+  scenarioItems: ScenarioReportItem[] = []
+  dayIndexSuffix = ''
+  // chart view
+  view = [(window.innerWidth - 100) / 2, 360]
+  fullView = [window.innerWidth - 100, 360]
+  // card
+  cardData: NameValue[] = []
+  // pie data
+  assertions: NameValue[] = []
+  colorScheme = {
+    domain: ['deepskyblue', 'darksalmon', '#C7B42C', '#AAAAAA']
+  }
+  coolColorScheme = {
+    domain: [
+      '#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963', '#8796c0', '#7ed3ed', '#50abcc', '#ad6886'
+    ]
+  }
+  cardColorScheme = {
+    domain: [
+      'lightgray', 'deepskyblue', 'darksalmon', 'lightgray', 'deepskyblue',
+      'darksalmon', 'lightgray', 'deepskyblue', 'darksalmon', 'lightpink'
+    ]
+  }
+  okRates = []
+  statisSeries = []
+  @HostListener('window:resize')
+  resize() {
+    this.view = [(window.innerWidth - 100) / 2, 360]
+    this.fullView = [window.innerWidth - 100, 360]
   }
 
   viewItem(item: CaseReportItem) {
@@ -129,6 +138,45 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
         this.scenarioItems = this.report.data.scenarios.map(item => {
           return { ...item, expand: true }
         })
+        this.jobService.reportTrend(this.report.jobId).subscribe(trendRes => {
+          const reports = trendRes.data.list
+          if (null != reports && reports.length > 0) {
+            const okRateSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.FieldOkRate), series: [] }
+            const assertionPassedSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemPassAssertion), series: [] }
+            const assertionFailedSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemFailAssertion), series: [] }
+            const caseCountSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemCaseCount), series: [] }
+            const caseOKSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemCaseOK), series: [] }
+            const caseKOSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemCaseKO), series: [] }
+            const scenarioCountSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCount), series: [] }
+            const scenarioOKSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioOk), series: [] }
+            const scenarioKOSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioKO), series: [] }
+            const scenarioCaseCountSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCaseCount), series: [] }
+            const scenarioCaseOKSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCaseOk), series: [] }
+            const scenarioCaseKOSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCaseKO), series: [] }
+            const scenarioCaseOOSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCaseOO), series: [] }
+            reports.forEach(report => {
+              okRateSeries.series.push({ name: report.endAt, value: report.statis.okRate })
+              assertionPassedSeries.series.push({ name: report.endAt, value: report.statis.assertionPassed })
+              assertionFailedSeries.series.push({ name: report.endAt, value: report.statis.assertionFailed })
+              caseCountSeries.series.push({ name: report.endAt, value: report.statis.caseCount })
+              caseOKSeries.series.push({ name: report.endAt, value: report.statis.caseOK })
+              caseKOSeries.series.push({ name: report.endAt, value: report.statis.caseKO })
+              scenarioCountSeries.series.push({ name: report.endAt, value: report.statis.scenarioCount })
+              scenarioOKSeries.series.push({ name: report.endAt, value: report.statis.scenarioOK })
+              scenarioKOSeries.series.push({ name: report.endAt, value: report.statis.scenarioKO })
+              scenarioCaseCountSeries.series.push({ name: report.endAt, value: report.statis.scenarioCaseCount })
+              scenarioCaseOKSeries.series.push({ name: report.endAt, value: report.statis.scenarioCaseOK })
+              scenarioCaseKOSeries.series.push({ name: report.endAt, value: report.statis.scenarioCaseKO })
+              scenarioCaseOOSeries.series.push({ name: report.endAt, value: report.statis.scenarioCaseOO })
+            })
+            this.okRates = [okRateSeries]
+            this.statisSeries = [
+              assertionPassedSeries, assertionFailedSeries, caseCountSeries, caseOKSeries,
+              caseKOSeries, scenarioCountSeries, scenarioOKSeries, scenarioKOSeries,
+              scenarioCaseCountSeries, scenarioCaseOKSeries, scenarioCaseKOSeries, scenarioCaseOOSeries
+            ]
+          }
+        })
       })
     }
   }
@@ -151,4 +199,9 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
 export interface NameValue {
   name?: string
   value?: number
+}
+
+export interface SeriesItem {
+  name?: string
+  series?: NameValue[]
 }

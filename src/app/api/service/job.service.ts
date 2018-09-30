@@ -46,6 +46,10 @@ export class JobService extends BaseService {
     return this.http.get<ApiRes<JobReport>>(`${API_JOB}/report/${id}`)
   }
 
+  reportTrend(id: string) {
+    return this.http.get<ApiRes<JobReport[]>>(`${API_JOB}/report/trend/${id}`)
+  }
+
   getReportItemById(day: string, id: string) {
     return this.http.get<ApiRes<JobReportDataItem>>(`${API_JOB}/report/item/${day}/${id}`)
   }

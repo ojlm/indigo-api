@@ -1,4 +1,5 @@
 export const I18nKey = {
+  FieldOkRate: 'field-ok-rate',
   ErrorInvalidUrl: 'error-invalid-url',
   ErrorInvalidAssert: 'error-invalid-assert',
   ErrorEmptySummary: 'error-empty-summary',
