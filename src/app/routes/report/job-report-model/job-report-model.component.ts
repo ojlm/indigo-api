@@ -19,6 +19,13 @@ import { PageSingleModel } from '../../../model/page.model'
     .span-label {
       color: darkgray;
     }
+    .clickable {
+      cursor:pointer;
+    }
+    .clickable:hover {
+      transform: scale(1.1);
+      color: darkorange;
+    }
   `]
 })
 export class JobReportModelComponent extends PageSingleModel implements OnInit {
@@ -28,7 +35,10 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
   reportId: string
   report: JobReport = {}
   statis: JobReportDataStatistic = {}
+  pageSize = 10
+  casePageIndex = 1
   caseItems: CaseReportItem[] = []
+  scenarioPageIndex = 1
   scenarioItems: ScenarioReportItem[] = []
   dayIndexSuffix = ''
   // chart view
@@ -43,7 +53,7 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
   cardColorScheme = {
     domain: [
       'lightgray', 'deepskyblue', 'darksalmon', 'lightgray', 'deepskyblue',
-      'darksalmon', 'deepskyblue', 'darksalmon', 'lightgray', 'lightpink'
+      'darksalmon', 'lightgray', 'deepskyblue', 'darksalmon', 'lightpink'
     ]
   }
   @HostListener('window:resize')
@@ -63,6 +73,21 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
     private i18nService: I18NService,
   ) {
     super()
+  }
+
+  viewItem(item: CaseReportItem) {
+    console.log(item)
+  }
+
+  tagColor(status: string) {
+    switch (status) {
+      case 'pass':
+        return 'cyan'
+      case 'fail':
+        return 'magenta'
+      default:
+        return ''
+    }
   }
 
   loadDataById() {

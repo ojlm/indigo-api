@@ -1,7 +1,7 @@
 <div style="overflow:hidden;padding:10px;">
   <div nz-row>
     <div nz-col nzSpan="24">
-      <nz-alert [nzType]="report.report==='success'?'success':'error'" nzShowIcon [nzMessage]="nzMessage"
+      <nz-alert [nzType]="report.result==='success'?'success':'error'" nzShowIcon [nzMessage]="nzMessage"
         [nzDescription]="nzDescription">
         <ng-template #nzMessage>
           <span>{{report.jobName}}</span>
@@ -42,7 +42,7 @@
       </nz-alert>
     </div>
   </div>
-  <nz-card style="width:100%;margin-top:10px;background-color:snow;">
+  <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;">
     <div nz-col nzSpan="12">
       <ngx-charts-advanced-pie-chart [view]="view" [label]="'tips-total'|translate" [scheme]="colorScheme" [results]="assertions">
       </ngx-charts-advanced-pie-chart>
@@ -53,7 +53,67 @@
       </div>
     </div>
   </nz-card>
-  <nz-card style="width:100%;margin-top:10px;background-color:snow;">
-    <pre>{{report|json}}</pre>
+  <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;">
+    <nz-table #caseTable nzSize="small" [nzTitle]="'field-case'|translate" [nzData]="caseItems" [(nzPageIndex)]="casePageIndex"
+      [nzPageSize]="pageSize" [nzShowTotal]="caseTotalTemplate">
+      <tbody>
+        <tr *ngFor="let item of caseTable.data;let i = index">
+          <td>{{(casePageIndex-1)*pageSize+i+1}}</td>
+          <td>{{item.title}}</td>
+          <td>
+            <nz-tag [nzColor]="item.status==='pass'?'cyan':'magenta'">{{item.status}}</nz-tag>
+          </td>
+          <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
+          <td style="width:64px;"><i class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
+        </tr>
+      </tbody>
+      <ng-template #caseTotalTemplate let-total>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{caseTable.data.length}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+    </nz-table>
+  </nz-card>
+  <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;">
+    <nz-table #scenarioTable nzSize="small" [nzTitle]="'field-scenario'|translate" [nzData]="scenarioItems"
+      [(nzPageIndex)]="scenarioPageIndex" [nzPageSize]="pageSize" [nzShowTotal]="scenarioTotalTemplate">
+      <tbody>
+        <ng-template ngFor let-data let-i="index" [ngForOf]="scenarioTable.data">
+          <tr style="cursor:pointer;" (click)="data.expand=!data.expand">
+            <td>{{(scenarioPageIndex-1)*pageSize+i+1}}</td>
+            <td>{{data.title}}</td>
+            <td>
+              <nz-tag [nzColor]="tagColor(data.status)">{{data.status}}</nz-tag>
+            </td>
+          </tr>
+          <tr [nzExpand]="data.expand">
+            <td colspan="3">
+              <nz-table #innerTable nzSize="small" [nzData]="data.cases" [nzFrontPagination]="false" [nzShowPagination]="false">
+                <tbody>
+                  <tr *ngFor="let item of innerTable.data;let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.title}}</td>
+                    <td>
+                      <nz-tag [nzColor]="tagColor(item.status)">{{item.status}}</nz-tag>
+                    </td>
+                    <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
+                    <td style="width:64px;"><i class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+      <ng-template #scenarioTotalTemplate let-total>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{scenarioTable.data.length}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+    </nz-table>
   </nz-card>
 </div>
