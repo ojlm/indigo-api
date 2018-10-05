@@ -1,3 +1,4 @@
+import { Location } from '@angular/common'
 import { HttpHeaders } from '@angular/common/http'
 import { Component, Inject, OnDestroy } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
@@ -25,6 +26,7 @@ export class UserLoginComponent implements OnDestroy {
   constructor(
     fb: FormBuilder,
     private router: Router,
+    private location: Location,
     public msg: NzMessageService,
     private http: _HttpClient,
     private modalSrv: NzModalService,
@@ -66,7 +68,9 @@ export class UserLoginComponent implements OnDestroy {
           token: res.data.token
         })
         this.loading = true
-        this.startupSrv.load(res.data).then(() => this.router.navigate(['/']))
+        this.startupSrv.load(res.data).then(() => {
+          this.location.back()
+        })
       }, err => this.loading = false)
   }
 
