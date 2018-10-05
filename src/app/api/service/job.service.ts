@@ -72,8 +72,12 @@ export class JobService extends BaseService {
     return querySubject
   }
 
-  newTestWs() {
-    const ws = newWS(`${API_WS_JOB_TEST}?token=${this.tokenService.get()['token']}`)
+  newTestWs(group: string, project: string, id: string) {
+    let idParam = ''
+    if (id) {
+      idParam = `&id=${id}`
+    }
+    const ws = newWS(`${API_WS_JOB_TEST}/${group}/${project}?token=${this.tokenService.get()['token']}${idParam}`)
     ws.onerror = (event) => {
       console.error(event)
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorWsOnError))

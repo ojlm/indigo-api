@@ -27,7 +27,7 @@ export class CaseService extends BaseService {
     return this.http.post<ApiRes<UpdateDocResponse>>(`${API_CASE_UPDATE}/${id}`, cs)
   }
 
-  test(cs: Case) {
+  test(cs: { id: string, cs: Case }) {
     return this.http.post<ApiRes<CaseResult>>(API_CASE_TEST, cs)
   }
 

@@ -153,7 +153,7 @@ export class CaseModelComponent implements OnInit {
         this.lastResult = this.testResult.context
       }
       this.testResult = {}
-      this.caseService.test(cs).subscribe(res => {
+      this.caseService.test({ id: this.case._id, cs: cs }).subscribe(res => {
         this.isSending = false
         this.testResult = res.data
         this.tabIndex = 5
