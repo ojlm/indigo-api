@@ -35,7 +35,7 @@ export class AssertionListComponent implements OnInit {
     return this.items
   }
   set data(value: AssertionItems) {
-    if (value.items && value.items.length > 0) {
+    if (value && value.items && value.items.length > 0) {
       this.items = value
     }
   }

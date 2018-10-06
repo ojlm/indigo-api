@@ -1,0 +1,68 @@
+<div class="{{isFullDocument?'full-doc':''}}">
+  <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false"
+    [nzTabBarExtraContent]="extraTemplate" [nzTabBarStyle]="tabBarStyle">
+    <nz-tab [nzTitle]="'item-list'|translate">
+      <div class="custom-scollbar" style="overflow:auto;" [style.height]="generatorListHeight">
+        <nz-list [nzDataSource]="generator.list" [nzRenderItem]="item" [nzFooter]="nzFooter">
+          <ng-template #item let-item let-i="index">
+            <nz-list-item>
+              <nz-list-item-meta [nzDescription]="nzDescription">
+                <ng-template #nzDescription>
+                  <div nz-row style="background-color:white;">
+                    <div nz-col nzSpan="24" style="background-color:whitesmoke;">
+                      <a (click)="run(item, i)"><i class="anticon anticon-caret-right click-icon"></i></a>
+                      <a (click)="remove(item, i)" style="float:right;padding-right:3px;"><i class="anticon anticon-delete"></i></a>
+                    </div>
+                    <div nz-col nzSpan="12" class="custom-scollbar" style="height:240px;overflow:auto;">
+                      <app-key-value [(data)]="item.map" (dataChange)="modelChange()"></app-key-value>
+                    </div>
+                    <div nz-col nzSpan="12">
+                      <app-assertion-list *ngIf="assertSimpleEditorMode" [editorHeight]="'240px'" [assertions]="assertions"
+                        [(data)]="item.assertionItems" (dataChange)="assertionItemsChange(item)">
+                      </app-assertion-list>
+                      <ngx-monaco-editor *ngIf="!assertSimpleEditorMode" [style.height]="'240px'" [options]="jsonEditorOption"
+                        [(ngModel)]="item.assert" (ngModelChange)="syncToAssertionItems(item)">
+                      </ngx-monaco-editor>
+                    </div>
+                  </div>
+                </ng-template>
+              </nz-list-item-meta>
+            </nz-list-item>
+          </ng-template>
+          <ng-template #nzFooter>
+            <button nz-button nzSize="small" nzType="dashed" (click)="addItem()">
+              <span><i class="anticon anticon-plus"></i></span>
+              <span style="margin-left:2px;">{{'btn-add'|translate}}</span>
+            </button>
+          </ng-template>
+        </nz-list>
+      </div>
+    </nz-tab>
+    <nz-tab [nzTitle]="'item-script'|translate">
+      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="javascriptEditorOption" [(ngModel)]="generator.script"
+        (ngModelChange)="scriptChange()">
+      </ngx-monaco-editor>
+    </nz-tab>
+  </nz-tabset>
+  <ng-template #extraTemplate>
+    <button [title]="'tips-assert-mode'|translate" nzSize="small" [nzType]="assertSimpleEditorMode?'primary':'dashed'"
+      nz-button (click)="assertEditorModeChange()">
+      <i style="font-size:smaller;">{{(assertSimpleEditorMode?'btn-simple':'btn-full')|translate}}</i>
+    </button>
+    <button [title]="'tips-word-wrap'|translate" style="margin-left:3px;" nzSize="small" [nzType]="wraped?'primary':'dashed'"
+      nz-button (click)="wrap()">
+      <i class="anticon anticon-bars"></i>
+    </button>
+    <button [title]="'tips-format'|translate" style="margin-left:3px;" nzSize="small" nzType="dashed" nz-button (click)="formatAssert()">
+      <i class="anticon anticon-layout"></i>
+    </button>
+    <button [title]="'tips-full-window'|translate" style="margin-left:3px;" nzSize="small" [nzType]="isFullDocument?'primary':'dashed'"
+      nz-button (click)="fullWindowBtnClick()">
+      <i class="anticon anticon-windows-o"></i>
+    </button>
+    <button [title]="'tips-fullscreen'|translate" style="margin-left:3px;margin-right:3px;" nzSize="small" [nzType]="isFullscreen?'primary':'dashed'"
+      nz-button (click)="fullScreenBtnClick()">
+      <i class="anticon anticon-{{isFullscreen?'shrink':'arrows-alt'}}"></i>
+    </button>
+  </ng-template>
+</div>

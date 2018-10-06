@@ -8,7 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 
 import { CaseService } from '../../../api/service/case.service'
 import { GroupService } from '../../../api/service/group.service'
-import { Case, CaseResult, KeyValueObject, METHODS } from '../../../model/es.model'
+import { Assertion, Case, CaseResult, KeyValueObject, METHODS } from '../../../model/es.model'
 import { HttpContentTypes } from '../../../model/http.model'
 import { searchToObj } from '../../../util/urlutils'
 
@@ -49,6 +49,7 @@ export class CaseModelComponent implements OnInit {
   lastResult = {}
   isSaved = true
   historyVisible = false
+  assertions: Assertion[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -147,7 +148,6 @@ export class CaseModelComponent implements OnInit {
   send() {
     const cs = this.preHandleCaseBeforeRequest(this.case)
     if (cs) {
-      console.log(cs)
       this.isSending = true
       if (this.testResult) {
         this.lastResult = this.testResult.context
@@ -158,7 +158,7 @@ export class CaseModelComponent implements OnInit {
         this.testResult = res.data
         this.tabIndex = 5
         if (this.case.assert && Object.keys(this.case.assert).length > 0) {
-          this.assertResultTabIndex = 4
+          this.assertResultTabIndex = 5
         } else {
           this.assertResultTabIndex = 0
         }
@@ -173,12 +173,14 @@ export class CaseModelComponent implements OnInit {
         if (this.case._id) {
           this.caseService.update(this.case._id, cs).subscribe(res => {
             this.isSaved = true
+            this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
         } else {
           this.caseService.index(cs).subscribe(res => {
             this.case._id = res.data.id
             this.updateCaseRoute()
             this.isSaved = true
+            this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
         }
       }
@@ -195,6 +197,7 @@ export class CaseModelComponent implements OnInit {
           this.case._id = res.data.id
           this.updateCaseRoute()
           this.isSaved = true
+          this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         })
       }
     } else {
@@ -256,6 +259,24 @@ export class CaseModelComponent implements OnInit {
     } else {
       c.assert = {}
     }
+    // generator
+    if (c.generator && c.generator.list && c.generator.list.length > 0) {
+      c.generator.list.forEach(item => {
+        if (item.assert) {
+          try {
+            if (typeof item.assert === 'string') {
+              item.assert = JSON.parse(item.assert)
+            }
+          } catch (error) {
+            console.error(error)
+            this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorInvalidAssert))
+            return
+          }
+        } else {
+          item.assert = {}
+        }
+      })
+    }
     return c
   }
 
@@ -279,6 +300,11 @@ export class CaseModelComponent implements OnInit {
         }
       }
     })
+    if (this.assertions && this.assertions.length === 0) {
+      this.caseService.getAllAssertions().subscribe(res => {
+        this.assertions = res.data
+      })
+    }
   }
 }
 

@@ -80,9 +80,12 @@
         </app-media-object>
       </nz-tab>
       <nz-tab [nzTitle]="'item-result-assert'|translate">
-        <app-result-assert [(index)]="assertResultTabIndex" [result]="testResult" [(assert)]="case.assert" [lastResult]="lastResult"
-          (assertChange)="modelChange()">
+        <app-result-assert [assertions]="assertions" [(index)]="assertResultTabIndex" [result]="testResult" [(assert)]="case.assert"
+          [lastResult]="lastResult" (assertChange)="modelChange()">
         </app-result-assert>
+      </nz-tab>
+      <nz-tab [nzTitle]="'item-generator'|translate">
+        <app-case-generator [assertions]="assertions" [(data)]="case.generator" (dataChange)="modelChange()"></app-case-generator>
       </nz-tab>
     </nz-tabset>
   </nz-card>

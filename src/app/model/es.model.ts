@@ -53,6 +53,7 @@ export interface Case extends BaseDoc {
   assert?: any
   env?: string
   labels?: LabelRef[]
+  generator?: CaseGenerator
 }
 
 export interface ScenarioStep {
@@ -337,4 +338,15 @@ export interface UpdateDocResponse {
 export interface Assertion {
   name?: string
   description?: string
+}
+
+export interface CaseGeneratorListItem {
+  map?: KeyValueObject[]
+  assert?: any
+}
+
+export interface CaseGenerator {
+  script?: string
+  list?: CaseGeneratorListItem[]
+  count?: number
 }

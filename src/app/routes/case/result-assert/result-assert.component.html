@@ -25,6 +25,9 @@
       <ngx-monaco-diff-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [originalModel]="originalModel"
         [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor>
     </nz-tab>
+    <nz-tab [nzTitle]="'item-initial-context'|translate">
+      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="_initCtx"></ngx-monaco-editor>
+    </nz-tab>
     <nz-tab [nzTitle]="'item-assert-report'|translate">
       <div style="padding-top:5px;">
         <nz-alert *ngIf="!hasResult" [nzMessage]="'tips-no-result'|translate" nzShowIcon></nz-alert>

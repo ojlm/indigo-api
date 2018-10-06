@@ -4,102 +4,60 @@ import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { NzMessageService } from 'ng-zorro-antd'
-import { DiffEditorModel } from 'ngx-monaco-editor'
 import * as screenfull from 'screenfull'
 
 import { CaseService } from '../../../api/service/case.service'
-import { Assertion, CaseReportItemMetrics, CaseResult, CaseStatis } from '../../../model/es.model'
+import { Assertion, CaseGenerator, CaseGeneratorListItem } from '../../../model/es.model'
 import { formatJson } from '../../../util/json'
 import { AssertionItem, AssertionItems } from '../assertion-list/assertion-list.component'
 
 @Component({
-  selector: 'app-result-assert',
-  templateUrl: './result-assert.component.html',
-  styleUrls: ['./result-assert.component.css']
+  selector: 'app-case-generator',
+  templateUrl: './case-generator.component.html',
+  styleUrls: ['./case-generator.component.css']
 })
-export class ResultAssertComponent implements OnInit {
+export class CaseGeneratorComponent implements OnInit {
 
+  generator: CaseGeneratorExt = { script: '', list: [] }
+  tabIndex = 0
   tabBarStyle = {
     'background-color': 'snow',
     'margin': '0px',
     'height': '40px'
   }
+  generatorListHeight = ''
   editorFullHeight = '480px'
-  assertionEditorHeight = '470px'
   isFullscreen = screenfull.isFullscreen
   isFullDocument = false
-  tabIndex = 0
-  /** for first modelChange event bug */
-  originAssert = ''
-  _assert = ''
-  caseContext = ''
-  caseRequest = ''
-  caseAssertResult = ''
-  metrics: CaseReportItemMetrics = {}
-  statis: CaseStatis = {}
-  originalModel: DiffEditorModel = {
-    code: '',
-    language: 'json'
-  }
-  modifiedModel: DiffEditorModel = {
-    code: '',
-    language: 'json'
-  }
   assertSimpleEditorMode = true
   @Input() assertions: Assertion[] = []
   assertionItems: AssertionItems = { logic: 'and', items: [] }
-  hasResult = false
-  @Input()
-  set index(val: number) {
-    this.tabIndex = val
-  }
-  @Output()
-  indexChange = new EventEmitter<number>()
-  @Input()
-  set result(val: CaseResult) {
-    if (val && val.statis) {
-      this.hasResult = true
-    } else {
-      this.hasResult = false
-    }
-    this.caseContext = formatJson(val.context)
-    this.modifiedModel = { code: this.caseContext || '', language: 'json' }
-    this.caseRequest = formatJson(val.request)
-    this.caseAssertResult = formatJson(val.result)
-    this.metrics = val.metrics || {}
-    this.statis = val.statis || {}
-  }
-  @Input()
-  get assert() {
-    return this._assert
-  }
-  set assert(val: string) {
-    if (typeof val === 'string') {
-      this._assert = val
-    } else {
-      this._assert = formatJson(val)
-    }
-    if (!this.originAssert) {
-      this.syncToAssertionList()
-    }
-    this.originAssert = this._assert
-  }
-  @Output()
-  assertChange = new EventEmitter<string>()
-  @Input()
-  set lastResult(val: any) {
-    try {
-      this.originalModel = { code: formatJson(val) || '', language: 'json' }
-    } catch (error) { console.error(error) }
-  }
-  _initCtx = '// used in scenario'
-  @Input()
-  set initCtx(val: Object) {
-    this._initCtx = formatJson(val)
-  }
   wraped = false
-  jsonRoEditorOption = this.monocoService.getJsonOption(true)
+  javascriptEditorOption = this.monocoService.getJavascriptOption(false)
   jsonEditorOption = this.monocoService.getJsonOption(false)
+  /** for first modelChange event bug */
+  originScript = ''
+  @Input()
+  set data(val: CaseGenerator) {
+    if (val) {
+      if (!this.originScript && !val.script) {
+        this.originScript = val.script
+      }
+      this.generator = val
+      if (this.generator.list && this.generator.list.length > 0) {
+        this.generator.list.forEach(item => {
+          this.parseAssertionItems(item)
+        })
+      } else {
+        this.generator.list = []
+      }
+    }
+  }
+  get data() {
+    return this.generator
+  }
+  @Output()
+  dataChange = new EventEmitter<CaseGenerator>()
 
   constructor(
     private fb: FormBuilder,
@@ -112,9 +70,22 @@ export class ResultAssertComponent implements OnInit {
     private el: ElementRef<HTMLDivElement>,
   ) { }
 
-  assertionItemsChange() {
+  addItem() {
+    this.generator.list.push({ map: [], assert: '', assertionItems: { logic: 'and', items: [] } })
+  }
+
+  run(item: ListItem, i: number) {
+    console.log(i, item, this.data)
+  }
+
+  remove(item: ListItem, i: number) {
+    this.generator.list.splice(i, 1)
+    this.modelChange()
+  }
+
+  assertionItemsChange(listItem: ListItem) {
     try {
-      const list = this.assertionItems.items.map(item => {
+      const list = listItem.assertionItems.items.map(item => {
         const pathObj = {}
         const path = item.path
         const operator = item.operator
@@ -140,11 +111,11 @@ export class ResultAssertComponent implements OnInit {
       })
       let assert = {}
       try {
-        if (this._assert) {
-          assert = JSON.parse(this._assert)
+        if (listItem.assert) {
+          assert = JSON.parse(listItem.assert)
         }
       } catch (error) {
-        console.error(error, this._assert)
+        console.error(error, listItem.assert)
       }
       if ('or' === this.assertionItems.logic) {
         assert['$list-or'] = list
@@ -153,8 +124,8 @@ export class ResultAssertComponent implements OnInit {
         assert['$list-and'] = list
         delete assert['$list-or']
       }
-      this._assert = formatJson(assert)
-      this.assertChange.emit(this._assert)
+      listItem.assert = formatJson(assert, 2)
+      this.modelChange()
     } catch (error) {
       console.error(error)
     }
@@ -165,10 +136,10 @@ export class ResultAssertComponent implements OnInit {
       this.isFullDocument = !this.isFullDocument
       if (this.isFullDocument) {
         this.editorFullHeight = `${window.innerHeight}px`
-        this.assertionEditorHeight = `${window.innerHeight - 40}px`
+        this.generatorListHeight = `${window.innerHeight - 40}px`
       } else {
         this.editorFullHeight = '480px'
-        this.assertionEditorHeight = '470px'
+        this.generatorListHeight = ''
       }
     }
   }
@@ -178,11 +149,11 @@ export class ResultAssertComponent implements OnInit {
     if (this.isFullscreen && screenfull.enabled) {
       this.isFullDocument = true
       this.editorFullHeight = `${screen.height}px`
-      this.assertionEditorHeight = `${screen.height - 40}px`
+      this.generatorListHeight = `${window.innerHeight - 40}px`
     } else {
       this.isFullDocument = false
       this.editorFullHeight = '480px'
-      this.assertionEditorHeight = '470px'
+      this.generatorListHeight = ''
     }
     if (screenfull.enabled) {
       screenfull.toggle()
@@ -193,10 +164,10 @@ export class ResultAssertComponent implements OnInit {
     this.wraped = !this.wraped
     if (this.wraped) {
       this.jsonEditorOption = { ...this.jsonEditorOption, 'wordWrap': 'on' }
-      this.jsonRoEditorOption = { ...this.jsonRoEditorOption, 'wordWrap': 'on' }
+      this.javascriptEditorOption = { ...this.javascriptEditorOption, 'wordWrap': 'on' }
     } else {
       this.jsonEditorOption = { ...this.jsonEditorOption, 'wordWrap': 'off' }
-      this.jsonRoEditorOption = { ...this.jsonRoEditorOption, 'wordWrap': 'off' }
+      this.javascriptEditorOption = { ...this.javascriptEditorOption, 'wordWrap': 'off' }
     }
   }
 
@@ -207,28 +178,33 @@ export class ResultAssertComponent implements OnInit {
 
   formatAssert() {
     try {
-      this._assert = formatJson(this._assert)
+      this.generator.list.forEach(item => {
+        item.assert = formatJson(item.assert, 2)
+      })
       this.modelChange()
     } catch (error) { console.error(error) }
   }
 
-  tabIndexChange() {
-    this.indexChange.emit(this.tabIndex)
-  }
-
-  modelChange() {
-    if (this.originAssert !== this._assert) {
-      this.originAssert = null
-      this.assertChange.emit(this._assert)
-      this.syncToAssertionList()
+  scriptChange() {
+    if (this.originScript !== this.generator.script) {
+      this.modelChange()
     }
   }
 
-  syncToAssertionList() {
+  modelChange() {
+    this.dataChange.emit(this.data)
+  }
+
+  syncToAssertionItems(listItem: ListItem) {
+    this.parseAssertionItems(listItem)
+    this.modelChange()
+  }
+
+  parseAssertionItems(listItem: ListItem) {
     try {
-      if (!this._assert) return
+      if (!listItem.assert) return
       let items = null
-      const assert = JSON.parse(this._assert)
+      const assert = JSON.parse(listItem.assert)
       let loginOp = 'and'
       if (assert['$list-or']) {
         items = assert['$list-or']
@@ -255,9 +231,14 @@ export class ResultAssertComponent implements OnInit {
             }
           }
         }
-        this.assertionItems = {
+        listItem.assertionItems = {
           logic: loginOp,
           items: assertionItems
+        }
+      } else {
+        listItem.assertionItems = {
+          logic: loginOp,
+          items: []
         }
       }
     } catch (error) { }
@@ -265,4 +246,12 @@ export class ResultAssertComponent implements OnInit {
 
   ngOnInit(): void {
   }
+}
+
+interface ListItem extends CaseGeneratorListItem {
+  assertionItems?: AssertionItems
+}
+
+interface CaseGeneratorExt extends CaseGenerator {
+  list?: ListItem[]
 }
