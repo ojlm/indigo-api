@@ -71,7 +71,7 @@ export class CaseGeneratorComponent implements OnInit {
   ) { }
 
   addItem() {
-    this.generator.list.push({ map: [], assert: '', assertionItems: { logic: 'and', items: [] } })
+    this.generator.list.push({ map: [], originAssert: '', assert: '', assertionItems: { logic: 'and', items: [] } })
   }
 
   run(item: ListItem, i: number) {
@@ -196,15 +196,23 @@ export class CaseGeneratorComponent implements OnInit {
   }
 
   syncToAssertionItems(listItem: ListItem) {
-    this.parseAssertionItems(listItem)
-    this.modelChange()
+    if (listItem.originAssert !== listItem.assert) {
+      this.parseAssertionItems(listItem)
+      this.modelChange()
+    }
   }
 
   parseAssertionItems(listItem: ListItem) {
     try {
       if (!listItem.assert) return
       let items = null
-      const assert = JSON.parse(listItem.assert)
+      let assert = listItem.assert
+      if (typeof listItem.assert === 'string') {
+        assert = JSON.parse(listItem.assert)
+      } else { // first initialize
+        listItem.assert = formatJson(listItem.assert, 2)
+        listItem.originAssert = listItem.assert
+      }
       let loginOp = 'and'
       if (assert['$list-or']) {
         items = assert['$list-or']
@@ -250,6 +258,7 @@ export class CaseGeneratorComponent implements OnInit {
 
 interface ListItem extends CaseGeneratorListItem {
   assertionItems?: AssertionItems
+  originAssert?: string
 }
 
 interface CaseGeneratorExt extends CaseGenerator {
