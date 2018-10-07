@@ -62,12 +62,7 @@ export class StartupService {
 
   load(profile: UserProfile = null): Promise<any> {
     if (profile) {
-      // 用户信息：包括姓名、头像、邮箱地址
-      this.settingService.setUser({
-        name: profile.username,
-        email: profile.email,
-        avatar: './assets/data/img/avatar.png'
-      })
+      this.settingService.setUser(profile)
     }
     // only works with promises
     // https://github.com/angular/angular/issues/15088

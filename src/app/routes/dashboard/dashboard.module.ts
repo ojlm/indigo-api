@@ -6,11 +6,13 @@ import { DashboardRoutingModule } from './dashboard-routing.module'
 import { GroupsComponent } from './groups/groups.component'
 import { JobsComponent } from './jobs/jobs.component'
 import { ProjectsComponent } from './projects/projects.component'
+import { UserProfileComponent } from './user-profile/user-profile.component'
 
 const COMPONENT = [
   GroupsComponent,
   ProjectsComponent,
   JobsComponent,
+  UserProfileComponent,
 ]
 
 const COMPONENT_NOROUNT = []

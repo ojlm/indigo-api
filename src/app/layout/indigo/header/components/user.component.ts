@@ -3,29 +3,39 @@ import { Router } from '@angular/router'
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth'
 import { SettingsService } from '@delon/theme'
 
+import { UserProfile } from '../../../../model/user.model'
+
 @Component({
   selector: 'header-user',
   template: `
   <nz-dropdown nzPlacement="bottomRight">
     <div class="item d-flex align-items-center px-sm" nz-dropdown>
-      <nz-avatar [nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm"></nz-avatar>
-      {{settings.user.name}}
+      <nz-avatar [nzText]="(settings.user.nickname||settings.user.username)[0]"
+        style="background-color:transparent;"[nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm">
+      </nz-avatar>
+      {{settings.user.nickname||settings.user.username}}
     </div>
     <div nz-menu class="width-sm">
-      <div nz-menu-item [nzDisabled]="true"><i class="anticon anticon-user mr-sm"></i>个人中心</div>
-      <div nz-menu-item [nzDisabled]="true"><i class="anticon anticon-setting mr-sm"></i>设置</div>
+      <div nz-menu-item (click)="goProfile()"><i class="anticon anticon-user mr-sm"></i>{{'menu-profile'|translate}}</div>
+      <div nz-menu-item [nzDisabled]="true"><i class="anticon anticon-setting mr-sm"></i>{{'menu-sys-settings'|translate}}</div>
       <li nz-menu-divider></li>
-      <div nz-menu-item (click)="logout()"><i class="anticon anticon-setting mr-sm"></i>退出登录</div>
+      <div nz-menu-item (click)="logout()"><i class="anticon anticon-setting mr-sm"></i>{{'menu-logout'|translate}}</div>
     </div>
   </nz-dropdown>
   `,
 })
 export class HeaderUserComponent {
+
+  avatarText = ''
   constructor(
     public settings: SettingsService,
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
   ) { }
+
+  goProfile() {
+    this.router.navigateByUrl('/dashboard/profile')
+  }
 
   logout() {
     this.tokenService.clear()
