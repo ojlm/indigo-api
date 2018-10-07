@@ -68,7 +68,6 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
       if (event.data) {
         try {
           const res = JSON.parse(event.data) as ActorEvent<JobExecDesc>
-          console.log(res)
           if (ActorEventType.ITEM === res.type) {
             // set case result
           } else if (ActorEventType.OVER === res.type) {

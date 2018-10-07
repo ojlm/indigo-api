@@ -8,7 +8,7 @@ import { DiffEditorModel } from 'ngx-monaco-editor'
 import * as screenfull from 'screenfull'
 
 import { CaseService } from '../../../api/service/case.service'
-import { Assertion, CaseReportItemMetrics, CaseResult, CaseStatis } from '../../../model/es.model'
+import { Assertion, CaseReportItemMetrics, CaseResult, CaseStatis, ContextOptions } from '../../../model/es.model'
 import { formatJson } from '../../../util/json'
 import { AssertionItem, AssertionItems } from '../assertion-list/assertion-list.component'
 
@@ -94,8 +94,10 @@ export class ResultAssertComponent implements OnInit {
   }
   _initCtx = '// used in scenario'
   @Input()
-  set initCtx(val: Object) {
-    this._initCtx = formatJson(val)
+  set ctxOptions(options: ContextOptions) {
+    if (options && options.initCtx) {
+      this._initCtx = formatJson(options.initCtx)
+    }
   }
   wraped = false
   jsonRoEditorOption = this.monocoService.getJsonOption(true)

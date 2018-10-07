@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { Case, CaseResult, IndexDocResponse, UpdateDocResponse, Assertion } from '../../model/es.model'
+import { Assertion, Case, CaseResult, ContextOptions, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
 import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE } from '../path'
 import { BaseService } from './base.service'
 
@@ -27,7 +27,7 @@ export class CaseService extends BaseService {
     return this.http.post<ApiRes<UpdateDocResponse>>(`${API_CASE_UPDATE}/${id}`, cs)
   }
 
-  test(cs: { id: string, cs: Case }) {
+  test(cs: { id: string, cs: Case, options: ContextOptions }) {
     return this.http.post<ApiRes<CaseResult>>(API_CASE_TEST, cs)
   }
 

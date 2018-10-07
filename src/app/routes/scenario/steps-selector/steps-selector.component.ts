@@ -6,26 +6,22 @@ import { Subject } from 'rxjs'
 
 import { CaseService, QueryCase } from '../../../api/service/case.service'
 import { ScenarioService, ScenarioStepType } from '../../../api/service/scenario.service'
-import { ApiRes } from '../../../model/api.model'
-import { Case, ScenarioStep } from '../../../model/es.model'
+import { ActorEvent, ApiRes } from '../../../model/api.model'
+import { Case, CaseResult, ContextOptions, ReportItemEvent, ScenarioStep } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 import { calcDrawerWidth } from '../../../util/drawer'
 
 @Component({
   selector: 'app-steps-selector',
   styles: [`
-    .click-icon {
+    .hover-red {
       font-weight: bold;
       font-style: oblique;
-    }
-    .hover-red {
       display: none;
       transition: all 0.3s ease;
     }
-    .step:hover {
+    .step-title:hover {
       cursor: pointer;
-    }
-    .step:hover .step-title {
     }
     .step:hover .hover-red {
       display: inline-block;
@@ -47,10 +43,11 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
   searchCase: Subject<QueryCase>
   caseDrawerVisible = false
   editCaseId: string
+  editCaseResult: CaseResult
   searchText: string
-  addedItems: Case[] = []
+  addedItems: CaseExt[] = []
   stepCurrent = 0
-
+  @Input() eventSubject: Subject<ActorEvent<ReportItemEvent>>
   @Input()
   set data(steps: ScenarioStep[]) {
     if (steps.length > 0 && this.addedItems.length === 0) {
@@ -70,6 +67,13 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
       }
       return step
     })
+  }
+  _ctxOptions: ContextOptions = {}
+  @Input()
+  set ctxOptions(val: ContextOptions) {
+    if (val) {
+      this._ctxOptions = val
+    }
   }
   @Output() dataChange = new EventEmitter<ScenarioStep[]>()
   @HostListener('window:resize')
@@ -95,16 +99,20 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
   }
 
   addNewCaseStep() {
+    this.clearStatus()
     this.editCaseId = ''
+    this.editCaseResult = undefined
     this.caseDrawerVisible = true
   }
 
   addItem(item: Case) {
+    this.clearStatus()
     this.addedItems.push(item)
     this.dataChange.emit(this.data)
   }
 
   updateCase(item: Case) {
+    this.clearStatus()
     const newAddedItems = []
     this.addedItems.forEach(i => {
       if (i._id === item._id) {
@@ -123,10 +131,10 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
       }
     })
     this.items = newItems
-    console.log(this.addedItems)
   }
 
   removeItem(item: Case, i: number) {
+    this.clearStatus()
     this.addedItems.splice(i, 1)
     this.dataChange.emit(this.data)
   }
@@ -146,13 +154,40 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
     }
   }
 
-  viewCase(item: Case) {
+  viewCase(item: CaseExt) {
     this.editCaseId = item._id
+    if (item.report) {
+      this.editCaseResult = item.report.result
+      if (item.report.result) {
+        const ctx = item.report.result.context
+        if (ctx) {
+          const initCtx = { ...ctx }
+          delete initCtx['entity']
+          delete initCtx['headers']
+          delete initCtx['status']
+          if (this._ctxOptions) {
+            this._ctxOptions.initCtx = initCtx
+            this._ctxOptions = { ...this._ctxOptions }
+          }
+        }
+      }
+    } else {
+      this.editCaseResult = undefined
+      this._ctxOptions.initCtx = {}
+      this._ctxOptions = { ...this._ctxOptions }
+    }
     this.caseDrawerVisible = true
   }
 
   search() {
     this.searchCase.next({ group: this.group, project: this.project, text: this.searchText, ...this.toPageQuery() })
+  }
+
+  clearStatus() {
+    this.addedItems.forEach(item => {
+      item.status = ''
+      item.report = undefined
+    })
   }
 
   ngOnInit(): void {
@@ -161,5 +196,26 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
       this.project = params['project']
       this.searchCase.next({ group: this.group, project: this.project })
     })
+    if (this.eventSubject) {
+      this.eventSubject.subscribe(log => {
+        const reportItem = log.data
+        this.stepCurrent = reportItem.index
+        if (0 === this.stepCurrent) {
+          this.clearStatus()
+        }
+        const addedStep = this.addedItems[reportItem.index]
+        addedStep.report = reportItem
+        if ('pass' === reportItem.status) {
+          addedStep.status = 'finish'
+        } else if ('fail' === reportItem.status) {
+          addedStep.status = 'error'
+        }
+      })
+    }
   }
+}
+
+interface CaseExt extends Case {
+  report?: ReportItemEvent
+  status?: string
 }

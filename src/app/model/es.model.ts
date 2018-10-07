@@ -352,3 +352,17 @@ export interface CaseGenerator {
   list?: CaseGeneratorListItem[]
   count?: number
 }
+
+export interface ReportItemEvent {
+  index?: number
+  status?: string
+  errMsg?: string
+  result?: CaseResult
+}
+
+export interface ContextOptions {
+  jobEnv?: string
+  scenarioEnv?: string
+  caseEnv?: string
+  initCtx?: Object
+}

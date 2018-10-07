@@ -10,7 +10,7 @@ import { Subject } from 'rxjs'
 import { CaseService } from '../../../api/service/case.service'
 import { ScenarioService } from '../../../api/service/scenario.service'
 import { ActorEvent, ActorEventType } from '../../../model/api.model'
-import { JobExecDesc, Scenario } from '../../../model/es.model'
+import { ContextOptions, JobExecDesc, ReportItemEvent, Scenario } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
 @Component({
@@ -35,6 +35,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   submitting = false
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
+  eventSubject = new Subject<ActorEvent<ReportItemEvent>>()
   consoleDrawerVisible = false
   @Input()
   set id(id: string) {
@@ -42,6 +43,13 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
       this.fromSelector = true
       this.scenarioId = id
       this.loadDataById()
+    }
+  }
+  _ctxOptions: ContextOptions = {}
+  @Input()
+  set ctxOptions(val: ContextOptions) {
+    if (val) {
+      this._ctxOptions = val
     }
   }
 
@@ -72,10 +80,9 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     this.testWs.onmessage = (event) => {
       if (event.data) {
         try {
-          const res = JSON.parse(event.data) as ActorEvent<JobExecDesc>
-          console.log(res)
+          const res = JSON.parse(event.data) as ActorEvent<JobExecDesc & ReportItemEvent>
           if (ActorEventType.ITEM === res.type) {
-            // set case result
+            this.eventSubject.next(res)
           } else if (ActorEventType.OVER === res.type) {
             // set scenario report
           } else {

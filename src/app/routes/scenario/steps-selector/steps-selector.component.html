@@ -5,13 +5,20 @@
         <span style="font-size:small;color:darkgray;">{{'field-steps'|translate}}</span>
       </ng-template>
     </nz-divider>
-    <nz-steps [nzCurrent]="stepCurrent" nzDirection="vertical" nzSize="small">
+    <nz-steps [nzCurrent]="stepCurrent" nzDirection="vertical" nzSize="small" nzProgressDot>
       <nz-step class="step" style="margin-left:10px;margin-right:10px;" *ngFor="let item of addedItems;let i = index;"
-        [nzTitle]="nzTitle" [nzDescription]="nzDescription" (click)="viewCase(item)">
+        [nzTitle]="nzTitle" [nzDescription]="nzDescription" [nzStatus]="item.status||'wait'">
         <ng-template #nzTitle>
-          <div class="step-title">
-            <a (click)="removeItem(item, i);$event.stopPropagation();"><i class="anticon anticon-close click-icon hover-red"></i></a>
-            <span style="padding-left:3px;color:darkgray;cursor:pointer;">{{item.summary}}</span>
+          <div style="width:100%;">
+            <div>
+              <span>{{i+1}}. </span>
+              <a style="padding-left:4px;" (click)="removeItem(item, i)">
+                <i class="anticon anticon-close-circle-o click-icon hover-red"></i>
+              </a>
+              <span class="step-title" (click)="viewCase(item)">
+                <span style="padding-left:3px;color:darkgray;cursor:pointer;">{{item.summary}}</span>
+              </span>
+            </div>
           </div>
         </ng-template>
         <ng-template #nzDescription>
@@ -66,6 +73,8 @@
   </div>
   <!-- case draw -->
   <nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
-    <app-case-model [id]="editCaseId" (newCase)="addItem($event)" (updateCase)="updateCase($event)"></app-case-model>
+    <app-case-model [id]="editCaseId" [result]="editCaseResult" (newCase)="addItem($event)" (updateCase)="updateCase($event)"
+      [ctxOptions]="_ctxOptions">
+    </app-case-model>
   </nz-drawer>
 </div>

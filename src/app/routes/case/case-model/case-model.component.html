@@ -81,7 +81,7 @@
       </nz-tab>
       <nz-tab [nzTitle]="'item-result-assert'|translate">
         <app-result-assert [assertions]="assertions" [(index)]="assertResultTabIndex" [result]="testResult" [(assert)]="case.assert"
-          [lastResult]="lastResult" (assertChange)="modelChange()">
+          [lastResult]="lastResult" [ctxOptions]="_ctxOptions" (assertChange)="modelChange()">
         </app-result-assert>
       </nz-tab>
       <nz-tab [nzTitle]="'item-generator'|translate">

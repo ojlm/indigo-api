@@ -8,7 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 
 import { CaseService } from '../../../api/service/case.service'
 import { GroupService } from '../../../api/service/group.service'
-import { Assertion, Case, CaseResult, KeyValueObject, METHODS } from '../../../model/es.model'
+import { Assertion, Case, CaseResult, ContextOptions, KeyValueObject, METHODS } from '../../../model/es.model'
 import { HttpContentTypes } from '../../../model/http.model'
 import { searchToObj } from '../../../util/urlutils'
 
@@ -33,6 +33,22 @@ export class CaseModelComponent implements OnInit {
         this.case._id = caseId
         this.updateCaseRoute()
       })
+    }
+  }
+  @Input()
+  set result(result: CaseResult) {
+    if (result) {
+      this.testResult = result
+      this.lastResult = {}
+      this.tabIndex = 5
+      this.assertResultTabIndex = 5
+    }
+  }
+  _ctxOptions: ContextOptions = {}
+  @Input()
+  set ctxOptions(val: ContextOptions) {
+    if (val) {
+      this._ctxOptions = val
     }
   }
   @Output() newCase = new EventEmitter<Case>()
@@ -155,7 +171,7 @@ export class CaseModelComponent implements OnInit {
         this.lastResult = this.testResult.context
       }
       this.testResult = {}
-      this.caseService.test({ id: this.case._id, cs: cs }).subscribe(res => {
+      this.caseService.test({ id: this.case._id, cs: cs, options: this._ctxOptions }).subscribe(res => {
         this.isSending = false
         this.testResult = res.data
         this.tabIndex = 5
@@ -337,6 +353,7 @@ export function initCaseField(cs: Case) {
   cs.description = ''
   cs.createdAt = undefined
   cs.creator = undefined
+  cs.assert = ''
   cs.request = {
     method: METHODS[0],
     contentType: '',
