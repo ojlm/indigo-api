@@ -6,6 +6,7 @@ export interface JobMeta {
   summary?: string
   description?: string
   scheduler?: string
+  env?: string
   classAlias?: string
 }
 
