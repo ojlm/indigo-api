@@ -92,7 +92,7 @@
           </tr>
           <tr [nzExpand]="data.expand">
             <td colspan="3">
-              <nz-table #innerTable nzSize="small" [nzData]="data.cases" [nzFrontPagination]="false" [nzShowPagination]="false">
+              <nz-table #innerTable nzSize="small" [nzData]="data.steps" [nzFrontPagination]="false" [nzShowPagination]="false">
       <tbody>
         <tr *ngFor="let item of innerTable.data;let i = index">
           <td>{{i+1}}</td>

@@ -299,6 +299,7 @@ export interface ScenarioReportItem {
   title?: string
   status?: string
   msg?: string
+  steps?: CaseReportItem[]
 }
 
 export interface JobReportData {
