@@ -22,6 +22,12 @@
         </ng-template>
       </nz-step>
     </nz-steps>
+    <div nz-row style="padding:8px;">
+      <button nz-button style="background-color:transparent;" nzSize="small" nzType="dashed" (click)="addNewCaseStep()">
+        <span><i class="anticon anticon-plus"></i></span>
+        <span style="margin-left:2px;">{{'btn-add-case-step'|translate}}</span>
+      </button>
+    </div>
   </div>
   <div nz-col nzSpan="14">
     <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzHeader]="nzHeader" [nzFooter]="nzFooter"
@@ -60,6 +66,6 @@
   </div>
   <!-- case draw -->
   <nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
-    <app-case-model [id]="editCaseId"></app-case-model>
+    <app-case-model [id]="editCaseId" (newCase)="addItem($event)" (updateCase)="updateCase($event)"></app-case-model>
   </nz-drawer>
 </div>

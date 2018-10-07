@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
@@ -22,12 +22,12 @@ export class CaseModelComponent implements OnInit {
   @Input()
   set id(caseId: string) {
     this.renderTitle = false
+    initCaseField(this.case)
+    this.testResult = {}
+    this.lastResult = {}
+    this.tabIndex = 1
+    this.assertResultTabIndex = 0
     if (caseId) {
-      initCaseField(this.case)
-      this.testResult = {}
-      this.lastResult = {}
-      this.tabIndex = 1
-      this.assertResultTabIndex = 0
       this.caseService.getById(caseId).subscribe(res => {
         this.case = res.data
         this.case._id = caseId
@@ -35,6 +35,8 @@ export class CaseModelComponent implements OnInit {
       })
     }
   }
+  @Output() newCase = new EventEmitter<Case>()
+  @Output() updateCase = new EventEmitter<Case>()
   renderTitle = true
   group = ''
   project = ''
@@ -173,6 +175,9 @@ export class CaseModelComponent implements OnInit {
         if (this.case._id) {
           this.caseService.update(this.case._id, cs).subscribe(res => {
             this.isSaved = true
+            if (this.updateCase) {
+              this.updateCase.emit(this.toStepCase())
+            }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
         } else {
@@ -180,6 +185,9 @@ export class CaseModelComponent implements OnInit {
             this.case._id = res.data.id
             this.updateCaseRoute()
             this.isSaved = true
+            if (this.newCase) {
+              this.newCase.emit(this.toStepCase())
+            }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
         }
@@ -197,6 +205,9 @@ export class CaseModelComponent implements OnInit {
           this.case._id = res.data.id
           this.updateCaseRoute()
           this.isSaved = true
+          if (this.newCase) {
+            this.newCase.emit(this.toStepCase())
+          }
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         })
       }
@@ -306,9 +317,26 @@ export class CaseModelComponent implements OnInit {
       })
     }
   }
+
+  private toStepCase() {
+    const stepCase: Case = {
+      _id: this.case._id,
+      summary: this.case.summary,
+      description: this.case.description,
+      request: {
+        method: this.case.request.method,
+        urlPath: this.case.request.urlPath,
+      }
+    }
+    return stepCase
+  }
 }
 
 export function initCaseField(cs: Case) {
+  cs.summary = ''
+  cs.description = ''
+  cs.createdAt = undefined
+  cs.creator = undefined
   cs.request = {
     method: METHODS[0],
     contentType: '',

@@ -94,9 +94,36 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
     this.searchCase = this.caseService.newQuerySubject(response)
   }
 
+  addNewCaseStep() {
+    this.editCaseId = ''
+    this.caseDrawerVisible = true
+  }
+
   addItem(item: Case) {
     this.addedItems.push(item)
     this.dataChange.emit(this.data)
+  }
+
+  updateCase(item: Case) {
+    const newAddedItems = []
+    this.addedItems.forEach(i => {
+      if (i._id === item._id) {
+        newAddedItems.push(item)
+      } else {
+        newAddedItems.push(i)
+      }
+    })
+    this.addedItems = newAddedItems
+    const newItems = []
+    this.items.forEach(i => {
+      if (i._id === item._id) {
+        newItems.push(item)
+      } else {
+        newItems.push(i)
+      }
+    })
+    this.items = newItems
+    console.log(this.addedItems)
   }
 
   removeItem(item: Case, i: number) {
