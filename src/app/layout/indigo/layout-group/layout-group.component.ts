@@ -61,13 +61,13 @@ export class LayoutGroupComponent {
           'hideInBreadcrumb': true,
           children: [
             {
-              'text': '项目',
+              'text': '项目列表',
               'i18n': 'menu-projects',
               'icon': 'anticon antanticon anticon-database',
               'link': `/${group}`
             },
             {
-              'text': '任务',
+              'text': '任务列表',
               'i18n': 'menu-jobs',
               'icon': 'anticon antanticon anticon-schedule',
               'link': `/group/${group}/jobs`

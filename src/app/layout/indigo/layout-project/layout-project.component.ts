@@ -66,35 +66,35 @@ export class LayoutProjectComponent {
           'hideInBreadcrumb': true,
           children: [
             {
-              'text': '用例',
+              'text': '用例管理',
               'i18n': 'menu-cases',
               'icon': 'anticon antanticon anticon-book',
               children: [
                 {
-                  'text': '列表',
-                  'i18n': 'menu-list',
+                  'text': '用例列表',
+                  'i18n': 'menu-case-list',
                   'link': `/${group}/${project}`,
                 },
                 {
-                  'text': '新建',
-                  'i18n': 'menu-new',
+                  'text': '新建用例',
+                  'i18n': 'menu-new-case',
                   'link': `/cases/${group}/${project}/new`,
                 },
               ]
             },
             {
-              'text': '接口',
+              'text': '接口管理',
               'i18n': 'menu-apis',
               'icon': 'anticon antanticon anticon-api',
               children: [
                 {
-                  'text': '列表',
-                  'i18n': 'menu-list',
+                  'text': '接口列表',
+                  'i18n': 'menu-api-list',
                   'link': `/api/${group}/${project}`,
                 },
                 {
-                  'text': '新建',
-                  'i18n': 'menu-new',
+                  'text': '新建接口',
+                  'i18n': 'menu-new-api',
                   'link': `/apis/${group}/${project}/new`,
                 },
                 {
@@ -105,58 +105,58 @@ export class LayoutProjectComponent {
               ]
             },
             {
-              'text': '场景',
+              'text': '场景管理',
               'i18n': 'menu-scenarios',
               'icon': 'anticon antanticon anticon-picture',
               children: [
                 {
-                  'text': '列表',
-                  'i18n': 'menu-list',
+                  'text': '场景列表',
+                  'i18n': 'menu-scenario-list',
                   'link': `/scenario/${group}/${project}`,
                 },
                 {
-                  'text': '新建',
-                  'i18n': 'menu-new',
+                  'text': '新建场景',
+                  'i18n': 'menu-new-scenario',
                   'link': `/scenarios/${group}/${project}/new`,
                 },
               ]
             },
             {
-              'text': '任务',
+              'text': '任务列表',
               'i18n': 'menu-jobs',
               'icon': 'anticon antanticon anticon-schedule',
               'link': `/job/${group}/${project}`,
               children: [
                 {
-                  'text': '列表',
-                  'i18n': 'menu-list',
+                  'text': '任务列表',
+                  'i18n': 'menu-job-list',
                   'link': `/job/${group}/${project}`,
                 },
                 {
-                  'text': '新建',
-                  'i18n': 'menu-new',
+                  'text': '新建任务',
+                  'i18n': 'menu-new-job',
                   'link': `/jobs/${group}/${project}/new`,
                 },
                 {
-                  'text': '报告',
-                  'i18n': 'menu-report',
+                  'text': '任务报告',
+                  'i18n': 'menu-job-report',
                   'link': `/project/${group}/${project}/report`,
                 },
               ]
             },
             {
-              'text': '环境',
+              'text': '环境管理',
               'i18n': 'menu-envs',
               'icon': 'anticon antanticon anticon-environment-o',
               children: [
                 {
-                  'text': '列表',
-                  'i18n': 'menu-list',
+                  'text': '环境列表',
+                  'i18n': 'menu-env-list',
                   'link': `/env/${group}/${project}`,
                 },
                 {
-                  'text': '新建',
-                  'i18n': 'menu-new',
+                  'text': '新建环境',
+                  'i18n': 'menu-new-env',
                   'link': `/envs/${group}/${project}/new`,
                 },
               ]
