@@ -13,8 +13,8 @@ export class I18NService implements AlainI18NService {
   private change$ = new BehaviorSubject<string>(null)
 
   private _langs = [
-    { code: 'en', text: 'English' },
     { code: 'zh-CN', text: '中文' },
+    { code: 'en', text: 'English' },
   ]
 
   constructor(
