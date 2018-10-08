@@ -15,20 +15,22 @@
           </button>
         </div>
         <div nz-col nzSpan="24">
-          <nz-tag *ngFor="let item of auth;let i=index;" style="width:100%;" nzMode="closeable" [nzColor]="'#108ee9'"
-            (nzOnClose)="closeTag(i)">{{item.type}}</nz-tag>
+          <nz-tag *ngFor="let item of auth;let i=index;" style="width:100%;" nzMode="closeable" (nzOnClose)="closeTag(i)"
+            (click)="activateTag(item, i)" [nzColor]="tagColor(i)">{{item.type}}</nz-tag>
         </div>
       </div>
     </div>
     <div nz-col nzSpan="20" class="border" [ngStyle]="authStyle">
       <div *ngIf="auth.length===0&&!currentAuth" style="color:lightgray;">No Auth</div>
-      <div *ngIf="currentAuth">
+      <div *ngIf="auth.length>0||currentAuth">
         <div nz-row>
-          <div nz-col nzSpan="10">
+          <div nz-col nzSpan="10" style="height:200px;overflow:auto;">
             <markdown [data]="markdown"></markdown>
           </div>
           <div nz-col nzSpan="14">
-            <ngx-monaco-editor [style.height]="authHeight" [options]="jsonEditorOption" [(ngModel)]="currentData"></ngx-monaco-editor>
+            <ngx-monaco-editor [style.height]="authHeight" [options]="jsonEditorOption" [(ngModel)]="currentData"
+              (ngModelChange)="currentDataChange()">
+            </ngx-monaco-editor>
           </div>
         </div>
       </div>

@@ -81,6 +81,7 @@ export class EnvModelComponent implements OnInit {
       project: this.project,
       custom: this.custom,
       enableProxy: this.enableProxy,
+      auth: this.auth,
       ...this.form.value as Environment,
     }
     this.submitting = true
@@ -139,6 +140,7 @@ export class EnvModelComponent implements OnInit {
           this.nameChange.emit(res.data.summary)
         }
         this.enableProxy = res.data.enableProxy
+        this.auth = res.data.auth || []
         this.form = this.fb.group({
           summary: [res.data.summary, [Validators.required]],
           description: [res.data.description, []],

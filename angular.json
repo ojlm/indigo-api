@@ -34,7 +34,7 @@
             "styles": [
               "src/styles.less",
               "./node_modules/xterm/dist/xterm.css",
-              "./node_modules/prismjs/themes/prism-okaidia.css"
+              "./node_modules/prismjs/themes/prism.css"
             ],
             "scripts": [
               "./node_modules/prismjs/prism.js",

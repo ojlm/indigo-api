@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 
 import { EnvService } from '../../api/service/env.service'
 import { Authorization, AuthorizeAndValidate } from '../../model/es.model'
+import { formatJson } from '../../util/json'
 
 @Component({
   selector: 'app-auth-selector',
@@ -28,11 +29,22 @@ export class AuthSelectorComponent implements OnInit {
   supports: AuthorizeAndValidate[] = []
   currentAuth: AuthorizeAndValidate
   currentData = ''
+  selectedIndex: number
+  selectedAuth: Authorization
   auth: Authorization[] = []
   @Input()
   set data(value: Authorization[]) {
     if (value && value.length > 0) {
       this.auth = value
+      this.activateTag(this.auth[0], 0)
+    }
+    if (this.supports && this.supports.length < 1) {
+      this.envService.getAllAuth().subscribe(res => {
+        this.supports = res.data
+        if (this.auth && this.auth.length > 0) {
+          this.activateTag(this.auth[0], 0)
+        }
+      })
     }
   }
   get data() {
@@ -42,14 +54,31 @@ export class AuthSelectorComponent implements OnInit {
   dataChange = new EventEmitter<Authorization[]>()
 
   authChange() {
-    this.markdown = this.currentAuth.description
+    if (this.currentAuth) {
+      this.markdown = this.currentAuth.description
+      this.currentData = this.currentAuth.template
+      this.selectedAuth = undefined
+      this.selectedIndex = undefined
+    }
+  }
+
+  currentDataChange() {
+    if (this.selectedAuth && this.currentData) {
+      try {
+        const data = JSON.parse(this.currentData)
+        this.selectedAuth.data = data
+        this.dataChange.emit(this.data)
+      } catch (error) { }
+    }
   }
 
   add() {
     if (this.currentAuth && this.currentAuth.type) {
       try {
         const data = JSON.parse(this.currentData)
-        this.auth.push({ type: this.currentAuth.type, data: data })
+        const newAuth = { type: this.currentAuth.type, data: data }
+        this.auth.push(newAuth)
+        this.activateTag(newAuth, this.auth.length - 1)
         this.dataChange.emit(this.data)
       } catch (error) {
         console.error(error)
@@ -58,9 +87,31 @@ export class AuthSelectorComponent implements OnInit {
     }
   }
 
-  closeTag(i: number) {
-    this.auth.splice(i, 1)
+  tagColor(index: number) {
+    if (index === this.selectedIndex) {
+      return '#108ee9'
+    } else {
+      return 'blue'
+    }
+  }
+
+  closeTag(index: number) {
+    if (index === this.selectedIndex && undefined !== this.selectedIndex) {
+      if (this.auth && this.auth.length > 0) {
+        this.activateTag(this.auth[0], 0)
+      }
+    }
+    this.auth.splice(index, 1)
     this.dataChange.emit(this.data)
+  }
+
+  activateTag(item: Authorization, index: number) {
+    this.currentAuth = undefined
+    this.selectedAuth = item
+    this.selectedIndex = index
+    const sup = this.supports.find(a => a.type === item.type)
+    this.markdown = sup.description
+    this.currentData = formatJson(item.data)
   }
 
   constructor(
@@ -74,8 +125,5 @@ export class AuthSelectorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.envService.getAllAuth().subscribe(res => {
-      this.supports = res.data
-    })
   }
 }

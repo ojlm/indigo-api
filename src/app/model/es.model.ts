@@ -151,31 +151,21 @@ export interface ApiImport {
   preview?: boolean
 }
 
-export interface AuthorizationData {
-  // CommonSign
-  appKey?: string
-  appSecret?: string
-  // SSO Token
-  cookie?: string
-  header?: string
-  username?: string
-  password?: string
-}
-
 export interface AuthorizeAndValidate {
   type?: string
   description?: string
+  template?: string
 }
 
 export interface Authorization {
   type?: string
-  data?: AuthorizationData
+  data?: object
 }
 
 export interface Environment extends BaseDoc {
   group?: string
   project?: string
-  auth?: Authorization
+  auth?: Authorization[]
   namespace?: string
   enableProxy?: boolean
   custom?: KeyValueObject[]
