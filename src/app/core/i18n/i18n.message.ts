@@ -21,4 +21,9 @@ export const I18nKey = {
   ItemScenarioCaseOk: 'item-scenario-case-ok',
   ItemScenarioCaseKO: 'item-scenario-case-ko',
   ItemScenarioCaseOO: 'item-scenario-case-oo',
+  ItemEnabled: 'item-enabled',
+  ItemDisabled: 'item-disabled',
+  ItemAlwaysSend: 'item-always-send',
+  ItemPassSend: 'item-pass-send',
+  ItemFailSend: 'item-fail-send',
 }

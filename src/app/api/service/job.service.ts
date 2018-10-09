@@ -8,7 +8,7 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { IndexDocResponse, Job, JobReport, JobReportDataItem, QueryJobReport } from '../../model/es.model'
+import { IndexDocResponse, Job, JobNotify, JobReport, JobReportDataItem, QueryJobReport } from '../../model/es.model'
 import { JobData, JobMeta, TriggerMeta } from '../../model/job.model'
 import { newWS } from '../../util/ws'
 import { API_JOB, API_JOB_CRON, API_JOB_QUERY, API_WS_JOB_TEST } from '../path'
@@ -84,6 +84,26 @@ export class JobService extends BaseService {
     }
     return ws
   }
+
+  getAllNotifiers() {
+    return this.http.get<ApiRes<JobNotifyFunction[]>>(`${API_JOB}/notify`)
+  }
+
+  newSubscriber(subscriber: JobNotify) {
+    return this.http.put<ApiRes<IndexDocResponse>>(`${API_JOB}/notify`, subscriber)
+  }
+
+  updateSubscriber(id: string, subscriber: JobNotify) {
+    return this.http.post<ApiRes<IndexDocResponse>>(`${API_JOB}/notify/${id}`, subscriber)
+  }
+
+  querySubscribers(query: QueryJobNotify) {
+    return this.http.post<ApiRes<JobNotify[]>>(`${API_JOB}/notify/`, query)
+  }
+
+  deleteSubscriber(id: string) {
+    return this.http.delete(`${API_JOB}/notify/${id}`)
+  }
 }
 
 export interface QueryJob extends QueryPage {
@@ -96,4 +116,19 @@ export interface NewJob {
   jobMeta?: JobMeta
   triggerMeta?: TriggerMeta
   jobData?: JobData
+}
+
+export interface QueryJobNotify extends QueryPage {
+  group?: string
+  project?: string
+  jobId?: string
+  subscriber?: string
+  type?: string
+  trigger?: string
+  enabled?: boolean
+}
+
+export interface JobNotifyFunction {
+  type?: string
+  description?: string
 }

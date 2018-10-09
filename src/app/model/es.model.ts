@@ -270,6 +270,17 @@ export interface JobReport extends BaseDoc {
   statis?: JobReportDataStatistic
 }
 
+export interface JobNotify extends BaseDoc {
+  group?: string
+  project?: string
+  jobId?: string
+  subscriber?: string
+  type?: string
+  trigger?: string
+  enabled?: boolean
+  data?: Object
+}
+
 export interface JobExecDesc {
   job?: Job
   report?: JobReport

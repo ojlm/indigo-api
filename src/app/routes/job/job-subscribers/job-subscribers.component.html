@@ -1,0 +1,89 @@
+<div>
+  <nz-table #basicTable [nzData]="items" [nzFrontPagination]="true" [nzShowTotal]="totalTemplate" [nzPageSize]="10"
+    [nzSize]="'small'" [nzTitle]="nzTitle" [nzNoResult]="'tips-no-data'|translate">
+    <thead>
+      <tr>
+        <th style="background-color:transparent">{{'item-subscriber'|translate}}</th>
+        <th style="background-color:transparent">{{'item-type'|translate}}</th>
+        <th style="background-color:transparent">{{'item-trigger-type'|translate}}</th>
+        <th style="background-color:transparent">{{'item-is-enabled'|translate}}</th>
+        <th style="background-color:transparent">{{'item-action'|translate}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of basicTable.data; let i = index">
+        <td>{{item.subscriber}}</td>
+        <td>{{item.type}}</td>
+        <td>{{triggerType(item)}}</td>
+        <td>
+          <nz-badge [nzStatus]="item.enabled?'success':'error'"></nz-badge>
+          <span>{{enableType(item)}}</span>
+        </td>
+        <td>
+          <a (click)="edit(item)"><i class="anticon anticon-setting click-icon"></i></a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delete(item, i)"><i style="color:red;" class="anticon anticon-delete click-icon"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #totalTemplate let-total>
+    <span style="color:lightgray;">
+      <span>{{'item-total'|translate}}</span>
+      <span> {{items.length}} </span>
+      <span>{{'item-item'|translate}}</span>
+    </span>
+  </ng-template>
+  <ng-template #nzTitle>
+    <button type="button" style="background-color:transparent;" nz-button nzType="dashed" [nzSize]="'small'" (click)="addNew()">
+      <span>{{'btn-add'|translate}}</span>
+    </button>
+  </ng-template>
+</div>
+<nz-drawer [nzVisible]="drawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="drawerVisible=false">
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <nz-input-group nzSearch nzSize="default" [nzAddOnBefore]="nzAddOnBefore" [nzAddOnAfter]="nzAddOnAfter">
+        <input type="text" nz-input [placeholder]="'item-subscriber'|translate" [(ngModel)]="editItem.subscriber"
+          (ngModelChange)="modelChange()">
+        <ng-template #nzAddOnBefore>
+          <nz-select nzPlaceHolder="No Notifier" [(ngModel)]="selected" (ngModelChange)="selectChange()">
+            <nz-option *ngFor="let item of supports" [nzLabel]="item.type" [nzValue]="item"></nz-option>
+          </nz-select>
+        </ng-template>
+        <ng-template #nzAddOnAfter>
+          <button nz-button nzType="primary" nzSize="small" nzSearch (click)="saveOrAdd()">
+            <span *ngIf="!_jobId">{{'btn-add'|translate}}</span>
+            <span *ngIf="_jobId">{{'btn-save'|translate}}</span>
+          </button>
+        </ng-template>
+      </nz-input-group>
+    </div>
+    <div nz-col [nzSpan]="24" style="padding-top:5px;">
+      <nz-radio-group [(ngModel)]="editItem.trigger" (ngModelChange)="modelChange()">
+        <label nz-radio-button [nzValue]="'all'">
+          <span>{{'item-always-send'|translate}}</span>
+        </label>
+        <label nz-radio-button [nzValue]="'fail'">
+          <span>{{'item-fail-send'|translate}}</span>
+        </label>
+        <label nz-radio-button [nzValue]="'success'">
+          <span>{{'item-pass-send'|translate}}</span>
+        </label>
+      </nz-radio-group>
+    </div>
+    <div nz-col [nzSpan]="24" style="padding-top:5px;">
+      <nz-radio-group [(ngModel)]="editItem.enabled" (ngModelChange)="modelChange()">
+        <label nz-radio-button [nzValue]="true">
+          <span>{{'item-enabled'|translate}}</span>
+        </label>
+        <label nz-radio-button [nzValue]="false">
+          <span>{{'item-disabled'|translate}}</span>
+        </label>
+      </nz-radio-group>
+    </div>
+    <div nz-col nzSpan="24" style="margin-top:10px;">
+      <markdown [data]="markdown"></markdown>
+    </div>
+  </div>
+</nz-drawer>
