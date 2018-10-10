@@ -43,6 +43,11 @@ export class AuthSelectorComponent implements OnInit {
         this.supports = res.data
         if (this.auth && this.auth.length > 0) {
           this.activateTag(this.auth[0], 0)
+        } else {
+          if (this.supports.length > 0) { // select the first default
+            this.currentAuth = this.supports[0]
+            this.authChange()
+          }
         }
       })
     }
