@@ -30,6 +30,14 @@ import { ApiRes } from '../../../../model/api.model'
           <nz-tag [nzColor]="'lime'">{{'field-case'|translate}}</nz-tag>
           <span>{{item.summary}}</span>
         </div>
+        <div *ngSwitchCase="'env'" (click)="goItem(item)">
+          <nz-tag [nzColor]="'lime'">{{'field-env'|translate}}</nz-tag>
+          <span>{{item.summary}}</span>
+        </div>
+        <div *ngSwitchCase="'scenario'" (click)="goItem(item)">
+          <nz-tag [nzColor]="'lime'">{{'field-scenario'|translate}}</nz-tag>
+          <span>{{item.summary}}</span>
+        </div>
         <div *ngSwitchCase="'job'" (click)="goItem(item)">
           <nz-tag [nzColor]="'lime'">{{'field-job'|translate}}</nz-tag>
           <span>{{item.summary}}</span>
@@ -92,6 +100,12 @@ export class HeaderSearchComponent implements AfterViewInit {
         break
       case 'case':
         this.router.navigateByUrl(`/case/${item.group}/${item.project}/${item._id}`)
+        break
+      case 'env':
+        this.router.navigateByUrl(`/env/${item.group}/${item.project}/${item._id}`)
+        break
+      case 'scenario':
+        this.router.navigateByUrl(`/scenario/${item.group}/${item.project}/${item._id}`)
         break
       case 'job':
         this.router.navigateByUrl(`/job/${item.group}/${item.project}/${item._id}`)
