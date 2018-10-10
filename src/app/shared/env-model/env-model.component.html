@@ -33,11 +33,16 @@
             <input nz-input formControlName="namespace" id="namespace" [placeholder]="'tips-namespace'|translate">
           </nz-input-group>
           <ng-template #suffixTag>
-            <nz-tag [nzColor]="enableProxy?'#108ee9':'#f50'" nzMode="checkable" [(nzChecked)]="enableProxy">{{(enableProxy?'btn-enable':'btn-disable')|translate}}</nz-tag>
+            <span>
+              <nz-tag [nzColor]="enableProxy?'#108ee9':'#f50'" nzMode="checkable" [(nzChecked)]="enableProxy">{{(enableProxy?'btn-enable':'btn-disable')|translate}}</nz-tag>
+              <i (click)="toggleDtabs()" [style.color]="visibleDtabs?'#108ee9':''" [style.fontWeight]="visibleDtabs?'bold':''"
+                class="anticon anticon-eye-o click-icon">
+              </i>
+            </span>
           </ng-template>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item class="form-item">
+      <nz-form-item *ngIf="visibleDtabs" class="form-item">
         <nz-form-label>{{'item-dtabs'|translate}}</nz-form-label>
         <nz-form-control>
           <app-linkerd-http></app-linkerd-http>

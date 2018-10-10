@@ -30,6 +30,7 @@ export class EnvModelComponent implements OnInit {
   auth: Authorization[] = []
   custom: KeyValueObject[] = []
   submitting = false
+  visibleDtabs = false
 
   @Input()
   set data(value: string) {
@@ -105,6 +106,10 @@ export class EnvModelComponent implements OnInit {
         this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
       }, err => this.submitting = false)
     }
+  }
+
+  toggleDtabs() {
+    this.visibleDtabs = !this.visibleDtabs
   }
 
   reset() {
