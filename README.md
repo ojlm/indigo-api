@@ -13,11 +13,7 @@
 - 历史数据分析对比
 - 汇总报告
 
-### 预览
-> 可以访问demo网站（不稳定）, 如果网址不可用可以拉取Docker镜像
+### 构建
 
-#### 在线 Demo
-
-[Demo](https://asura.pro)
-
-#### 本地 Docker
+1. `yarn install`
+2. `yarn run build`
