@@ -37,3 +37,5 @@ export const API_JOB_CRON = API_JOB + '/cron'
 export const API_WS_SCENARIO_TEST = '/api/ws/scenario/test'
 export const API_WS_JOB_TEST = '/api/ws/job/test'
 export const API_WS_JOB_MANUAL = '/api/ws/job/manual'
+
+export const API_LINKERD_V1_DTABS_HTTP = BASE_URL + '/linkerd/v1/dtabs/http'

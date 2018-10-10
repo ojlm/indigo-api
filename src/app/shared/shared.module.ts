@@ -18,6 +18,8 @@ import { CountdownModule } from 'ngx-countdown'
 import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { LinkerdHttpComponent } from './linkerd-http/linkerd-http.component'
+
 // delon
 // i18n
 // region: third libs
@@ -36,6 +38,7 @@ const COMPONENTS = [
   EnvModelComponent,
   EnvSelectorComponent,
   AuthSelectorComponent,
+  LinkerdHttpComponent,
 ]
 const DIRECTIVES = []
 // endregion

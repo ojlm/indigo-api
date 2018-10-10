@@ -1,0 +1,11 @@
+<nz-table #nzTable [nzSize]="'default'" [nzData]="values" [nzShowPagination]="false" [nzFrontPagination]="false"
+  [nzNoResult]="'tips-no-data'|translate">
+  <thead>
+    <tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of nzTable.data; let i = index">
+    </tr>
+  </tbody>
+</nz-table>

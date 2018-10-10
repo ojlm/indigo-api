@@ -235,6 +235,7 @@
   "item-trigger-type": "Type",
   "item-is-enabled": "Enabled",
   "item-action": "Action",
+  "item-dtabs": "Delegation Table",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",

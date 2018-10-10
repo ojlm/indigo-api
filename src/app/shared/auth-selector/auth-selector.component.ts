@@ -110,8 +110,10 @@ export class AuthSelectorComponent implements OnInit {
     this.selectedAuth = item
     this.selectedIndex = index
     const sup = this.supports.find(a => a.type === item.type)
-    this.markdown = sup.description
-    this.currentData = formatJson(item.data)
+    if (sup) {
+      this.markdown = sup.description
+      this.currentData = formatJson(item.data)
+    }
   }
 
   constructor(
