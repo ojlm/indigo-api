@@ -98,7 +98,7 @@ export class JobService extends BaseService {
   }
 
   querySubscribers(query: QueryJobNotify) {
-    return this.http.post<ApiRes<JobNotify[]>>(`${API_JOB}/notify/`, query)
+    return this.http.post<ApiRes<JobNotify[]>>(`${API_JOB}/notify`, query)
   }
 
   deleteSubscriber(id: string) {
@@ -116,6 +116,7 @@ export interface NewJob {
   jobMeta?: JobMeta
   triggerMeta?: TriggerMeta
   jobData?: JobData
+  notifies?: JobNotify[]
 }
 
 export interface QueryJobNotify extends QueryPage {

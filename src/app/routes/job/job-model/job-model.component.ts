@@ -10,7 +10,7 @@ import { Subject } from 'rxjs'
 import { CaseService } from '../../../api/service/case.service'
 import { JobService, NewJob } from '../../../api/service/job.service'
 import { ActorEvent, ActorEventType } from '../../../model/api.model'
-import { JobExecDesc } from '../../../model/es.model'
+import { JobExecDesc, JobNotify } from '../../../model/es.model'
 import { JobMeta, TriggerMeta } from '../../../model/job.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -39,6 +39,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
   consoleDrawVisible = false
+  subscribers: JobNotify[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -88,6 +89,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
     if (newJob) {
       this.submitting = true
       if (this.jobId) {
+        newJob.notifies = undefined
         this.jobService.update(this.jobId, newJob).subscribe(res => {
           this.submitting = false
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
@@ -146,7 +148,8 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         scenario: this.jobScenarioIds.map(id => {
           return { id: id }
         })
-      }
+      },
+      notifies: this.subscribers
     }
     return newJob
   }

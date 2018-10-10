@@ -16,7 +16,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 })
 export class JobSubscribersComponent extends PageSingleModel implements OnInit {
 
-  pageSize = 10
+  pageSize = Number.MAX_SAFE_INTEGER
   drawerVisible = false
   drawerWidth = calcDrawerWidth()
   group: string
@@ -30,8 +30,11 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
   @Input()
   set jobId(val: string) {
     if (val) {
+      this.pageSize = 10
       this._jobId = val
-      this.search()
+      if (this.items.length === 0) {
+        this.search()
+      }
     }
   }
   @Input()
@@ -93,6 +96,7 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
           })
         } else {
           this.items.push(notify)
+          this.pageTotal = this.items.length
           this.items = [...this.items]
           this.modelChange()
         }
@@ -122,6 +126,7 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
     } else {
       this.items.splice(index, 1)
       this.items = [...this.items]
+      this.pageTotal = this.items.length
       this.modelChange()
     }
   }
@@ -149,9 +154,10 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
 
   search() {
     if (this._jobId) {
-      this.jobService.querySubscribers({ jobId: this._jobId, from: 0, size: 2147483647 })
+      this.jobService.querySubscribers({ jobId: this._jobId, ...this.toPageQuery() })
         .subscribe(res => {
           this.items = res.data.list
+          this.pageTotal = res.data.total
         })
     }
   }

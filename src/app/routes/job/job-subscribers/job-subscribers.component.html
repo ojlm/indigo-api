@@ -1,6 +1,6 @@
 <div>
-  <nz-table #basicTable [nzData]="items" [nzFrontPagination]="true" [nzShowTotal]="totalTemplate" [nzPageSize]="10"
-    [nzSize]="'small'" [nzTitle]="nzTitle" [nzNoResult]="'tips-no-data'|translate">
+  <nz-table #basicTable [nzData]="items" [nzShowPagination]="false" [nzPageSize]="pageSize" [nzSize]="'small'"
+    [nzTitle]="nzTitle" [nzNoResult]="'tips-no-data'|translate">
     <thead>
       <tr>
         <th style="background-color:transparent">{{'item-subscriber'|translate}}</th>
@@ -27,18 +27,23 @@
       </tr>
     </tbody>
   </nz-table>
-  <ng-template #totalTemplate let-total>
-    <span style="color:lightgray;">
-      <span>{{'item-total'|translate}}</span>
-      <span> {{items.length}} </span>
-      <span>{{'item-item'|translate}}</span>
-    </span>
-  </ng-template>
   <ng-template #nzTitle>
     <button type="button" style="background-color:transparent;" nz-button nzType="dashed" [nzSize]="'small'" (click)="addNew()">
       <span>{{'btn-add'|translate}}</span>
     </button>
   </ng-template>
+  <div style="background-color:transparent;padding-top:10px;">
+    <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzSize]="'small'" (nzPageIndexChange)="search()"
+      [nzShowTotal]="totalTemplate" [nzPageSize]="pageSize">
+      <ng-template #totalTemplate let-total>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{total}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+    </nz-pagination>
+  </div>
 </div>
 <nz-drawer [nzVisible]="drawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="drawerVisible=false">
   <div nz-row>
