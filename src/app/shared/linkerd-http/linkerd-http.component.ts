@@ -26,15 +26,19 @@ export class LinkerdHttpComponent implements OnInit {
   ) { }
 
   addNew() {
-    this.ownedItems.push({ group: this.group, project: this.project, port: '80' })
-    this.all.length = this.all.length + 1
+    if (this.group && this.project) {
+      this.ownedItems.push({ group: this.group, project: this.project, port: '80' })
+      this.all.length = this.all.length + 1
+    }
   }
 
   save() {
-    const items = [...this.ownedItems, ...this.unownedItems]
-    this.linkerdService.putV1Http(this.group, this.project, items).subscribe(res => {
-      this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
-    })
+    if (this.group && this.project) {
+      const items = [...this.ownedItems, ...this.unownedItems]
+      this.linkerdService.putV1Http(this.group, this.project, items).subscribe(res => {
+        this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+      })
+    }
   }
 
   removeOwned(index: number) {
@@ -63,9 +67,18 @@ export class LinkerdHttpComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
-      this.group = params['group']
-      this.project = params['project']
-      this.loadData()
+      if (params['group'] && params['project']) {
+        this.group = params['group']
+        this.project = params['project']
+        this.loadData()
+      }
+    })
+    this.route.parent.parent.params.subscribe(params => {
+      if (params['group'] && params['project']) {
+        this.group = params['group']
+        this.project = params['project']
+        this.loadData()
+      }
     })
   }
 }
