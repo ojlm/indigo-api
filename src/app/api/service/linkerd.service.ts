@@ -16,7 +16,7 @@ export class LinkerdService {
   }
 
   putV1Http(group: string, project: string, dtabs: DtabItem[]) {
-    return this.http.put<ApiRes<string>>(`${API_LINKERD_V1_DTABS_HTTP}/${group}/${project}`, dtabs)
+    return this.http.put<ApiRes<string>>(`${API_LINKERD_V1_DTABS_HTTP}/${group}/${project}`, { dtabs })
   }
 }
 

@@ -169,6 +169,8 @@
   "tips-result": "Result",
   "tips-elapse": "Cost",
   "tips-total": "Total",
+  "tips-show-all": "Show All",
+  "tips-show-owned": "Show This Project",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",

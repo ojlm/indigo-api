@@ -1,11 +1,67 @@
-<nz-table #nzTable [nzSize]="'default'" [nzData]="values" [nzShowPagination]="false" [nzFrontPagination]="false"
-  [nzNoResult]="'tips-no-data'|translate">
-  <thead>
-    <tr>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of nzTable.data; let i = index">
-    </tr>
-  </tbody>
-</nz-table>
+<div style="padding-bottom:5px;">
+  <div style="text-align:right;padding-bottom:5px;">
+    <button type="button" nz-button [nzType]="showOwned?'primary':'default'" [nzSize]="'small'" (click)="showOwned=!showOwned">
+      <span>{{(showOwned?'tips-show-owned':'tips-show-all')|translate}}</span>
+    </button>
+    <button type="button" nz-button nzType="dashed" [nzSize]="'small'" (click)="addNew()">
+      <span>{{'btn-add'|translate}}</span>
+    </button>
+    <button type="button" nz-button nzType="dashed" [nzSize]="'small'" (click)="loadData()">
+      <span>{{'btn-refresh'|translate}}</span>
+    </button>
+    <button type="button" nz-button nzType="primary" [nzSize]="'small'" (click)="save()">
+      <span>{{'btn-save'|translate}}</span>
+    </button>
+  </div>
+  <nz-table #nzTable [nzTitle]="nzTitle" [nzSize]="'default'" [nzData]="all" [nzShowPagination]="false"
+    [nzFrontPagination]="false" [nzNoResult]="'tips-no-data'|translate">
+    <thead>
+      <tr>
+        <th *ngIf="!showOwned" style="padding:3px;">
+          <span>{{'field-group'|translate}}</span>
+        </th>
+        <th *ngIf="!showOwned" style="padding:3px;">
+          <span>{{'field-project'|translate}}</span>
+        </th>
+        <th style="padding:3px;">
+          <span>{{'field-namespace'|translate}}</span>
+        </th>
+        <th style="padding:3px;">
+          <span>{{'field-host'|translate}}</span>
+        </th>
+        <th style="padding:3px;width:150px;">
+          <span>{{'field-port'|translate}}</span>
+        </th>
+        <th style="padding:3px;width:24px;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of ownedItems; let i = index">
+        <td *ngIf="!showOwned" style="padding:2px;">{{item.group}}</td>
+        <td *ngIf="!showOwned" style="padding:2px;">{{item.project}}</td>
+        <td style="padding:2px;">
+          <input nz-input [(ngModel)]="item.namespace">
+        </td>
+        <td style="padding:2px;">
+          <input nz-input [(ngModel)]="item.host">
+        </td>
+        <td style="padding:2px;">
+          <input nz-input [(ngModel)]="item.port">
+        </td>
+        <td style="padding:2px;">
+          <i class="anticon anticon-close click-icon" (click)="removeOwned(i)"></i>
+        </td>
+      </tr>
+      <ng-container *ngIf="!showOwned">
+        <tr *ngFor="let item of unownedItems; let i = index">
+          <td style="padding:2px;">{{item.group}}</td>
+          <td style="padding:2px;">{{item.project}}</td>
+          <td style="padding:2px;">{{item.namespace}}</td>
+          <td style="padding:2px;">{{item.host}}</td>
+          <td style="padding:2px;">{{item.port}}</td>
+          <td style="padding:2px;"></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>

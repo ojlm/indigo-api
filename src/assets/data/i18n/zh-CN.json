@@ -169,6 +169,8 @@
   "tips-result": "结果",
   "tips-elapse": "耗时",
   "tips-total": "共",
+  "tips-show-all": "显示所有",
+  "tips-show-owned": "仅显示本项目",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",
