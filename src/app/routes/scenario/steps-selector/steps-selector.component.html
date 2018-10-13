@@ -5,30 +5,25 @@
         <span style="font-size:small;color:darkgray;">{{'field-steps'|translate}}</span>
       </ng-template>
     </nz-divider>
-    <nz-steps [nzCurrent]="stepCurrent" nzDirection="vertical" nzSize="small" nzProgressDot>
-      <nz-step class="step" style="margin-left:10px;margin-right:10px;" *ngFor="let item of addedItems;let i = index;"
-        [nzTitle]="nzTitle" [nzDescription]="nzDescription" [nzStatus]="item.status||'wait'">
-        <ng-template #nzTitle>
-          <div style="width:100%;">
-            <div>
-              <span>{{i+1}}. </span>
-              <a style="padding-left:4px;" (click)="removeItem(item, i)">
-                <i class="anticon anticon-close-circle-o click-icon hover-red"></i>
-              </a>
-              <span class="step-title" (click)="viewCase(item)">
-                <span style="padding-left:3px;color:darkgray;cursor:pointer;">{{item.summary}}</span>
-              </span>
-            </div>
-          </div>
-        </ng-template>
-        <ng-template #nzDescription>
-          <div style="padding-left:3px;">
-            <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
-            <span style="font-size:smaller;color:lightgray;">{{item.request.urlPath}}</span>
-          </div>
-        </ng-template>
-      </nz-step>
-    </nz-steps>
+    <div [sortablejs]="addedItems" [sortablejsOptions]="sortablejsOptions">
+      <div class="step" style="width:100%;margin-left:10px;margin-top:6px;margin-right:10px;" *ngFor="let item of addedItems;let i = index;">
+        <div>
+          <span><i class="anticon anticon-bars click-icon"></i></span>
+          <span> {{i+1}}. </span>
+          <a style="padding-left:4px;" (click)="removeItem(item, i)">
+            <i class="anticon anticon-close-circle-o click-icon hover-red"></i>
+          </a>
+          <span class="step-title" (click)="viewCase(item)">
+            <span style="padding-left:3px;color:darkgray;cursor:pointer;">{{item.summary}}</span>
+          </span>
+        </div>
+        <div style="padding-left:3px;">
+          <nz-badge [nzStatus]="item.status"></nz-badge>
+          <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
+          <span style="font-size:smaller;color:lightgray;">{{item.request.urlPath}}</span>
+        </div>
+      </div>
+    </div>
     <div nz-row style="padding:8px;">
       <button nz-button style="background-color:transparent;" nzSize="small" nzType="dashed" (click)="addNewCaseStep()">
         <span><i class="anticon anticon-plus"></i></span>

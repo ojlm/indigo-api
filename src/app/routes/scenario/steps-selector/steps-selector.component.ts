@@ -1,6 +1,7 @@
 import { Location } from '@angular/common'
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { SortablejsOptions } from 'angular-sortablejs'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
@@ -35,6 +36,13 @@ import { calcDrawerWidth } from '../../../util/drawer'
 })
 export class StepsSelectorComponent extends PageSingleModel implements OnInit {
 
+  sortablejsOptions: SortablejsOptions = {
+    handle: '.anticon-bars',
+    onUpdate: function (event: any) {
+      this.clearStatus()
+      this.modelChange()
+    }.bind(this)
+  }
   drawerWidth = calcDrawerWidth()
   pageSize = 10
   group: string
@@ -108,7 +116,7 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
   addItem(item: Case) {
     this.clearStatus()
     this.addedItems.push(item)
-    this.dataChange.emit(this.data)
+    this.modelChange()
   }
 
   updateCase(item: Case) {
@@ -133,10 +141,14 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
     this.items = newItems
   }
 
+  modelChange() {
+    this.dataChange.emit(this.data)
+  }
+
   removeItem(item: Case, i: number) {
     this.clearStatus()
     this.addedItems.splice(i, 1)
-    this.dataChange.emit(this.data)
+    this.modelChange()
   }
 
   methodTagColor(item: Case) {
@@ -206,9 +218,11 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
         const addedStep = this.addedItems[reportItem.index]
         addedStep.report = reportItem
         if ('pass' === reportItem.status) {
-          addedStep.status = 'finish'
+          addedStep.status = 'success'
         } else if ('fail' === reportItem.status) {
           addedStep.status = 'error'
+        } else {
+          addedStep.status = 'default'
         }
       })
     }
