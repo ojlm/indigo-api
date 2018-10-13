@@ -58,7 +58,7 @@
     "stylelint-config-standard": "^18.2.0",
     "tslint-config-prettier": "^1.12.0",
     "tslint-language-service": "^0.9.9",
-    "xterm": "^3.7.0",
+    "xterm": "3.8.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
