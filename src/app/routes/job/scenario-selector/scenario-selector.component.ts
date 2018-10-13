@@ -6,7 +6,7 @@ import { Subject } from 'rxjs'
 
 import { QueryScenario, ScenarioService } from '../../../api/service/scenario.service'
 import { ApiRes } from '../../../model/api.model'
-import { Scenario } from '../../../model/es.model'
+import { ContextOptions, Scenario } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 import { calcDrawerWidth } from '../../../util/drawer'
 
@@ -57,6 +57,13 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
     return this.addedItems.map(item => item._id)
   }
   @Output() dataChange = new EventEmitter<string[]>()
+  _ctxOptions: ContextOptions = {}
+  @Input()
+  set ctxOptions(val: ContextOptions) {
+    if (val) {
+      this._ctxOptions = val
+    }
+  }
   @HostListener('window:resize')
   resize() {
     this.drawerWidth = calcDrawerWidth()

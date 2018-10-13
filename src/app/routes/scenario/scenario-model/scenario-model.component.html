@@ -6,7 +6,7 @@
         <span [style.color]="'lightseagreen'">{{scenario.summary}}</span>
         <a *ngIf="scenarioId" style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/scenario', scenario.group, scenario.project, scenarioId]">({{scenarioId}})</a>
       </span>
-      <app-env-selector [(env)]="scenario.env"></app-env-selector>
+      <app-env-selector [(env)]="scenario.env" (envChange)="envChange()"></app-env-selector>
     </span>
   </div>
   <!-- basic info -->

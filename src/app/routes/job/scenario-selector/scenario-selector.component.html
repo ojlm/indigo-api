@@ -58,6 +58,6 @@
   </div>
   <!-- scenario drawer -->
   <nz-drawer [nzVisible]="scenarioDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="scenarioDrawerVisible=false">
-    <app-scenario-model [id]="editScenarioId"></app-scenario-model>
+    <app-scenario-model [id]="editScenarioId" [ctxOptions]="_ctxOptions"></app-scenario-model>
   </nz-drawer>
 </div>

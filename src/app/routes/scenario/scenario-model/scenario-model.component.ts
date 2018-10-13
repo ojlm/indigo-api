@@ -75,7 +75,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     this.testWs = this.scenarioService.newTestWs(this.group, this.project, this.scenarioId)
     this.testWs.onopen = (event) => {
       const testMessage = this.validateAndBuild(true)
-      this.testWs.send(JSON.stringify(testMessage))
+      this.testWs.send(JSON.stringify({ ...testMessage, options: this._ctxOptions }))
     }
     this.testWs.onmessage = (event) => {
       if (event.data) {
@@ -115,6 +115,10 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     }
   }
 
+  envChange() {
+    this._ctxOptions.scenarioEnv = this.scenario.env
+  }
+
   reset() {
   }
 
@@ -135,6 +139,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     if (this.scenarioId) {
       this.scenarioService.getById(this.scenarioId).subscribe(res => {
         this.scenario = res.data
+        this._ctxOptions.scenarioEnv = this.scenario.env
         if (!this.scenario.steps) { this.scenario.steps = [] }
       })
     }

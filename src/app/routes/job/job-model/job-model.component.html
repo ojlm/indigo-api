@@ -6,7 +6,7 @@
       <span *ngIf="jobId">
         <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/job', jobMeta.group, jobMeta.project, jobId]">({{jobId}})</a>
       </span>
-      <app-env-selector [(env)]="jobMeta.env"></app-env-selector>
+      <app-env-selector [(env)]="jobMeta.env" (envChange)="envChange()"></app-env-selector>
     </span>
   </div>
   <!-- basic info -->
@@ -43,10 +43,10 @@
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false" [nzSize]="'small'">
       <nz-tab [nzTitle]="'field-case'|translate">
-        <app-case-selector [(data)]="jobCaseIds"></app-case-selector>
+        <app-case-selector [(data)]="jobCaseIds" [ctxOptions]="ctxOptions"></app-case-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'field-scenario'|translate">
-        <app-scenario-selector [(data)]="jobScenarioIds"></app-scenario-selector>
+        <app-scenario-selector [(data)]="jobScenarioIds" [ctxOptions]="ctxOptions"></app-scenario-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'item-subscribers'|translate">
         <app-job-subscribers [jobId]="jobId" [(data)]="subscribers"></app-job-subscribers>

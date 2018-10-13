@@ -61,6 +61,6 @@
   </div>
   <!-- case draw -->
   <nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
-    <app-case-model [id]="editCaseId"></app-case-model>
+    <app-case-model [id]="editCaseId" [ctxOptions]="_ctxOptions"></app-case-model>
   </nz-drawer>
 </div>

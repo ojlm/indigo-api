@@ -10,7 +10,7 @@ import { Subject } from 'rxjs'
 import { CaseService } from '../../../api/service/case.service'
 import { JobService, NewJob } from '../../../api/service/job.service'
 import { ActorEvent, ActorEventType } from '../../../model/api.model'
-import { JobExecDesc, JobNotify } from '../../../model/es.model'
+import { ContextOptions, JobExecDesc, JobNotify } from '../../../model/es.model'
 import { JobMeta, TriggerMeta } from '../../../model/job.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -40,6 +40,8 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
   consoleDrawVisible = false
   subscribers: JobNotify[] = []
+  ctxOptions: ContextOptions = {}
+  reportId = ''
 
   constructor(
     private fb: FormBuilder,
@@ -70,9 +72,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         try {
           const res = JSON.parse(event.data) as ActorEvent<JobExecDesc>
           if (ActorEventType.ITEM === res.type) {
-            // set case result
           } else if (ActorEventType.OVER === res.type) {
-            // set scenario report
           } else {
             this.logSubject.next(res)
           }
@@ -102,6 +102,10 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         }, err => this.submitting = false)
       }
     }
+  }
+
+  envChange() {
+    this.ctxOptions.jobEnv = this.jobMeta.env
   }
 
   reset() {
@@ -176,6 +180,8 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
           this.jobMeta.summary = job.summary
           this.jobMeta.description = job.description
           this.jobMeta.scheduler = job.scheduler
+          this.jobMeta.env = job.env
+          this.ctxOptions.jobEnv = this.jobMeta.env
           this.jobMeta.classAlias = job.classAlias
           if (job.trigger && job.trigger.length > 0) {
             this.triggerMeta = job.trigger[0]
