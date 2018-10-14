@@ -38,6 +38,18 @@ export class JobService extends BaseService {
     return this.http.post(API_JOB, { id, ...job })
   }
 
+  resume(op: JobOperation) {
+    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/resume`, op)
+  }
+
+  pause(op: JobOperation) {
+    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/pause`, op)
+  }
+
+  delete(op: JobOperation) {
+    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/delete`, op)
+  }
+
   query(query: QueryJob) {
     return this.http.post<ApiRes<Job[]>>(API_JOB_QUERY, query)
   }
@@ -110,6 +122,7 @@ export interface QueryJob extends QueryPage {
   group?: string
   project?: string
   text?: string
+  triggerType?: string
 }
 
 export interface NewJob {
@@ -132,4 +145,10 @@ export interface QueryJobNotify extends QueryPage {
 export interface JobNotifyFunction {
   type?: string
   description?: string
+}
+
+export interface JobOperation {
+  group?: string
+  project?: string
+  id?: string
 }

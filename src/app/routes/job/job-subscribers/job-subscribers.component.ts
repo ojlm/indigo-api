@@ -28,16 +28,6 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
   editItem: JobNotify = {}
   _jobId: string
   @Input()
-  set jobId(val: string) {
-    if (val) {
-      this.pageSize = 10
-      this._jobId = val
-      if (this.items.length === 0) {
-        this.search()
-      }
-    }
-  }
-  @Input()
   set data(val: JobNotify[]) {
     if (val && val.length > 0) {
       this.items = val
@@ -166,6 +156,14 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
     this.route.parent.parent.params.subscribe(params => {
       this.group = params['group']
       this.project = params['project']
+    })
+    this.route.parent.params.subscribe(params => {
+      const jobId = params['jobId']
+      if (jobId) {
+        this._jobId = jobId
+        this.pageSize = 10
+        this.search()
+      }
     })
     this.jobService.getAllNotifiers().subscribe(res => {
       this.supports = res.data

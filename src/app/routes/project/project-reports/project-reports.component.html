@@ -9,7 +9,8 @@
       <ng-template #nzHeader>
         <div nz-row [nzGutter]="3">
           <div nz-col nzSpan="4">
-            <nz-select style="width:100%;" nzShowSearch nzAllowClear nzPlaceHolder="trigger type" [(ngModel)]="search.type">
+            <nz-select style="width:100%;" nzShowSearch nzAllowClear [nzPlaceHolder]="'tips-trigger-type'|translate"
+              [(ngModel)]="search.type">
               <nz-option *ngFor="let type of types" nzCustomContent [nzLabel]="type" [nzValue]="type">
                 <nz-tag [nzColor]="tagColor(type)">{{type}}</nz-tag>
               </nz-option>
@@ -19,7 +20,10 @@
             <nz-input-group [nzSuffix]="suffixButton" nzSearch>
               <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text">
               <ng-template #suffixButton>
-                <button nz-button nzType="primary" (click)="loadData()"><i class="anticon anticon-search"></i></button>
+                <button nz-button nzType="primary" (click)="loadData()">
+                  <i class="anticon anticon-search"></i>
+                  <span>{{'btn-search'|translate}}</span>
+                </button>
               </ng-template>
             </nz-input-group>
           </div>

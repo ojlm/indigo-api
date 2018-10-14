@@ -4,27 +4,77 @@
     <app-project-breadcrumb></app-project-breadcrumb>
   </div>
   <nz-card [nzBordered]="false">
-    <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
+    <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzHeader]="nzHeader"
       [nzPagination]="pagination" [nzLoading]="loading">
+      <ng-template #nzHeader>
+        <div nz-row [nzGutter]="3">
+          <div nz-col nzSpan="4">
+            <nz-select style="width:100%;" nzShowSearch nzAllowClear [nzPlaceHolder]="'tips-trigger-type'|translate"
+              [(ngModel)]="search.triggerType">
+              <nz-option *ngFor="let type of types" nzCustomContent [nzLabel]="type" [nzValue]="type">
+                <nz-tag nzColor="cyan">{{type}}</nz-tag>
+              </nz-option>
+            </nz-select>
+          </div>
+          <div nz-col nzSpan="20">
+            <nz-input-group [nzSuffix]="suffixButton" nzSearch>
+              <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text">
+              <ng-template #suffixButton>
+                <button nz-button nzType="primary" (click)="loadData()">
+                  <i class="anticon anticon-search"></i>
+                  <span>{{'btn-search'|translate}}</span>
+                </button>
+              </ng-template>
+            </nz-input-group>
+          </div>
+        </div>
+      </ng-template>
       <ng-template #item let-item>
         <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
-          <nz-list-item-meta [nzTitle]="nzTitle">
+          <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
-              <a [routerLink]="[getRouter(item)]">{{item.summary}}</a>
+              <div style="padding-left:10px;">
+                <a [routerLink]="[getRouter(item)]">{{item.summary}}</a>
+                <span style="padding-left:10px;color:lightgray;">{{item.description}}</span>
+              </div>
+            </ng-template>
+            <ng-template #nzDescription>
+              <div style="padding-left:10px;">
+                <nz-tag nzColor="cyan">{{triggerType(item)}}</nz-tag>
+              </div>
             </ng-template>
           </nz-list-item-meta>
           <ng-template #edit>
-            <button nz-button nzType="default" nzShape="circle" (click)="editItem(item)">
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" (click)="resumeItem(item)">
+              <i class="anticon anticon-play-circle-o"></i>
+            </button>
+            <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" (click)="pauseItem(item)">
+              <i class="anticon anticon-pause"></i>
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzSize="small" nzType="default" (click)="deleteItem(item)">
+              <i class="anticon anticon-delete"></i>
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzSize="small" nzType="default" (click)="editItem(item)">
               <i class="anticon anticon-setting"></i>
             </button>
           </ng-template>
         </nz-list-item>
       </ng-template>
       <ng-template #pagination>
-        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzPageSize]="pageSize"
-          (nzPageIndexChange)="pageChange()"></nz-pagination>
+        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzShowTotal]="totalTemplate"
+          [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+          <ng-template #totalTemplate let-total>
+            <span style="color:lightgray;">
+              <span>{{'item-total'|translate}}</span>
+              <span> {{total}} </span>
+              <span>{{'item-item'|translate}}</span>
+            </span>
+          </ng-template>
+        </nz-pagination>
       </ng-template>
     </nz-list>
-    <div *ngIf="loading===false&&items.length===0">{{'tips-no-data'|translate}}</div>
   </nz-card>
 </div>

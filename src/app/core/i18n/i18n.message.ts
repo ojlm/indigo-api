@@ -26,4 +26,7 @@ export const I18nKey = {
   ItemAlwaysSend: 'item-always-send',
   ItemPassSend: 'item-pass-send',
   ItemFailSend: 'item-fail-send',
+  BtnOk: 'btn-ok',
+  BtnCancel: 'btn-cancel',
+  TipsConfirmDelete: 'tips-confirm-delete'
 }

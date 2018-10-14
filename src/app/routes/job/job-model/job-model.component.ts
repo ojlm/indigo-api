@@ -98,7 +98,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         this.jobService.index(newJob).subscribe(res => {
           this.submitting = false
           this.jobId = res.data.id
-          this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+          this.router.navigateByUrl(`/job/${this.group}/${this.project}/${this.jobId}`)
         }, err => this.submitting = false)
       }
     }
