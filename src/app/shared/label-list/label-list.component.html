@@ -1,0 +1,23 @@
+<div nz-row>
+  <ng-container *ngIf="!isEditable">
+    <div style="margin-bottom:6px;">
+      <nz-tag *ngFor="let item of values; let i = index;" [nzColor]="'cyan'" nzMode="closeable" (nzOnClose)="remove(item,i)">{{item}}</nz-tag>
+      <a style="font-size:small;margin-left:3px;" (click)="isEditable=true">{{'btn-manage-label'|translate}}</a>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="isEditable">
+    <div style="margin-bottom:10px;">
+      <nz-input-group nzSearch [nzSuffix]="suffixButton">
+        <nz-select [nzSize]="'default'" nzMode="tags" style="width: 100%;" [(ngModel)]="values" (ngModelChange)="modelChange()">
+          <nz-option *ngFor="let item of labels" [nzLabel]="item.name" [nzValue]="item.name">
+          </nz-option>
+        </nz-select>
+        <ng-template #suffixButton>
+          <button [nzSize]="'default'" nz-button nzType="default" (click)="isEditable=false">
+            <span>{{'btn-done'|translate}}</span>
+          </button>
+        </ng-template>
+      </nz-input-group>
+    </div>
+  </ng-container>
+</div>

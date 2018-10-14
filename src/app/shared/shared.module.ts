@@ -18,6 +18,7 @@ import { CountdownModule } from 'ngx-countdown'
 import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { LabelListComponent } from './label-list/label-list.component'
 import { LinkerdHttpComponent } from './linkerd-http/linkerd-http.component'
 
 // delon
@@ -39,6 +40,7 @@ const COMPONENTS = [
   EnvSelectorComponent,
   AuthSelectorComponent,
   LinkerdHttpComponent,
+  LabelListComponent,
 ]
 const DIRECTIVES = []
 // endregion

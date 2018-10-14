@@ -193,6 +193,8 @@
   "btn-add-case-step": "添加用例步骤",
   "btn-logic-and": "逻辑与",
   "btn-logic-or": "逻辑或",
+  "btn-manage-label": "管理标签",
+  "btn-done": "完成",
   "item-path-variable": "路径变量",
   "item-params": "Params",
   "item-headers": "Headers",

@@ -193,6 +193,8 @@
   "btn-add-case-step": "Add Case Step",
   "btn-logic-and": "And Logic",
   "btn-logic-or": "Or Logic",
+  "btn-manage-label": "Manage Labels",
+  "btn-done": "Done",
   "item-path-variable": "Path Variable",
   "item-params": "Params",
   "item-headers": "Headers",
