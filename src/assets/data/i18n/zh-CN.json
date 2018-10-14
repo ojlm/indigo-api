@@ -35,6 +35,7 @@
   "menu-list": "列表",
   "menu-openapi": "OpenApi",
   "menu-job-report": "任务报告",
+  "menu-settings-general": "基本信息",
   "field-id": "标识",
   "field-id-err": "唯一标识, 只允许[a-z][A-Z][0-9]-_.等字符",
   "field-summary": "名称",

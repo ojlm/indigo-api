@@ -8,7 +8,7 @@
           <nz-avatar class="avatar" [nzSrc]="group.avatar" [nzText]="group.id?group.id[0].toUpperCase():''"></nz-avatar>
           <div class="info">
             <strong>{{group.id}}</strong>
-            <p class="text-truncate mb0" [title]="group.description">{{group.summary}}:{{group.description}}</p>
+            <p class="text-truncate mb0" [title]="group.description||group.summary||''">{{group.summary}}</p>
           </div>
         </div>
       </nz-dropdown>

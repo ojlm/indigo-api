@@ -35,6 +35,7 @@
   "menu-list": "List",
   "menu-openapi": "OpenApi",
   "menu-job-report": "Job Report",
+  "menu-settings-general": "General",
   "field-id": "Id",
   "field-id-err": "identification, only [a-z][A-Z][0-9]-_. characters",
   "field-summary": "Summary",

@@ -165,7 +165,13 @@ export class LayoutProjectComponent {
               'text': '设置',
               'i18n': 'menu-settings',
               'icon': 'anticon antanticon anticon-setting',
-              'link': `/project/${group}/${project}/settings`
+              children: [
+                {
+                  'text': '基本信息',
+                  'i18n': 'menu-settings-general',
+                  'link': `/project/${group}/${project}/settings`,
+                }
+              ]
             }
           ]
         },
