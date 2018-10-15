@@ -116,6 +116,10 @@ export class JobService extends BaseService {
   deleteSubscriber(id: string) {
     return this.http.delete(`${API_JOB}/notify/${id}`)
   }
+
+  getJobState(items: QueryJobStateItem[]) {
+    return this.http.post<ApiRes<Object>>(`${API_JOB}/state`, { items: items })
+  }
 }
 
 export interface QueryJob extends QueryPage {
@@ -151,4 +155,10 @@ export interface JobOperation {
   group?: string
   project?: string
   id?: string
+}
+
+export interface QueryJobStateItem {
+  group?: string
+  project?: string
+  jobId?: string
 }

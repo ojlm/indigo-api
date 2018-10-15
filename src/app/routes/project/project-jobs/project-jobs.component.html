@@ -34,13 +34,17 @@
           <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
               <div style="padding-left:10px;">
+                <nz-tag nzColor="cyan">{{triggerType(item)}}</nz-tag>
                 <a [routerLink]="[getRouter(item)]">{{item.summary}}</a>
                 <span style="padding-left:10px;color:lightgray;">{{item.description}}</span>
               </div>
             </ng-template>
             <ng-template #nzDescription>
               <div style="padding-left:10px;">
-                <nz-tag nzColor="cyan">{{triggerType(item)}}</nz-tag>
+                <nz-divider nzType="vertical"></nz-divider>
+                <span>{{'tips-job-state'|translate}}: </span>
+                <span>{{item.state}}</span>
+                <nz-divider nzType="vertical"></nz-divider>
               </div>
             </ng-template>
           </nz-list-item-meta>

@@ -5,7 +5,7 @@ import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { NzMessageService, NzModalService } from 'ng-zorro-antd'
 
-import { JobOperation, JobService, QueryJob } from '../../../api/service/job.service'
+import { JobOperation, JobService, QueryJob, QueryJobStateItem } from '../../../api/service/job.service'
 import { Job } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -15,7 +15,7 @@ import { PageSingleModel } from '../../../model/page.model'
 })
 export class ProjectJobsComponent extends PageSingleModel implements OnInit {
 
-  items: Job[] = []
+  items: JobExt[] = []
   loading = false
   group: string
   project: string
@@ -39,7 +39,52 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
         this.items = res.data.list
         this.pageTotal = res.data.total
         this.loading = false
+        this.refreshJobState()
       }, err => this.loading = false)
+    }
+  }
+
+  refreshJobState() {
+    if (this.items.length > 0) {
+      const jobStateQueryItems: QueryJobStateItem[] = []
+      const idMap = {}
+      this.items.forEach(item => {
+        idMap[item._id] = item
+        if (item.trigger && item.trigger.length > 0) {
+          const triggerType = item.trigger[0].triggerType
+          if ('simple' === triggerType || 'cron' === triggerType) {
+            jobStateQueryItems.push({ group: item.group, project: item.project, jobId: item._id })
+          } else {
+            item.state = this.translateJobState('NORMAL')
+          }
+        }
+      })
+      this.jobService.getJobState(jobStateQueryItems).subscribe(stateRes => {
+        if (stateRes.data) {
+          for (const k of Object.keys(stateRes.data)) {
+            idMap[k].state = this.translateJobState(stateRes.data[k])
+          }
+        }
+      })
+    }
+  }
+
+  translateJobState(state: string) {
+    switch (state) {
+      case 'NONE':
+        return this.i18nService.fanyi(I18nKey.ItemNone)
+      case 'NORMAL':
+        return this.i18nService.fanyi(I18nKey.ItemNormal)
+      case 'PAUSED':
+        return this.i18nService.fanyi(I18nKey.ItemPaused)
+      case 'COMPLETE':
+        return this.i18nService.fanyi(I18nKey.ItemComplete)
+      case 'ERROR':
+        return this.i18nService.fanyi(I18nKey.ItemError)
+      case 'BLOCKED':
+        return this.i18nService.fanyi(I18nKey.ItemBlocked)
+      default:
+        return this.i18nService.fanyi(I18nKey.ItemNone)
     }
   }
 
@@ -50,12 +95,14 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
   resumeItem(item: Job) {
     this.jobService.resume(this.toJobOp(item)).subscribe(res => {
       this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+      this.refreshJobState()
     })
   }
 
   pauseItem(item: Job) {
     this.jobService.pause(this.toJobOp(item)).subscribe(res => {
       this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+      this.refreshJobState()
     })
   }
 
@@ -114,4 +161,8 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
       this.loadData()
     })
   }
+}
+
+export interface JobExt extends Job {
+  state?: string
 }

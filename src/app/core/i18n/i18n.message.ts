@@ -26,6 +26,12 @@ export const I18nKey = {
   ItemAlwaysSend: 'item-always-send',
   ItemPassSend: 'item-pass-send',
   ItemFailSend: 'item-fail-send',
+  ItemNone: 'item-none',
+  ItemNormal: 'item-normal',
+  ItemPaused: 'item-paused',
+  ItemComplete: 'item-complete',
+  ItemError: 'item-error',
+  ItemBlocked: 'item-blocked',
   BtnOk: 'btn-ok',
   BtnCancel: 'btn-cancel',
   TipsConfirmDelete: 'tips-confirm-delete'
