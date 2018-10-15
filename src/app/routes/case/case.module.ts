@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
+import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
 import { AssertionListComponent } from './assertion-list/assertion-list.component'
@@ -23,7 +24,7 @@ const COMPONENT = [
 const COMPONENT_NOROUNT = []
 
 @NgModule({
-  imports: [CommonModule, MonacoEditorModule, SharedModule, CaseRoutingModule],
+  imports: [CommonModule, InfiniteScrollModule, MonacoEditorModule, SharedModule, CaseRoutingModule],
   exports: [...COMPONENT],
   providers: [],
   declarations: [...COMPONENT, ...COMPONENT_NOROUNT],

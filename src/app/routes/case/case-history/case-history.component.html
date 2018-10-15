@@ -1,4 +1,58 @@
-<div>
-  {{group}} {{project}}
-  // TODO FETCH LIST
+<div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false"
+  [ngStyle]="style">
+  <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzHeader]="nzHeader">
+    <ng-template #nzHeader>
+      <div nz-row nzType="flex" nzJustify="start">
+        <nz-tag [nzColor]="search.onlyMe?'':'cyan'" nzMode="checkable" [(nzChecked)]="search.onlyMe" (nzCheckedChange)="checkChange()">
+          {{(search.onlyMe?'tips-only-me':'tips-all-man')|translate}}
+        </nz-tag>
+        <div>
+          <nz-input-group nzSize="small" nzSearch [nzSuffix]="nzSuffixIcon">
+            <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (ngModelChange)="textChange()">
+            <ng-template #nzSuffixIcon>
+              <i style="padding-right:4px;font-size:small;" class="anticon anticon-sync click-icon" (click)="doSearch(true)"></i>
+            </ng-template>
+          </nz-input-group>
+        </div>
+        <span *ngIf="undefined!==total" style="padding-left:10px;">
+          <span>{{'item-total'|translate}} </span>
+          <span>{{total}}</span>
+          <span> {{'item-item'|translate}}</span>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template #item let-item>
+      <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
+          <ng-template #nzTitle>
+            <div style="padding-left:10px;">
+              <a>{{item.summary}}</a>
+              <span style="padding-left:10px;color:lightgray;font-size:xx-small;">{{trimDate(item)}}</span>
+            </div>
+          </ng-template>
+          <ng-template #nzDescription>
+            <div>
+              <nz-divider nzType="vertical"></nz-divider>
+              <span>{{item.request.method}}</span>
+              <nz-divider nzType="vertical"></nz-divider>
+              <span>{{item.request.urlPath}}</span>
+            </div>
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #edit>
+          <nz-avatar nz-popover [nzContent]="popoverContent" style="margin-right:10px;" nzSize="small" [nzText]="userText(item)"
+            [nzSrc]="userAvatar(item)">
+            <ng-template #popoverContent>
+              <app-profile-simple [data]="users[item.creator]"></app-profile-simple>
+            </ng-template>
+          </nz-avatar>
+          <nz-divider nzType="vertical"></nz-divider>
+          <i class="anticon anticon-copy click-icon" (click)="copyItem(item)"></i>
+          <nz-divider nzType="vertical"></nz-divider>
+          <i class="anticon anticon-setting click-icon" (click)="editItem(item)"></i>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+  <div *ngIf="!hasMore" style="padding-top:20px;padding-left:10px;color:darkgray;">{{'tips-no-more-data'|translate}}</div>
 </div>

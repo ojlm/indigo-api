@@ -1,5 +1,5 @@
 <div>
-  <div *ngIf="renderTitle" style="padding:8px;margin-bottom:12px;" class="content__title">
+  <div *ngIf="!isInDrawer" style="padding:8px;margin-bottom:12px;" class="content__title">
     <h1 style="padding-left:10px;">{{'content-title-case'|translate}}</h1>
     <span>
       <span [style.color]="isSaved?'black':'lightseagreen'">{{case.summary}}</span>
@@ -53,9 +53,10 @@
               </li>
             </ul>
           </nz-dropdown-button>
-          <button nz-button [nzType]="'default'" [nzSize]="'default'" style="margin-left:5px;padding:0px 10px;" (click)="history()">
+          <button *ngIf="!isInDrawer&&!isInNew" nz-button [nzType]="'default'" [nzSize]="'default'" style="margin-left:5px;padding:0px 10px;"
+            (click)="history()">
             <span>
-              <i class="anticon anticon-cloud-o"></i>
+              <i class="anticon anticon-book"></i>
               <span>{{'btn-history'|translate}}</span>
             </span>
           </button>
@@ -93,8 +94,8 @@
     </nz-tabset>
   </nz-card>
   <!-- drawer -->
-  <nz-drawer [nzClosable]="true" [nzVisible]="historyVisible" nzPlacement="right" [nzTitle]="'title-case-history'|translate"
-    (nzOnClose)="historyVisible=false">
-    <app-case-history [group]="group" [project]="project" (onclick)="editCase($event)"></app-case-history>
+  <nz-drawer *ngIf="!isInDrawer&&!isInNew" [nzClosable]="false" [nzVisible]="historyVisible" nzPlacement="right"
+    (nzOnClose)="historyVisible=false" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'0px'}">
+    <app-case-history [group]="group" [project]="project" (oncopy)="copyFromHis($event)" (onedit)="editFromHis($event)"></app-case-history>
   </nz-drawer>
 </div>

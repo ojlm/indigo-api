@@ -1,9 +1,10 @@
 import { Location } from '@angular/common'
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
+import { calcDrawerWidth } from 'app/util/drawer'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { CaseService } from '../../../api/service/case.service'
@@ -19,9 +20,10 @@ import { searchToObj } from '../../../util/urlutils'
 })
 export class CaseModelComponent implements OnInit {
 
+  drawerWidth = calcDrawerWidth(0.3)
   @Input()
   set id(caseId: string) {
-    this.renderTitle = false
+    this.isInDrawer = true
     initCaseField(this.case)
     this.testResult = {}
     this.lastResult = {}
@@ -53,7 +55,8 @@ export class CaseModelComponent implements OnInit {
   }
   @Output() newCase = new EventEmitter<Case>()
   @Output() updateCase = new EventEmitter<Case>()
-  renderTitle = true
+  isInDrawer = false
+  isInNew = false
   group = ''
   project = ''
   caseRoute = ''
@@ -68,6 +71,10 @@ export class CaseModelComponent implements OnInit {
   isSaved = true
   historyVisible = false
   assertions: Assertion[] = []
+  @HostListener('window:resize')
+  resizeBy() {
+    this.drawerWidth = calcDrawerWidth(0.3)
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -241,8 +248,25 @@ export class CaseModelComponent implements OnInit {
     this.historyVisible = true
   }
 
-  editCase(id: string) {
-    console.log('edit cs:', id)
+  editFromHis(item: Case) {
+    if (item._id) {
+      this.historyVisible = false
+      this.caseService.getById(item._id).subscribe(res => {
+        this.case = res.data
+        this.updateCaseRoute()
+      })
+    }
+  }
+
+  copyFromHis(item: Case) {
+    if (item._id) {
+      this.historyVisible = false
+      this.caseService.getById(item._id).subscribe(res => {
+        this.case = res.data
+        this.case._id = undefined
+        this.modelChange()
+      })
+    }
   }
 
   updateCaseRoute() {
@@ -315,6 +339,7 @@ export class CaseModelComponent implements OnInit {
     this.route.parent.params.subscribe(params => {
       const caseId = params['caseId']
       if (caseId) { // edit
+        this.isInNew = true
         initCaseField(this.case)
         this.caseService.getById(caseId).subscribe(res => {
           this.case = res.data

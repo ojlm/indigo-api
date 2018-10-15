@@ -16,6 +16,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module'
 import { SharedModule } from '@shared/shared.module'
 import { SortablejsModule } from 'angular-sortablejs'
+import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
@@ -46,6 +47,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    InfiniteScrollModule,
     DelonModule.forRoot(),
     CoreModule,
     SharedModule,

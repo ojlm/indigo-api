@@ -139,6 +139,7 @@
   "content-title-report-list": "Report List",
   "tips-loading-data": "Loading...",
   "tips-no-data": "No Data",
+  "tips-no-more-data": "No more data",
   "tips-no-result": "No Result",
   "tips-namespace": "namespace, used for proxy",
   "tips-enter-url": "enter URL",

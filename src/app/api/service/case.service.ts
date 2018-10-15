@@ -48,6 +48,16 @@ export class CaseService extends BaseService {
   getAllAssertions() {
     return this.http.get<ApiRes<Assertion[]>>(`${API_CASE}/assertion/all`)
   }
+
+  searchAfterSubject(response: Subject<ApiRes<CaseWithSort[]>>) {
+    const querySubject = new Subject<SearchAfterCase>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
+      this.http.post<ApiRes<CaseWithSort[]>>(`${API_CASE}/after`, query).subscribe(
+        res => response.next(res),
+        err => response.error(err))
+    })
+    return querySubject
+  }
 }
 
 export interface QueryCase extends QueryPage {
@@ -57,4 +67,21 @@ export interface QueryCase extends QueryPage {
   path?: string
   text?: string
   ids?: string[]
+}
+
+export interface SearchAfter {
+  group?: string
+  project?: string
+  creator?: string
+  text?: string
+  size?: number
+  sort?: any[]
+}
+
+export interface SearchAfterCase extends SearchAfter {
+  onlyMe?: boolean
+}
+
+export interface CaseWithSort extends Case {
+  _sort: any[]
 }
