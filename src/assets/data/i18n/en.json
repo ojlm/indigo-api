@@ -175,6 +175,8 @@
   "tips-trigger-type": "Trigger Type",
   "tips-confirm-delete": "Sure?",
   "tips-job-state": "Job state",
+  "tips-only-me": "Only Me",
+  "tips-all-man": "All",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",

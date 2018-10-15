@@ -175,6 +175,8 @@
   "tips-trigger-type": "触发类型",
   "tips-confirm-delete": "确认删除?",
   "tips-job-state": "任务状态",
+  "tips-only-me": "仅自己",
+  "tips-all-man": "所有人",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",
