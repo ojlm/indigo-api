@@ -43,7 +43,7 @@ export class GroupJobsComponent extends PageSingleModel implements OnInit {
 
   loadData() {
     this.loading = true
-    this.jobService.query(this.toPageQuery()).subscribe(res => {
+    this.jobService.query({ ...this.toPageQuery(), group: this.groupId }).subscribe(res => {
       this.items = res.data.list
       this.pageTotal = res.data.total
       this.loading = false
