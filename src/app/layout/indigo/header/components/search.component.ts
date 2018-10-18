@@ -22,7 +22,7 @@ import { ApiRes } from '../../../../model/api.model'
           <nz-tag [nzColor]="'lime'">{{'field-project'|translate}}</nz-tag>
           <span>{{item.summary}}</span>
         </div>
-        <div *ngSwitchCase="'api'" (click)="goItem(item)">
+        <div *ngSwitchCase="'rest'" (click)="goItem(item)">
           <nz-tag [nzColor]="'lime'">{{'field-api'|translate}}</nz-tag>
           <span>{{item.summary}}</span>
         </div>
@@ -93,9 +93,9 @@ export class HeaderSearchComponent implements AfterViewInit {
         this.router.navigateByUrl(`/${item._id}`)
         break
       case 'project':
-        this.router.navigateByUrl(`/${item.group}/${item._id}`)
+        this.router.navigateByUrl(`/${item.group}/${item.id}`)
         break
-      case 'api':
+      case 'rest':
         this.router.navigateByUrl(`/rest/${item.group}/${item.project}/${item._id}`)
         break
       case 'case':

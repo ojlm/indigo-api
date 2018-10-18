@@ -32,6 +32,7 @@ export interface QueryHome {
 export interface HomeDoc {
   _type?: string
   _id?: string
+  id?: string // mainly for project
   group?: string
   project?: string
   avatar?: string
