@@ -13,6 +13,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 })
 export class RestModelComponent implements OnInit {
 
+  fromSelector = false
   group: string
   project: string
   restId: string
