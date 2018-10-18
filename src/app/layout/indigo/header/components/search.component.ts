@@ -96,7 +96,7 @@ export class HeaderSearchComponent implements AfterViewInit {
         this.router.navigateByUrl(`/${item.group}/${item._id}`)
         break
       case 'api':
-        this.router.navigateByUrl(`/api/${item.group}/${item.project}/${item._id}`)
+        this.router.navigateByUrl(`/rest/${item.group}/${item.project}/${item._id}`)
         break
       case 'case':
         this.router.navigateByUrl(`/case/${item.group}/${item.project}/${item._id}`)
