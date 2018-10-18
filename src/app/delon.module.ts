@@ -28,6 +28,7 @@ export function pageHeaderConfig(): AdPageHeaderConfig {
 export function delonAuthConfig(): DelonAuthConfig {
   return Object.assign(new DelonAuthConfig(), <DelonAuthConfig>{
     login_url: '/passport/login',
+    ignores: [/api\/user\/login/, /assets\//]
   })
 }
 
