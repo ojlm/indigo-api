@@ -90,7 +90,7 @@ export class LayoutProjectComponent {
                 {
                   'text': '接口列表',
                   'i18n': 'menu-api-list',
-                  'link': `/api/${group}/${project}`,
+                  'link': `/rest/${group}/${project}`,
                 },
                 {
                   'text': '新建接口',

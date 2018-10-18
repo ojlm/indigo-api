@@ -21,6 +21,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor'
 import { LabelListComponent } from './label-list/label-list.component'
 import { LinkerdHttpComponent } from './linkerd-http/linkerd-http.component'
 import { PofileSimpleComponent } from './profile-simple/profile-simple.component'
+import { RestModelComponent } from './rest-model/rest-model.component'
 
 // delon
 // i18n
@@ -43,6 +44,7 @@ const COMPONENTS = [
   LinkerdHttpComponent,
   LabelListComponent,
   PofileSimpleComponent,
+  RestModelComponent,
 ]
 const DIRECTIVES = []
 // endregion

@@ -121,6 +121,8 @@
   "title-scenario-list": "场景列表",
   "title-job-report": "任务报告",
   "title-profile": "用户设置",
+  "title-rest": "Rest 接口",
+  "content-title-rest": "Rest 接口",
   "content-title-env": "环境配置",
   "content-title-case-list": "用例列表",
   "content-title-job": "任务",

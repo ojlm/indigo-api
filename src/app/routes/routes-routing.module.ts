@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { JWTGuard } from '@delon/auth'
 import { environment } from '@env/environment'
 import { EnvModelComponent } from '@shared/env-model/env-model.component'
+import { RestModelComponent } from '@shared/rest-model/rest-model.component'
 
 import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component'
 import { LayoutGroupComponent } from '../layout/indigo/layout-group/layout-group.component'
@@ -80,8 +81,9 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'api/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', component: ProjectApisComponent, data: { titleI18n: 'title-projects' } }
+    path: 'rest/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectApisComponent, data: { titleI18n: 'title-projects' } },
+      { path: ':restId', component: RestModelComponent, data: { titleI18n: 'title-rest' } }
     ]
   },
   {

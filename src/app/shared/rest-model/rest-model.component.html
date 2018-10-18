@@ -1,0 +1,14 @@
+<div>
+  <div *ngIf="!fromSelector" class="content__title">
+    <h1 style="padding-left: 10px;">{{'content-title-rest'|translate}}</h1>
+    <span>
+      <span>{{rest.summary}}</span>
+      <span *ngIf="restId">
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/rest', group, project, restId]">({{restId}})</a>
+      </span>
+    </span>
+  </div>
+  <nz-card style="padding:20px;" [nzBordered]="false">
+    TBD {{restId}}
+  </nz-card>
+</div>

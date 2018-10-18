@@ -41,7 +41,7 @@ export class ProjectApisComponent extends PageSingleModel implements OnInit {
   }
 
   apiRouter(api: Api) {
-    return `/api/${this.group}/${this.project}/${api._id}`
+    return `/rest/${this.group}/${this.project}/${api._id}`
   }
 
   methodTagColor(item: Api) {
@@ -61,10 +61,6 @@ export class ProjectApisComponent extends PageSingleModel implements OnInit {
 
   goSettings(api: Api) {
     this.router.navigateByUrl(this.apiRouter(api))
-  }
-
-  editItem(api: Api) {
-    this.router.navigateByUrl(`/case/${this.group}/${this.project}/${api._id}`)
   }
 
   pageChange() {

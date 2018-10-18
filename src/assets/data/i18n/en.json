@@ -121,6 +121,8 @@
   "title-scenario-list": "Scenario List",
   "title-job-report": "Job Report",
   "title-profile": "Profile",
+  "title-rest": "Rest Api",
+  "content-title-rest": "Rest Api",
   "content-title-env": "Environment",
   "content-title-case-list": "Case List",
   "content-title-job": "Job",
