@@ -1,0 +1,7 @@
+<div class="content__title">
+  <h1 style="padding-left:10px;">{{title.join('')}}</h1>
+</div>
+<div style="height:480px;overflow:hidden;margin-right:12px;">
+  <ngx-charts-tree-map [view]="view" [scheme]="colorScheme" [results]="results" (select)="onSelect($event)">
+  </ngx-charts-tree-map>
+</div>

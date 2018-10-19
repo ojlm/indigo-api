@@ -9,3 +9,8 @@ export interface SelectResponse {
   msg?: string
   data?: SelectModel[]
 }
+
+export interface NameValue {
+  name?: string
+  value?: string
+}

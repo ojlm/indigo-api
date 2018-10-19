@@ -58,6 +58,25 @@ export class CaseService extends BaseService {
     })
     return querySubject
   }
+
+  aggs(aggs: AggsCase) {
+    return this.http.post<ApiRes<AggsItem[]>>(`${API_CASE}/aggs`, aggs)
+  }
+}
+
+export interface AggsCase {
+  group?: string
+  project?: string
+  creator?: string
+  size?: number
+}
+
+export interface AggsItem {
+  id?: string
+  summary?: string
+  description?: string
+  type?: string
+  count?: number
 }
 
 export interface QueryCase extends QueryPage {

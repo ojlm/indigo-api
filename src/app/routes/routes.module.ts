@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
+import { NgxChartsModule } from '@swimlane/ngx-charts'
 
 import { CallbackComponent } from './callback/callback.component'
 import { Exception403Component } from './exception/403.component'
@@ -48,7 +49,7 @@ const COMPONENTS = [
 const COMPONENTS_NOROUNT = []
 
 @NgModule({
-  imports: [SharedModule, RouteRoutingModule],
+  imports: [SharedModule, RouteRoutingModule, NgxChartsModule],
   declarations: [
     ...COMPONENTS,
     ...COMPONENTS_NOROUNT
