@@ -8,7 +8,7 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { IndexDocResponse, Job, JobNotify, JobReport, JobReportDataItem, QueryJobReport } from '../../model/es.model'
+import { IndexDocResponse, Job, JobNotify, JobReport, JobReportDataItem } from '../../model/es.model'
 import { JobData, JobMeta, TriggerMeta } from '../../model/job.model'
 import { newWS } from '../../util/ws'
 import { API_JOB, API_JOB_CRON, API_JOB_QUERY, API_WS_JOB_TEST } from '../path'
@@ -161,4 +161,15 @@ export interface QueryJobStateItem {
   group?: string
   project?: string
   jobId?: string
+}
+
+export interface QueryJobReport {
+  scheduler?: string
+  group?: string
+  project?: string
+  text?: string
+  classAlias?: string
+  type?: string
+  from?: number
+  size?: number
 }

@@ -309,27 +309,6 @@ export interface JobReportData {
   ext?: Object
 }
 
-export interface QueryCase {
-  isParrent?: boolean
-  api?: string
-  project?: string
-  group?: string
-  text?: string
-  from?: number
-  size?: number
-}
-
-export interface QueryJobReport {
-  scheduler?: string
-  group?: string
-  project?: string
-  text?: string
-  classAlias?: string
-  type?: string
-  from?: number
-  size?: number
-}
-
 export interface IndexDocResponse {
   id?: string
 }

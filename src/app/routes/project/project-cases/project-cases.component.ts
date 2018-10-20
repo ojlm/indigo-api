@@ -2,9 +2,11 @@ import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { ApiRes } from 'app/model/api.model'
 import { NzMessageService } from 'ng-zorro-antd'
+import { Subject } from 'rxjs'
 
-import { CaseService } from '../../../api/service/case.service'
+import { CaseService, QueryCase } from '../../../api/service/case.service'
 import { Case } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -19,6 +21,9 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
   loading = false
   group: string
   project: string
+  search: QueryCase = {}
+  panelSubject: Subject<QueryCase> = new Subject<QueryCase>()
+  querySubject: Subject<QueryCase>
 
   constructor(
     private caseService: CaseService,
@@ -26,16 +31,26 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-  ) { super() }
+  ) {
+    super()
+    const response = new Subject<ApiRes<Case[]>>()
+    this.querySubject = this.caseService.newQuerySubject(response)
+    response.subscribe(res => {
+      this.loading = false
+      if (res) {
+        this.items = res.data.list
+        this.pageTotal = res.data.total
+      }
+    })
+    this.panelSubject.subscribe(search => {
+      this.loadData()
+    })
+  }
 
   loadData() {
     if (this.group && this.project) {
       this.loading = true
-      this.caseService.query({ group: this.group, project: this.project, ...this.toPageQuery() }).subscribe(res => {
-        this.items = res.data.list
-        this.pageTotal = res.data.total
-        this.loading = false
-      }, err => this.loading = false)
+      this.querySubject.next({ group: this.group, project: this.project, ...this.toPageQuery(), ...this.search })
     }
   }
 

@@ -18,6 +18,7 @@ import { CountdownModule } from 'ngx-countdown'
 import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { CaseSearchPanelComponent } from './case-search-panel/case-search-panel.component'
 import { LabelListComponent } from './label-list/label-list.component'
 import { LinkerdHttpComponent } from './linkerd-http/linkerd-http.component'
 import { PofileSimpleComponent } from './profile-simple/profile-simple.component'
@@ -45,6 +46,7 @@ const COMPONENTS = [
   LabelListComponent,
   PofileSimpleComponent,
   RestModelComponent,
+  CaseSearchPanelComponent,
 ]
 const DIRECTIVES = []
 // endregion

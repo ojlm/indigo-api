@@ -40,7 +40,7 @@ export class CaseService extends BaseService {
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
       this.http.post<ApiRes<Case[]>>(API_CASE_QUERY, query).subscribe(
         res => response.next(res),
-        err => response.error(err))
+        err => response.next(null))
     })
     return querySubject
   }
@@ -86,6 +86,7 @@ export interface QueryCase extends QueryPage {
   path?: string
   text?: string
   ids?: string[]
+  label?: string
 }
 
 export interface SearchAfter {
