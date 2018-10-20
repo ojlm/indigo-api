@@ -28,7 +28,6 @@ export class LabelListComponent implements OnInit {
   constructor() { }
 
   modelChange() {
-    console.log(this.data)
     this.dataChange.emit(this.data)
   }
 
