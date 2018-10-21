@@ -3,8 +3,6 @@ import { Router } from '@angular/router'
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth'
 import { SettingsService } from '@delon/theme'
 
-import { UserProfile } from '../../../../model/user.model'
-
 @Component({
   selector: 'header-user',
   template: `
@@ -16,10 +14,11 @@ import { UserProfile } from '../../../../model/user.model'
       {{settings.user.nickname||settings.user.username}}
     </div>
     <div nz-menu class="width-sm">
-      <div nz-menu-item (click)="goProfile()"><i class="anticon anticon-user mr-sm"></i>{{'menu-profile'|translate}}</div>
+      <div nz-menu-item (click)="goProfile()"><i class="anticon anticon-profile mr-sm"></i>{{'menu-profile'|translate}}</div>
+      <div nz-menu-item (click)="goUserDashboard()"><i class="anticon anticon-dashboard mr-sm"></i>{{'menu-user-dashboard'|translate}}</div>
       <div nz-menu-item [nzDisabled]="true"><i class="anticon anticon-setting mr-sm"></i>{{'menu-sys-settings'|translate}}</div>
       <li nz-menu-divider></li>
-      <div nz-menu-item (click)="logout()"><i class="anticon anticon-setting mr-sm"></i>{{'menu-logout'|translate}}</div>
+      <div nz-menu-item (click)="logout()"><i class="anticon anticon-logout mr-sm"></i>{{'menu-logout'|translate}}</div>
     </div>
   </nz-dropdown>
   `,
@@ -35,6 +34,13 @@ export class HeaderUserComponent {
 
   goProfile() {
     this.router.navigateByUrl('/dashboard/profile')
+  }
+
+  goUserDashboard() {
+    const username = this.settings.user.username
+    if (username) {
+      this.router.navigateByUrl(`/dashboard/${username}`)
+    }
   }
 
   logout() {

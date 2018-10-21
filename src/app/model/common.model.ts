@@ -12,5 +12,5 @@ export interface SelectResponse {
 
 export interface NameValue {
   name?: string
-  value?: string
+  value?: any
 }
