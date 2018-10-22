@@ -37,6 +37,7 @@
   "menu-job-report": "Job Report",
   "menu-settings-general": "General",
   "menu-user-dashboard": "My Dashboard",
+  "menu-general-info": "General Info",
   "field-id": "Id",
   "field-id-err": "identification, only [a-z][A-Z][0-9]-_. characters",
   "field-summary": "Summary",

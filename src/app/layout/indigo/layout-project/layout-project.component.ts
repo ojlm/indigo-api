@@ -168,7 +168,7 @@ export class LayoutProjectComponent {
               children: [
                 {
                   'text': '基本信息',
-                  'i18n': 'menu-settings-general',
+                  'i18n': 'menu-general-info',
                   'link': `/project/${group}/${project}/settings`,
                 }
               ]

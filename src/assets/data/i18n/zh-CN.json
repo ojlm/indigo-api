@@ -37,6 +37,7 @@
   "menu-job-report": "任务报告",
   "menu-settings-general": "我的信息",
   "menu-user-dashboard": "我的面板",
+  "menu-general-info": "基本信息",
   "field-id": "标识",
   "field-id-err": "唯一标识, 只允许[a-z][A-Z][0-9]-_.等字符",
   "field-summary": "名称",
