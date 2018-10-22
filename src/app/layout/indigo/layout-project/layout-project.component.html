@@ -11,6 +11,11 @@
             <p class="text-truncate mb0" [title]="project.description||project.summary||''">{{project.summary}}</p>
           </div>
         </div>
+        <ul nz-menu>
+          <li nz-menu-item>
+            <a style="color:darkcyan;" [routerLink]="['/', project.group]">{{project.group}}</a>
+          </li>
+        </ul>
       </nz-dropdown>
       <sidebar-nav class="d-block py-lg"></sidebar-nav>
       <div>
