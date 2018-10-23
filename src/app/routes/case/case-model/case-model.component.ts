@@ -292,7 +292,9 @@ export class CaseModelComponent implements OnInit {
       }
       req.body.forEach(item => {
         if (HttpContentTypes.X_WWW_FORM_URLENCODED === item.contentType && item.data) {
-          item.data = JSON.stringify(item.data)
+          if (typeof item.data !== 'string') {
+            item.data = JSON.stringify(item.data)
+          }
         }
       })
     }
