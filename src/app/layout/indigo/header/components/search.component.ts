@@ -24,27 +24,42 @@ import { ApiRes } from '../../../../model/api.model'
         </div>
         <div *ngSwitchCase="'rest'" (click)="goItem(item)">
           <nz-tag [nzColor]="'lime'">{{'field-api'|translate}}</nz-tag>
-          <span>{{item.summary}}</span>
+          <span class="item-g-p">{{item.group}} / {{item.project}}</span>
+          <div class="item-s">{{item.summary}}</div>
         </div>
         <div *ngSwitchCase="'case'" (click)="goItem(item)">
           <nz-tag [nzColor]="'lime'">{{'field-case'|translate}}</nz-tag>
-          <span>{{item.summary}}</span>
+          <span class="item-g-p">{{item.group}} / {{item.project}}</span>
+          <div class="item-s">{{item.summary}}</div>
         </div>
         <div *ngSwitchCase="'env'" (click)="goItem(item)">
           <nz-tag [nzColor]="'lime'">{{'field-env'|translate}}</nz-tag>
-          <span>{{item.summary}}</span>
+          <span class="item-g-p">{{item.group}} / {{item.project}}</span>
+          <div class="item-s">{{item.summary}}</div>
         </div>
         <div *ngSwitchCase="'scenario'" (click)="goItem(item)">
           <nz-tag [nzColor]="'lime'">{{'field-scenario'|translate}}</nz-tag>
-          <span>{{item.summary}}</span>
+          <span class="item-g-p">{{item.group}} / {{item.project}}</span>
+          <div class="item-s">{{item.summary}}</div>
         </div>
         <div *ngSwitchCase="'job'" (click)="goItem(item)">
           <nz-tag [nzColor]="'lime'">{{'field-job'|translate}}</nz-tag>
-          <span>{{item.summary}}</span>
+          <span class="item-g-p">{{item.group}} / {{item.project}}</span>
+          <div class="item-s">{{item.summary}}</div>
         </div>
       </nz-auto-option>
     </nz-autocomplete>
-  `
+  `,
+  styles: [`
+    .item-g-p {
+      color: lightgray;
+      margin-right: 3px;
+    }
+    .item-s {
+      white-space:normal;
+      padding-left:3px;
+    }
+  `]
 })
 export class HeaderSearchComponent implements AfterViewInit {
 
