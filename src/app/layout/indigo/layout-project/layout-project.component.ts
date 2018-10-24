@@ -87,16 +87,16 @@ export class LayoutProjectComponent {
               'i18n': 'menu-apis',
               'icon': 'anticon antanticon anticon-api',
               children: [
-                {
-                  'text': '接口列表',
-                  'i18n': 'menu-api-list',
-                  'link': `/rest/${group}/${project}`,
-                },
-                {
-                  'text': '新建接口',
-                  'i18n': 'menu-new-api',
-                  'link': `/apis/${group}/${project}/new`,
-                },
+                // {
+                //   'text': '接口列表',
+                //   'i18n': 'menu-api-list',
+                //   'link': `/rest/${group}/${project}`,
+                // },
+                // {
+                //   'text': '新建接口',
+                //   'i18n': 'menu-new-api',
+                //   'link': `/apis/${group}/${project}/new`,
+                // },
                 {
                   'text': 'OpenApi',
                   'i18n': 'menu-openapi',
