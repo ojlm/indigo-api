@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 import { AggsItem, CaseService } from 'app/api/service/case.service'
 
 import { NameValue } from '../report/job-report-model/job-report-model.component'
@@ -9,6 +10,7 @@ import { NameValue } from '../report/job-report-model/job-report-model.component
 })
 export class HomeComponent implements OnInit {
 
+  size = 20
   level = 'group'
   height = `${window.innerHeight - 150}px`
   title = ['🌇', '🌆', '🏙', '🌃', '🌉', '🌌', '🌠', '🎆', '🌈', '🌅', '🎑', '🏞']
@@ -29,6 +31,7 @@ export class HomeComponent implements OnInit {
   }
   constructor(
     private caseService: CaseService,
+    private router: Router,
   ) {
     this.loadGroupData()
   }
@@ -36,7 +39,7 @@ export class HomeComponent implements OnInit {
   loadGroupData() {
     this.level = 'group'
     this.group = ''
-    this.caseService.aggs({}).subscribe(res => {
+    this.caseService.aggs({ size: this.size }).subscribe(res => {
       const map = {}
       this.results = res.data.map(item => {
         map[item.id] = item
@@ -47,7 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadGroupProjectData(group: string) {
-    this.caseService.aggs({ group: group }).subscribe(res => {
+    this.caseService.aggs({ size: this.size, group: group }).subscribe(res => {
       const map = {}
       this.results = res.data.map(item => {
         map[item.id] = item
@@ -59,10 +62,13 @@ export class HomeComponent implements OnInit {
 
   onSelect(item: NameValue) {
     if ('group' === this.level) {
-      const aggItem = this.groupMap[item.name]
+      const group = this.groupMap[item.name]
       this.level = 'project'
-      this.group = aggItem.id
-      this.loadGroupProjectData(aggItem.id)
+      this.group = group.id
+      this.loadGroupProjectData(group.id)
+    } else if ('project' === this.level) {
+      const project = this.projectMap[item.name]
+      this.router.navigateByUrl(`/${this.group}/${project.id}`)
     }
   }
 
