@@ -40,7 +40,7 @@
               </div>
             </ng-template>
             <ng-template #nzDescription>
-              <div style="padding-left:10px;">
+              <div *ngIf="canResumeOrPause(item)" style="padding-left:10px;">
                 <nz-divider nzType="vertical"></nz-divider>
                 <span>{{'tips-job-state'|translate}}: </span>
                 <span>{{item.state}}</span>
