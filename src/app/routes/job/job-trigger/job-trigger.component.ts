@@ -75,11 +75,19 @@ export class JobTriggerComponent implements OnInit {
 
   startDateChange(startDate: Date) {
     this.trigger.startNow = false
-    this.trigger.startDate = startDate.getTime()
+    if (startDate) {
+      this.trigger.startDate = startDate.getTime()
+    } else {
+      this.trigger.startDate = undefined
+    }
   }
 
-  endDateChange(startDate: Date) {
-    this.trigger.endDate = startDate.getTime()
+  endDateChange(endDate: Date) {
+    if (endDate) {
+      this.trigger.endDate = endDate.getTime()
+    } else {
+      this.trigger.endDate = undefined
+    }
   }
 
   isRepeatForever(value: boolean) {
