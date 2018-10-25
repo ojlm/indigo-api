@@ -2,8 +2,9 @@ import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { DeleteCaseComponent } from '@shared/delete-case/delete-case.component'
 import { ApiRes } from 'app/model/api.model'
-import { NzMessageService } from 'ng-zorro-antd'
+import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { CaseService, QueryCase } from '../../../api/service/case.service'
@@ -28,6 +29,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
   constructor(
     private caseService: CaseService,
     private msgService: NzMessageService,
+    private drawerService: NzDrawerService,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
@@ -75,6 +77,16 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
 
   editItem(item: Case) {
     this.router.navigateByUrl(this.getRouter(item))
+  }
+
+  deleteItem(item: Case) {
+    const drawerRef = this.drawerService.create({
+      nzTitle: item.summary,
+      nzContent: DeleteCaseComponent,
+      nzContentParams: {
+        data: item
+      }
+    })
   }
 
   pageChange() {

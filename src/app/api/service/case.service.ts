@@ -3,8 +3,17 @@ import { _HttpClient } from '@delon/theme'
 import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
-import { ApiRes, QueryPage } from '../../model/api.model'
-import { Assertion, Case, CaseResult, ContextOptions, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
+import { ApiRes, DataBody, QueryPage } from '../../model/api.model'
+import {
+  Assertion,
+  Case,
+  CaseResult,
+  ContextOptions,
+  IndexDocResponse,
+  Job,
+  Scenario,
+  UpdateDocResponse,
+} from '../../model/es.model'
 import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE } from '../path'
 import { BaseService } from './base.service'
 
@@ -21,6 +30,10 @@ export class CaseService extends BaseService {
 
   index(cs: Case) {
     return this.http.put(API_CASE, cs) as Observable<ApiRes<IndexDocResponse>>
+  }
+
+  delete(id: string, preview: boolean = null) {
+    return this.http.delete(`${API_CASE}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
   update(id: string, cs: Case) {
@@ -104,4 +117,9 @@ export interface SearchAfterCase extends SearchAfter {
 
 export interface CaseWithSort extends Case {
   _sort: any[]
+}
+
+export interface DeleteResData {
+  scenario?: DataBody<Scenario>
+  job?: DataBody<Job>
 }
