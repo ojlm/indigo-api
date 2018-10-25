@@ -4,7 +4,7 @@ export interface ApiReq {
   extra?: Object
 }
 
-interface DataBody<T> {
+export interface DataBody<T> {
   total?: number
   list?: T
 }
