@@ -55,6 +55,12 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item class="form-item">
+        <nz-form-label>{{'item-common-headers'|translate}}</nz-form-label>
+        <nz-form-control>
+          <app-key-value [(data)]="headers" [hasCheckbox]="true"></app-key-value>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="form-item">
         <nz-form-label>{{'field-custom'|translate}}</nz-form-label>
         <nz-form-control>
           <app-key-value [(data)]="custom" [hasCheckbox]="false"></app-key-value>

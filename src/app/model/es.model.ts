@@ -169,6 +169,7 @@ export interface Environment extends BaseDoc {
   namespace?: string
   enableProxy?: boolean
   custom?: KeyValueObject[]
+  headers?: KeyValueObject[]
 }
 
 export interface IndexResultData {

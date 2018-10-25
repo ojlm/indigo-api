@@ -29,6 +29,7 @@ export class EnvModelComponent implements OnInit {
   enableProxy = false
   auth: Authorization[] = []
   custom: KeyValueObject[] = []
+  headers: KeyValueObject[] = []
   submitting = false
   visibleDtabs = false
 
@@ -81,6 +82,7 @@ export class EnvModelComponent implements OnInit {
       group: this.group,
       project: this.project,
       custom: this.custom,
+      headers: this.headers,
       enableProxy: this.enableProxy,
       auth: this.auth,
       ...this.form.value as Environment,
@@ -120,6 +122,7 @@ export class EnvModelComponent implements OnInit {
     })
     this.enableProxy = false
     this.custom = []
+    this.headers = []
     this.auth = []
   }
 
@@ -140,6 +143,9 @@ export class EnvModelComponent implements OnInit {
       this.envService.getById(this.envId).subscribe(res => {
         if (res.data.custom) {
           this.custom = res.data.custom
+        }
+        if (res.data.headers) {
+          this.headers = res.data.headers
         }
         if (this.fromSelector) {
           this.nameChange.emit(res.data.summary)

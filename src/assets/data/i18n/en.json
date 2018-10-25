@@ -261,6 +261,7 @@
   "item-complete": "Complete",
   "item-error": "Error",
   "item-blocked": "Blocked",
+  "item-common-headers": "Common Headers",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",
