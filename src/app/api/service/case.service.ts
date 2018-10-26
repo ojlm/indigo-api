@@ -3,15 +3,14 @@ import { _HttpClient } from '@delon/theme'
 import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
-import { ApiRes, DataBody, QueryPage } from '../../model/api.model'
+import { ApiRes, QueryPage } from '../../model/api.model'
 import {
   Assertion,
   Case,
   CaseResult,
   ContextOptions,
+  DeleteResData,
   IndexDocResponse,
-  Job,
-  Scenario,
   UpdateDocResponse,
 } from '../../model/es.model'
 import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE } from '../path'
@@ -117,9 +116,4 @@ export interface SearchAfterCase extends SearchAfter {
 
 export interface CaseWithSort extends Case {
   _sort: any[]
-}
-
-export interface DeleteResData {
-  scenario?: DataBody<Scenario[]>
-  job?: DataBody<Job[]>
 }

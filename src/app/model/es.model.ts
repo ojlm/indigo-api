@@ -1,3 +1,4 @@
+import { DataBody } from './api.model'
 import { JobData } from './job.model'
 
 interface BaseDoc {
@@ -347,4 +348,10 @@ export interface ContextOptions {
   scenarioEnv?: string
   caseEnv?: string
   initCtx?: Object
+}
+
+export interface DeleteResData {
+  case?: DataBody<Case[]>
+  scenario?: DataBody<Scenario[]>
+  job?: DataBody<Job[]>
 }

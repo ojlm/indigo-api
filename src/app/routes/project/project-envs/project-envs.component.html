@@ -5,7 +5,15 @@
   </div>
   <nz-card [nzBordered]="false">
     <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
-      [nzPagination]="pagination" [nzLoading]="loading">
+      [nzPagination]="pagination" [nzLoading]="loading" [nzHeader]="nzHeader">
+      <ng-template #nzHeader>
+        <nz-input-group [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
+          <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
+          <ng-template #suffixButton>
+            <a class="click-icon" style="margin-right:10px;"><i class="anticon anticon-search" (click)="loadData()"></i></a>
+          </ng-template>
+        </nz-input-group>
+      </ng-template>
       <ng-template #item let-item>
         <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
@@ -17,8 +25,12 @@
             </ng-template>
           </nz-list-item-meta>
           <ng-template #edit>
-            <button nz-button nzType="default" nzShape="circle" (click)="editItem(item)">
+            <button nz-button nzSize="small" nzType="default" (click)="editItem(item)">
               <i class="anticon anticon-setting"></i>
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzSize="small" nzType="default" (click)="deleteItem(item)">
+              <i class="anticon anticon-delete"></i>
             </button>
           </ng-template>
         </nz-list-item>

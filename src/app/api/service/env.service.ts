@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { AuthorizeAndValidate, Environment, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
+import { AuthorizeAndValidate, DeleteResData, Environment, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
 import { API_ENV, API_ENV_QUERY } from '../path'
 import { BaseService } from './base.service'
 
@@ -25,6 +25,10 @@ export class EnvService extends BaseService {
 
   index(env: Environment) {
     return this.http.put(`${API_ENV}/${env.group}/${env.project}`, env) as Observable<ApiRes<IndexDocResponse>>
+  }
+
+  delete(id: string, preview: boolean = null) {
+    return this.http.delete(`${API_ENV}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
   getById(id: string) {

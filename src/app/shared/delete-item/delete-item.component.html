@@ -1,5 +1,17 @@
 <div>
-  <div *ngIf="'case'===item.type">
+  <div *ngIf="'env'===item.type">
+    <nz-divider [nzText]="caseText" nzOrientation="left">
+      <ng-template #caseText>
+        <span class="divider-text">
+          <span>{{'field-case'|translate}}({{casesTotal}})</span>
+        </span>
+      </ng-template>
+    </nz-divider>
+    <div *ngFor="let item of cases" class="item">
+      <a (click)="goCase(item)">{{item.summary}}</a>
+    </div>
+  </div>
+  <div *ngIf="'env'===item.type||'case'===item.type">
     <nz-divider [nzText]="scenarioText" nzOrientation="left">
       <ng-template #scenarioText>
         <span class="divider-text">

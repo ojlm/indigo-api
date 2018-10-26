@@ -3,8 +3,9 @@ import { Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18NService } from '@core/i18n/i18n.service'
 import { CaseService } from 'app/api/service/case.service'
+import { EnvService } from 'app/api/service/env.service'
 import { ScenarioService } from 'app/api/service/scenario.service'
-import { Case, Job, Scenario } from 'app/model/es.model'
+import { Case, Environment, Job, Scenario } from 'app/model/es.model'
 import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd'
 
 @Component({
@@ -22,8 +23,11 @@ import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd'
 })
 export class DeleteItemComponent implements OnInit {
 
+  env: Environment = {}
   cs: Case = {}
   scenario: Scenario = {}
+  cases: Case[] = []
+  casesTotal = 0
   scenarios: Scenario[] = []
   scenariosTotal = 0
   jobs: Job[] = []
@@ -41,18 +45,28 @@ export class DeleteItemComponent implements OnInit {
           this.scenarios = res.data.scenario.list
           this.scenariosTotal = res.data.scenario.total
         })
-      }
-      if ('scenario' === this.item.type) {
+      } else if ('scenario' === this.item.type) {
         this.scenario = val.value
         this.scenarioService.delete(this.scenario._id, true).subscribe(res => {
           this.jobs = res.data.job.list
           this.jobsTotal = res.data.job.total
+        })
+      } else if ('env' === this.item.type) {
+        this.env = val.value
+        this.envService.delete(this.env._id, true).subscribe(res => {
+          this.cases = res.data.case.list
+          this.casesTotal = res.data.case.total
+          this.jobs = res.data.job.list
+          this.jobsTotal = res.data.job.total
+          this.scenarios = res.data.scenario.list
+          this.scenariosTotal = res.data.scenario.total
         })
       }
     }
   }
 
   constructor(
+    private envService: EnvService,
     private caseService: CaseService,
     private scenarioService: ScenarioService,
     private drawerRef: NzDrawerRef<any>,
@@ -72,17 +86,26 @@ export class DeleteItemComponent implements OnInit {
       this.scenarioService.delete(this.scenario._id, false).subscribe(res => {
         this.drawerRef.close(res)
       })
+    } else if ('env' === this.item.type) {
+      this.envService.delete(this.env._id, false).subscribe(res => {
+        this.drawerRef.close(res)
+      })
     }
   }
 
-  goScenario(scenario: Scenario) {
+  goCase(item: Case) {
     this.drawerRef.close(null)
-    this.router.navigateByUrl(`/scenario/${scenario.group}/${scenario.project}/${scenario._id}`)
+    this.router.navigateByUrl(`/case/${item.group}/${item.project}/${item._id}`)
   }
 
-  goJob(job: Job) {
+  goScenario(item: Scenario) {
     this.drawerRef.close(null)
-    this.router.navigateByUrl(`/job/${job.group}/${job.project}/${job._id}`)
+    this.router.navigateByUrl(`/scenario/${item.group}/${item.project}/${item._id}`)
+  }
+
+  goJob(item: Job) {
+    this.drawerRef.close(null)
+    this.router.navigateByUrl(`/job/${item.group}/${item.project}/${item._id}`)
   }
 
   ngOnInit(): void {

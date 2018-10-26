@@ -8,11 +8,10 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, ApiResObj, QueryPage } from '../../model/api.model'
-import { IndexDocResponse, Scenario } from '../../model/es.model'
+import { DeleteResData, IndexDocResponse, Scenario } from '../../model/es.model'
 import { newWS } from '../../util/ws'
 import { API_SCENARIO, API_SCENARIO_QUERY, API_WS_SCENARIO_TEST } from '../path'
 import { BaseService } from './base.service'
-import { DeleteResData } from './case.service'
 
 @Injectable({
   providedIn: 'root'
