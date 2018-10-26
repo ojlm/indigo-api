@@ -15,7 +15,6 @@ import { SettingsService } from '@delon/theme'
       <div nz-menu-item (click)="newProject()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-project' | translate}}</div>
       <li *ngIf="project" nz-menu-divider></li>
       <div *ngIf="project" nz-menu-item (click)="newJob()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-job' | translate}}</div>
-      <div *ngIf="project" nz-menu-item (click)="newApi()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-api' | translate}}</div>
       <div *ngIf="project" nz-menu-item (click)="newCase()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-case' | translate}}</div>
       <div *ngIf="project" nz-menu-item (click)="newScenario()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-scenario' | translate}}</div>
       <div *ngIf="project" nz-menu-item (click)="newEnv()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-env' | translate}}</div>
