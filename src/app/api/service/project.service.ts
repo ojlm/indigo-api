@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
-import { Subject } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, ApiResObj, QueryPage } from '../../model/api.model'
@@ -29,6 +29,10 @@ export class ProjectService extends BaseService {
 
   getById(group: string, id: string) {
     return this.http.get<ApiRes<Project>>(`${API_PROJECT}/${group}/${id}`)
+  }
+
+  delete(group: string, id: string) {
+    return this.http.delete(`${API_PROJECT}/${group}/${id}`) as Observable<ApiRes<any>>
   }
 
   getOpenApi(group: string, id: string) {

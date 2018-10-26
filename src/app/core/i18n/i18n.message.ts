@@ -34,5 +34,6 @@ export const I18nKey = {
   ItemBlocked: 'item-blocked',
   BtnOk: 'btn-ok',
   BtnCancel: 'btn-cancel',
-  TipsConfirmDelete: 'tips-confirm-delete'
+  TipsConfirmDelete: 'tips-confirm-delete',
+  TipsConfirmDeleteContent: 'tips-confirm-delete-content'
 }

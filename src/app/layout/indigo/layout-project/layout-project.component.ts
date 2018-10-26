@@ -170,6 +170,11 @@ export class LayoutProjectComponent {
                   'text': '基本信息',
                   'i18n': 'menu-general-info',
                   'link': `/project/${group}/${project}/settings`,
+                },
+                {
+                  'text': '其他选项',
+                  'i18n': 'menu-other-options',
+                  'link': `/project/${group}/${project}/options`,
                 }
               ]
             }
