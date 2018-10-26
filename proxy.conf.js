@@ -4,18 +4,18 @@ const PROXY_CONFIG = [{
   ],
   target: "ws://localhost:9000",
   pathRewrite: {
-    '^/api': '/api'
+    '^/api/': '/api/'
   },
   ws: true,
   secure: false
 },
 {
   context: [
-    "/api",
+    "/api/",
   ],
   target: "http://localhost:9000",
   pathRewrite: {
-    '^/api': '/api'
+    '^/api/': '/api/'
   },
   secure: false
 },
