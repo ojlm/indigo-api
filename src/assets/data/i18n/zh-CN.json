@@ -210,6 +210,7 @@
   "btn-search": "检索",
   "btn-ok": "确认",
   "btn-cancel": "取消",
+  "btn-delete": "删除",
   "item-path-variable": "路径变量",
   "item-params": "Params",
   "item-headers": "Headers",

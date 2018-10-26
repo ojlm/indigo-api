@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DeleteCaseComponent } from '@shared/delete-case/delete-case.component'
 import { ApiRes } from 'app/model/api.model'
+import { calcDrawerWidth } from 'app/util/drawer'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
@@ -85,6 +86,15 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
       nzContent: DeleteCaseComponent,
       nzContentParams: {
         data: item
+      },
+      nzBodyStyle: {
+        'padding': '8px'
+      },
+      nzWidth: calcDrawerWidth(0.33)
+    })
+    drawerRef.afterClose.subscribe(data => {
+      if (data) {
+        this.loadData()
       }
     })
   }

@@ -210,6 +210,7 @@
   "btn-search": "Search",
   "btn-ok": "Ok",
   "btn-cancel": "Cancel",
+  "btn-delete": "Delete",
   "item-path-variable": "Path Variable",
   "item-params": "Params",
   "item-headers": "Headers",

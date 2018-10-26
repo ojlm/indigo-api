@@ -1,7 +1,25 @@
 <div>
-  <div>
-    {{cs|json}}
+  <nz-divider [nzText]="scenarioText" nzOrientation="left">
+    <ng-template #scenarioText>
+      <span class="divider-text">
+        <span>{{'field-scenario'|translate}}({{scenariosTotal}})</span>
+      </span>
+    </ng-template>
+  </nz-divider>
+  <div *ngFor="let item of scenarios" class="item">
+    <a (click)="goScenario(item)">{{item.summary}}</a>
   </div>
-  <nz-card style="padding:20px;" [nzBordered]="false">
-  </nz-card>
+  <nz-divider [nzText]="jobText" nzOrientation="left">
+    <ng-template #jobText>
+      <span class="divider-text">
+        <span>{{'field-job'|translate}}({{jobsTotal}})</span>
+      </span>
+    </ng-template>
+  </nz-divider>
+  <div *ngFor="let item of jobs" class="item">
+    <a (click)="goJob(item)">{{item.summary}}</a>
+  </div>
+  <div style="margin:20px;text-align:right;">
+    <button nz-button nzType="primary" (click)="delete()">{{'btn-delete'|translate}}</button>
+  </div>
 </div>

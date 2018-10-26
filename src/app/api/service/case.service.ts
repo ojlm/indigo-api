@@ -120,6 +120,6 @@ export interface CaseWithSort extends Case {
 }
 
 export interface DeleteResData {
-  scenario?: DataBody<Scenario>
-  job?: DataBody<Job>
+  scenario?: DataBody<Scenario[]>
+  job?: DataBody<Job[]>
 }
