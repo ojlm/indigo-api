@@ -2,10 +2,18 @@
   <h1 style="padding-left: 10px;">{{'field-project'|translate}}</h1>
 </div>
 <nz-card>
-  <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
-    [nzPagination]="pagination" [nzLoading]="loading">
+  <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
+    [nzLoading]="loading" [nzHeader]="nzHeader">
+    <ng-template #nzHeader>
+      <nz-input-group [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
+        <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
+        <ng-template #suffixButton>
+          <a class="click-icon" style="margin-right:10px;"><i class="anticon anticon-search" (click)="loadData()"></i></a>
+        </ng-template>
+      </nz-input-group>
+    </ng-template>
     <ng-template #item let-item>
-      <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+      <nz-list-item [nzContent]="nzContent" [nzActions]="[actions]">
         <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
           <ng-template #nzAvatar>
             <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="item.id?item.id[0].toUpperCase():''" [nzSrc]="item.avatar"
@@ -23,16 +31,13 @@
             <div>{{item.description}}</div>
           </ng-template>
         </nz-list-item-meta>
-        <ng-template #edit>
-          <button nz-button nzType="default" nzShape="circle" (click)="goSettings(item)">
-            <i class="anticon anticon-setting"></i>
-          </button>
+        <ng-template #actions>
         </ng-template>
       </nz-list-item>
     </ng-template>
     <ng-template #pagination>
-      <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
-        [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+      <nz-pagination [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal" [nzPageSize]="pageSize"
+        (nzPageIndexChange)="pageChange()">
       </nz-pagination>
       <ng-template #totalTemplate let-total>
         <span style="color:lightgray;">
@@ -43,5 +48,4 @@
       </ng-template>
     </ng-template>
   </nz-list>
-  <div *ngIf="loading===false&&items.length===0">{{'tips-no-data'|translate}}</div>
 </nz-card>

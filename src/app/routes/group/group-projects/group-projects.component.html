@@ -3,14 +3,22 @@
     <h1 style="padding-left: 10px;">{{'content-title-group-projects'|translate}}</h1>
   </div>
   <nz-card [nzBordered]="false">
-    <nz-list *ngIf="projects.length>0" [nzDataSource]="projects" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
-      [nzLoading]="loading">
+    <nz-list [nzDataSource]="projects" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
+      [nzLoading]="loading" [nzHeader]="nzHeader">
+      <ng-template #nzHeader>
+        <nz-input-group [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
+          <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
+          <ng-template #suffixButton>
+            <a class="click-icon" style="margin-right:10px;"><i class="anticon anticon-search" (click)="loadData()"></i></a>
+          </ng-template>
+        </nz-input-group>
+      </ng-template>
       <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+        <nz-list-item [nzContent]="nzContent" [nzActions]="[actions]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
             <ng-template #nzAvatar>
-              <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="item.summary?item.summary[0].toUpperCase():''" [nzSrc]="item.avatar"
-                (click)="goProject(item)"></nz-avatar>
+              <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="item.summary?item.summary[0].toUpperCase():''"
+                [nzSrc]="item.avatar" (click)="goProject(item)"></nz-avatar>
             </ng-template>
             <ng-template #nzTitle>
               <a [routerLink]="[item.id]">{{item.summary}}</a>
@@ -19,17 +27,22 @@
               <div>{{item.description}}</div>
             </ng-template>
           </nz-list-item-meta>
-          <ng-template #edit>
-            <button nz-button nzType="default" nzShape="circle" (click)="goSettings(item)">
-              <i class="anticon anticon-setting"></i>
-            </button>
+          <ng-template #actions>
           </ng-template>
         </nz-list-item>
       </ng-template>
       <ng-template #pagination>
-        <nz-pagination *ngIf="projects.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()"></nz-pagination>
+        <nz-pagination [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal" [nzPageSize]="pageSize"
+          (nzPageIndexChange)="pageChange()">
+          <ng-template #totalTemplate let-total>
+            <span style="color:lightgray;">
+              <span>{{'item-total'|translate}}</span>
+              <span> {{total}} </span>
+              <span>{{'item-item'|translate}}</span>
+            </span>
+          </ng-template>
+        </nz-pagination>
       </ng-template>
     </nz-list>
-    <div *ngIf="loading===false&&projects.length===0">{{'tips-no-data'|translate}}</div>
   </nz-card>
 </div>

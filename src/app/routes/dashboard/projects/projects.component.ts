@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { NzMessageService } from 'ng-zorro-antd'
 
-import { ProjectService } from '../../../api/service/project.service'
+import { ProjectService, QueryProject } from '../../../api/service/project.service'
 import { Project } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -14,6 +14,7 @@ export class ProjectsComponent extends PageSingleModel implements OnInit {
 
   loading = false
   items: Project[] = []
+  search: QueryProject = {}
 
   constructor(
     private projectService: ProjectService,
@@ -37,7 +38,7 @@ export class ProjectsComponent extends PageSingleModel implements OnInit {
 
   loadData() {
     this.loading = true
-    this.projectService.query(this.toPageQuery()).subscribe(res => {
+    this.projectService.query({ ...this.toPageQuery(), ...this.search }).subscribe(res => {
       this.items = res.data.list
       this.pageTotal = res.data.total
       this.loading = false
