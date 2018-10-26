@@ -1,9 +1,11 @@
 import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { NzMessageService } from 'ng-zorro-antd'
+import { DeleteItemComponent } from '@shared/delete-item/delete-item.component'
+import { calcDrawerWidth } from 'app/util/drawer'
+import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 
-import { ScenarioService } from '../../../api/service/scenario.service'
+import { QueryScenario, ScenarioService } from '../../../api/service/scenario.service'
 import { Scenario } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -13,6 +15,7 @@ import { PageSingleModel } from '../../../model/page.model'
 })
 export class ProjectScenariosComponent extends PageSingleModel implements OnInit {
 
+  search: QueryScenario = {}
   items: Scenario[] = []
   loading = false
   group: string
@@ -21,6 +24,7 @@ export class ProjectScenariosComponent extends PageSingleModel implements OnInit
   constructor(
     private scenarioService: ScenarioService,
     private msgService: NzMessageService,
+    private drawerService: NzDrawerService,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
@@ -29,7 +33,7 @@ export class ProjectScenariosComponent extends PageSingleModel implements OnInit
   loadData() {
     if (this.group && this.project) {
       this.loading = true
-      this.scenarioService.query({ group: this.group, project: this.project, ...this.toPageQuery() }).subscribe(res => {
+      this.scenarioService.query({ group: this.group, project: this.project, ...this.search, ...this.toPageQuery() }).subscribe(res => {
         this.items = res.data.list
         this.pageTotal = res.data.total
         this.loading = false
@@ -43,6 +47,28 @@ export class ProjectScenariosComponent extends PageSingleModel implements OnInit
 
   editItem(item: Scenario) {
     this.router.navigateByUrl(this.getRouter(item))
+  }
+
+  deleteItem(item: Scenario) {
+    const drawerRef = this.drawerService.create({
+      nzTitle: item.summary,
+      nzContent: DeleteItemComponent,
+      nzContentParams: {
+        data: {
+          type: 'scenario',
+          value: item
+        }
+      },
+      nzBodyStyle: {
+        'padding': '8px'
+      },
+      nzWidth: calcDrawerWidth(0.33)
+    })
+    drawerRef.afterClose.subscribe(data => {
+      if (data) {
+        this.loadData()
+      }
+    })
   }
 
   pageChange() {

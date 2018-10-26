@@ -12,6 +12,7 @@ import { IndexDocResponse, Scenario } from '../../model/es.model'
 import { newWS } from '../../util/ws'
 import { API_SCENARIO, API_SCENARIO_QUERY, API_WS_SCENARIO_TEST } from '../path'
 import { BaseService } from './base.service'
+import { DeleteResData } from './case.service'
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class ScenarioService extends BaseService {
 
   index(scenario: Scenario) {
     return this.http.put(API_SCENARIO, scenario) as Observable<ApiRes<IndexDocResponse>>
+  }
+
+  delete(id: string, preview: boolean = null) {
+    return this.http.delete(`${API_SCENARIO}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
   update(id: string, scenario: Scenario) {

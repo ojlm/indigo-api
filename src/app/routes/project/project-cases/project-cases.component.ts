@@ -2,7 +2,7 @@ import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { DeleteCaseComponent } from '@shared/delete-case/delete-case.component'
+import { DeleteItemComponent } from '@shared/delete-item/delete-item.component'
 import { ApiRes } from 'app/model/api.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
@@ -83,9 +83,12 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
   deleteItem(item: Case) {
     const drawerRef = this.drawerService.create({
       nzTitle: item.summary,
-      nzContent: DeleteCaseComponent,
+      nzContent: DeleteItemComponent,
       nzContentParams: {
-        data: item
+        data: {
+          type: 'case',
+          value: item
+        }
       },
       nzBodyStyle: {
         'padding': '8px'
