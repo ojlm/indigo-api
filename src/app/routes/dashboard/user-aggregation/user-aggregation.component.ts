@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { AggsItem, CaseService } from 'app/api/service/case.service'
 import { NameValue } from 'app/model/common.model'
 
@@ -30,6 +30,7 @@ export class UserAggregationComponent implements OnInit {
   constructor(
     private caseService: CaseService,
     private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   loadGroupData() {
@@ -62,8 +63,12 @@ export class UserAggregationComponent implements OnInit {
       this.level = 'project'
       this.group = aggItem.id
       this.loadGroupProjectData(aggItem.id)
+    } else if ('project' === this.level) {
+      const project = this.projectMap[item.name]
+      this.router.navigateByUrl(`/${this.group}/${project.id}`)
     }
   }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.username = params.get('username')
