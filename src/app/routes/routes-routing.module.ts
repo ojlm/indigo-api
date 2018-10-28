@@ -41,6 +41,14 @@ const routes: Routes = [
       { path: 'projects/new', component: ProjectModelComponent, data: { titleI18n: 'title-project-new' } }
     ]
   },
+  {
+    path: 'system',
+    component: LayoutIndigoComponent,
+    canActivateChild: [JWTGuard],
+    children: [
+      { path: '', loadChildren: './system/system.module#SystemModule' }
+    ]
+  },
   // 全屏布局
   {
     path: 'fullscreen',
