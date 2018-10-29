@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
+import { Observable } from 'rxjs'
 
 import { ApiRes } from '../../model/api.model'
 import { API_SYSTEM } from '../path'
@@ -11,8 +12,12 @@ export class SystemService {
 
   constructor(private http: _HttpClient) { }
 
-  getJobDataIndices() {
+  getJobReportDataIndices() {
     return this.http.get<ApiRes<CatIndicesResponse[]>>(`${API_SYSTEM}/job-report-indices`)
+  }
+
+  deleteJobReportDataIndex(index: string) {
+    return this.http.delete(`${API_SYSTEM}/job-report-indices/${index}`) as Observable<ApiRes<any>>
   }
 }
 
@@ -22,9 +27,9 @@ export interface CatIndicesResponse {
   index?: string
   uuid?: string
   pri?: string
-  ref?: string
-  count?: string
-  deleted?: string
-  storeSize?: string
-  priStoreSize?: string
+  rep?: string
+  'docs.count'?: string
+  'docs.deleted'?: string
+  'store.size'?: string
+  'pri.store.size'?: string
 }

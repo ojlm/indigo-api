@@ -1,3 +1,31 @@
-<div>
-  {{items|json}}
+<div style="padding:10px;">
+  <nz-table #basicTable [nzData]="items" [nzFrontPagination]="false" [nzShowPagination]="false" [nzSize]="'default'"
+    [nzNoResult]="'tips-no-data'|translate">
+    <thead>
+      <tr>
+        <th style="background-color:transparent">index</th>
+        <th style="background-color:transparent">pri</th>
+        <th style="background-color:transparent">rep</th>
+        <th style="background-color:transparent">docs.count</th>
+        <th style="background-color:transparent">docs.deleted</th>
+        <th style="background-color:transparent">store.size</th>
+        <th style="background-color:transparent">pri.store.size</th>
+        <th style="background-color:transparent"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of basicTable.data">
+        <td>{{item.index}}</td>
+        <td>{{item.pri}}</td>
+        <td>{{item.rep}}</td>
+        <td>{{item['docs.count']}}</td>
+        <td>{{item['docs.deleted']}}</td>
+        <td>{{item['store.size']}}</td>
+        <td>{{item['pri.store.size']}}</td>
+        <td>
+          <a (click)="delete(item)"><i style="color:red;" class="anticon anticon-delete click-icon"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
 </div>
