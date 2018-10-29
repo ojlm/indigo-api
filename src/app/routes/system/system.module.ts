@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
 
 import { JobReportIndicesComponent } from './job-report-indices/job-report-indices.component'
+import { SystemJobsComponent } from './system-jobs/system-jobs.component'
 import { SystemPanelComponent } from './system-panel/system-panel.component'
 import { SystemRoutingModule } from './system-routing.module'
 
@@ -10,6 +11,7 @@ import { SystemRoutingModule } from './system-routing.module'
 const COMPONENT = [
   SystemPanelComponent,
   JobReportIndicesComponent,
+  SystemJobsComponent,
 ]
 
 const COMPONENT_NOROUNT = []

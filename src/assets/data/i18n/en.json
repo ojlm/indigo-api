@@ -39,6 +39,8 @@
   "menu-user-dashboard": "My Dashboard",
   "menu-general-info": "General Info",
   "menu-other-options": "Other Options",
+  "menu-job-report-data-indices": "Report Indices",
+  "menu-system-jobs": "System Jobs",
   "field-id": "Id",
   "field-id-err": "identification, only [a-z][A-Z][0-9]-_. characters",
   "field-summary": "Summary",

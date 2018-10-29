@@ -1,3 +1,21 @@
 <div>
-  <router-outlet></router-outlet>
+  <div>
+    <ul style="background-color:transparent;display:flex;justify-content:space-evenly;" nz-menu [nzMode]="'horizontal'">
+      <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <a [routerLink]="['/system/settings']">
+          <i style="margin-right:2px;" class="anticon anticon-database"></i>
+          <span>{{'menu-job-report-data-indices' | translate}}</span>
+        </a>
+      </li>
+      <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <a [routerLink]="['/system/jobs']">
+          <i style="margin-right:2px;" class="anticon anticon-schedule"></i>
+          <span>{{'menu-system-jobs' | translate}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
 </div>

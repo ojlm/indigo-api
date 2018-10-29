@@ -4,10 +4,10 @@ import { Router } from '@angular/router'
 import { NzMessageService } from 'ng-zorro-antd'
 
 @Component({
-  selector: 'app-system-panel',
-  templateUrl: './system-panel.component.html',
+  selector: 'app-system-jobs',
+  templateUrl: './system-jobs.component.html',
 })
-export class SystemPanelComponent implements OnInit {
+export class SystemJobsComponent implements OnInit {
 
   constructor(
     private msgService: NzMessageService,
