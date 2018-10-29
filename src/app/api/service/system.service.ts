@@ -19,6 +19,22 @@ export class SystemService {
   deleteJobReportDataIndex(index: string) {
     return this.http.delete(`${API_SYSTEM}/job-report-indices/${index}`) as Observable<ApiRes<any>>
   }
+
+  getClearJobDetail() {
+    return this.http.get<ApiRes<ClearJobReportIndicesJobModel>>(`${API_SYSTEM}/clear-job/detail`)
+  }
+
+  updateClearJob(job: ClearJobReportIndicesJobModel) {
+    return this.http.post<ApiRes<string>>(`${API_SYSTEM}/clear-job/update`, job)
+  }
+
+  pauseClearJob() {
+    return this.http.get<ApiRes<boolean>>(`${API_SYSTEM}/clear-job/pause`)
+  }
+
+  resumeClearJob() {
+    return this.http.get<ApiRes<boolean>>(`${API_SYSTEM}/clear-job/resume`)
+  }
 }
 
 export interface CatIndicesResponse {
@@ -32,4 +48,11 @@ export interface CatIndicesResponse {
   'docs.deleted'?: string
   'store.size'?: string
   'pri.store.size'?: string
+}
+
+export interface ClearJobReportIndicesJobModel {
+  cron?: string
+  day?: number
+  state?: string
+  next?: string
 }
