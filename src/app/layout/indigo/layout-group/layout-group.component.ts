@@ -76,7 +76,19 @@ export class LayoutGroupComponent {
               'text': '设置',
               'i18n': 'menu-settings',
               'icon': 'anticon antanticon anticon-setting',
-              'link': `/group/${group}/settings`
+              'link': `/group/${group}/settings`,
+              children: [
+                {
+                  'text': '基本信息',
+                  'i18n': 'menu-general-info',
+                  'link': `/group/${group}/settings`,
+                },
+                {
+                  'text': '其他选项',
+                  'i18n': 'menu-other-options',
+                  'link': `/group/${group}/options`,
+                }
+              ]
             }
           ]
         },

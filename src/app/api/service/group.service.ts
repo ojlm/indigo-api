@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
-import { Subject } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, ApiResObj, QueryPage } from '../../model/api.model'
@@ -21,6 +21,10 @@ export class GroupService extends BaseService {
 
   index(group: Group) {
     return this.http.put<ApiRes<IndexDocResponse>>(API_GROUP, group)
+  }
+
+  delete(id: string) {
+    return this.http.delete(`${API_GROUP}/${id}`) as Observable<ApiRes<any>>
   }
 
   update(group: Group) {
