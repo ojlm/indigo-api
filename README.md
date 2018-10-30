@@ -1,6 +1,8 @@
 ## Indigo
 接口管理，调试，自动化测试，监控 系统，目前实现 HTTP/HTTPS
 
+[![Build Status](https://travis-ci.org/asura-pro/indigo.svg?branch=master)](https://travis-ci.org/asura-pro/indigo)
+
 ### 特性
 >不是基于脚本实现，所以功能上没有脚本强大和灵活，但作为更高层次的抽象提供了一些脚本较难拥有的特性
 
