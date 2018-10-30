@@ -21,3 +21,51 @@
   font-size: small;
   color: lightseagreen;
 }
+
+.divider-text {
+  font-size: small;
+  color: gray;
+}
+
+.label-text {
+  color: #59595d;
+}
+
+.label-value {
+  padding-left: 8px;
+}
+
+.response-toolbox {
+  z-index: 1;
+  position: absolute;
+  top: 3px;
+  right: 16px;
+  background-color: transparent;
+}
+
+.response-toolbox button {
+  opacity: 0.45;
+}
+
+.response-toolbox button:hover {
+  opacity: 1;
+}
+
+.response-panel {
+  overflow: auto;
+}
+
+.response-panel::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+.response-panel::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 1px;
+}
+
+.response-panel::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.7);
+}

@@ -4,7 +4,33 @@
     <nz-tab [nzTitle]="'item-response-assert'|translate">
       <div nz-row style="background-color:white;">
         <div nz-col nzSpan="12">
-          <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="caseContext"></ngx-monaco-editor>
+          <div class="response-toolbox">
+            <button nzSize="small" [nzType]="responseTabType==='entity'?'primary':'dashed'" nz-button (click)="responseTabType='entity'">
+              <span>entity</span>
+            </button>
+            <button nzSize="small" [nzType]="responseTabType==='headers'?'primary':'dashed'" nz-button (click)="responseTabType='headers'">
+              <span>headers</span>
+            </button>
+            <button nzSize="small" [nzType]="responseTabType==='status'?'primary':'dashed'" nz-button (click)="responseTabType='status'">
+              <span>status</span>
+            </button>
+          </div>
+          <ngx-monaco-editor *ngIf="'entity'===responseTabType" [style.height]="editorFullHeight" [options]="responseEditorOptons"
+            [(ngModel)]="response.entity">
+          </ngx-monaco-editor>
+          <div *ngIf="'headers'===responseTabType" [style.height]="assertionEditorHeight" class="response-panel">
+            <div *ngFor="let item of responseHeaders">
+              <span class="label-text">{{item.key}}:</span>
+              <span class="label-value">{{item.value}}</span>
+            </div>
+          </div>
+          <div *ngIf="'status'===responseTabType" [style.height]="assertionEditorHeight" class="response-panel">
+            <span class="label-text">status:</span>
+            <span class="label-value">
+              <nz-badge [nzStatus]="response.status<300?'success':'error'"></nz-badge>
+              <span>{{response.status}}</span>
+            </span>
+          </div>
         </div>
         <div nz-col nzSpan="12">
           <app-assertion-list *ngIf="assertSimpleEditorMode" [editorHeight]="assertionEditorHeight" [assertions]="assertions"

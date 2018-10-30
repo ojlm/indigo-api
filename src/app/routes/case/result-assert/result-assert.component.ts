@@ -8,7 +8,14 @@ import { DiffEditorModel } from 'ngx-monaco-editor'
 import * as screenfull from 'screenfull'
 
 import { CaseService } from '../../../api/service/case.service'
-import { Assertion, CaseReportItemMetrics, CaseResult, CaseStatis, ContextOptions } from '../../../model/es.model'
+import {
+  Assertion,
+  CaseReportItemMetrics,
+  CaseResult,
+  CaseStatis,
+  ContextOptions,
+  KeyValueObject,
+} from '../../../model/es.model'
 import { formatJson } from '../../../util/json'
 import { AssertionItem, AssertionItems } from '../assertion-list/assertion-list.component'
 
@@ -32,6 +39,9 @@ export class ResultAssertComponent implements OnInit {
   /** for first modelChange event bug */
   originAssert = ''
   _assert = ''
+  responseTabType = 'entity'
+  response = { status: '', headers: {}, entity: '' }
+  responseHeaders: KeyValueObject[] = []
   caseContext = ''
   caseRequest = ''
   caseAssertResult = ''
@@ -61,6 +71,23 @@ export class ResultAssertComponent implements OnInit {
       this.hasResult = true
     } else {
       this.hasResult = false
+    }
+    if (val.response && val.response.statusCode && val.response.headers) {
+      this.response.status = val.response.statusCode.toString()
+      this.response.headers = val.response.headers
+      for (const k of Object.keys(val.response.headers)) {
+        this.responseHeaders.push({ key: k, value: this.response.headers[k] })
+      }
+      try {
+        if (typeof val.response.body === 'string') {
+          this.response.entity = JSON.stringify(JSON.parse(val.response.body), null, '    ')
+        } else {
+          this.response.entity = JSON.stringify(val.response.body, null, '    ')
+        }
+      } catch (error) {
+        this.responseEditorOptons = this.monocoService.getHtmlOption(true)
+        this.response.entity = val.response.body
+      }
     }
     this.caseContext = formatJson(val.context)
     this.modifiedModel = { code: this.caseContext || '', language: 'json' }
@@ -100,6 +127,7 @@ export class ResultAssertComponent implements OnInit {
     }
   }
   wraped = false
+  responseEditorOptons = this.monocoService.getJsonOption(true)
   jsonRoEditorOption = this.monocoService.getJsonOption(true)
   jsonEditorOption = this.monocoService.getJsonOption(false)
 
