@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DeleteItemComponent } from '@shared/delete-item/delete-item.component'
 import { ApiRes } from 'app/model/api.model'
+import { UserProfile } from 'app/model/user.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
@@ -15,11 +16,22 @@ import { PageSingleModel } from '../../../model/page.model'
 @Component({
   selector: 'app-project-cases',
   templateUrl: './project-cases.component.html',
+  styles: [`
+    .user-info {
+      float: right;
+      opacity: 0.5;
+    }
+    .user-info:hover {
+      float: right;
+      opacity: 1;
+    }
+  `]
 })
 export class ProjectCasesComponent extends PageSingleModel implements OnInit {
 
   form: FormGroup
   items: Case[] = []
+  users: { [k: string]: UserProfile } = {}
   loading = false
   group: string
   project: string
@@ -43,6 +55,10 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
       if (res) {
         this.items = res.data.list
         this.pageTotal = res.data.total
+        const newUser = res.data['creators'] || {}
+        for (const k of Object.keys(newUser)) {
+          this.users[k] = newUser[k]
+        }
       }
     })
     this.panelSubject.subscribe(search => {
@@ -53,7 +69,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
   loadData() {
     if (this.group && this.project) {
       this.loading = true
-      this.querySubject.next({ group: this.group, project: this.project, ...this.toPageQuery(), ...this.search })
+      this.querySubject.next({ group: this.group, project: this.project, ...this.toPageQuery(), ...this.search, hasCreators: true })
     }
   }
 
@@ -69,6 +85,24 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
         return 'blue'
       default:
         return 'purple'
+    }
+  }
+
+  userText(item: Case) {
+    const profile = this.users[item.creator]
+    if (profile) {
+      return (profile.nickname || profile.username)[0]
+    } else {
+      return ''
+    }
+  }
+
+  userAvatar(item: Case) {
+    const profile = this.users[item.creator]
+    if (profile) {
+      return profile.avatar
+    } else {
+      return ''
     }
   }
 

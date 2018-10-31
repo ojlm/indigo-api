@@ -18,6 +18,16 @@
             <ng-template #nzDescription>
               <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
               <span>{{item.request.urlPath}}</span>
+              <span class="user-info">
+                <span style="font-size:small;">{{item.createdAt}}</span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <nz-avatar nz-popover [nzContent]="popoverContent" style="cursor:pointer;" nzSize="small" [nzText]="userText(item)"
+                  [nzSrc]="userAvatar(item)">
+                  <ng-template #popoverContent>
+                    <app-profile-simple [data]="users[item.creator]"></app-profile-simple>
+                  </ng-template>
+                </nz-avatar>
+              </span>
             </ng-template>
           </nz-list-item-meta>
           <ng-template #edit>

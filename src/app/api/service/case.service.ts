@@ -99,6 +99,7 @@ export interface QueryCase extends QueryPage {
   text?: string
   ids?: string[]
   label?: string
+  hasCreators?: boolean
 }
 
 export interface SearchAfter {
