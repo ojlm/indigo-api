@@ -125,7 +125,7 @@ export class CaseHistoryComponent implements OnInit {
     this.searchAfterResponse.subscribe(res => {
       this.items = [...this.items, ...res.data.list]
       this.total = res.data.total
-      const newUser = res.data['users'] || {}
+      const newUser = res.data['creators'] || {}
       for (const k of Object.keys(newUser)) {
         this.users[k] = newUser[k]
       }
