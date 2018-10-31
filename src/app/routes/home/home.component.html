@@ -12,7 +12,12 @@
     </ng-template>
   </nz-breadcrumb>
 </div>
-<div style="overflow:hidden;margin-right:12px;" [style.height]="height">
+<div style="overflow:hidden;margin-right:12px;" [style.height]="treeMapHeight">
   <ngx-charts-tree-map [view]="view" [scheme]="colorScheme" [results]="results" (select)="onSelect($event)">
   </ngx-charts-tree-map>
+</div>
+<div style="overflow:hidden;margin-right:12px;" [style.height]="barHeight">
+  <ngx-charts-bar-vertical [xAxis]="true" [showXAxisLabel]="true" [xAxisLabel]="'tips-daily-test-job-case-count'|translate"
+    [view]="view" [scheme]="colorScheme" [results]="indices">
+  </ngx-charts-bar-vertical>
 </div>

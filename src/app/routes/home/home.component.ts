@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { AggsItem, CaseService } from 'app/api/service/case.service'
+import { SystemService } from 'app/api/service/system.service'
 
 import { NameValue } from '../report/job-report-model/job-report-model.component'
 
@@ -12,9 +13,11 @@ export class HomeComponent implements OnInit {
 
   size = 20
   level = 'group'
-  height = `${window.innerHeight - 150}px`
+  treeMapHeight = `${Math.floor((window.innerHeight - 150) * 0.6)}px`
+  barHeight = `${Math.floor((window.innerHeight - 150) * 0.4)}px`
   title = ['🌇', '🌆', '🏙', '🌃', '🌉', '🌌', '🌠', '🎆', '🌈', '🌅', '🎑', '🏞']
   results: NameValue[] = [{ name: 'indigo', value: 0 }]
+  indices: NameValue[] = [{ name: 'indigo', value: 0 }]
   view: any[] = undefined
   colorScheme = {
     domain: [
@@ -27,13 +30,27 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:resize')
   resize() {
-    this.height = `${window.innerHeight - 150}px`
+    this.treeMapHeight = `${Math.floor((window.innerHeight - 150) * 0.6)}px`
+    this.barHeight = `${Math.floor((window.innerHeight - 150) * 0.4)}px`
   }
   constructor(
     private caseService: CaseService,
+    private systemService: SystemService,
     private router: Router,
   ) {
     this.loadGroupData()
+    this.systemService.getJobReportDataIndices().subscribe(res => {
+      const items = res.data
+      if (items && items.length > 0) {
+        const indices: NameValue[] = []
+        for (let i = items.length - 1; i >= 0; i--) {
+          const item = items[i]
+          const a = item.index.split('-')
+          indices.push({ name: a[a.length - 1].substr(5, 5), value: parseInt(item['docs.count'], 10) })
+        }
+        this.indices = indices
+      }
+    })
   }
 
   loadGroupData() {
