@@ -17,4 +17,8 @@ export class HeaderComponent {
   searchToggleChange() {
     this.searchToggleStatus = !this.searchToggleStatus
   }
+
+  goHelp() {
+    window.open('https://docs.asura.pro')
+  }
 }

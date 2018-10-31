@@ -28,6 +28,11 @@
   <header-search class="header-search" [toggleChange]="searchToggleStatus"></header-search>
   <ul class="top-nav">
     <li class="hidden-xs">
+      <div class="item" (click)="goHelp()" [title]="'tips-help'|translate">
+        <i class="anticon anticon-question"></i>
+      </div>
+    </li>
+    <li class="hidden-xs">
       <header-new></header-new>
     </li>
     <!-- Settings -->
