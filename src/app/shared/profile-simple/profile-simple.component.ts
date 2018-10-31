@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 import { UserProfile } from 'app/model/user.model'
 
 @Component({
@@ -15,7 +16,15 @@ export class PofileSimpleComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
+
+  goUserDashboard() {
+    if (this.profile.username) {
+      this.router.navigateByUrl(`/dashboard/${this.profile.username}`)
+    }
+  }
 
   ngOnInit(): void {
   }

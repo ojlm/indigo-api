@@ -1,7 +1,9 @@
 <div>
   <div nz-row>
-    <a>{{profile.nickname}}</a>
-    <span style="color:lightgray;font-size:small;padding-left:8px;">{{profile.username}}</span>
+    <span (click)="goUserDashboard()">
+      <a>{{profile.nickname}}</a>
+      <span style="color:lightgray;font-size:small;padding-left:8px;cursor:pointer;">{{profile.username}}</span>
+    </span>
     <nz-divider nzType="vertical"></nz-divider>
     <span>{{profile.email}}</span>
   </div>
