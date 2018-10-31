@@ -264,6 +264,7 @@ export class CaseModelComponent implements OnInit {
       this.caseService.getById(item._id).subscribe(res => {
         this.case = res.data
         this.case._id = undefined
+        this.case._creator = undefined
         this.modelChange()
       })
     }
@@ -279,6 +280,7 @@ export class CaseModelComponent implements OnInit {
   preHandleCaseBeforeRequest(cs: Case) {
     const c: Case = JSON.parse(JSON.stringify(cs))
     c._id = undefined
+    c._creator = undefined
     c.creator = undefined
     c.createdAt = undefined
     c.group = this.group

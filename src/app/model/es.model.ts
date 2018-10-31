@@ -1,8 +1,10 @@
 import { DataBody } from './api.model'
 import { JobData } from './job.model'
+import { UserProfile } from './user.model'
 
 interface BaseDoc {
   _id?: string
+  _creator?: UserProfile
   summary?: string
   description?: string
   creator?: string

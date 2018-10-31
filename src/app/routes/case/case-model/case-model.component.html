@@ -65,7 +65,8 @@
     </nz-affix>
     <!-- url row end -->
     <div style="height:7px;"></div>
-    <nz-tabset [nzSize]="'default'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false">
+    <nz-tabset style="min-height:360px;" [nzSize]="'default'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex"
+      [nzAnimated]="false">
       <nz-tab [nzTitle]="'item-path-variable'|translate">
         <app-key-value [(data)]="case.request.path" (dataChange)="modelChange()"></app-key-value>
       </nz-tab>
@@ -93,6 +94,13 @@
       </nz-tab>
     </nz-tabset>
   </nz-card>
+  <div *ngIf="case._creator" style="text-align:right;padding-right:10px;">
+    <span style="color:lightgray;font-size:small">{{case.createdAt}}</span>
+    <nz-divider nzType="vertical"></nz-divider>
+    <div style="display:inline-block;">
+      <app-profile-simple [data]="case._creator"></app-profile-simple>
+    </div>
+  </div>
   <!-- drawer -->
   <nz-drawer *ngIf="!isInDrawer&&!isInNew" [nzClosable]="false" [nzVisible]="historyVisible" nzPlacement="right"
     (nzOnClose)="historyVisible=false" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'0px'}">
