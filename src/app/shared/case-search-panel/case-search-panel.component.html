@@ -13,9 +13,30 @@
       <i class="anticon anticon-{{showAll?'up':'down'}}"></i>
     </button>
   </div>
-  <div *ngIf="showAll" style="margin-top:8px;" nz-col nzSpan="24">
-    <nz-input-group [nzAddOnBefore]="'field-path'|translate">
+  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="6">
+    <nz-input-group>
+      <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="search.methods"
+        nzAllowClear nzShowSearch (ngModelChange)="modelChange()">
+        <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
+      </nz-select>
+    </nz-input-group>
+  </div>
+  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="18">
+    <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-path'|translate">
       <input type="text" nz-input [(ngModel)]="search.path" (ngModelChange)="modelChange()">
+    </nz-input-group>
+  </div>
+  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="24">
+    <nz-input-group [nzAddOnBefore]="'field-labels'|translate">
+      <nz-select style="width:100%;" nzMode="multiple" [(ngModel)]="search.labels" nzAllowClear nzShowSearch
+        [nzServerSearch]="true" (nzOnSearch)="searchLabel($event)" (ngModelChange)="modelChange()">
+        <ng-container *ngFor="let item of items">
+          <nz-option *ngIf="!isLoading" [nzValue]="item.id" [nzLabel]="item.id"></nz-option>
+        </ng-container>
+        <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+          <i nz-icon type="loading" class="loading-icon"></i> Loading ...
+        </nz-option>
+      </nz-select>
     </nz-input-group>
   </div>
 </div>

@@ -74,6 +74,16 @@ export class CaseService extends BaseService {
   aggs(aggs: AggsCase) {
     return this.http.post<ApiRes<AggsItem[]>>(`${API_CASE}/aggs`, aggs)
   }
+
+  aggsLabelsSubject(response: Subject<ApiRes<AggsItem[]>>) {
+    const querySubject = new Subject<string>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(label => {
+      this.http.get<ApiRes<CaseWithSort[]>>(`${API_CASE}/aggs/labels?label=${label}`).subscribe(
+        res => response.next(res),
+        err => response.error(err))
+    })
+    return querySubject
+  }
 }
 
 export interface AggsCase {
@@ -94,11 +104,11 @@ export interface AggsItem {
 export interface QueryCase extends QueryPage {
   group?: string
   project?: string
-  method?: string
+  methods?: string[]
   path?: string
   text?: string
   ids?: string[]
-  label?: string
+  labels?: string[]
   hasCreators?: boolean
 }
 

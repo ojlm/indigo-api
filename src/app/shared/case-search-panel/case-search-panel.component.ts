@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { QueryCase } from 'app/api/service/case.service'
+import { AggsItem, CaseService, QueryCase } from 'app/api/service/case.service'
+import { ApiRes } from 'app/model/api.model'
+import { METHODS } from 'app/model/es.model'
 import { Subject } from 'rxjs'
 
 @Component({
@@ -24,8 +26,24 @@ export class CaseSearchPanelComponent implements OnInit {
   dataChange = new EventEmitter<QueryCase>()
   @Input()
   subject: Subject<QueryCase>
+  methods = METHODS
+  isLoading = false
+  queryLabelSubject: Subject<string>
+  items: AggsItem[] = []
 
-  constructor() { }
+  constructor(
+    private caseService: CaseService,
+  ) {
+    const response = new Subject<ApiRes<AggsItem[]>>()
+    this.queryLabelSubject = this.caseService.aggsLabelsSubject(response)
+    response.subscribe(res => {
+      this.items = res.data
+    })
+  }
+
+  searchLabel(label: string) {
+    this.queryLabelSubject.next(label)
+  }
 
   modelChange() {
     this.dataChange.emit(this.data)
