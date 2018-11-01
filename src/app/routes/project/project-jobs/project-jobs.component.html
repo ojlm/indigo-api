@@ -49,6 +49,9 @@
             </ng-template>
           </nz-list-item-meta>
           <ng-template #edit>
+            <button nz-button nzSize="small" nzType="default" (click)="showTrend(item)">
+              <i class="anticon anticon-bar-chart"></i>
+            </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" (click)="resumeItem(item)">
               <i class="anticon anticon-play-circle-o"></i>
@@ -82,3 +85,17 @@
     </nz-list>
   </nz-card>
 </div>
+<nz-drawer [nzClosable]="false" [nzVisible]="chartVisible" [nzWidth]="drawerWidth" nzPlacement="right" (nzOnClose)="chartVisible=false">
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <ngx-charts-area-chart [view]="fullView" [scheme]="{'domain':['lightseagreen']}" [results]="okRates" [legend]="false"
+        [xAxis]="true" [yAxis]="true">
+      </ngx-charts-area-chart>
+    </div>
+    <div nz-col nzSpan="24" style="margin-top:100px;">
+      <ngx-charts-line-chart [view]="fullView" [scheme]="coolColorScheme" [results]="statisSeries" [legend]="false"
+        [xAxis]="true" [yAxis]="true">
+      </ngx-charts-line-chart>
+    </div>
+  </div>
+</nz-drawer>

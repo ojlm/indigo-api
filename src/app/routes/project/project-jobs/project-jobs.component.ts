@@ -1,8 +1,10 @@
 import { Location } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, HostListener, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
+import { SeriesItem } from 'app/routes/report/job-report-model/job-report-model.component'
+import { calcDrawerWidth } from 'app/util/drawer'
 import { NzMessageService, NzModalService } from 'ng-zorro-antd'
 
 import { JobOperation, JobService, QueryJob, QueryJobStateItem } from '../../../api/service/job.service'
@@ -21,6 +23,21 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
   project: string
   search: QueryJob = {}
   types = ['cron', 'simple', 'manual']
+  chartVisible = false
+  drawerWidth = calcDrawerWidth()
+  okRates = []
+  statisSeries = []
+  coolColorScheme = {
+    domain: [
+      '#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963', '#8796c0', '#7ed3ed', '#50abcc', '#ad6886'
+    ]
+  }
+  fullView = [this.drawerWidth - 40, 360]
+  @HostListener('window:resize')
+  resize() {
+    this.drawerWidth = calcDrawerWidth()
+    this.fullView = [this.drawerWidth - 40, 360]
+  }
 
   constructor(
     private jobService: JobService,
@@ -31,6 +48,49 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
     private location: Location,
     private modal: NzModalService,
   ) { super() }
+
+  showTrend(item: Job) {
+    this.chartVisible = true
+    this.jobService.reportTrend(item._id).subscribe(trendRes => {
+      const reports = trendRes.data.list
+      if (null != reports && reports.length > 0) {
+        const okRateSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.FieldOkRate), series: [] }
+        const assertionPassedSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemPassAssertion), series: [] }
+        const assertionFailedSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemFailAssertion), series: [] }
+        const caseCountSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemCaseCount), series: [] }
+        const caseOKSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemCaseOK), series: [] }
+        const caseKOSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemCaseKO), series: [] }
+        const scenarioCountSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCount), series: [] }
+        const scenarioOKSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioOk), series: [] }
+        const scenarioKOSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioKO), series: [] }
+        const scenarioCaseCountSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCaseCount), series: [] }
+        const scenarioCaseOKSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCaseOk), series: [] }
+        const scenarioCaseKOSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCaseKO), series: [] }
+        const scenarioCaseOOSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.ItemScenarioCaseOO), series: [] }
+        reports.forEach(report => {
+          okRateSeries.series.push({ name: report.endAt, value: report.statis.okRate })
+          assertionPassedSeries.series.push({ name: report.endAt, value: report.statis.assertionPassed })
+          assertionFailedSeries.series.push({ name: report.endAt, value: report.statis.assertionFailed })
+          caseCountSeries.series.push({ name: report.endAt, value: report.statis.caseCount })
+          caseOKSeries.series.push({ name: report.endAt, value: report.statis.caseOK })
+          caseKOSeries.series.push({ name: report.endAt, value: report.statis.caseKO })
+          scenarioCountSeries.series.push({ name: report.endAt, value: report.statis.scenarioCount })
+          scenarioOKSeries.series.push({ name: report.endAt, value: report.statis.scenarioOK })
+          scenarioKOSeries.series.push({ name: report.endAt, value: report.statis.scenarioKO })
+          scenarioCaseCountSeries.series.push({ name: report.endAt, value: report.statis.scenarioCaseCount })
+          scenarioCaseOKSeries.series.push({ name: report.endAt, value: report.statis.scenarioCaseOK })
+          scenarioCaseKOSeries.series.push({ name: report.endAt, value: report.statis.scenarioCaseKO })
+          scenarioCaseOOSeries.series.push({ name: report.endAt, value: report.statis.scenarioCaseOO })
+        })
+        this.okRates = [okRateSeries]
+        this.statisSeries = [
+          assertionPassedSeries, assertionFailedSeries, caseCountSeries, caseOKSeries,
+          caseKOSeries, scenarioCountSeries, scenarioOKSeries, scenarioKOSeries,
+          scenarioCaseCountSeries, scenarioCaseOKSeries, scenarioCaseKOSeries, scenarioCaseOOSeries
+        ]
+      }
+    })
+  }
 
   loadData() {
     if (this.group && this.project) {
