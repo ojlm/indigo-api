@@ -190,7 +190,7 @@
   "tips-all-man": "所有人",
   "tips-steps": "步骤数",
   "tips-help": "查看帮助",
-  "tips-daily-test-job-case-count": "每日任务测试用例数",
+  "tips-daily-test-job-case-count": "每日任务中请求数",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",
