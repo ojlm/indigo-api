@@ -54,6 +54,7 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
   statis: JobReportDataStatistic = {}
   pageSize = 10
   casePageIndex = 1
+  displayCaseItems: CaseReportItem[] = []
   caseItems: CaseReportItem[] = []
   scenarioPageIndex = 1
   scenarioItems: ScenarioReportItem[] = []
@@ -79,12 +80,27 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
       'darksalmon', 'lightgray', 'deepskyblue', 'darksalmon', 'lightpink'
     ]
   }
+  resultFiltersList = [
+    { text: 'pass', value: 'pass' },
+    { text: 'fail', value: 'fail' },
+    { text: 'skipped', value: 'skipped' }
+  ]
   okRates = []
   statisSeries = []
   @HostListener('window:resize')
   resize() {
     this.view = [(window.innerWidth - 100) / 2, 360]
     this.fullView = [window.innerWidth - 100, 360]
+  }
+
+  filterResultsChange(value: string[]) {
+    if (value.length === 0) {
+      this.displayCaseItems = [...this.caseItems]
+    } else {
+      this.displayCaseItems = this.caseItems.filter(item => {
+        return value.some(r => item.status === r)
+      })
+    }
   }
 
   viewItem(item: CaseReportItem) {
@@ -135,6 +151,7 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
         ]
         this.dayIndexSuffix = this.report.data.dayIndexSuffix
         this.caseItems = this.report.data.cases
+        this.displayCaseItems = [...this.caseItems]
         this.scenarioItems = this.report.data.scenarios.map(item => {
           return { ...item, expand: true }
         })

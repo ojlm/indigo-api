@@ -55,8 +55,18 @@
   </nz-card>
   <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;" [nzTitle]="'field-case'|translate"
     [nzBodyStyle]="{'padding':'9px'}">
-    <nz-table #caseTable nzSize="small" [nzData]="caseItems" [(nzPageIndex)]="casePageIndex" [nzPageSize]="pageSize"
-      [nzShowTotal]="caseTotalTemplate">
+    <nz-table #caseTable nzSize="small" [nzData]="displayCaseItems" [nzPageSizeOptions]="[10,20,50,100]"
+      [(nzPageIndex)]="casePageIndex" [nzShowSizeChanger]="true" [(nzPageSize)]="pageSize" [nzShowTotal]="caseTotalTemplate">
+      <thead>
+        <tr>
+          <th style="background-color:transparent;">{{'item-no'|translate}}</th>
+          <th style="background-color:transparent;">{{'item-name'|translate}}</th>
+          <th style="background-color:transparent;" nzShowFilter [nzFilters]="resultFiltersList" [nzFilterMultiple]="true"
+            (nzFilterChange)="filterResultsChange($event)">{{'item-result'|translate}}</th>
+          <th style="background-color:transparent;">{{'item-assertion-ok-ko'|translate}}</th>
+          <th style="background-color:transparent;"></th>
+        </tr>
+      </thead>
       <tbody>
         <tr *ngFor="let item of caseTable.data;let i = index">
           <td>{{(casePageIndex-1)*pageSize+i+1}}</td>
@@ -71,7 +81,7 @@
       <ng-template #caseTotalTemplate let-total>
         <span style="color:lightgray;">
           <span>{{'item-total'|translate}}</span>
-          <span> {{caseTable.data.length}} </span>
+          <span> {{caseItems.length}} </span>
           <span>{{'item-item'|translate}}</span>
         </span>
       </ng-template>
