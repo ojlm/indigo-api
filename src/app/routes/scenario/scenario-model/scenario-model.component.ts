@@ -22,7 +22,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   fromSelector = false
   card1BodyStyle = {
     'padding': '12px',
-    'background-color': 'aliceblue'
+    'background-color': 'white'
   }
   card2BodyStyle = {
     'padding': '12px',

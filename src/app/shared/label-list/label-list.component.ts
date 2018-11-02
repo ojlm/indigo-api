@@ -18,7 +18,7 @@ export class LabelListComponent implements OnInit {
     })
   }
   set data(val: LabelRef[]) {
-    if (val && val.length > 0) {
+    if (val) {
       this.values = val.map(item => item.name)
     }
   }

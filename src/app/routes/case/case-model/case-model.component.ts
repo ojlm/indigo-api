@@ -382,6 +382,7 @@ export function initCaseField(cs: Case) {
   cs.description = ''
   cs.createdAt = undefined
   cs.creator = undefined
+  cs.labels = []
   cs.assert = ''
   cs.request = {
     method: METHODS[0],

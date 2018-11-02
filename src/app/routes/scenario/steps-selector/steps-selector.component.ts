@@ -49,6 +49,9 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
   project: string
   items: Case[] = []
   searchCase: Subject<QueryCase>
+  caseListDrawerSwitch = false
+  caseListDrawerVisible = false
+  caseModelDrawerSwitch = false
   caseDrawerVisible = false
   editCaseId: string
   editCaseResult: CaseResult
@@ -106,7 +109,16 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
     this.searchCase = this.caseService.newQuerySubject(response)
   }
 
+  addCaseStep() {
+    if (!this.caseListDrawerSwitch) {
+      this.search()
+    }
+    this.caseListDrawerSwitch = true
+    this.caseListDrawerVisible = true
+  }
+
   addNewCaseStep() {
+    this.caseModelDrawerSwitch = true
     this.clearStatus()
     this.editCaseId = ''
     this.editCaseResult = undefined
@@ -167,6 +179,7 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
   }
 
   viewCase(item: CaseExt) {
+    this.caseModelDrawerSwitch = true
     this.editCaseId = item._id
     if (item.report) {
       this.editCaseResult = item.report.result
@@ -192,7 +205,9 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
   }
 
   search() {
-    this.searchCase.next({ group: this.group, project: this.project, text: this.searchText, ...this.toPageQuery() })
+    if (this.group && this.project) {
+      this.searchCase.next({ group: this.group, project: this.project, text: this.searchText, ...this.toPageQuery() })
+    }
   }
 
   clearStatus() {
@@ -206,7 +221,6 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
     this.route.parent.parent.params.subscribe(params => {
       this.group = params['group']
       this.project = params['project']
-      this.searchCase.next({ group: this.group, project: this.project })
     })
     if (this.eventSubject) {
       this.eventSubject.subscribe(log => {
