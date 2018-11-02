@@ -36,7 +36,8 @@
   </div>
 </div>
 <!-- select cases drawer -->
-<nz-drawer [nzVisible]="caseListDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="caseListDrawerVisible=false">
+<nz-drawer [nzVisible]="caseListDrawerVisible" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'8px'}" [nzClosable]="false"
+  (nzOnClose)="caseListDrawerVisible=false">
   <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzHeader]="nzHeader" [nzFooter]="nzFooter" [nzRenderItem]="item">
     <ng-template #item let-item>
       <nz-list-item [nzContent]="nzContent" [nzActions]="[addAction]"></nz-list-item>
@@ -53,8 +54,7 @@
     </ng-template>
   </nz-list>
   <ng-template #nzHeader>
-    <input nz-input [nzSize]="'small'" style="background-color:transparent;" [placeholder]="'tips-search'|translate"
-      [(ngModel)]="searchText" (ngModelChange)="search()">
+    <app-case-search-panel [(data)]="searchCase" (dataChange)="search()"></app-case-search-panel>
   </ng-template>
   <ng-template #nzFooter>
     <nz-pagination *ngIf="items.length>0" [nzSize]="'small'" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate"
@@ -71,7 +71,8 @@
   </ng-template>
 </nz-drawer>
 <!-- case model drawer -->
-<nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
+<nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'8px'}" [nzClosable]="false"
+  (nzOnClose)="caseDrawerVisible=false">
   <app-case-model *ngIf="caseModelDrawerSwitch" [id]="editCaseId" [result]="editCaseResult" (newCase)="addItem($event)"
     (updateCase)="updateCase($event)" [ctxOptions]="_ctxOptions">
   </app-case-model>

@@ -48,14 +48,14 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
   group: string
   project: string
   items: Case[] = []
-  searchCase: Subject<QueryCase>
+  searchCase: QueryCase = {}
+  searchCaseSubject: Subject<QueryCase>
   caseListDrawerSwitch = false
   caseListDrawerVisible = false
   caseModelDrawerSwitch = false
   caseDrawerVisible = false
   editCaseId: string
   editCaseResult: CaseResult
-  searchText: string
   addedItems: CaseExt[] = []
   stepCurrent = 0
   @Input() eventSubject: Subject<ActorEvent<ReportItemEvent>>
@@ -106,7 +106,7 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
       this.pageTotal = res.data.total
       this.items = res.data.list
     })
-    this.searchCase = this.caseService.newQuerySubject(response)
+    this.searchCaseSubject = this.caseService.newQuerySubject(response)
   }
 
   addCaseStep() {
@@ -204,9 +204,9 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
     this.caseDrawerVisible = true
   }
 
-  search() {
+  search(q: any = null) {
     if (this.group && this.project) {
-      this.searchCase.next({ group: this.group, project: this.project, text: this.searchText, ...this.toPageQuery() })
+      this.searchCaseSubject.next({ group: this.group, project: this.project, ...this.searchCase, ...this.toPageQuery() })
     }
   }
 

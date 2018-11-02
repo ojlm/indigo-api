@@ -1,5 +1,5 @@
 <div nz-row [nzGutter]="3">
-  <div nz-col nzSpan="23">
+  <div nz-col nzSpan="22">
     <nz-input-group [nzSize]="size" [nzSuffix]="suffixButton" nzSearch>
       <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (ngModelChange)="modelChange()"
         (keyup.enter)="modelChange()">
@@ -8,7 +8,7 @@
       </ng-template>
     </nz-input-group>
   </div>
-  <div nz-col nzSpan="1">
+  <div nz-col nzSpan="2">
     <button style="width:100%;" nz-button [nzType]="showAll?'primary':'default'" [nzSize]="size" (click)="showAll=!showAll">
       <i class="anticon anticon-{{showAll?'up':'down'}}"></i>
     </button>
