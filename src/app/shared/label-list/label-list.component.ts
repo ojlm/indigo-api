@@ -1,4 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { AggsItem, CaseService } from 'app/api/service/case.service'
+import { ApiRes } from 'app/model/api.model'
+import { Subject } from 'rxjs'
 
 import { LabelRef } from '../../model/es.model'
 
@@ -8,9 +11,10 @@ import { LabelRef } from '../../model/es.model'
 })
 export class LabelListComponent implements OnInit {
 
-  labels: LabelRef[] = []
+  labels: AggsItem[] = []
   isEditable = false
   values: string[] = []
+  queryLabelSubject: Subject<string>
   @Input()
   get data() {
     return this.values.map(item => {
@@ -25,10 +29,22 @@ export class LabelListComponent implements OnInit {
   @Output()
   dataChange = new EventEmitter<LabelRef[]>()
 
-  constructor() { }
+  constructor(
+    private caseService: CaseService,
+  ) {
+    const response = new Subject<ApiRes<AggsItem[]>>()
+    this.queryLabelSubject = this.caseService.aggsLabelsSubject(response)
+    response.subscribe(res => {
+      this.labels = res.data
+    })
+   }
 
   modelChange() {
     this.dataChange.emit(this.data)
+  }
+
+  searchLabel(label: string) {
+    this.queryLabelSubject.next(label)
   }
 
   remove(item: LabelRef, index: number) {
