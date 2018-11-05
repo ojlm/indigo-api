@@ -25,12 +25,22 @@ import { PageSingleModel } from '../../../model/page.model'
       float: right;
       opacity: 1;
     }
+    .divider-text {
+      font-size: small;
+      color: gray;
+    }
   `]
 })
 export class ProjectCasesComponent extends PageSingleModel implements OnInit {
 
+  drawerWidth = calcDrawerWidth(0.3)
+  allSelected = false
+  selectable = false
+  batchMode = false
+  selectedItems: ExCase[] = []
+  batchLabel = ''
   form: FormGroup
-  items: Case[] = []
+  items: ExCase[] = []
   users: { [k: string]: UserProfile } = {}
   loading = false
   group: string
@@ -51,6 +61,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
     const response = new Subject<ApiRes<Case[]>>()
     this.querySubject = this.caseService.newQuerySubject(response)
     response.subscribe(res => {
+      this.allSelected = false
       this.loading = false
       if (res) {
         this.items = res.data.list
@@ -66,9 +77,83 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
     })
   }
 
+  resetSeleableState() {
+    this.allSelected = false
+    this.selectable = false
+    this.batchLabel = ''
+    this.selectedItems = []
+    this.batchMode = false
+  }
+
+  clearSelectedItems() {
+    this.selectedItems = []
+    this.batchMode = false
+    this.items.forEach(item => item._checked = false)
+  }
+
+  batchAddLabel() {
+    if (this.selectedItems.length > 0 && this.batchLabel) {
+      const labelItems = this.selectedItems.map(item => {
+        return {
+          id: item._id,
+          labels: [...(item.labels || []), { name: this.batchLabel }]
+        }
+      })
+      if (labelItems.length > 0) {
+        this.caseService.batchOperate({ labels: labelItems }).subscribe(res => {
+          this.loadData()
+          this.resetSeleableState()
+        })
+      }
+    }
+  }
+
+  batchDeleteLabel() {
+    if (this.selectedItems.length > 0 && this.batchLabel) {
+      const labelItems = []
+      this.selectedItems.forEach(item => {
+        if (item.labels && item.labels.length > 0) {
+          const newLables = item.labels.filter(label => label.name !== this.batchLabel)
+          if (newLables.length !== item.labels.length) {
+            labelItems.push({ id: item._id, labels: newLables })
+          }
+        }
+      })
+      if (labelItems.length > 0) {
+        this.caseService.batchOperate({ labels: labelItems }).subscribe(res => {
+          this.loadData()
+          this.resetSeleableState()
+        })
+      }
+    }
+  }
+
+  refreshSelectedItems(checked: boolean, index: number) {
+    const item = this.items[index]
+    if (checked) {
+      this.selectedItems.push(item)
+    } else {
+      const delIndex = this.selectedItems.findIndex(_item => _item._id === item._id)
+      this.selectedItems.splice(delIndex, 1)
+    }
+    this.selectedItems = [...this.selectedItems]
+  }
+
+  selectAll() {
+    if (this.allSelected) {
+      this.items.forEach(item => item._checked = false)
+      this.selectedItems = []
+    } else {
+      this.items.forEach(item => item._checked = true)
+      this.selectedItems = [...this.items]
+    }
+    this.allSelected = !this.allSelected
+  }
+
   loadData() {
     if (this.group && this.project) {
       this.loading = true
+      this.allSelected = false
       this.querySubject.next({ group: this.group, project: this.project, ...this.toPageQuery(), ...this.search, hasCreators: true })
     }
   }
@@ -110,8 +195,19 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
     return `/case/${this.group}/${this.project}/${item._id}`
   }
 
-  editItem(item: Case) {
-    this.router.navigateByUrl(this.getRouter(item))
+  editOrCheckItem(item: ExCase) {
+    if (this.selectable) {
+      item._checked = !item._checked
+      if (item._checked) {
+        this.selectedItems.push(item)
+      } else {
+        const delIndex = this.selectedItems.findIndex(_item => _item._id === item._id)
+        this.selectedItems.splice(delIndex, 1)
+      }
+      this.selectedItems = [...this.selectedItems]
+    } else {
+      this.router.navigateByUrl(this.getRouter(item))
+    }
   }
 
   deleteItem(item: Case) {
@@ -147,4 +243,9 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
       this.loadData()
     })
   }
+}
+
+interface ExCase extends Case {
+  id?: string
+  _checked?: boolean
 }

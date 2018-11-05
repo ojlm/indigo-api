@@ -4,16 +4,25 @@
     <app-project-breadcrumb></app-project-breadcrumb>
   </div>
   <nz-card [nzBordered]="false">
-    <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
-      [nzLoading]="loading" [nzHeader]="nzHeader">
+    <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzLoading]="loading"
+      [nzHeader]="nzHeader" [nzFooter]="nzFooter">
       <ng-template #nzHeader>
         <app-case-search-panel [(data)]="search" [subject]="panelSubject"></app-case-search-panel>
       </ng-template>
-      <ng-template #item let-item>
+      <ng-template #item let-item let-i="index">
         <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
-              <a [routerLink]="[getRouter(item)]">{{item.summary}}</a>
+              <div>
+                <label *ngIf="selectable" style="padding-right:8px;" nz-checkbox [(ngModel)]="item._checked"
+                  (ngModelChange)="refreshSelectedItems($event, i)"></label>
+                <a (click)="editOrCheckItem(item)">{{item.summary}}</a>
+                <ng-container *ngIf="item.labels">
+                  <span style="float:right;transform:scale(0.8);">
+                    <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+                  </span>
+                </ng-container>
+              </div>
             </ng-template>
             <ng-template #nzDescription>
               <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
@@ -31,7 +40,7 @@
             </ng-template>
           </nz-list-item-meta>
           <ng-template #edit>
-            <button nz-button nzSize="small" nzType="default" (click)="editItem(item)">
+            <button nz-button nzSize="small" nzType="default" (click)="editOrCheckItem(item)">
               <i class="anticon anticon-setting"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
@@ -41,18 +50,67 @@
           </ng-template>
         </nz-list-item>
       </ng-template>
-      <ng-template #pagination>
-        <nz-pagination [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal" [nzPageSize]="pageSize"
-          (nzPageIndexChange)="pageChange()">
-          <ng-template #totalTemplate let-total>
-            <span style="color:lightgray;">
-              <span>{{'item-total'|translate}}</span>
-              <span> {{total}} </span>
-              <span>{{'item-item'|translate}}</span>
-            </span>
-          </ng-template>
-        </nz-pagination>
+      <ng-template #nzFooter>
+        <span>
+          <button nz-button type="button" nzSize="small" nzType="default" (click)="selectable=!selectable">
+            <span>{{'btn-operate'|translate}}</span>
+          </button>
+          <button *ngIf="selectable" nz-button type="button" nzSize="small" nzType="primary" (click)="selectAll()">
+            <span>{{'btn-select-all'|translate}}</span>
+          </button>
+          <button *ngIf="selectable" nz-button type="button" nzSize="small" nzType="primary" (click)="batchMode=true">
+            <span>{{'btn-batch-operate'|translate}}</span>
+          </button>
+        </span>
+        <span style="float:right;">
+          <nz-pagination [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal" [nzPageSize]="pageSize"
+            (nzPageIndexChange)="pageChange()">
+            <ng-template #totalTemplate let-total>
+              <span style="color:lightgray;">
+                <span>{{'item-total'|translate}}</span>
+                <span> {{total}} </span>
+                <span>{{'item-item'|translate}}</span>
+              </span>
+            </ng-template>
+          </nz-pagination>
+        </span>
       </ng-template>
     </nz-list>
   </nz-card>
 </div>
+<nz-drawer [nzClosable]="false" [nzVisible]="batchMode" nzPlacement="right" [nzBodyStyle]="{'padding':'0px'}" [nzWidth]="drawerWidth"
+  (nzOnClose)="batchMode=false">
+  <nz-card [nzTitle]="cardTitle" [nzBodyStyle]="{'padding':'8px'}">
+    <ng-template #cardTitle>
+      <div>
+        <span>{{'tips-batch-mode'|translate}}</span>
+        <button style="margin-left:8px;" nz-button type="button" nzSize="small" nzType="primary" (click)="clearSelectedItems()">
+          <span>{{'btn-clear'|translate}}</span>
+        </button>
+      </div>
+    </ng-template>
+    <nz-list *ngIf="selectedItems.length>0" [nzDataSource]="selectedItems" nzSize="small" [nzRenderItem]="selectedItem">
+      <ng-template #selectedItem let-item>
+        <nz-list-item [nzContent]="nzContent">
+          <a>{{item.summary}}</a>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+    <nz-divider [nzText]="labelsText" nzOrientation="left">
+      <ng-template #labelsText>
+        <span class="divider-text">
+          <span>{{'field-labels'|translate}}</span>
+        </span>
+      </ng-template>
+    </nz-divider>
+    <nz-input-group nzSearch [nzSuffix]="suffixButton">
+      <input type="text" nz-input [(ngModel)]="batchLabel">
+      <ng-template #suffixButton>
+        <nz-button-group>
+          <button nz-button nzType="primary" (click)="batchAddLabel()">{{'btn-add'|translate}}</button>
+          <button nz-button nzType="danger" (click)="batchDeleteLabel()">{{'btn-delete'|translate}}</button>
+        </nz-button-group>
+      </ng-template>
+    </nz-input-group>
+  </nz-card>
+</nz-drawer>

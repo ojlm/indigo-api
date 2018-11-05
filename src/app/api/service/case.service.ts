@@ -11,6 +11,7 @@ import {
   ContextOptions,
   DeleteResData,
   IndexDocResponse,
+  LabelRef,
   UpdateDocResponse,
 } from '../../model/es.model'
 import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE } from '../path'
@@ -84,6 +85,10 @@ export class CaseService extends BaseService {
     })
     return querySubject
   }
+
+  batchOperate(ops: BatchOperation) {
+    return this.http.post<ApiRes<any>>(`${API_CASE}/batch`, ops)
+  }
 }
 
 export interface AggsCase {
@@ -127,4 +132,12 @@ export interface SearchAfterCase extends SearchAfter {
 
 export interface CaseWithSort extends Case {
   _sort: any[]
+}
+
+export interface UpdateCase {
+  id?: string
+  cs?: Case
+}
+export interface BatchOperation {
+  labels?: { id: string, labels: LabelRef[] }[]
 }
