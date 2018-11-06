@@ -36,8 +36,8 @@
   </div>
 </div>
 <!-- select cases drawer -->
-<nz-drawer [nzVisible]="caseListDrawerVisible" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'8px'}" [nzClosable]="false"
-  (nzOnClose)="caseListDrawerVisible=false">
+<nz-drawer [nzVisible]="caseListDrawerVisible" [nzWidth]="caseListDrawerWidth" [nzBodyStyle]="{'padding':'8px'}"
+  [nzClosable]="false" (nzOnClose)="caseListDrawerVisible=false">
   <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzHeader]="nzHeader" [nzFooter]="nzFooter" [nzRenderItem]="item">
     <ng-template #item let-item>
       <nz-list-item [nzContent]="nzContent" [nzActions]="[addAction]"></nz-list-item>
@@ -47,6 +47,11 @@
           <span>{{item.request.urlPath}}</span>
           <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);" (click)="viewCase(item)">{{item.summary}}</a>
         </div>
+        <ng-container *ngIf="item.labels">
+          <span style="margin-left:auto;transform:scale(0.8);">
+            <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+          </span>
+        </ng-container>
       </ng-template>
       <ng-template #addAction>
         <a (click)="addItem(item)"><i class="anticon anticon-plus-circle-o  click-icon"></i></a>
@@ -71,8 +76,8 @@
   </ng-template>
 </nz-drawer>
 <!-- case model drawer -->
-<nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'8px'}" [nzClosable]="false"
-  (nzOnClose)="caseDrawerVisible=false">
+<nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="caseModeldrawerWidth" [nzBodyStyle]="{'padding':'8px'}"
+  [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
   <app-case-model *ngIf="caseModelDrawerSwitch" [id]="editCaseId" [result]="editCaseResult" (newCase)="addItem($event)"
     (updateCase)="updateCase($event)" [ctxOptions]="_ctxOptions">
   </app-case-model>
