@@ -115,7 +115,7 @@ export class CaseModelComponent implements OnInit {
             this.case.request.port = 80
           }
         }
-        this.case.request.urlPath = url.pathname
+        this.case.request.urlPath = decodeURI(url.pathname)
         const searchObj = searchToObj(url.search.substr(1))
         const queryKvs: KeyValueObject[] = []
         for (const k in searchObj) {
@@ -157,9 +157,9 @@ export class CaseModelComponent implements OnInit {
           }
           url.search = search
           if (hasProtocol) {
-            this.case.request.rawUrl = url.toString()
+            this.case.request.rawUrl = decodeURI(url.toString())
           } else {
-            this.case.request.rawUrl = url.toString().replace('http://', '').replace('https://', '')
+            this.case.request.rawUrl = decodeURI(url.toString()).replace('http://', '').replace('https://', '')
           }
         } else {
           this.case.request.rawUrl = search
