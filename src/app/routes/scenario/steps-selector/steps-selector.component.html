@@ -8,7 +8,7 @@
     <div [sortablejs]="addedItems" [sortablejsOptions]="sortablejsOptions">
       <div class="step" style="width:100%;margin-left:10px;margin-top:6px;margin-right:10px;" *ngFor="let item of addedItems;let i = index;">
         <div>
-          <span><i class="anticon anticon-bars click-icon"></i></span>
+          <span><i class="anticon anticon-bars click-icon" style="cursor:grab"></i></span>
           <span> {{i+1}}. </span>
           <a style="padding-left:4px;" (click)="removeItem(item, i)">
             <i class="anticon anticon-close-circle-o click-icon hover-red"></i>
@@ -16,8 +16,13 @@
           <span class="step-title" (click)="viewCase(item)">
             <span style="padding-left:3px;color:darkgray;cursor:pointer;">{{item.summary}}</span>
           </span>
+          <ng-container *ngIf="item.labels">
+            <span style="float:right;transform:scale(0.8);">
+              <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+            </span>
+          </ng-container>
         </div>
-        <div style="padding-left:3px;">
+        <div style="padding-left:16px;">
           <nz-badge [nzStatus]="item.status"></nz-badge>
           <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
           <span style="font-size:smaller;color:lightgray;">{{item.request.urlPath}}</span>

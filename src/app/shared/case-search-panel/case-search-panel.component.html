@@ -13,7 +13,7 @@
       <i class="anticon anticon-{{showAll?'up':'down'}}"></i>
     </button>
   </div>
-  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="6">
+  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="10">
     <nz-input-group>
       <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="search.methods"
         nzAllowClear nzShowSearch (ngModelChange)="modelChange()">
@@ -21,7 +21,7 @@
       </nz-select>
     </nz-input-group>
   </div>
-  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="18">
+  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="14">
     <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-path'|translate">
       <input type="text" nz-input [(ngModel)]="search.path" (ngModelChange)="modelChange()">
     </nz-input-group>

@@ -41,15 +41,16 @@
   </nz-card>
   <!-- job data -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
-    <nz-tabset [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false" [nzSize]="'small'">
+    <nz-tabset style="min-height:240px" [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false" [nzSize]="'small'"
+      (nzSelectedIndexChange)="tabIndexChange($event)">
       <nz-tab [nzTitle]="'field-case'|translate">
-        <app-case-selector [(data)]="jobCaseIds" [ctxOptions]="ctxOptions"></app-case-selector>
+        <app-case-selector [(data)]="jobCaseIds" [(ext)]="jobDataExt" [ctxOptions]="ctxOptions"></app-case-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'field-scenario'|translate">
-        <app-scenario-selector [(data)]="jobScenarioIds" [ctxOptions]="ctxOptions"></app-scenario-selector>
+        <app-scenario-selector *ngIf="scenarioSelectorSwitch" [(data)]="jobScenarioIds" [ctxOptions]="ctxOptions"></app-scenario-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'item-subscribers'|translate">
-        <app-job-subscribers [(data)]="subscribers"></app-job-subscribers>
+        <app-job-subscribers *ngIf="jobSubscribersSwitch" [(data)]="subscribers"></app-job-subscribers>
       </nz-tab>
     </nz-tabset>
   </nz-card>

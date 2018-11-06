@@ -11,7 +11,7 @@ import { CaseService } from '../../../api/service/case.service'
 import { JobService, NewJob } from '../../../api/service/job.service'
 import { ActorEvent, ActorEventType } from '../../../model/api.model'
 import { ContextOptions, JobExecDesc, JobNotify } from '../../../model/es.model'
-import { JobMeta, TriggerMeta } from '../../../model/job.model'
+import { JobDataExt, JobMeta, TriggerMeta } from '../../../model/job.model'
 import { PageSingleModel } from '../../../model/page.model'
 
 @Component({
@@ -20,9 +20,11 @@ import { PageSingleModel } from '../../../model/page.model'
 })
 export class JobModelComponent extends PageSingleModel implements OnInit {
 
+  scenarioSelectorSwitch = false
+  jobSubscribersSwitch = false
   card1BodyStyle = {
     'padding': '12px',
-    'background-color': 'aliceblue'
+    'background-color': 'white'
   }
   card2BodyStyle = {
     'padding': '12px',
@@ -35,6 +37,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   jobMeta: JobMeta = {}
   triggerMeta: TriggerMeta = {}
   jobCaseIds: string[] = []
+  jobDataExt: JobDataExt = undefined
   jobScenarioIds: string[] = []
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
@@ -108,8 +111,17 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
     this.ctxOptions.jobEnv = this.jobMeta.env
   }
 
+  tabIndexChange(index: number) {
+    if (1 === index) {
+      this.scenarioSelectorSwitch = true
+    } else if (2 === index) {
+      this.jobSubscribersSwitch = true
+    }
+  }
+
   reset() {
     this.jobCaseIds = []
+    this.jobDataExt = undefined
     this.jobScenarioIds = []
     this.jobMeta = {
       group: this.group,
@@ -138,7 +150,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorEmptyProject))
       return
     }
-    if (this.jobCaseIds.length < 1 && this.jobScenarioIds.length < 1) {
+    if (this.jobCaseIds.length < 1 && this.jobScenarioIds.length < 1 && undefined === this.jobDataExt) {
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorEmptyCaseScenarioCount))
       return
     }
@@ -151,7 +163,8 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         }),
         scenario: this.jobScenarioIds.map(id => {
           return { id: id }
-        })
+        }),
+        ext: this.jobDataExt
       },
       notifies: this.subscribers
     }
@@ -191,6 +204,9 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
           }
           if (job.jobData && job.jobData.scenario) {
             this.jobScenarioIds = job.jobData.scenario.map(item => item.id)
+          }
+          if (job.jobData && job.jobData.ext) {
+            this.jobDataExt = job.jobData.ext
           }
         })
       }

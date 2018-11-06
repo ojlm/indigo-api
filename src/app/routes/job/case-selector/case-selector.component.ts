@@ -1,6 +1,7 @@
 import { Location } from '@angular/common'
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { JobDataExt } from 'app/model/job.model'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
@@ -24,22 +25,34 @@ import { calcDrawerWidth } from '../../../util/drawer'
       color:red;
       transform: rotate(180deg);
     }
+    .s-line {
+      padding: 4px;
+      border-bottom: 1px solid lightblue;
+    }
+    .s-line .label {
+      padding: 4px;
+      font-weight: bold;
+    }
   `],
   templateUrl: './case-selector.component.html',
 })
 export class CaseSelectorComponent extends PageSingleModel implements OnInit {
 
+  caseModelDrawerSwitch = false
+  caseListDrawerVisible = false
+  caseDrawerVisible = false
   drawerWidth = calcDrawerWidth()
-  pageSize = 10
+  caseListDrawerWidth = calcDrawerWidth(0.7)
+  pageSize = 20
   group: string
   project: string
   items: Case[] = []
   searchCase: Subject<QueryCase>
-  caseDrawerVisible = false
   editCaseId: string
-  searchText: string
+  searchCaseModel: QueryCase = {}
   addedItemsMap = {}
   addedItems: Case[] = []
+  _ext: JobDataExt = undefined
 
   @Input()
   set data(ids: string[]) {
@@ -57,6 +70,14 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
     return this.addedItems.map(item => item._id)
   }
   @Output() dataChange = new EventEmitter<string[]>()
+  @Input()
+  set ext(value: JobDataExt) {
+    this._ext = value
+  }
+  get ext() {
+    return this._ext
+  }
+  @Output() extChange = new EventEmitter<JobDataExt>()
   _ctxOptions: ContextOptions = {}
   @Input()
   set ctxOptions(val: ContextOptions) {
@@ -67,6 +88,7 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
   @HostListener('window:resize')
   resize() {
     this.drawerWidth = calcDrawerWidth()
+    this.caseListDrawerWidth = calcDrawerWidth(0.7)
   }
 
   constructor(
@@ -83,6 +105,40 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
       this.items = res.data.list
     })
     this.searchCase = this.caseService.newQuerySubject(response)
+  }
+
+  applyFilter() {
+    this._ext = {
+      path: this.searchCaseModel.path,
+      methods: this.searchCaseModel.methods,
+      text: this.searchCaseModel.text,
+      labels: this.searchCaseModel.labels,
+    }
+    this.extChange.emit(this._ext)
+  }
+
+  cancelFilter() {
+    this._ext = undefined
+    this.extChange.emit(this._ext)
+  }
+
+  previewFilter() {
+    if (this._ext) {
+      this.searchCaseModel = { ...this._ext }
+      this.search()
+    }
+  }
+
+  showCaseListDrawer() {
+    if (this.items.length === 0) {
+      this.search()
+    }
+    this.caseListDrawerVisible = true
+  }
+
+  clearSearchModel() {
+    this.searchCaseModel = {}
+    this.search()
   }
 
   addItem(item: Case) {
@@ -114,19 +170,19 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
   }
 
   viewCase(item: Case) {
+    this.caseModelDrawerSwitch = true
     this.editCaseId = item._id
     this.caseDrawerVisible = true
   }
 
   search() {
-    this.searchCase.next({ group: this.group, project: this.project, text: this.searchText, ...this.toPageQuery() })
+    this.searchCase.next({ group: this.group, project: this.project, ...this.searchCaseModel, ...this.toPageQuery() })
   }
 
   ngOnInit(): void {
     this.route.parent.parent.params.subscribe(params => {
       this.group = params['group']
       this.project = params['project']
-      this.searchCase.next({ group: this.group, project: this.project })
     })
   }
 }

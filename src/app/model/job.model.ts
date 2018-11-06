@@ -25,10 +25,18 @@ export interface TriggerMeta {
 export interface DocRef {
   id?: string
 }
+
+export interface JobDataExt {
+  path?: string
+  methods?: string[]
+  text?: string
+  labels?: string[]
+}
+
 export interface JobData {
   cs?: DocRef[]
   scenario?: DocRef[]
-  ext?: any
+  ext?: JobDataExt
 }
 
 export interface JobListItem extends Job {

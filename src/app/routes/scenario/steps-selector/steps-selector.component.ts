@@ -43,7 +43,7 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
       this.modelChange()
     }.bind(this)
   }
-  caseListDrawerWidth = calcDrawerWidth(0.75)
+  caseListDrawerWidth = calcDrawerWidth(0.7)
   caseModeldrawerWidth = calcDrawerWidth()
   pageSize = 10
   group: string
@@ -90,7 +90,7 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
   @Output() dataChange = new EventEmitter<ScenarioStep[]>()
   @HostListener('window:resize')
   resizeBy() {
-    this.caseListDrawerWidth = calcDrawerWidth(0.75)
+    this.caseListDrawerWidth = calcDrawerWidth(0.7)
     this.caseModeldrawerWidth = calcDrawerWidth()
   }
 
