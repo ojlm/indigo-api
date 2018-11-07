@@ -10,7 +10,7 @@
 </ng-template>
 <nz-drawer [nzClosable]="true" [nzVisible]="envModelDrawerVisible" nzPlacement="right" [nzWidth]="drawerWidth"
   [nzBodyStyle]="drawerBodyStyle" (nzOnClose)="envModelDrawerVisible=false">
-  <app-env-model [(data)]="env" (dataChange)="modelChange()" [(name)]="envName" (onclear)="envModelDrawerVisible=false"></app-env-model>
+  <app-env-model *ngIf="envModelDrawerSwitch" [(data)]="_env" (dataChange)="modelChange()" [(name)]="envName" (onclear)="envModelDrawerVisible=false"></app-env-model>
 </nz-drawer>
 <nz-drawer [nzClosable]="true" [nzVisible]="envSelectorDrawerVisible" nzPlacement="right" [nzWidth]="drawerWidth"
   (nzOnClose)="envSelectorDrawerVisible=false">
@@ -27,7 +27,7 @@
           </ng-template>
         </nz-list-item-meta>
         <ng-template #edit>
-          <button nz-button [nzType]="item._id===env?'primary':'default'" nzShape="circle" (click)="clickItem(item)">
+          <button nz-button [nzType]="item._id===_env?'primary':'default'" nzShape="circle" (click)="clickItem(item)">
             <i class="anticon anticon-check-square-o"></i>
           </button>
         </ng-template>

@@ -37,7 +37,13 @@ export class LabelListComponent implements OnInit {
     response.subscribe(res => {
       this.labels = res.data
     })
-   }
+  }
+
+  labelSelectOpenChange() {
+    if (this.labels.length === 0) {
+      this.searchLabel('')
+    }
+  }
 
   modelChange() {
     this.dataChange.emit(this.data)

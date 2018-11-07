@@ -26,6 +26,7 @@ export class AuthSelectorComponent implements OnInit {
     'border-radius': '5px',
     'height': `${this.authHeight + 6}px`
   }
+  isSupportsInitialized = false
   supports: AuthorizeAndValidate[] = []
   currentAuth: AuthorizeAndValidate
   currentData = ''
@@ -38,7 +39,8 @@ export class AuthSelectorComponent implements OnInit {
       this.auth = value
       this.activateTag(this.auth[0], 0)
     }
-    if (this.supports && this.supports.length < 1) {
+    if (this.supports && this.supports.length < 1 && !this.isSupportsInitialized) {
+      this.isSupportsInitialized = true
       this.envService.getAllAuth().subscribe(res => {
         this.supports = res.data
         if (this.auth && this.auth.length > 0) {

@@ -4,6 +4,7 @@
       <div *ngIf="_ext" style="padding:8px;" nz-row [nzGutter]="3">
         <div class="s-line" nz-col nzSpan="24">
           <span class="label">{{'tips-run-job-by-filter'|translate}}</span>
+          <a (click)="previewFilter()">{{'btn-preview'|translate}}</a>
         </div>
         <div class="s-line" nz-col nzSpan="24">
           <span class="label">{{'item-search-text'|translate}}: </span>
@@ -85,7 +86,8 @@
     </ng-template>
   </nz-list>
   <ng-template #nzHeader>
-    <app-case-search-panel [(data)]="searchCaseModel" (dataChange)="search()"></app-case-search-panel>
+    <app-case-search-panel [(data)]="searchCaseModel" (dataChange)="search()" [(showCond)]="searchPanelShowAll">
+    </app-case-search-panel>
     <div style="padding-top:10px;">
       <button nz-button style="background-color:transparent;" nzSize="small" nzType="dashed" (click)="previewFilter()">
         <span style="margin-left:2px;">{{'btn-preview-filter'|translate}}</span>
@@ -102,17 +104,19 @@
     </div>
   </ng-template>
   <ng-template #nzFooter>
-    <nz-pagination *ngIf="items.length>0" [nzSize]="'small'" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate"
-      [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="search()">
-    </nz-pagination>
-    <ng-template #totalTemplate let-total>
-      <span style="color:lightgray;">
-        <span>{{'item-total'|translate}}</span>
-        <span> {{total}} </span>
-        <span>{{'item-item'|translate}}</span>
-      </span>
-    </ng-template>
-    <div *ngIf="items.length<=0">{{'tips-no-data'|translate}}</div>
+    <div style="text-align:right;">
+      <nz-pagination *ngIf="items.length>0" [nzSize]="'small'" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate"
+        [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="search()">
+      </nz-pagination>
+      <ng-template #totalTemplate let-total>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{total}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+      <div *ngIf="items.length<=0">{{'tips-no-data'|translate}}</div>
+    </div>
   </ng-template>
 </nz-drawer>
 <!-- case draw -->

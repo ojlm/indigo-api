@@ -10,8 +10,17 @@ import { Subject } from 'rxjs'
 })
 export class CaseSearchPanelComponent implements OnInit {
 
-  showAll = false
   search: QueryCase = {}
+  showAll = false
+  @Input()
+  set showCond(val: boolean) {
+    this.showAll = val
+  }
+  get showCond() {
+    return this.showAll
+  }
+  @Output()
+  showCondChange = new EventEmitter<boolean>()
   @Input() size = 'default'
   @Input()
   get data() {
@@ -39,6 +48,17 @@ export class CaseSearchPanelComponent implements OnInit {
     response.subscribe(res => {
       this.items = res.data
     })
+  }
+
+  showAllChange() {
+    this.showAll = !this.showAll
+    this.showCondChange.emit(this.showAll)
+  }
+
+  labelSelectOpenChange() {
+    if (this.items.length === 0) {
+      this.searchLabel('')
+    }
   }
 
   searchLabel(label: string) {

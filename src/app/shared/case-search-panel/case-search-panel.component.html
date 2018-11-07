@@ -9,7 +9,7 @@
     </nz-input-group>
   </div>
   <div nz-col nzSpan="2">
-    <button style="width:100%;" nz-button [nzType]="showAll?'primary':'default'" [nzSize]="size" (click)="showAll=!showAll">
+    <button style="width:100%;" nz-button [nzType]="showAll?'primary':'default'" [nzSize]="size" (click)="showAllChange()">
       <i class="anticon anticon-{{showAll?'up':'down'}}"></i>
     </button>
   </div>
@@ -29,9 +29,15 @@
   <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="24">
     <nz-input-group [nzAddOnBefore]="'field-labels'|translate">
       <nz-select style="width:100%;" nzMode="multiple" [(ngModel)]="search.labels" nzAllowClear nzShowSearch
-        [nzServerSearch]="true" (nzOnSearch)="searchLabel($event)" (ngModelChange)="modelChange()">
+        (nzOpenChange)="labelSelectOpenChange()" [nzServerSearch]="true" (nzOnSearch)="searchLabel($event)"
+        (ngModelChange)="modelChange()">
         <ng-container *ngFor="let item of items">
-          <nz-option *ngIf="!isLoading" [nzValue]="item.id" [nzLabel]="item.id"></nz-option>
+          <nz-option *ngIf="!isLoading" [nzValue]="item.id" [nzLabel]="item.id" nzCustomContent>
+            <span>
+              <nz-badge style="transform: scale(0.6);" [nzCount]="item.count" [nzStyle]="{backgroundColor:'#52c41a'}"></nz-badge>
+              <span>{{item.id}}</span>
+            </span>
+          </nz-option>
         </ng-container>
         <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
           <i nz-icon type="loading" class="loading-icon"></i> Loading ...

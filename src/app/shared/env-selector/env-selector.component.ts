@@ -22,10 +22,21 @@ export class EnvSelectorComponent extends PageSingleModel implements OnInit {
   drawerBodyStyle = {
     'padding': '0px'
   }
+  envModelDrawerSwitch = false
   envModelDrawerVisible = false
   envSelectorDrawerVisible = false
   envName = ''
-  @Input() env = ''
+  _env = ''
+  @Input()
+  get env() {
+    return this._env
+  }
+  set env(value: string) {
+    if (value) {
+      this._env = value
+      this.envModelDrawerSwitch = true
+    }
+  }
   @Output() envChange = new EventEmitter<string>()
   @HostListener('window:resize')
   resize() {
@@ -46,6 +57,7 @@ export class EnvSelectorComponent extends PageSingleModel implements OnInit {
   }
 
   viewEnv() {
+    this.envModelDrawerSwitch = true
     this.envModelDrawerVisible = true
   }
 
@@ -60,6 +72,7 @@ export class EnvSelectorComponent extends PageSingleModel implements OnInit {
     this.env = item._id
     this.envName = item.summary
     this.envChange.emit(this.env)
+    this.envModelDrawerSwitch = true
     this.envSelectorDrawerVisible = false
     this.envModelDrawerVisible = true
   }

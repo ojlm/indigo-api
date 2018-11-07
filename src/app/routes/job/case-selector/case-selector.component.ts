@@ -53,6 +53,7 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
   addedItemsMap = {}
   addedItems: Case[] = []
   _ext: JobDataExt = undefined
+  searchPanelShowAll = false
 
   @Input()
   set data(ids: string[]) {
@@ -124,6 +125,8 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
 
   previewFilter() {
     if (this._ext) {
+      this.searchPanelShowAll = true
+      this.caseListDrawerVisible = true
       this.searchCaseModel = { ...this._ext }
       this.search()
     }

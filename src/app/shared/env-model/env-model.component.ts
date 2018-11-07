@@ -174,8 +174,10 @@ export class EnvModelComponent implements OnInit {
       })
     })
     this.route.params.subscribe(params => {
-      this.envId = params['envId']
-      this.initByEnvId()
+      if (params['envId']) {
+        this.envId = params['envId']
+        this.initByEnvId()
+      }
     })
   }
 }
