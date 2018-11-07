@@ -195,18 +195,22 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
     return `/case/${this.group}/${this.project}/${item._id}`
   }
 
-  editOrCheckItem(item: ExCase) {
-    if (this.selectable) {
-      item._checked = !item._checked
-      if (item._checked) {
-        this.selectedItems.push(item)
-      } else {
-        const delIndex = this.selectedItems.findIndex(_item => _item._id === item._id)
-        this.selectedItems.splice(delIndex, 1)
-      }
-      this.selectedItems = [...this.selectedItems]
-    } else {
+  editOrCheckItem(item: ExCase, forceNav: boolean = false) {
+    if (forceNav) {
       this.router.navigateByUrl(this.getRouter(item))
+    } else {
+      if (this.selectable) {
+        item._checked = !item._checked
+        if (item._checked) {
+          this.selectedItems.push(item)
+        } else {
+          const delIndex = this.selectedItems.findIndex(_item => _item._id === item._id)
+          this.selectedItems.splice(delIndex, 1)
+        }
+        this.selectedItems = [...this.selectedItems]
+      } else {
+        this.router.navigateByUrl(this.getRouter(item))
+      }
     }
   }
 
