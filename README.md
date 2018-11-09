@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/asura-pro/indigo.svg?branch=master)](https://travis-ci.org/asura-pro/indigo)
 
 ### 特性
->不是基于脚本实现，所以功能上没有脚本强大和灵活，但作为更高层次的抽象提供了一些脚本较难拥有的特性
 
 - OpenApi 接口定义管理
 - 丰富可扩展的断言类型
