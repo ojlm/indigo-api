@@ -13,14 +13,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-  mysql:
-    image: mysql:5.7.18
-    ports:
-      - "3306:3306"
-    volumes:
-      - ../docs/sql/quartz-2.3.4.sql:/docker-entrypoint-initdb.d/quartz-2.3.4.sql
-    environment:
-      MYSQL_ROOT_PASSWORD: "123456"
   ldap-service:
     image: osixia/openldap:1.2.1
     ports:
