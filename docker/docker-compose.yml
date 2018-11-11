@@ -13,32 +13,14 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-  ldap-service:
-    image: osixia/openldap:1.2.1
-    ports:
-      - "389:389"
-      - "636:636"
-  ldap-admin:
-    image: osixia/phpldapadmin:0.7.1
-    ports:
-      - "1080:80"
-    links:
-      - ldap-service
-    environment:
-      PHPLDAPADMIN_HTTPS: "false"
-      PHPLDAPADMIN_LDAP_HOSTS: "ldap-service"
   indigo-api:
     image: asurapro/indigo-api:latest
     ports:
       - "9000:9000"
     links:
       - elasticsearch
-      - mysql
-      - ldap-service
     depends_on:
       - elasticsearch
-      - mysql
-      - ldap-service
     restart: on-failure
     environment:
       APPLICATION_SECRET: "0><>0zv0oG>JH6>YHq4Hs=5x;ht8VB>x`_lOWo<cb309F3n`k;gy1j;i[cd;zE>u"
