@@ -1,6 +1,14 @@
 {
-  "name": "indigo",
-  "version": "0.0.0",
+  "name": "ngx-indigo",
+  "version": "0.1.0",
+  "description": "indigo is an api tool.",
+  "main": "main.ts",
+  "repository": {
+    "url": "https://github.com/asura-pro/indigo.git",
+    "type": "git"
+  },
+  "author": "zhengshaodong <ngxcorpio@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
@@ -16,7 +24,7 @@
     "lint-staged": "lint-staged",
     "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^6.1.8",
     "@angular/common": "^6.1.8",
