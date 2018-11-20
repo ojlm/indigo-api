@@ -4,6 +4,7 @@ import { SharedModule } from '@shared/shared.module'
 import { NgxChartsModule } from '@swimlane/ngx-charts'
 
 import { DashboardRoutingModule } from './dashboard-routing.module'
+import { GroupUserTrendComponent } from './group-user-trend/group-user-trend.component'
 import { GroupsComponent } from './groups/groups.component'
 import { ProjectsComponent } from './projects/projects.component'
 import { UserAggregationComponent } from './user-aggregation/user-aggregation.component'
@@ -14,6 +15,7 @@ const COMPONENT = [
   ProjectsComponent,
   UserProfileComponent,
   UserAggregationComponent,
+  GroupUserTrendComponent,
 ]
 
 const COMPONENT_NOROUNT = []

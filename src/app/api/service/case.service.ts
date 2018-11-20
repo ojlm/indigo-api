@@ -10,6 +10,7 @@ import {
   CaseResult,
   ContextOptions,
   DeleteResData,
+  Group,
   IndexDocResponse,
   LabelRef,
   UpdateDocResponse,
@@ -76,6 +77,10 @@ export class CaseService extends BaseService {
     return this.http.post<ApiRes<AggsItem[]>>(`${API_CASE}/aggs`, aggs)
   }
 
+  trend(aggs: AggsCase, groups: boolean = null) {
+    return this.http.post<ApiRes<TrendResponse>>(`${API_CASE}/aggs/trend${groups !== null ? '?groups=' + groups : ''}`, aggs)
+  }
+
   aggsLabelsSubject(response: Subject<ApiRes<AggsItem[]>>) {
     const querySubject = new Subject<string>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(label => {
@@ -95,6 +100,9 @@ export interface AggsCase {
   group?: string
   project?: string
   creator?: string
+  interval?: string
+  termsField?: string
+  dateRange?: string
   size?: number
 }
 
@@ -104,6 +112,7 @@ export interface AggsItem {
   description?: string
   type?: string
   count?: number
+  sub?: AggsItem[]
 }
 
 export interface QueryCase extends QueryPage {
@@ -140,4 +149,9 @@ export interface UpdateCase {
 }
 export interface BatchOperation {
   labels?: { id: string, labels: LabelRef[] }[]
+}
+
+export interface TrendResponse {
+  groups: Group[]
+  trends: AggsItem[]
 }

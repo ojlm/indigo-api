@@ -16,6 +16,8 @@ import { SettingsService } from '@delon/theme'
     <div nz-menu class="width-sm">
       <div nz-menu-item (click)="goProfile()"><i class="anticon anticon-profile mr-sm"></i>{{'menu-profile'|translate}}</div>
       <div nz-menu-item (click)="goUserDashboard()"><i class="anticon anticon-dashboard mr-sm"></i>{{'menu-user-dashboard'|translate}}</div>
+      <li nz-menu-divider></li>
+      <div nz-menu-item (click)="goTrend()"><i class="anticon anticon-dot-chart mr-sm"></i>{{'menu-sys-trend'|translate}}</div>
       <div nz-menu-item (click)="goSystem()"><i class="anticon anticon-setting mr-sm"></i>{{'menu-sys-settings'|translate}}</div>
       <li nz-menu-divider></li>
       <div nz-menu-item (click)="logout()"><i class="anticon anticon-logout mr-sm"></i>{{'menu-logout'|translate}}</div>
@@ -45,6 +47,10 @@ export class HeaderUserComponent {
 
   goSystem() {
     this.router.navigateByUrl('/system/settings')
+  }
+
+  goTrend() {
+    this.router.navigateByUrl('/dashboard/trend')
   }
 
   logout() {
