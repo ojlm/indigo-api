@@ -1,6 +1,12 @@
 <div>
   <div class="content__title">
     <div style="padding-left:10px;">
+      <nz-radio-group style="padding-left:10px;" [(ngModel)]="type" (ngModelChange)="typeChange()" [nzSize]="'small'">
+        <label nz-radio-button nzValue="case-growth">{{'item-case-growth'|translate}}</label>
+        <label nz-radio-button nzValue="case-aggregation">{{'item-case-aggregation'|translate}}</label>
+        <label nz-radio-button nzValue="activity-growth">{{'item-activity-growth'|translate}}</label>
+        <label nz-radio-button nzValue="activity-aggregation">{{'item-activity-aggregation'|translate}}</label>
+      </nz-radio-group>
       <nz-radio-group style="padding-left:10px;" [(ngModel)]="aggsParams.dateRange" (ngModelChange)="loadData()"
         [nzSize]="'small'">
         <label nz-radio-button nzValue="">{{'item-all'|translate}}</label>
@@ -43,13 +49,26 @@
       </ng-template>
     </nz-breadcrumb>
   </div>
-  <div style="overflow:hidden;margin-right:12px;">
-    <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="results" (select)="onSelect($event)"
-      [xAxis]="true" [yAxis]="true">
-    </ngx-charts-bar-vertical>
+  <div *ngIf="'case-growth'===type">
+    <div style="overflow:hidden;margin-right:12px;">
+      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="results" (select)="onSelect($event)"
+        [xAxis]="true" [yAxis]="true">
+      </ngx-charts-bar-vertical>
+    </div>
+    <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
+      <ngx-charts-bar-horizontal [view]="view2" [scheme]="colorScheme2" [results]="subResults" [xAxis]=" true" [yAxis]="true">
+      </ngx-charts-bar-horizontal>
+    </div>
   </div>
-  <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
-    <ngx-charts-bar-horizontal [view]="view2" [scheme]="colorScheme2" [results]="subResults" [xAxis]=" true" [yAxis]="true">
-    </ngx-charts-bar-horizontal>
+  <div *ngIf="'case-aggregation'===type">
+    <ngx-charts-line-chart [view]="fitView" [scheme]="colorScheme" [results]="caseAggreations" [xAxis]="true" [yAxis]="true"
+      [legend]="true">
+    </ngx-charts-line-chart>
+  </div>
+  <div *ngIf="'activity-growth'===type">
+    growth activity
+  </div>
+  <div *ngIf="'activity-aggregation'===type">
+    aggregation activity
   </div>
 </div>

@@ -10,6 +10,8 @@ import { Group } from 'app/model/es.model'
 })
 export class GroupUserTrendComponent implements OnInit {
 
+  type = 'case-growth'
+  fitView: any[] = [window.innerWidth, Math.floor(window.innerHeight - 150)]
   view1: any[] = [window.innerWidth, Math.floor(window.innerHeight - 150)]
   view2: any[] = undefined
   colorScheme = {
@@ -31,8 +33,10 @@ export class GroupUserTrendComponent implements OnInit {
   results: NameValue[] = [{ name: 'indigo', value: 0 }]
   showSubChart = false
   subResults: NameValue[] = []
+  caseAggreations: NameValue[] = [{ name: 'indigo', series: [{ name: 'indigo', value: 0 }] }]
   @HostListener('window:resize')
   resize() {
+    this.fitView = [window.innerWidth, Math.floor(window.innerHeight - 150)]
     if (this.showSubChart) {
       this.view1 = [window.innerWidth, Math.floor((window.innerHeight - 150) * 0.4)]
       this.view2 = [window.innerWidth, Math.floor((window.innerHeight - 150) * 0.6)]
@@ -46,6 +50,50 @@ export class GroupUserTrendComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
   ) { }
+
+  typeChange() {
+    if (this.type === 'case-aggregation') {
+      this.updateCaseAggregationData()
+    } else if (this.type === 'activity-aggregation') {
+    }
+  }
+
+  updateCaseAggregationData() {
+    if (this.data && this.data.length > 0) {
+      if (this.data[0].sub[0].type === 'group') {
+        const tmp: { [k: string]: NameValue[] } = {}
+        this.data.forEach(item => {
+          const date = item.id
+          const subGroupCount: { [k: string]: number } = {}
+          item.sub.forEach(subItem => {
+            subGroupCount[subItem.id] = subItem.count
+          })
+          this.groups.forEach(group => {
+            const groupSeries = tmp[group.id] || []
+            let subCount = 0
+            if (subGroupCount[group.id] !== undefined) {
+              subCount = subGroupCount[group.id]
+            }
+            if (groupSeries.length > 0) {
+              groupSeries.push({ name: date, value: subCount + groupSeries[groupSeries.length - 1].value })
+            } else {
+              groupSeries.push({ name: date, value: subCount })
+            }
+            tmp[group.id] = groupSeries
+          })
+        })
+        const tmpResults: NameValue[] = []
+        this.groups.forEach(group => {
+          tmpResults.push({ name: group.id, series: tmp[group.id] })
+        })
+        if (tmpResults.length > 0) {
+          this.caseAggreations = tmpResults
+        }
+      } else {
+        // TODO
+      }
+    }
+  }
 
   groupChange() {
     if (this.group) {
