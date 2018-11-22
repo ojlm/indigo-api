@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { AggsItem, CaseService } from 'app/api/service/case.service'
+import { AggsItem } from 'app/api/service/base.service'
+import { CaseService } from 'app/api/service/case.service'
 import { NameValue } from 'app/model/common.model'
 
 @Component({

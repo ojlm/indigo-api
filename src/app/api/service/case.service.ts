@@ -10,13 +10,12 @@ import {
   CaseResult,
   ContextOptions,
   DeleteResData,
-  Group,
   IndexDocResponse,
   LabelRef,
   UpdateDocResponse,
 } from '../../model/es.model'
 import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE } from '../path'
-import { BaseService } from './base.service'
+import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
 
 @Injectable({
   providedIn: 'root'
@@ -73,11 +72,11 @@ export class CaseService extends BaseService {
     return querySubject
   }
 
-  aggs(aggs: AggsCase) {
+  aggs(aggs: AggsQuery) {
     return this.http.post<ApiRes<AggsItem[]>>(`${API_CASE}/aggs`, aggs)
   }
 
-  trend(aggs: AggsCase, groups: boolean = null) {
+  trend(aggs: AggsQuery, groups: boolean = null) {
     return this.http.post<ApiRes<TrendResponse>>(`${API_CASE}/aggs/trend${groups !== null ? '?groups=' + groups : ''}`, aggs)
   }
 
@@ -94,25 +93,6 @@ export class CaseService extends BaseService {
   batchOperate(ops: BatchOperation) {
     return this.http.post<ApiRes<any>>(`${API_CASE}/batch`, ops)
   }
-}
-
-export interface AggsCase {
-  group?: string
-  project?: string
-  creator?: string
-  interval?: string
-  termsField?: string
-  dateRange?: string
-  size?: number
-}
-
-export interface AggsItem {
-  id?: string
-  summary?: string
-  description?: string
-  type?: string
-  count?: number
-  sub?: AggsItem[]
 }
 
 export interface QueryCase extends QueryPage {
@@ -149,9 +129,4 @@ export interface UpdateCase {
 }
 export interface BatchOperation {
   labels?: { id: string, labels: LabelRef[] }[]
-}
-
-export interface TrendResponse {
-  groups: Group[]
-  trends: AggsItem[]
 }

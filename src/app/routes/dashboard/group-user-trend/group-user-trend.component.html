@@ -51,24 +51,36 @@
   </div>
   <div *ngIf="'case-growth'===type">
     <div style="overflow:hidden;margin-right:12px;">
-      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="results" (select)="onSelect($event)"
+      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="caseResults" (select)="onSelect($event)"
         [xAxis]="true" [yAxis]="true">
       </ngx-charts-bar-vertical>
     </div>
     <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
-      <ngx-charts-bar-horizontal [view]="view2" [scheme]="colorScheme2" [results]="subResults" [xAxis]=" true" [yAxis]="true">
+      <ngx-charts-bar-horizontal [view]="view2" [scheme]="colorScheme2" [results]="caseSubResults" [xAxis]=" true"
+        [yAxis]="true">
       </ngx-charts-bar-horizontal>
     </div>
   </div>
   <div *ngIf="'case-aggregation'===type">
     <ngx-charts-line-chart [view]="fitView" [scheme]="colorScheme" [results]="caseAggreations" [xAxis]="true" [yAxis]="true"
-      [legend]="true">
+      [legend]="true" [legendTitle]="'🐣 Legend'">
     </ngx-charts-line-chart>
   </div>
   <div *ngIf="'activity-growth'===type">
-    growth activity
+    <div style="overflow:hidden;margin-right:12px;">
+      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="activityResults" (select)="onSelect($event)"
+        [xAxis]="true" [yAxis]="true">
+      </ngx-charts-bar-vertical>
+    </div>
+    <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
+      <ngx-charts-bar-horizontal [view]="view2" [scheme]="colorScheme2" [results]="activitySubResults" [xAxis]=" true"
+        [yAxis]="true">
+      </ngx-charts-bar-horizontal>
+    </div>
   </div>
   <div *ngIf="'activity-aggregation'===type">
-    aggregation activity
+    <ngx-charts-line-chart [view]="fitView" [scheme]="colorScheme" [results]="activityAggreations" [xAxis]="true"
+      [yAxis]="true" [legend]="true" [legendTitle]="'🐣 Legend'">
+    </ngx-charts-line-chart>
   </div>
 </div>

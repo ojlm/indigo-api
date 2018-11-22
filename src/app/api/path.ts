@@ -41,3 +41,5 @@ export const API_WS_JOB_MANUAL = '/api/ws/job/manual'
 export const API_LINKERD_V1_DTABS_HTTP = BASE_URL + '/linkerd/v1/dtabs/http'
 
 export const API_SYSTEM = BASE_URL + '/sys'
+
+export const API_ACTIVITY = BASE_URL + '/activity'

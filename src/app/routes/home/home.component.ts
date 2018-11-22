@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { AggsItem, CaseService } from 'app/api/service/case.service'
+import { AggsItem } from 'app/api/service/base.service'
+import { CaseService } from 'app/api/service/case.service'
 import { SystemService } from 'app/api/service/system.service'
 
 import { NameValue } from '../report/job-report-model/job-report-model.component'

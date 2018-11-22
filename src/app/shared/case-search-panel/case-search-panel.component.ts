@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { AggsItem, CaseService, QueryCase } from 'app/api/service/case.service'
+import { AggsItem } from 'app/api/service/base.service'
+import { CaseService, QueryCase } from 'app/api/service/case.service'
 import { ApiRes } from 'app/model/api.model'
 import { METHODS } from 'app/model/es.model'
 import { Subject } from 'rxjs'
