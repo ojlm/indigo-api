@@ -76,6 +76,16 @@ export class CaseService extends BaseService {
     return this.http.post<ApiRes<AggsItem[]>>(`${API_CASE}/aggs`, aggs)
   }
 
+  aggsSubject(response: Subject<ApiRes<AggsItem[]>>) {
+    const querySubject = new Subject<AggsQuery>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
+      this.http.post<ApiRes<AggsItem[]>>(`${API_CASE}/aggs`, query).subscribe(
+        res => response.next(res),
+        err => response.error(err))
+    })
+    return querySubject
+  }
+
   trend(aggs: AggsQuery, groups: boolean = null) {
     return this.http.post<ApiRes<TrendResponse>>(`${API_CASE}/aggs/trend${groups !== null ? '?groups=' + groups : ''}`, aggs)
   }
@@ -83,7 +93,7 @@ export class CaseService extends BaseService {
   aggsLabelsSubject(response: Subject<ApiRes<AggsItem[]>>) {
     const querySubject = new Subject<string>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(label => {
-      this.http.get<ApiRes<CaseWithSort[]>>(`${API_CASE}/aggs/labels?label=${label}`).subscribe(
+      this.http.get<ApiRes<AggsItem[]>>(`${API_CASE}/aggs/labels?label=${label}`).subscribe(
         res => response.next(res),
         err => response.error(err))
     })

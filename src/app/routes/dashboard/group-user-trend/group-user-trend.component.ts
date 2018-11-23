@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { ActivityService } from 'app/api/service/activity.service'
 import { AggsItem, AggsQuery } from 'app/api/service/base.service'
 import { CaseService } from 'app/api/service/case.service'
+import { ApiRes } from 'app/model/api.model'
 import { NameValue } from 'app/model/common.model'
 import { Group } from 'app/model/es.model'
+import { Subject } from 'rxjs'
 
 @Component({
   selector: 'app-group-user-trend',
@@ -26,6 +28,9 @@ export class GroupUserTrendComponent implements OnInit {
   }
   groups: Group[] = []
   group = undefined
+  creators: AggsItem[] = []
+  creator = undefined
+  queryCreatorSubject: Subject<AggsQuery>
   aggsParams: AggsQuery = {
     interval: '1M',
     termsField: 'group',
@@ -36,9 +41,11 @@ export class GroupUserTrendComponent implements OnInit {
   showSubChart = false
   caseResults: NameValue[] = [{ name: 'indigo', value: 0 }]
   caseSubResults: NameValue[] = []
+  caseSubResultsLabel = ''
   caseAggreations: NameValue[] = [{ name: 'indigo', series: [{ name: 'indigo', value: 0 }] }]
   activityResults: NameValue[] = [{ name: 'indigo', value: 0 }]
   activitySubResults: NameValue[] = []
+  activitySubResultsLabel = ''
   activityAggreations: NameValue[] = [{ name: 'indigo', series: [{ name: 'indigo', value: 0 }] }]
   @HostListener('window:resize')
   resize() {
@@ -59,11 +66,20 @@ export class GroupUserTrendComponent implements OnInit {
   ) { }
 
   typeChange() {
-    if (this.type === 'case-aggregation') {
+    if (this.type === 'case-growth') {
+      if (this.caseAggreations.length === 1 && this.caseAggreations[0].value === 0 && this.showSubChart) {
+        this.showSubChart = false
+        this.resize()
+      }
+    } else if (this.type === 'case-aggregation') {
       this.updateCaseAggregationData()
     } else if (this.type === 'activity-growth') {
       if (this.activityData.length === 0) {
         this.loadActivityAggData()
+      }
+      if (this.activityAggreations.length === 1 && this.activityAggreations[0].value === 0 && this.showSubChart) {
+        this.showSubChart = false
+        this.resize()
       }
     } else if (this.type === 'activity-aggregation') {
       this.updateActivityAggregationData()
@@ -165,7 +181,7 @@ export class GroupUserTrendComponent implements OnInit {
     if (this.groups && this.groups.length > 0) {
       groups = false
     }
-    this.caseService.trend({ group: this.group, ...this.aggsParams }, groups).subscribe(res => {
+    this.caseService.trend({ group: this.group, creator: this.creator, ...this.aggsParams }, groups).subscribe(res => {
       this.showSubChart = false
       this.resize()
       if (res.data.groups && res.data.groups.length > 0) {
@@ -182,7 +198,7 @@ export class GroupUserTrendComponent implements OnInit {
   }
 
   loadActivityAggData(updateAggregationPanel = false) {
-    this.activityService.trend({ group: this.group, ...this.aggsParams }).subscribe(res => {
+    this.activityService.trend({ group: this.group, creator: this.creator, ...this.aggsParams }).subscribe(res => {
       this.showSubChart = false
       this.resize()
       this.activityData = res.data.trends
@@ -209,8 +225,10 @@ export class GroupUserTrendComponent implements OnInit {
 
   onSelect(item: NameValue) {
     if (this.type === 'case-growth') {
+      this.caseSubResultsLabel = item.name
       this.caseSubResults = this.getSubHorizontalBarData(this.caseData, item)
     } else if (this.type === 'activity-growth') {
+      this.activitySubResultsLabel = item.name
       this.activitySubResults = this.getSubHorizontalBarData(this.activityData, item)
     }
   }
@@ -243,9 +261,24 @@ export class GroupUserTrendComponent implements OnInit {
     }
   }
 
+  searchCreator(prefix: string) {
+    this.queryCreatorSubject.next({ creatorPrefix: prefix, termsField: 'user', size: 10 })
+  }
+
+  searchCreatorOpenChange() {
+    if (this.creators.length === 0) {
+      this.searchCreator('')
+    }
+  }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.loadData()
+    })
+    const response = new Subject<ApiRes<AggsItem[]>>()
+    this.queryCreatorSubject = this.activityService.aggTermsSubject(response)
+    response.subscribe(res => {
+      this.creators = res.data
     })
   }
 }

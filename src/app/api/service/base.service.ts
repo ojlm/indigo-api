@@ -9,6 +9,7 @@ export interface AggsQuery {
   group?: string
   project?: string
   creator?: string
+  creatorPrefix?: string
   interval?: string
   termsField?: string
   dateRange?: string

@@ -6,27 +6,27 @@
         <label nz-radio-button nzValue="case-aggregation">{{'item-case-aggregation'|translate}}</label>
         <label nz-radio-button nzValue="activity-growth">{{'item-activity-growth'|translate}}</label>
         <label nz-radio-button nzValue="activity-aggregation">{{'item-activity-aggregation'|translate}}</label>
+        <label nz-radio-button nzValue="job-aggregation">{{'field-job'|translate}}</label>
       </nz-radio-group>
-      <nz-radio-group style="padding-left:10px;" [(ngModel)]="aggsParams.dateRange" (ngModelChange)="loadData()"
+      <nz-radio-group style="padding-left:4px;" [(ngModel)]="aggsParams.dateRange" (ngModelChange)="loadData()"
         [nzSize]="'small'">
         <label nz-radio-button nzValue="">{{'item-all'|translate}}</label>
         <label nz-radio-button nzValue="1y">{{'item-last-year'|translate}}</label>
         <label nz-radio-button nzValue="6M">{{'item-last-half-year'|translate}}</label>
         <label nz-radio-button nzValue="1M">{{'item-last-month'|translate}}</label>
       </nz-radio-group>
-      <nz-radio-group style="padding-left:10px;" [(ngModel)]="aggsParams.interval" (ngModelChange)="loadData()"
-        [nzSize]="'small'">
+      <nz-radio-group style="padding-left:4px;" [(ngModel)]="aggsParams.interval" (ngModelChange)="loadData()" [nzSize]="'small'">
         <label nz-radio-button nzValue="1M">{{'item-month'|translate}}</label>
         <label nz-radio-button nzValue="1w">{{'item-week'|translate}}</label>
         <label nz-radio-button nzValue="1d">{{'item-day'|translate}}</label>
       </nz-radio-group>
-      <nz-radio-group style="padding-left:10px;" [(ngModel)]="aggsParams.termsField" (ngModelChange)="loadData()"
+      <nz-radio-group style="padding-left:4px;" [(ngModel)]="aggsParams.termsField" (ngModelChange)="loadData()"
         [nzSize]="'small'">
         <label nz-radio-button nzValue="group" [nzDisabled]="group?true:false">{{'field-group'|translate}}</label>
         <label nz-radio-button nzValue="project" [nzDisabled]="group?false:true">{{'field-project'|translate}}</label>
         <label nz-radio-button nzValue="creator">{{'field-creator'|translate}}</label>
       </nz-radio-group>
-      <nz-select style="padding-left:10px;width:200px;" nzMode="default" nzSize="small" [nzPlaceHolder]="'field-group'|translate"
+      <nz-select style="padding-left:10px;width:150px;" nzMode="default" nzSize="small" [nzPlaceHolder]="'field-group'|translate"
         nzAllowClear nzShowSearch [nzNotFoundContent]="'tips-no-data'|translate" [(ngModel)]="group" (ngModelChange)="groupChange()">
         <ng-container *ngFor="let item of groups">
           <nz-option [nzValue]="item.id" [nzLabel]="item.id" nzCustomContent>
@@ -36,17 +36,18 @@
           </nz-option>
         </ng-container>
       </nz-select>
+      <nz-select style="padding-left:5px;width:150px;" nzMode="default" [nzSize]="'small'" [nzPlaceHolder]="'field-creator'|translate"
+        nzAllowClear nzShowSearch [(ngModel)]="creator" (ngModelChange)="loadData()" [nzServerSearch]="true"
+        (nzOpenChange)="searchCreatorOpenChange()" (nzOnSearch)="searchCreator($event)">
+        <nz-option *ngFor="let item of creators" [nzLabel]="item.id" [nzValue]="item.id" nzCustomContent>
+          <span>{{item.id}}</span>
+        </nz-option>
+      </nz-select>
     </div>
     <nz-breadcrumb style="padding-right:20px;" [nzSeparator]="nzSeparator">
       <nz-breadcrumb-item>
         <i class="anticon anticon-home click-icon" (click)="loadData()"></i>
       </nz-breadcrumb-item>
-      <nz-breadcrumb-item *ngIf="group">
-        <a>{{group}}</a>
-      </nz-breadcrumb-item>
-      <ng-template #nzSeparator>
-        <span>></span>
-      </ng-template>
     </nz-breadcrumb>
   </div>
   <div *ngIf="'case-growth'===type">
@@ -57,7 +58,7 @@
     </div>
     <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
       <ngx-charts-bar-horizontal [view]="view2" [scheme]="colorScheme2" [results]="caseSubResults" [xAxis]=" true"
-        [yAxis]="true">
+        [yAxis]="true" [showXAxisLabel]="true" [xAxisLabel]="caseSubResultsLabel">
       </ngx-charts-bar-horizontal>
     </div>
   </div>
@@ -74,7 +75,7 @@
     </div>
     <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
       <ngx-charts-bar-horizontal [view]="view2" [scheme]="colorScheme2" [results]="activitySubResults" [xAxis]=" true"
-        [yAxis]="true">
+        [yAxis]="true" [showXAxisLabel]="true" [xAxisLabel]="activitySubResultsLabel">
       </ngx-charts-bar-horizontal>
     </div>
   </div>
