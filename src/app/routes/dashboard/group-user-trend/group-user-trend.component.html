@@ -63,7 +63,7 @@
     </div>
   </div>
   <div *ngIf="'case-aggregation'===type">
-    <ngx-charts-line-chart [view]="fitView" [scheme]="colorScheme" [results]="caseAggreations" [xAxis]="true" [yAxis]="true"
+    <ngx-charts-line-chart [view]="fitView" [scheme]="colorScheme" [results]="caseAggregation" [xAxis]="true" [yAxis]="true"
       [legend]="true" [legendTitle]="'🐣 Legend'">
     </ngx-charts-line-chart>
   </div>
@@ -80,8 +80,20 @@
     </div>
   </div>
   <div *ngIf="'activity-aggregation'===type">
-    <ngx-charts-line-chart [view]="fitView" [scheme]="colorScheme" [results]="activityAggreations" [xAxis]="true"
+    <ngx-charts-line-chart [view]="fitView" [scheme]="colorScheme" [results]="activityAggregation" [xAxis]="true"
       [yAxis]="true" [legend]="true" [legendTitle]="'🐣 Legend'">
     </ngx-charts-line-chart>
+  </div>
+  <div *ngIf="'job-aggregation'===type">
+    <div style="overflow:hidden;margin-right:12px;">
+      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="jobReportResults" (select)="onSelect($event)"
+        [xAxis]="true" [yAxis]="true">
+      </ngx-charts-bar-vertical>
+    </div>
+    <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
+      <ngx-charts-bar-horizontal [view]="view2" [scheme]="colorScheme2" [results]="jobReportSubResults" [xAxis]=" true"
+        [yAxis]="true" [showXAxisLabel]="true" [xAxisLabel]="jobSubResultsLabel">
+      </ngx-charts-bar-horizontal>
+    </div>
   </div>
 </div>

@@ -155,7 +155,7 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
         this.scenarioItems = this.report.data.scenarios.map(item => {
           return { ...item, expand: true }
         })
-        this.jobService.reportTrend(this.report.jobId).subscribe(trendRes => {
+        this.jobService.jobTrend(this.report.jobId).subscribe(trendRes => {
           const reports = trendRes.data.list
           if (null != reports && reports.length > 0) {
             const okRateSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.FieldOkRate), series: [] }

@@ -12,7 +12,7 @@ import { IndexDocResponse, Job, JobNotify, JobReport, JobReportDataItem } from '
 import { JobData, JobMeta, TriggerMeta } from '../../model/job.model'
 import { newWS } from '../../util/ws'
 import { API_JOB, API_JOB_CRON, API_JOB_QUERY, API_WS_JOB_TEST } from '../path'
-import { BaseService } from './base.service'
+import { AggsQuery, BaseService, TrendResponse } from './base.service'
 
 @Injectable({
   providedIn: 'root'
@@ -58,8 +58,12 @@ export class JobService extends BaseService {
     return this.http.get<ApiRes<JobReport>>(`${API_JOB}/report/${id}`)
   }
 
-  reportTrend(id: string) {
+  jobTrend(id: string) {
     return this.http.get<ApiRes<JobReport[]>>(`${API_JOB}/report/trend/${id}`)
+  }
+
+  trend(aggs: AggsQuery) {
+    return this.http.post<ApiRes<TrendResponse>>(`${API_JOB}/report/trend`, aggs)
   }
 
   getReportItemById(day: string, id: string) {

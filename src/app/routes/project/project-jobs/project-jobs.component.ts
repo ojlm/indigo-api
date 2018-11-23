@@ -51,7 +51,7 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
 
   showTrend(item: Job) {
     this.chartVisible = true
-    this.jobService.reportTrend(item._id).subscribe(trendRes => {
+    this.jobService.jobTrend(item._id).subscribe(trendRes => {
       const reports = trendRes.data.list
       if (null != reports && reports.length > 0) {
         const okRateSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.FieldOkRate), series: [] }

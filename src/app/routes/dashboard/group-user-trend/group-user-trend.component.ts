@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { ActivityService } from 'app/api/service/activity.service'
 import { AggsItem, AggsQuery } from 'app/api/service/base.service'
 import { CaseService } from 'app/api/service/case.service'
+import { JobService } from 'app/api/service/job.service'
 import { ApiRes } from 'app/model/api.model'
 import { NameValue } from 'app/model/common.model'
 import { Group } from 'app/model/es.model'
@@ -38,15 +39,19 @@ export class GroupUserTrendComponent implements OnInit {
   }
   caseData: AggsItem[] = []
   activityData: AggsItem[] = []
+  jobReportData: AggsItem[] = []
+  jobReportResults: NameValue[] = [{ name: 'indigo', value: 0 }]
+  jobReportSubResults: NameValue[] = []
+  jobSubResultsLabel = ''
   showSubChart = false
   caseResults: NameValue[] = [{ name: 'indigo', value: 0 }]
   caseSubResults: NameValue[] = []
   caseSubResultsLabel = ''
-  caseAggreations: NameValue[] = [{ name: 'indigo', series: [{ name: 'indigo', value: 0 }] }]
+  caseAggregation: NameValue[] = [{ name: 'indigo', series: [{ name: 'indigo', value: 0 }] }]
   activityResults: NameValue[] = [{ name: 'indigo', value: 0 }]
   activitySubResults: NameValue[] = []
   activitySubResultsLabel = ''
-  activityAggreations: NameValue[] = [{ name: 'indigo', series: [{ name: 'indigo', value: 0 }] }]
+  activityAggregation: NameValue[] = [{ name: 'indigo', series: [{ name: 'indigo', value: 0 }] }]
   @HostListener('window:resize')
   resize() {
     this.fitView = [window.innerWidth, Math.floor(window.innerHeight - 150)]
@@ -61,40 +66,54 @@ export class GroupUserTrendComponent implements OnInit {
   constructor(
     private caseService: CaseService,
     private activityService: ActivityService,
+    private jobService: JobService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
 
-  typeChange() {
-    if (this.type === 'case-growth') {
-      if (this.caseAggreations.length === 1 && this.caseAggreations[0].value === 0 && this.showSubChart) {
+  private isShowSubChart(val: NameValue[]) {
+    if (val.length === 0) {
+      if (this.showSubChart) {
         this.showSubChart = false
         this.resize()
       }
+    } else {
+      if (!this.showSubChart) {
+        this.showSubChart = true
+        this.resize()
+      }
+    }
+  }
+
+  typeChange() {
+    if (this.type === 'case-growth') {
+      this.isShowSubChart(this.caseSubResults)
     } else if (this.type === 'case-aggregation') {
       this.updateCaseAggregationData()
     } else if (this.type === 'activity-growth') {
       if (this.activityData.length === 0) {
         this.loadActivityAggData()
       }
-      if (this.activityAggreations.length === 1 && this.activityAggreations[0].value === 0 && this.showSubChart) {
-        this.showSubChart = false
-        this.resize()
-      }
+      this.isShowSubChart(this.activitySubResults)
     } else if (this.type === 'activity-aggregation') {
       this.updateActivityAggregationData()
+    } else if (this.type === 'job-aggregation') {
+      if (this.jobReportData.length === 0) {
+        this.loadJobAggData()
+      }
+      this.isShowSubChart(this.jobReportSubResults)
     }
   }
 
   updateActivityAggregationData() {
     if (this.activityData && this.activityData.length > 0) {
-      this.activityAggreations = this.getLineChartAggreationData(this.activityData)
+      this.activityAggregation = this.getLineChartAggreationData(this.activityData)
     }
   }
 
   updateCaseAggregationData() {
     if (this.caseData && this.caseData.length > 0) {
-      this.caseAggreations = this.getLineChartAggreationData(this.caseData)
+      this.caseAggregation = this.getLineChartAggreationData(this.caseData)
     }
   }
 
@@ -176,6 +195,17 @@ export class GroupUserTrendComponent implements OnInit {
     this.loadData()
   }
 
+  loadJobAggData() {
+    this.jobService.trend({ group: this.group, creator: this.creator, ...this.aggsParams }).subscribe(res => {
+      this.showSubChart = false
+      this.resize()
+      this.jobReportData = res.data.trends
+      this.jobReportResults = res.data.trends.map(item => {
+        return { name: item.id, value: item.count }
+      })
+    })
+  }
+
   loadCaseAggData(updateAggregationPanel = false) {
     let groups: boolean = null
     if (this.groups && this.groups.length > 0) {
@@ -220,6 +250,8 @@ export class GroupUserTrendComponent implements OnInit {
       this.loadActivityAggData()
     } else if (this.type === 'activity-aggregation') {
       this.loadActivityAggData(true)
+    } else if (this.type === 'job-aggregation') {
+      this.loadJobAggData()
     }
   }
 
@@ -230,6 +262,9 @@ export class GroupUserTrendComponent implements OnInit {
     } else if (this.type === 'activity-growth') {
       this.activitySubResultsLabel = item.name
       this.activitySubResults = this.getSubHorizontalBarData(this.activityData, item)
+    } else if (this.type === 'job-aggregation') {
+      this.jobSubResultsLabel = item.name
+      this.jobReportSubResults = this.getSubHorizontalBarData(this.jobReportData, item)
     }
   }
 
