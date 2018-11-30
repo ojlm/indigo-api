@@ -1,0 +1,55 @@
+<nz-card nzTitle="Job: SyncOnlineDomainAndRestApiJob">
+  <form nz-form [nzLayout]="'inline'" [formGroup]="form">
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group [nzPrefix]="prefixCron">
+          <input formControlName="cron" nz-input placeholder="Cron Expression">
+        </nz-input-group>
+        <ng-template #prefixCron><i class="anticon anticon-schedule"></i></ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group [nzPrefix]="prefixDay">
+          <input formControlName="day" nz-input type="input" placeholder="day">
+        </nz-input-group>
+        <ng-template #prefixDay><i class="anticon anticon-calendar"></i></ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group [nzPrefix]="prefixDomainCount">
+          <input style="width:120px;" formControlName="domainCount" nz-input type="input" placeholder="domain count">
+        </nz-input-group>
+        <ng-template #prefixDomainCount><i class="anticon anticon-global" title="domain count"></i></ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group [nzPrefix]="prefixApiCount">
+          <input style="width:120px;" formControlName="apiCount" nz-input type="input" placeholder="api count">
+        </nz-input-group>
+        <ng-template #prefixApiCount><i class="anticon anticon-api" title="api count"></i></ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-divider nzType="vertical"></nz-divider>
+        <span>{{job.state}}</span>
+        <nz-divider nzType="vertical"></nz-divider>
+        <span>{{job.next}}</span>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button [disabled]="!canResume()" nzSize="small" nzType="default" (click)="resume()">
+          <i class="anticon anticon-play-circle-o"></i>
+        </button>
+        <button nz-button [disabled]="!canPause()" nzSize="small" nzType="default" (click)="pause()">
+          <i class="anticon anticon-pause"></i>
+        </button>
+        <button nz-button type="button" nzSize="small" nzType="primary" (click)="update()">{{'btn-update'|translate}}</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-card>
