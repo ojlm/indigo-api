@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
+import { DomainApiOnlineComponent } from './domain-api-online/domain-api-online.component'
 import { GroupUserTrendComponent } from './group-user-trend/group-user-trend.component'
 import { GroupsComponent } from './groups/groups.component'
 import { ProjectsComponent } from './projects/projects.component'
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'projects', component: ProjectsComponent, data: { titleI18n: 'title-projects' } },
   { path: 'profile', component: UserProfileComponent, data: { titleI18n: 'title-profile' } },
   { path: 'trend', component: GroupUserTrendComponent, data: { titleI18n: 'title-trend' } },
+  { path: 'online', component: DomainApiOnlineComponent, data: { titleI18n: 'menu-online-api' } },
   { path: ':username', component: UserAggregationComponent, data: { titleI18n: 'title-aggs' } },
 ]
 

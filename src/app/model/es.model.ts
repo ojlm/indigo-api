@@ -357,3 +357,9 @@ export interface DeleteResData {
   scenario?: DataBody<Scenario[]>
   job?: DataBody<Job[]>
 }
+
+export interface DomainOnlineLog {
+  name?: string
+  count?: number
+  date?: string
+}

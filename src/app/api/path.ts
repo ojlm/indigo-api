@@ -43,3 +43,4 @@ export const API_LINKERD_V1_DTABS_HTTP = BASE_URL + '/linkerd/v1/dtabs/http'
 export const API_SYSTEM = BASE_URL + '/sys'
 
 export const API_ACTIVITY = BASE_URL + '/activity'
+export const API_ONLINE = BASE_URL + '/online'

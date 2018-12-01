@@ -1,0 +1,33 @@
+<div>
+  <div class="content__title">
+    <div style="padding-left:10px;">
+      <nz-select style="padding-left:5px;width:150px;" nzMode="default" [nzSize]="'small'" [nzPlaceHolder]="'field-date'|translate"
+        nzAllowClear nzShowSearch [(ngModel)]="queryDomain.date" (ngModelChange)="dateChange()">
+        <nz-option *ngFor="let item of dates" [nzLabel]="item.id" [nzValue]="item.id" nzCustomContent>
+          <span>{{item.id}}</span>
+        </nz-option>
+      </nz-select>
+      <nz-select style="padding-left:5px;width:300px;" nzMode="default" [nzSize]="'small'" [nzPlaceHolder]="'field-domain'|translate"
+        nzAllowClear nzShowSearch [(ngModel)]="domain" (ngModelChange)="domainChange()">
+        <nz-option *ngFor="let item of domains" [nzLabel]="item.name" [nzValue]="item.name" nzCustomContent>
+          <nz-tag>{{item.count}}</nz-tag>
+          <span>{{item.name}}</span>
+        </nz-option>
+      </nz-select>
+    </div>
+    <nz-breadcrumb style="padding-right:20px;">
+      <nz-breadcrumb-item>
+        <i class="anticon anticon-home click-icon" (click)="loadData()"></i>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </div>
+  <div>
+    <div style="overflow:hidden;margin-right:12px;">
+      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="domainsResult" (select)="onDomainSelect($event)"
+        [xAxis]="true" [yAxis]="true" [legend]="true" [legendTitle]="'🐣 Legend'">
+      </ngx-charts-bar-vertical>
+    </div>
+    <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
+    </div>
+  </div>
+</div>
