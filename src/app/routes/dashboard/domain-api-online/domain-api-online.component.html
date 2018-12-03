@@ -1,5 +1,5 @@
 <div>
-  <div class="content__title">
+  <div class="content__title" style="margin:0px;">
     <div style="padding-left:10px;">
       <nz-select style="padding-left:5px;width:150px;" nzMode="default" [nzSize]="'small'" [nzPlaceHolder]="'field-date'|translate"
         nzAllowClear nzShowSearch [(ngModel)]="queryDomain.date" (ngModelChange)="dateChange()">
@@ -8,26 +8,61 @@
         </nz-option>
       </nz-select>
       <nz-select style="padding-left:5px;width:300px;" nzMode="default" [nzSize]="'small'" [nzPlaceHolder]="'field-domain'|translate"
-        nzAllowClear nzShowSearch [(ngModel)]="domain" (ngModelChange)="domainChange()">
+        nzAllowClear nzShowSearch [(ngModel)]="domain" (ngModelChange)="domainChange()" [nzServerSearch]="true"
+        (nzOnSearch)="searchDomain($event)">
         <nz-option *ngFor="let item of domains" [nzLabel]="item.name" [nzValue]="item.name" nzCustomContent>
-          <nz-tag>{{item.count}}</nz-tag>
           <span>{{item.name}}</span>
         </nz-option>
       </nz-select>
     </div>
-    <nz-breadcrumb style="padding-right:20px;">
-      <nz-breadcrumb-item>
-        <i class="anticon anticon-home click-icon" (click)="loadData()"></i>
-      </nz-breadcrumb-item>
-    </nz-breadcrumb>
   </div>
-  <div>
-    <div style="overflow:hidden;margin-right:12px;">
+  <div *ngIf="!domain">
+    <div style="overflow:hidden;padding-top:20px;margin-right:12px;">
       <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="domainsResult" (select)="onDomainSelect($event)"
         [xAxis]="true" [yAxis]="true" [legend]="true" [legendTitle]="'🐣 Legend'">
       </ngx-charts-bar-vertical>
     </div>
-    <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
+  </div>
+  <div *ngIf="domain">
+    <div *ngIf="domainResult.length>0" style="overflow:hidden;padding-top:10px;margin-right:12px;background-color:white;">
+      <ngx-charts-bar-vertical [view]="view2" [scheme]="colorScheme" [results]="domainResult" (select)="onDomainSelect($event)"
+        [barPadding]="1" [xAxis]="false" [yAxis]="true">
+      </ngx-charts-bar-vertical>
     </div>
+    <nz-card [nzBordered]="false">
+      <nz-list [nzDataSource]="apiItems" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination">
+        <ng-template #item let-item>
+          <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+            <nz-list-item-meta [nzTitle]="nzTitle">
+              <ng-template #nzTitle>
+                <div style="padding-left:10px;">
+                  <nz-tag [nzColor]="methodTagColor(item)">{{item.method}}</nz-tag>
+                  <a>{{item.urlPath}}</a>
+                  <span style="padding-left:10px;color:lightgray;">{{item.count}}</span>
+                </div>
+              </ng-template>
+            </nz-list-item-meta>
+            <ng-template #edit>
+              <button nz-button nzSize="small" nzType="default">
+                <i class="anticon anticon-setting"></i>
+              </button>
+              <nz-divider nzType="vertical"></nz-divider>
+            </ng-template>
+          </nz-list-item>
+        </ng-template>
+        <ng-template #pagination>
+          <nz-pagination *ngIf="apiItems.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzShowTotal]="totalTemplate"
+            [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+            <ng-template #totalTemplate let-total>
+              <span style="color:lightgray;">
+                <span>{{'item-total'|translate}}</span>
+                <span> {{total}} </span>
+                <span>{{'item-item'|translate}}</span>
+              </span>
+            </ng-template>
+          </nz-pagination>
+        </ng-template>
+      </nz-list>
+    </nz-card>
   </div>
 </div>

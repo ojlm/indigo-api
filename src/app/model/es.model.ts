@@ -363,3 +363,10 @@ export interface DomainOnlineLog {
   count?: number
   date?: string
 }
+
+export interface RestApiOnlineLog {
+  domain?: string
+  method?: string
+  urlPath?: string
+  count?: number
+}
