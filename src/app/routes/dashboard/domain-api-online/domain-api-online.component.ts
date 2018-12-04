@@ -48,6 +48,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   @HostListener('window:resize')
   resize() {
     this.view1 = [window.innerWidth, Math.floor(window.innerHeight - 150)]
+    this.view2 = [window.innerWidth, 64]
   }
 
   constructor(
