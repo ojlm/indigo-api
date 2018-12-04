@@ -1,6 +1,6 @@
 <div>
   <div class="content__title" style="margin:0px;">
-    <div style="padding-left:10px;">
+    <div>
       <nz-select style="padding-left:5px;width:150px;" nzMode="default" [nzSize]="'small'" [nzPlaceHolder]="'field-date'|translate"
         nzAllowClear nzShowSearch [(ngModel)]="queryDomain.date" (ngModelChange)="dateChange()">
         <nz-option *ngFor="let item of dates" [nzLabel]="item.id" [nzValue]="item.id" nzCustomContent>
@@ -14,6 +14,13 @@
           <span>{{item.name}}</span>
         </nz-option>
       </nz-select>
+      <nz-select *ngIf="domain" style="padding-left:10px;width:100px;" nzMode="default" [nzSize]="'small'"
+        [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="queryApi.method" nzAllowClear (ngModelChange)="loadDomainApiData()">
+        <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
+      </nz-select>
+      <nz-input-group *ngIf="domain" style="padding-left:5px;" [nzSize]="'small'" [nzAddOnBefore]="'field-path'|translate">
+        <input type="text" nz-input [(ngModel)]="queryApi.urlPath" (ngModelChange)="loadDomainApiData()">
+      </nz-input-group>
     </div>
   </div>
   <div *ngIf="!domain">
@@ -24,12 +31,12 @@
     </div>
   </div>
   <div *ngIf="domain">
-    <div *ngIf="domainResult.length>0" style="overflow:hidden;padding-top:10px;margin-right:12px;background-color:white;">
-      <ngx-charts-bar-vertical [view]="view2" [scheme]="colorScheme" [results]="domainResult" (select)="onDomainSelect($event)"
+    <div *ngIf="showDomainApis&&domainResult.length>0" style="overflow:hidden;padding-top:10px;margin-right:12px;background-color:white;">
+      <ngx-charts-bar-vertical [view]="view2" [scheme]="colorScheme" [results]="domainResult" (select)="onDomainDateSelect($event)"
         [barPadding]="1" [xAxis]="false" [yAxis]="true">
       </ngx-charts-bar-vertical>
     </div>
-    <nz-card [nzBordered]="false">
+    <nz-card [nzBordered]="false" [nzBodyStyle]="{'padding-top':'0px'}">
       <nz-list [nzDataSource]="apiItems" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination">
         <ng-template #item let-item>
           <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
@@ -38,13 +45,23 @@
                 <div style="padding-left:10px;">
                   <nz-tag [nzColor]="methodTagColor(item)">{{item.method}}</nz-tag>
                   <a>{{item.urlPath}}</a>
-                  <span style="padding-left:10px;color:lightgray;">{{item.count}}</span>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <span style="padding-left:4px;color:lightgray;">{{formatNumber(item)}}</span>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <span>
+                    <span>{{item.percentage/100 + '%'}}</span>
+                    <i style="padding-left:4px;color:lightgray;" class="anticon anticon-pie-chart"></i>
+                  </span>
                 </div>
               </ng-template>
             </nz-list-item-meta>
             <ng-template #edit>
-              <button nz-button nzSize="small" nzType="default">
-                <i class="anticon anticon-setting"></i>
+              <nz-divider nzType="vertical"></nz-divider>
+              <button *ngIf="'GET'===item.method" nz-button nzSize="small" nzType="default" (click)="viewItem(item)">
+                <i style="color:lightblue;" class="anticon anticon-chrome"></i>
+              </button>
+              <button *ngIf="'GET'!==item.method" nz-button nzSize="small" nzType="default" disabled (click)="viewItem(item)">
+                <i style="color:lightgray;" class="anticon anticon-chrome"></i>
               </button>
               <nz-divider nzType="vertical"></nz-divider>
             </ng-template>

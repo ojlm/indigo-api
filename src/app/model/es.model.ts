@@ -369,4 +369,5 @@ export interface RestApiOnlineLog {
   method?: string
   urlPath?: string
   count?: number
+  percentage?: number
 }

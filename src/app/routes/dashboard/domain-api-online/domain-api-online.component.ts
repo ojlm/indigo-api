@@ -10,7 +10,7 @@ import {
 } from 'app/api/service/online.service'
 import { ApiRes } from 'app/model/api.model'
 import { NameValue } from 'app/model/common.model'
-import { DomainOnlineLog, RestApiOnlineLog } from 'app/model/es.model'
+import { DomainOnlineLog, METHODS, RestApiOnlineLog } from 'app/model/es.model'
 import { PageSingleModel } from 'app/model/page.model'
 import { Subject } from 'rxjs'
 
@@ -20,6 +20,7 @@ import { Subject } from 'rxjs'
 })
 export class DomainApiOnlineComponent extends PageSingleModel implements OnInit {
 
+  methods = METHODS
   view1: any[] = [window.innerWidth, Math.floor(window.innerHeight - 150)]
   view2: any[] = [window.innerWidth, 64]
   colorScheme = {
@@ -41,6 +42,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   queryApi: QueryOnlineApi = {
     size: 20,
   }
+  showDomainApis = false
   queryDomainSubject: Subject<AggsQuery>
   queryApiSubject: Subject<QueryOnlineApiSubjectSearch>
   @HostListener('window:resize')
@@ -71,12 +73,21 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
       }
       this.apiItems = res.data.apis.list
       this.pageTotal = res.data.apis.total
+      this.showDomainApis = true
     })
   }
 
   dateChange() {
     this.queryApi.date = this.queryDomain.date
-    console.log('dateChange:', this.queryDomain)
+    if (this.showDomainApis && this.queryApi.date) {
+      this.loadDomainApiData()
+    } else {
+      this.domain = ''
+      this.queryDomain.names = []
+      this.queryApi.domain = ''
+      this.showDomainApis = false
+      this.loadData()
+    }
   }
 
   domainChange() {
@@ -86,13 +97,35 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     } else {
       this.queryDomain.names = undefined
       this.queryApi.domain = undefined
+      this.showDomainApis = false
     }
-    console.log('domainChange:', this.queryDomain)
-    this.loadDomainApiData()
+    this.queryApi.method = undefined
+    this.queryApi.urlPath = undefined
+    this.pageIndex = 1
+    this.domainResult = []
+    this.domains = []
+    this.loadDomainApiData(true)
   }
 
   onDomainSelect(item: NameValue | string) {
-    console.log('onDomainSelect:', item)
+    if (typeof item === 'string') {
+      this.domain = item
+      this.domainChange()
+    } else {
+      this.domain = item.name
+      this.domainChange()
+    }
+  }
+
+  onDomainDateSelect(item: NameValue) {
+    if (item.name !== this.queryDomain.date) {
+      this.queryDomain.date = item.name
+      this.dateChange()
+    }
+  }
+
+  viewItem(item: RestApiOnlineLog) {
+    window.open(`http://${item.domain}${item.urlPath}`)
   }
 
   searchDomain(prefix: string) {
@@ -101,9 +134,12 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     }
   }
 
-  loadDomainApiData() {
+  loadDomainApiData(hasDomain = false) {
     if (this.queryApi.domain && this.queryApi.date) {
-      this.queryApiSubject.next({ query: { ...this.queryApi, ...this.toPageQuery() }, hasDomain: this.domainResult.length === 0 })
+      this.queryApiSubject.next({
+        query: { ...this.queryApi, ...this.toPageQuery() },
+        hasDomain: this.domainResult.length === 0 || hasDomain
+      })
     }
   }
 
@@ -140,6 +176,10 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
       default:
         return 'purple'
     }
+  }
+
+  formatNumber(item: RestApiOnlineLog) {
+    return item.count.toLocaleString()
   }
 
   ngOnInit(): void {
