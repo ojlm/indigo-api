@@ -104,13 +104,16 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     this.queryApi.urlPath = undefined
     this.pageIndex = 1
     this.domainResult = []
-    this.domains = []
     this.loadDomainApiData(true)
   }
 
   onDomainSelect(item: NameValue | string) {
     if (typeof item === 'string') {
       this.domain = item
+      const index = this.domains.findIndex(d => d.name === item)
+      if (-1 === index) {
+        this.domains.push({ name: item })
+      }
       this.domainChange()
     } else {
       this.domain = item.name
