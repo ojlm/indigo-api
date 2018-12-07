@@ -150,19 +150,22 @@ export class ResultAssertComponent implements OnInit {
         const path = item.path
         const operator = item.operator
         let value = null
-        if (item.value) {
-          const num = Number(item.value)
-          if (isNaN(num)) {
-            if ('true' === item.value) {
-              value = true
-            } else if ('false' === item.value) {
-              value = false
-            } else {
-              value = item.value
-            }
+        if (typeof item.value === 'string' && '' !== item.value) {
+          if ('true' === item.value) {
+            value = true
+          } else if ('false' === item.value) {
+            value = false
           } else {
-            value = num
+            // check if it is number
+            const num = Number(item.value)
+            if (isNaN(num)) { // string
+              value = item.value
+            } else {  // number
+              value = num
+            }
           }
+        } else {
+          value = item.value
         }
         const assertionObj = {}
         assertionObj[operator] = value
