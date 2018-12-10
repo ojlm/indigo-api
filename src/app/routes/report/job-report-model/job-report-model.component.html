@@ -4,7 +4,7 @@
       <nz-alert [nzType]="report.result==='success'?'success':'error'" nzShowIcon [nzMessage]="nzMessage"
         [nzDescription]="nzDescription">
         <ng-template #nzMessage>
-          <span>{{report.jobName}}</span>
+          <span style="cursor:pointer;" (click)="editJob()">{{report.jobName}}</span>
           <span style="padding-left:10px;font-size:small;color:lightgray;">{{report.description}}</span>
         </ng-template>
         <ng-template #nzDescription>
@@ -75,7 +75,10 @@
             <nz-tag [nzColor]="item.status==='pass'?'cyan':'magenta'">{{item.status}}</nz-tag>
           </td>
           <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
-          <td style="width:64px;"><i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
+          <td style="width:64px;">
+            <i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i>
+            <i style="padding-left:4px;" class="clickable anticon anticon-setting" (click)="editItem(item)"></i>
+          </td>
         </tr>
       </tbody>
       <ng-template #caseTotalTemplate let-total>
@@ -99,9 +102,12 @@
             <td>
               <nz-tag [nzColor]="tagColor(data.status)">{{data.status}}</nz-tag>
             </td>
+            <td style="width:64px;">
+              <i style="padding-left:4px;" class="clickable anticon anticon-setting" (click)="editScenario(data)"></i>
+            </td>
           </tr>
           <tr [nzExpand]="data.expand">
-            <td colspan="3">
+            <td colspan="4">
               <nz-table #innerTable nzSize="small" [nzData]="data.steps" [nzFrontPagination]="false" [nzShowPagination]="false">
       <tbody>
         <tr *ngFor="let item of innerTable.data;let i = index">
@@ -111,7 +117,10 @@
             <nz-tag [nzColor]="tagColor(item.status)">{{item.status}}</nz-tag>
           </td>
           <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
-          <td style="width:64px;"><i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i></td>
+          <td style="width:64px;">
+            <i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i>
+            <i style="padding-left:4px;" class="clickable anticon anticon-setting" (click)="editItem(item)"></i>
+          </td>
         </tr>
       </tbody>
     </nz-table>

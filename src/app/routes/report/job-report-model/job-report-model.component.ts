@@ -103,6 +103,18 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
     }
   }
 
+  editJob() {
+    this.router.navigateByUrl(`/job/${this.report.group}/${this.report.project}/${this.report.jobId}`)
+  }
+
+  editScenario(item: ScenarioReportItem) {
+    this.router.navigateByUrl(`/scenario/${this.report.group}/${this.report.project}/${item.id}`)
+  }
+
+  editItem(item: CaseReportItem) {
+    this.router.navigateByUrl(`/case/${this.report.group}/${this.report.project}/${item.id}`)
+  }
+
   viewItem(item: CaseReportItem) {
     if ('skipped' !== item.status) {
       this.drawerService.create<JobReportItemComponent, { day: string, data: CaseReportItem }, any>({
