@@ -1,4 +1,6 @@
-<div>
+<nz-alert *ngIf="item.msg" nzType="error" nzMessage="Exception" [nzDescription]="item.msg" nzShowIcon>
+</nz-alert>
+<div *ngIf="!item.msg">
   <div>
     <span class="metrics-item">
       <span class="metrics-item-label">{{'tips-render-request-time'|translate}}: </span>
