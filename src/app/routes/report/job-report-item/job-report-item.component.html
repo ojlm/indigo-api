@@ -88,7 +88,9 @@
       </span>
     </ng-template>
   </nz-divider>
-  <ngx-monaco-editor *ngIf="response.body" style="height:240px;" [options]="responseBodyEditorOption" [(ngModel)]="response.body"></ngx-monaco-editor>
+  <embed *ngIf="entityEmbed" width="100%;" height="240px" [src]="entityBlobUrl" />
+  <ngx-monaco-editor *ngIf="!entityEmbed && response.body" style="height:240px;" [options]="responseBodyEditorOption"
+    [(ngModel)]="response.body"></ngx-monaco-editor>
   <nz-divider [nzText]="assertionsText" nzOrientation="left">
     <ng-template #assertionsText>
       <span class="divider-text">

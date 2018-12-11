@@ -1,6 +1,7 @@
 import { Location } from '@angular/common'
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18NService } from '@core/i18n/i18n.service'
@@ -11,9 +12,9 @@ import { JobService } from '../../../api/service/job.service'
 import { ScenarioService } from '../../../api/service/scenario.service'
 import {
   CaseDataItemRequest,
-  CaseDataItemResponse,
   CaseReportItem,
   CaseReportItemMetrics,
+  CaseResultResponse,
   JobReportDataItem,
   KeyValueObject,
 } from '../../../model/es.model'
@@ -55,7 +56,7 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
   request: CaseDataItemRequest = { headers: {}, body: '' }
   requestHeaders: KeyValueObject[] = []
   responseHeaders: KeyValueObject[] = []
-  response: CaseDataItemResponse = { headers: {}, body: '' }
+  response: CaseResultResponse = { headers: {}, body: '' }
   @Input() day = ''
   @Input()
   set data(item: CaseReportItem) {
@@ -64,6 +65,8 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
   jsonEditorOption = this.monocoService.getJsonOption(true)
   requestBodyEditorOption = this.monocoService.getJsonOption(true)
   responseBodyEditorOption = this.monocoService.getJsonOption(true)
+  entityEmbed = false
+  entityBlobUrl: SafeUrl
 
   constructor(
     private fb: FormBuilder,
@@ -76,6 +79,7 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private i18nService: I18NService,
+    private sanitizer: DomSanitizer,
   ) {
     super()
   }
@@ -95,13 +99,36 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
         } catch (error) {
           this.requestBodyEditorOption = this.monocoService.getHtmlOption(true)
         }
+        // handle response
         try {
-          if (this.response.body) {
-            const obj = JSON.parse(this.response.body)
-            this.response.body = JSON.stringify(obj, null, '  ')
+          if (this.response.contentType.startsWith('image/') || this.response.contentType.startsWith('application/pdf')) {
+            const b = atob(this.response.body)
+            const buffer = new ArrayBuffer(b.length)
+            const array = new Uint8Array(buffer)
+            for (let i = 0; i < b.length; ++i) {
+              array[i] = b.charCodeAt(i)
+            }
+            const blob = new Blob([array], { type: this.response.contentType })
+            this.entityBlobUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
+            this.entityEmbed = true
+          } else if (this.response.contentType.startsWith('application/javascript')) {
+            this.responseBodyEditorOption = this.monocoService.getJavascriptOption(true)
+            this.entityEmbed = false
+          } else if (this.response.contentType.startsWith('text/html')) {
+            this.responseBodyEditorOption = this.monocoService.getHtmlOption(true)
+            this.entityEmbed = false
+          } else {
+            // application/json
+            if (typeof this.response.body === 'string') {
+              this.response.body = JSON.stringify(JSON.parse(this.response.body), null, '    ')
+            } else {
+              this.response.body = JSON.stringify(this.response.body, null, '    ')
+            }
+            this.entityEmbed = false
           }
         } catch (error) {
           this.responseBodyEditorOption = this.monocoService.getHtmlOption(true)
+          this.entityEmbed = false
         }
         for (const k of Object.keys(this.request.headers)) {
           this.requestHeaders.push({ key: k, value: this.request.headers[k] })

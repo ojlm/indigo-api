@@ -1,6 +1,7 @@
 import { Location } from '@angular/common'
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -56,6 +57,8 @@ export class ResultAssertComponent implements OnInit {
     language: 'json'
   }
   assertSimpleEditorMode = true
+  entityEmbed = false
+  entityBlobUrl: SafeUrl
   @Input() assertions: Assertion[] = []
   assertionItems: AssertionItems = { logic: 'and', items: [] }
   hasResult = false
@@ -79,15 +82,39 @@ export class ResultAssertComponent implements OnInit {
       for (const k of Object.keys(val.response.headers)) {
         this.responseHeaders.push({ key: k, value: this.response.headers[k] })
       }
+      // handle response
       try {
-        if (typeof val.response.body === 'string') {
-          this.response.entity = JSON.stringify(JSON.parse(val.response.body), null, '    ')
+        if (val.response.contentType.startsWith('image/') || val.response.contentType.startsWith('application/pdf')) {
+          const b = atob(val.response.body)
+          const buffer = new ArrayBuffer(b.length)
+          const array = new Uint8Array(buffer)
+          for (let i = 0; i < b.length; ++i) {
+            array[i] = b.charCodeAt(i)
+          }
+          const blob = new Blob([array], { type: val.response.contentType })
+          this.entityBlobUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
+          this.entityEmbed = true
+        } else if (val.response.contentType.startsWith('application/javascript')) {
+          this.responseEditorOptons = this.monocoService.getJavascriptOption(true)
+          this.response.entity = val.response.body
+          this.entityEmbed = false
+        } else if (val.response.contentType.startsWith('text/html')) {
+          this.responseEditorOptons = this.monocoService.getHtmlOption(true)
+          this.response.entity = val.response.body
+          this.entityEmbed = false
         } else {
-          this.response.entity = JSON.stringify(val.response.body, null, '    ')
+          // application/json
+          if (typeof val.response.body === 'string') {
+            this.response.entity = JSON.stringify(JSON.parse(val.response.body), null, '    ')
+          } else {
+            this.response.entity = JSON.stringify(val.response.body, null, '    ')
+          }
+          this.entityEmbed = false
         }
       } catch (error) {
         this.responseEditorOptons = this.monocoService.getHtmlOption(true)
         this.response.entity = val.response.body
+        this.entityEmbed = false
       }
     }
     this.caseContext = formatJson(val.context)
@@ -140,6 +167,7 @@ export class ResultAssertComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private monocoService: MonacoService,
+    private sanitizer: DomSanitizer,
     private el: ElementRef<HTMLDivElement>,
   ) { }
 

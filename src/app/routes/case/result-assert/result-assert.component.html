@@ -15,9 +15,12 @@
               <span>status</span>
             </button>
           </div>
-          <ngx-monaco-editor *ngIf="'entity'===responseTabType" [style.height]="editorFullHeight" [options]="responseEditorOptons"
-            [(ngModel)]="response.entity">
-          </ngx-monaco-editor>
+          <div *ngIf="'entity'===responseTabType">
+            <embed *ngIf="entityEmbed" width="100%;" [height]="editorFullHeight" [src]="entityBlobUrl" />
+            <ngx-monaco-editor *ngIf="!entityEmbed" [style.height]="editorFullHeight" [options]="responseEditorOptons"
+              [(ngModel)]="response.entity">
+            </ngx-monaco-editor>
+          </div>
           <div *ngIf="'headers'===responseTabType" [style.height]="assertionEditorHeight" class="response-panel">
             <div *ngFor="let item of responseHeaders">
               <span class="label-text">{{item.key}}:</span>

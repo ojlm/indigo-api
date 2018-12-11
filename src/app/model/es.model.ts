@@ -117,6 +117,7 @@ export interface CaseResultResponse {
   statusCode?: number
   statusMsg?: string
   headers?: Object
+  contentType?: string
   body?: string
 }
 
@@ -221,13 +222,6 @@ export interface CaseDataItemRequest {
   body?: string
 }
 
-export interface CaseDataItemResponse {
-  statusCode?: number
-  statusMsg?: string
-  headers?: object
-  body?: string
-}
-
 export interface JobReportDataItem {
   reportId?: string
   caseId?: string
@@ -235,7 +229,7 @@ export interface JobReportDataItem {
   jobId?: string
   metrics?: CaseReportItemMetrics
   request?: CaseDataItemRequest
-  response?: CaseDataItemResponse
+  response?: CaseResultResponse
   assertions?: Object
   assertionsResult?: Object
 }
