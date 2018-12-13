@@ -1,0 +1,13 @@
+<div>
+  <div class="content__title">
+    <h1 style="padding-left: 10px;">{{'menu-sync-settings'|translate}}</h1>
+  </div>
+  <div>
+    <nz-input-group [nzAddOnBefore]="'field-domain'|translate">
+      <input type="text" nz-input [(ngModel)]="domain">
+    </nz-input-group>
+  </div>
+  <div style="padding-top:8px;">
+    <button nz-button nzType="primary" (click)="save()">{{'btn-save'|translate}}</button>
+  </div>
+</div>

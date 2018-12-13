@@ -28,11 +28,20 @@ export interface Group extends BaseDoc {
   avatar?: string
 }
 
+export interface FieldPattern {
+  field?: string
+  value?: string
+  type?: string
+}
+
 export interface Project extends BaseDoc {
   id?: string
   group?: string
   avatar?: string
   openapi?: string
+  domains?: LabelRef[]
+  inclusions?: FieldPattern[]
+  exclusions?: FieldPattern[]
 }
 
 export interface Api extends BaseDoc {
@@ -356,6 +365,7 @@ export interface DomainOnlineLog {
   name?: string
   count?: number
   date?: string
+  coverage?: number
 }
 
 export interface RestApiOnlineLog {
@@ -364,4 +374,18 @@ export interface RestApiOnlineLog {
   urlPath?: string
   count?: number
   percentage?: number
+  belongs?: GroupProject[]
+}
+
+export interface GroupProject {
+  group?: string
+  project?: string
+}
+
+export interface ProjectApiCoverage {
+  group?: string
+  project?: string
+  domain?: string
+  date?: string
+  coverage?: number
 }

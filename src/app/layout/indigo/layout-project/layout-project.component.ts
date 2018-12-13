@@ -172,6 +172,11 @@ export class LayoutProjectComponent {
                   'link': `/project/${group}/${project}/settings`,
                 },
                 {
+                  'text': '同步设置',
+                  'i18n': 'menu-sync-settings',
+                  'link': `/project/${group}/${project}/sync`,
+                },
+                {
                   'text': '其他选项',
                   'i18n': 'menu-other-options',
                   'link': `/project/${group}/${project}/options`,

@@ -8,12 +8,14 @@ import { ProjectOptionsComponent } from './project-options/project-options.compo
 import { ProjectReportsComponent } from './project-reports/project-reports.component'
 import { ProjectRoutingModule } from './project-routing.module'
 import { ProjectSettingsComponent } from './project-settings/project-settings.component'
+import { ProjectSyncSettingsComponent } from './project-sync-settings/project-sync-settings.component'
 
 const COMPONENT = [
   ProjectSettingsComponent,
   ProjectOpenapiComponent,
   ProjectReportsComponent,
   ProjectOptionsComponent,
+  ProjectSyncSettingsComponent,
 ]
 
 const COMPONENT_NOROUNT = []
