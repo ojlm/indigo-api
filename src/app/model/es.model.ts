@@ -380,6 +380,8 @@ export interface RestApiOnlineLog {
 export interface GroupProject {
   group?: string
   project?: string
+  covered?: boolean
+  count?: number
 }
 
 export interface ProjectApiCoverage {

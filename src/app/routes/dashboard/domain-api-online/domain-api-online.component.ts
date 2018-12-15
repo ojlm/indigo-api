@@ -78,6 +78,9 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     })
   }
 
+  showDomainSyncSetting() {
+  }
+
   dateChange() {
     this.queryApi.date = this.queryDomain.date
     if (this.showDomainApis && this.queryApi.date) {
