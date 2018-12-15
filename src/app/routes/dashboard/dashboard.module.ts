@@ -5,6 +5,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts'
 
 import { DashboardRoutingModule } from './dashboard-routing.module'
 import { DomainApiOnlineComponent } from './domain-api-online/domain-api-online.component'
+import { DomainOnlineConfigComponent } from './domain-online-config/domain-online-config.component'
 import { GroupUserTrendComponent } from './group-user-trend/group-user-trend.component'
 import { GroupsComponent } from './groups/groups.component'
 import { ProjectsComponent } from './projects/projects.component'
@@ -18,9 +19,12 @@ const COMPONENT = [
   UserAggregationComponent,
   GroupUserTrendComponent,
   DomainApiOnlineComponent,
+  DomainOnlineConfigComponent,
 ]
 
-const COMPONENT_NOROUNT = []
+const COMPONENT_NOROUNT = [
+  DomainOnlineConfigComponent,
+]
 
 @NgModule({
   imports: [CommonModule, SharedModule, NgxChartsModule, DashboardRoutingModule],

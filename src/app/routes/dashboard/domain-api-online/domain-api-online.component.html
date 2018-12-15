@@ -27,14 +27,14 @@
     </div>
   </div>
   <div *ngIf="!domain">
-    <div style="overflow:hidden;padding-top:20px;margin-right:12px;">
+    <div style="overflow:hidden;padding-top:20px;padding-right:12px;">
       <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="domainsResult" (select)="onDomainSelect($event)"
         [xAxis]="true" [yAxis]="true" [legend]="true" [legendTitle]="'🐣 Legend'">
       </ngx-charts-bar-vertical>
     </div>
   </div>
   <div *ngIf="domain">
-    <div *ngIf="showDomainApis&&domainResult.length>0" style="overflow:hidden;padding-top:10px;margin-right:12px;background-color:white;">
+    <div *ngIf="showDomainApis&&domainResult.length>0" style="overflow:hidden;padding-top:10px;padding-right:12px;background-color:white;">
       <ngx-charts-bar-vertical [view]="view2" [scheme]="colorScheme" [results]="domainResult" (select)="onDomainDateSelect($event)"
         [barPadding]="1" [xAxis]="false" [yAxis]="true">
       </ngx-charts-bar-vertical>

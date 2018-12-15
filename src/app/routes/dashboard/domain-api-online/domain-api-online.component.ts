@@ -12,7 +12,11 @@ import { ApiRes } from 'app/model/api.model'
 import { NameValue } from 'app/model/common.model'
 import { DomainOnlineLog, METHODS, RestApiOnlineLog } from 'app/model/es.model'
 import { PageSingleModel } from 'app/model/page.model'
+import { calcDrawerWidth } from 'app/util/drawer'
+import { NzDrawerService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
+
+import { DomainOnlineConfigComponent } from '../domain-online-config/domain-online-config.component'
 
 @Component({
   selector: 'app-domain-api-online',
@@ -53,6 +57,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
 
   constructor(
     private onlineService: OnlineService,
+    private drawerService: NzDrawerService,
     private route: ActivatedRoute,
     private router: Router,
   ) {
@@ -79,6 +84,19 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   showDomainSyncSetting() {
+    const drawerRef = this.drawerService.create({
+      nzTitle: this.domain,
+      nzContent: DomainOnlineConfigComponent,
+      nzContentParams: {
+        data: this.domain
+      },
+      nzBodyStyle: {
+        'padding': '8px'
+      },
+      nzWidth: calcDrawerWidth(0.6)
+    })
+    drawerRef.afterClose.subscribe(data => {
+    })
   }
 
   dateChange() {

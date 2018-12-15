@@ -391,3 +391,16 @@ export interface ProjectApiCoverage {
   date?: string
   coverage?: number
 }
+
+export interface FieldPattern {
+  field?: string
+  value?: string
+  type?: string
+}
+
+export interface DomainOnlineConfig extends BaseDoc {
+  domain?: string
+  maxApiCount?: number
+  inclusions?: FieldPattern[]
+  exclusions?: FieldPattern[]
+}
