@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
-import { DomainOnlineLog, RestApiOnlineLog } from 'app/model/es.model'
+import { DomainOnlineConfig, DomainOnlineLog, IndexDocResponse, RestApiOnlineLog } from 'app/model/es.model'
 import { Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
@@ -53,6 +53,14 @@ export class OnlineService extends BaseService {
         err => response.error(err))
     })
     return querySubject
+  }
+
+  putDomainConfig(config: DomainOnlineConfig) {
+    return this.http.put<ApiRes<IndexDocResponse>>(`${API_ONLINE}/domain/config`, config)
+  }
+
+  getDomainConfig(name: string) {
+    return this.http.get<ApiRes<DomainOnlineConfig>>(`${API_ONLINE}/domain/config/${name}`)
   }
 }
 

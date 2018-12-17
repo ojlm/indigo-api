@@ -1,3 +1,54 @@
 <div>
-  {{config|json}}
+  <nz-input-group style="padding-bottom:10px;" [nzAddOnBefore]="'field-max-api-count'|translate">
+    <input type="text" nz-input [(ngModel)]="config.maxApiCount">
+  </nz-input-group>
+  <nz-card [nzTitle]="'field-inclusions'|translate" [nzExtra]="extraIn" [nzBodyStyle]="{'padding':'8px'}">
+    <nz-table #nzInclusionTable [nzSize]="'default'" [nzData]="config.inclusions" [nzNoResult]="'tips-no-result'|translate"
+      [nzShowPagination]="false" [nzFrontPagination]="false">
+      <tbody>
+        <tr *ngFor="let item of nzInclusionTable.data; let i = index">
+          <td style="padding:2px;width:120px;">
+            <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate" [(ngModel)]="item.type">
+              <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value"></nz-option>
+            </nz-select>
+          </td>
+          <td style="padding:2px;">
+            <input nz-input [(ngModel)]="item.value">
+          </td>
+          <td style="padding:2px;width:32px;">
+            <i class="anticon anticon-close click-icon" (click)="removeInclusion(i)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+  <ng-template #extraIn>
+    <a (click)="addInclusion()">{{'btn-add'|translate}}</a>
+  </ng-template>
+  <nz-card [nzTitle]="'field-exclusions'|translate" [nzExtra]="extraEx" [nzBodyStyle]="{'padding':'8px'}">
+    <nz-table #nzExclusionTable [nzSize]="'default'" [nzData]="config.exclusions" [nzNoResult]="'tips-no-result'|translate"
+      [nzShowPagination]="false" [nzFrontPagination]="false">
+      <tbody>
+        <tr *ngFor="let item of nzExclusionTable.data; let i = index">
+          <td style="padding:2px;width:120px;">
+            <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate" [(ngModel)]="item.type">
+              <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value"></nz-option>
+            </nz-select>
+          </td>
+          <td style="padding:2px;">
+            <input nz-input [(ngModel)]="item.value">
+          </td>
+          <td style="padding:2px;width:32px;">
+            <i class="anticon anticon-close click-icon" (click)="removeExclusion(i)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+  <ng-template #extraEx>
+    <a (click)="addExclusion()">{{'btn-add'|translate}}</a>
+  </ng-template>
+  <div style="padding-top:8px;">
+    <button nz-button nzType="primary" (click)="save()">{{'btn-save'|translate}}</button>
+  </div>
 </div>
