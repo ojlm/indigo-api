@@ -100,6 +100,7 @@
   "field-max-api-count": "最大接口数",
   "field-inclusions": "包含",
   "field-exclusions": "排除",
+  "field-alias": "别名",
   "new-group": "新建业务线",
   "new-job": "新建任务",
   "new-project": "新建项目",

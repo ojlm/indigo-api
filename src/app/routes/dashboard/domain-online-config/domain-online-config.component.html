@@ -15,6 +15,9 @@
           <td style="padding:2px;">
             <input nz-input [(ngModel)]="item.value">
           </td>
+          <td style="padding:2px;">
+            <input nz-input [(ngModel)]="item.alias" [placeholder]="'field-alias'|translate">
+          </td>
           <td style="padding:2px;width:32px;">
             <i class="anticon anticon-close click-icon" (click)="removeInclusion(i)"></i>
           </td>

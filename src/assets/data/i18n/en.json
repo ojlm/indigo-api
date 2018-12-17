@@ -100,6 +100,7 @@
   "field-max-api-count": "Max Count of API",
   "field-inclusions": "Inclusions",
   "field-exclusions": "Exclusions",
+  "field-alias": "Alias",
   "new-group": "New group",
   "new-job": "New job",
   "new-project": "New project",

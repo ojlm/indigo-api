@@ -395,6 +395,7 @@ export interface ProjectApiCoverage {
 export interface FieldPattern {
   field?: string
   value?: string
+  alias?: string
   type?: string
 }
 
