@@ -314,6 +314,7 @@
   "item-term": "Term",
   "item-wildcard": "Wildcard",
   "item-regex": "Regex",
+  "item-online-domain": "Online Domain",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",

@@ -8,7 +8,7 @@ import { Subject } from 'rxjs'
 import { GroupService, QueryGroup } from '../../../api/service/group.service'
 import { ProjectService } from '../../../api/service/project.service'
 import { ApiRes } from '../../../model/api.model'
-import { Group, Project } from '../../../model/es.model'
+import { Group } from '../../../model/es.model'
 
 @Component({
   selector: 'app-project-model',
@@ -21,7 +21,6 @@ export class ProjectModelComponent implements OnInit {
   groups: Group[] = []
   isLoading = false
   groupQuerySubject: Subject<QueryGroup>
-
   constructor(
     private fb: FormBuilder,
     private groupService: GroupService,
@@ -46,6 +45,7 @@ export class ProjectModelComponent implements OnInit {
         summary: [null, []],
         description: [null, []],
         avatar: [null, []],
+        domains: [null, []]
       })
       const responseSubject = new Subject<ApiRes<Group[]>>()
       this.groupQuerySubject = this.groupService.newQuerySubject(responseSubject)
@@ -65,7 +65,10 @@ export class ProjectModelComponent implements OnInit {
       this.form.controls[i].updateValueAndValidity()
     }
     if (this.form.invalid) return
-    const project = this.form.value as Project
+    const project = this.form.value
+    if (project.domains && typeof project.domains === 'string') {
+      project.domains = [{ name: project.domains }]
+    }
     this.submitting = true
     this.projectService.index(project).subscribe(res => {
       this.submitting = false

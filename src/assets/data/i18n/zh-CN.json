@@ -314,6 +314,7 @@
   "item-term": "精确匹配",
   "item-wildcard": "通配符匹配",
   "item-regex": "正则匹配",
+  "item-online-domain": "线上域名",
   "error-empty-summary": "名称不能为空",
   "error-empty-group": "业务线不能为空",
   "error-empty-project": "项目不能为空",
