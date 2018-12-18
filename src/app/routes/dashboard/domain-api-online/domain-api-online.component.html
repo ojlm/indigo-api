@@ -21,8 +21,11 @@
       <nz-input-group *ngIf="domain" style="padding-left:5px;" [nzSize]="'small'" [nzAddOnBefore]="'field-path'|translate">
         <input type="text" nz-input [(ngModel)]="queryApi.urlPath" (ngModelChange)="loadDomainApiData()">
       </nz-input-group>
-      <button *ngIf="domain" style="float:right;" nz-button nzSize="small" nzType="default" (click)="showDomainSyncSetting()">
+      <button *ngIf="domain" style="float:right;margin-left:8px;" nz-button nzSize="small" nzType="default" (click)="showDomainSyncSetting()">
         <i class="anticon anticon-setting"></i>
+      </button>
+      <button *ngIf="domain" style="float:right;" nz-button nzSize="small" nzType="default" (click)="showDomainCharts()">
+        <i class="anticon anticon-dot-chart"></i>
       </button>
     </div>
   </div>
@@ -34,12 +37,7 @@
     </div>
   </div>
   <div *ngIf="domain">
-    <div *ngIf="showDomainApis&&domainResult.length>0" style="overflow:hidden;padding-top:10px;padding-right:12px;background-color:white;">
-      <ngx-charts-bar-vertical [view]="view2" [scheme]="colorScheme" [results]="domainResult" (select)="onDomainDateSelect($event)"
-        [barPadding]="1" [xAxis]="false" [yAxis]="true">
-      </ngx-charts-bar-vertical>
-    </div>
-    <nz-card [nzBordered]="false" [nzBodyStyle]="{'padding-top':'0px'}">
+    <nz-card [nzBordered]="false" [nzBodyStyle]="{'padding-top':'8px'}">
       <nz-list [nzDataSource]="apiItems" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination">
         <ng-template #item let-item>
           <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
@@ -79,7 +77,8 @@
         </ng-template>
         <ng-template #pagination>
           <nz-pagination *ngIf="apiItems.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzShowTotal]="totalTemplate"
-            [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+            [nzShowSizeChanger]="true" [nzPageSizeOptions]="[20, 50, 100]" [(nzPageSize)]="pageSize" (nzPageSizeChange)="pageChange()"
+            (nzPageIndexChange)="pageChange()">
             <ng-template #totalTemplate let-total>
               <span style="color:lightgray;">
                 <span>{{'item-total'|translate}}</span>
@@ -92,4 +91,15 @@
       </nz-list>
     </nz-card>
   </div>
+</div>
+<div *ngIf="showDomainApis&&domainResult.length>0">
+  <nz-drawer [nzMask]="true" [nzPlacement]="'right'" [nzBodyStyle]="{'padding':'8px'}" [nzWidth]="drawerWidth"
+    [nzVisible]="domainChartDrawerVisible" [nzClosable]="false" (nzOnClose)="domainChartDrawerVisible=false">
+    <ngx-charts-bar-vertical [view]="view2" [scheme]="colorScheme" [results]="domainResult" (select)="onDomainDateSelect($event)"
+      [barPadding]="1" [xAxis]="true" [yAxis]="true" [legend]="true" [legendTitle]="'title-request-count'|translate">
+    </ngx-charts-bar-vertical>
+    <ngx-charts-bar-vertical [view]="view2" [scheme]="colorScheme" [results]="domainCoverageResults" (select)="onDomainDateSelect($event)"
+      [barPadding]="1" [xAxis]="true" [yAxis]="true" [legend]="true" [legendTitle]="'title-coverage'|translate">
+    </ngx-charts-bar-vertical>
+  </nz-drawer>
 </div>

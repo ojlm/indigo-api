@@ -139,6 +139,8 @@
   "title-aggs": "我的面板",
   "title-system": "系统设置",
   "title-trend": "趋势",
+  "title-request-count": "请求数量",
+  "title-coverage": "覆盖率",
   "content-title-rest": "Rest 接口",
   "content-title-env": "环境配置",
   "content-title-case-list": "用例列表",

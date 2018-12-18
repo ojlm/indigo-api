@@ -139,6 +139,8 @@
   "title-aggs": "My Dashboard",
   "title-system": "System Settings",
   "title-trend": "Trending",
+  "title-request-count": "Request Count",
+  "title-coverage": "Coverage",
   "content-title-rest": "Rest Api",
   "content-title-env": "Environment",
   "content-title-case-list": "Case List",

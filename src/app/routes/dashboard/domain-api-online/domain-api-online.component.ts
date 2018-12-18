@@ -24,9 +24,10 @@ import { DomainOnlineConfigComponent } from '../domain-online-config/domain-onli
 })
 export class DomainApiOnlineComponent extends PageSingleModel implements OnInit {
 
+  drawerWidth = calcDrawerWidth()
   methods = METHODS
   view1: any[] = [window.innerWidth, Math.floor(window.innerHeight - 150)]
-  view2: any[] = [window.innerWidth, 64]
+  view2: any[] = [this.drawerWidth - 20, Math.floor((window.innerHeight - 40) / 2)]
   colorScheme = {
     domain: [
       '#e0f7fa', '#b2ebf2', '#80deea', '#4dd0e1', '#26c6da', '#00bcd4', '#00acc1', '#0097a7', '#00838f', '#006064'
@@ -39,7 +40,9 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   // all domains
   domainsResult: NameValue[] = [{ name: 'indigo', value: 0 }]
   // single domain series days
+  domainChartDrawerVisible = false
   domainResult: NameValue[] = []
+  domainCoverageResults: NameValue[] = [{ name: 'indigo', value: 0 }]
   queryDomain: QueryDomain = {
     size: 50,
   }
@@ -52,7 +55,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   @HostListener('window:resize')
   resize() {
     this.view1 = [window.innerWidth, Math.floor(window.innerHeight - 150)]
-    this.view2 = [window.innerWidth, 64]
+    this.view2 = [this.drawerWidth - 20, Math.floor((window.innerHeight - 40) / 2)]
   }
 
   constructor(
@@ -73,9 +76,18 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     this.queryApiSubject = this.onlineService.queryApiSubject(apiResponse)
     apiResponse.subscribe(res => {
       if (res.data.domain) {
-        this.domainResult = res.data.domain.list.map(domainLog => {
-          return { name: domainLog.date, value: domainLog.count }
+        const domainCountResult: NameValue[] = []
+        const domainCoverageResults: NameValue[] = []
+        res.data.domain.list.forEach(item => {
+          domainCountResult.push({ name: item.date, value: item.count })
+          let cov = 0
+          if (item.coverage && item.coverage > 0) {
+            cov = item.coverage / 100
+          }
+          domainCoverageResults.push({ name: item.date, value: cov })
         })
+        this.domainResult = domainCountResult.reverse()
+        this.domainCoverageResults = domainCoverageResults.reverse()
       }
       this.apiItems = res.data.apis.list
       this.pageTotal = res.data.apis.total
@@ -97,6 +109,10 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     })
     drawerRef.afterClose.subscribe(data => {
     })
+  }
+
+  showDomainCharts() {
+    this.domainChartDrawerVisible = true
   }
 
   dateChange() {
@@ -143,9 +159,16 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   onDomainDateSelect(item: NameValue) {
-    if (item.name !== this.queryDomain.date) {
-      this.queryDomain.date = item.name
-      this.dateChange()
+    if (typeof item === 'string') {
+      if (item !== this.queryDomain.date) {
+        this.queryDomain.date = item
+        this.dateChange()
+      }
+    } else {
+      if (item.name !== this.queryDomain.date) {
+        this.queryDomain.date = item.name
+        this.dateChange()
+      }
     }
   }
 
