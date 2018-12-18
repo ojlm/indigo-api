@@ -13,6 +13,7 @@ import { NameValue } from 'app/model/common.model'
 import { DomainOnlineLog, METHODS, RestApiOnlineLog } from 'app/model/es.model'
 import { PageSingleModel } from 'app/model/page.model'
 import { calcDrawerWidth } from 'app/util/drawer'
+import { hashToObj, objToHash } from 'app/util/urlutils'
 import { NzDrawerService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
@@ -52,6 +53,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   showDomainApis = false
   queryDomainSubject: Subject<AggsQuery>
   queryApiSubject: Subject<QueryOnlineApiSubjectSearch>
+  hashObj: HashObj = {}
   @HostListener('window:resize')
   resize() {
     this.view1 = [window.innerWidth, Math.floor(window.innerHeight - 150)]
@@ -130,13 +132,16 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
 
   domainChange() {
     if (this.domain) {
+      this.hashObj.domain = this.domain
       this.queryDomain.names = [this.domain]
       this.queryApi.domain = this.domain
     } else {
+      delete this.hashObj.domain
       this.queryDomain.names = undefined
       this.queryApi.domain = undefined
       this.showDomainApis = false
     }
+    objToHash(this.hashObj)
     this.queryApi.method = undefined
     this.queryApi.urlPath = undefined
     this.pageIndex = 1
@@ -195,12 +200,15 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     this.loadDomainApiData()
   }
 
-  loadData() {
+  loadData(init: boolean = false) {
     this.onlineService.queryDomain({ ...this.queryDomain }).subscribe(res => {
       if (res.data.dates && res.data.dates.length > 0) {
         this.dates = res.data.dates
         this.queryDomain.date = this.dates[0].id
         this.queryApi.date = this.queryDomain.date
+        if (init) {
+          this.domainChange()
+        }
       }
       if (res.data.domains) {
         this.domains = res.data.domains.list
@@ -231,6 +239,16 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   ngOnInit(): void {
-    this.loadData()
+    this.hashObj = hashToObj()
+    if (this.hashObj.domain) {
+      this.domain = this.hashObj.domain
+      this.loadData(true)
+    } else {
+      this.loadData(false)
+    }
   }
+}
+
+interface HashObj {
+  domain?: string
 }
