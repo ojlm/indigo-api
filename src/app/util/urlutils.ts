@@ -27,3 +27,21 @@ export function objToSearchStr(obj: Object): string {
   }
   return s.substr(0, s.length - 1)
 }
+
+export function hashToObj() {
+  const hash = location.hash
+  if (hash && hash.length > 1) {
+    try {
+      return JSON.parse(decodeURI(hash.substr(1)))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  return {}
+}
+
+export function objToHash(obj: object) {
+  if (obj && 'object' === typeof obj) {
+    location.hash = JSON.stringify(obj)
+  }
+}
