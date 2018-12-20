@@ -62,6 +62,10 @@ export class OnlineService extends BaseService {
   getDomainConfig(name: string) {
     return this.http.get<ApiRes<DomainOnlineConfig>>(`${API_ONLINE}/domain/config/${name}`)
   }
+
+  peviewDomainConfigResults(config: PreviewOnlineApi) {
+    return this.http.post<ApiRes<RestApiOnlineLog[]>>(`${API_ONLINE}/domain/config/preview`, config)
+  }
 }
 
 export interface QueryDomain extends QueryPage {
@@ -89,4 +93,9 @@ export interface QueryDomainResponse {
 export interface QueryOnlineApiResponse {
   domain?: DataBody<DomainOnlineLog[]>
   apis?: DataBody<RestApiOnlineLog[]>
+}
+
+export interface PreviewOnlineApi {
+  config?: DomainOnlineConfig
+  domainTotal?: number
 }

@@ -98,11 +98,15 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   showDomainSyncSetting() {
+    const count = this.domains.find(item => item.name === this.domain).count
     const drawerRef = this.drawerService.create({
-      nzTitle: this.domain,
+      nzTitle: `${this.domain}(${count.toLocaleString()})`,
       nzContent: DomainOnlineConfigComponent,
       nzContentParams: {
-        data: this.domain
+        data: {
+          domain: this.domain,
+          domainTotal: count
+        }
       },
       nzBodyStyle: {
         'padding': '8px'
@@ -235,7 +239,11 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   formatNumber(item: RestApiOnlineLog) {
-    return item.count.toLocaleString()
+    if (item && item.count) {
+      return item.count.toLocaleString()
+    } else {
+      return 0
+    }
   }
 
   ngOnInit(): void {
