@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
-import { Project } from 'app/model/es.model'
+import { LabelRef, Project } from 'app/model/es.model'
 import { NzMessageService, NzModalService } from 'ng-zorro-antd'
 
 import { ProjectService } from '../../../api/service/project.service'
@@ -30,11 +30,15 @@ export class ProjectSyncSettingsComponent implements OnInit {
   }
 
   save() {
-    if (this.group && this.project && this.domain) {
+    if (this.group && this.project) {
+      let domains: LabelRef[] = []
+      if (this.domain) {
+        domains = [{ name: this.domain }]
+      }
       const p: Project = {
         id: this.project,
         group: this.group,
-        domains: [{ name: this.domain }]
+        domains: domains
       }
       this.projectService.update(p).subscribe(res => {
         this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
