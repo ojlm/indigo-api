@@ -28,16 +28,16 @@ export function objToSearchStr(obj: Object): string {
   return s.substr(0, s.length - 1)
 }
 
-export function hashToObj() {
+export function hashToObj<T>(): T {
   const hash = location.hash
   if (hash && hash.length > 1) {
     try {
-      return JSON.parse(decodeURI(hash.substr(1)))
+      return JSON.parse(decodeURI(hash.substr(1))) as T
     } catch (error) {
       console.error(error)
     }
   }
-  return {}
+  return {} as T
 }
 
 export function objToHash(obj: object) {
