@@ -72,7 +72,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     this.queryDomainSubject = this.onlineService.aggDomainTermsSubject(domainResponse)
     domainResponse.subscribe(res => {
       this.domains = res.data.map(item => {
-        return { name: item.id }
+        return { name: item.id, count: item.count }
       })
     })
     const apiResponse = new Subject<ApiRes<QueryOnlineApiResponse>>()
@@ -103,23 +103,25 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   showDomainSyncSetting() {
-    const count = this.domains.find(item => item.name === this.domain).count
-    const drawerRef = this.drawerService.create({
-      nzTitle: `${this.domain}(${count.toLocaleString()})`,
-      nzContent: DomainOnlineConfigComponent,
-      nzContentParams: {
-        data: {
-          domain: this.domain,
-          domainTotal: count
-        }
-      },
-      nzBodyStyle: {
-        'padding': '8px'
-      },
-      nzWidth: calcDrawerWidth()
-    })
-    drawerRef.afterClose.subscribe(data => {
-    })
+    const domainLog = this.domains.find(item => item.name === this.domain)
+    if (domainLog) {
+      const drawerRef = this.drawerService.create({
+        nzTitle: `${this.domain}(${domainLog.count.toLocaleString()})`,
+        nzContent: DomainOnlineConfigComponent,
+        nzContentParams: {
+          data: {
+            domain: this.domain,
+            domainTotal: domainLog.count
+          }
+        },
+        nzBodyStyle: {
+          'padding': '8px'
+        },
+        nzWidth: calcDrawerWidth()
+      })
+      drawerRef.afterClose.subscribe(data => {
+      })
+    }
   }
 
   showDomainCharts() {
@@ -165,7 +167,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
       this.domain = item
       const index = this.domains.findIndex(d => d.name === item)
       if (-1 === index) {
-        this.domains.push({ name: item })
+        this.searchDomain(this.domain)
       }
       this.domainChange()
     } else {
@@ -221,7 +223,10 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
         this.queryApi.date = this.queryDomain.date
         if (init) {
           this.domain = this.hashObj.domain
-          this.domains.push({ name: this.domain })
+          const index = this.domains.findIndex(d => d.name === this.domain)
+          if (-1 === index) {
+            this.searchDomain(this.domain)
+          }
           this.domainChange()
         }
       }
