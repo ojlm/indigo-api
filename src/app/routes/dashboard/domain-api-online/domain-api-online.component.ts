@@ -127,6 +127,8 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   dateChange() {
+    this.hashObj.date = this.queryDomain.date
+    objToHash(this.hashObj)
     this.queryApi.date = this.queryDomain.date
     if (this.showDomainApis && this.queryApi.date) {
       this.loadDomainApiData()
@@ -214,8 +216,12 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
       if (res.data.dates && res.data.dates.length > 0) {
         this.dates = res.data.dates
         this.queryDomain.date = this.dates[0].id
+        this.hashObj.date = this.queryDomain.date
+        objToHash(this.hashObj)
         this.queryApi.date = this.queryDomain.date
         if (init) {
+          this.domain = this.hashObj.domain
+          this.domains.push({ name: this.domain })
           this.domainChange()
         }
       }
@@ -259,7 +265,6 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   ngOnInit(): void {
     this.hashObj = hashToObj()
     if (this.hashObj.domain) {
-      this.domain = this.hashObj.domain
       this.loadData(true)
     } else {
       this.loadData(false)
@@ -269,5 +274,6 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
 
 interface HashObj {
   domain?: string
+  date?: string
   showCovRate?: boolean
 }
