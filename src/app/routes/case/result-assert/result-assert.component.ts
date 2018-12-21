@@ -187,7 +187,16 @@ export class ResultAssertComponent implements OnInit {
             // check if it is number
             const num = Number(item.value)
             if (isNaN(num)) { // string
-              value = item.value
+              if (item.value.startsWith('"') && item.value.endsWith('"')) { // check if a number string like : "123"
+                const trim = item.value.substring(1, item.value.length - 1)
+                if (isNaN(Number(trim))) { // not number
+                  value = item.value
+                } else { // number string
+                  value = trim
+                }
+              } else {
+                value = item.value
+              }
             } else {  // number
               value = num
             }
@@ -308,10 +317,16 @@ export class ResultAssertComponent implements OnInit {
             if (assertionObj) {
               const ops = Object.keys(assertionObj)
               if (ops && ops.length === 1) {
+                let assertionObjValue = assertionObj[ops[0]]
+                if (typeof assertionObjValue === 'string') { // check if it is a string number
+                  if (!isNaN(Number(assertionObjValue))) {
+                    assertionObjValue = `"${assertionObjValue}"`
+                  }
+                }
                 assertionItems.push({
                   path: path,
                   operator: ops[0],
-                  value: assertionObj[ops[0]]
+                  value: assertionObjValue
                 })
               }
             }
