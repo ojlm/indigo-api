@@ -111,7 +111,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
       nzBodyStyle: {
         'padding': '8px'
       },
-      nzWidth: calcDrawerWidth(0.8)
+      nzWidth: calcDrawerWidth()
     })
     drawerRef.afterClose.subscribe(data => {
     })

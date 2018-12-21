@@ -11,7 +11,7 @@ import { CaseService } from '../../../api/service/case.service'
 import { GroupService } from '../../../api/service/group.service'
 import { Assertion, Case, CaseResult, ContextOptions, KeyValueObject, METHODS } from '../../../model/es.model'
 import { HttpContentTypes } from '../../../model/http.model'
-import { searchToObj } from '../../../util/urlutils'
+import { hashToObj, searchToObj } from '../../../util/urlutils'
 
 @Component({
   selector: 'app-case-model',
@@ -378,6 +378,11 @@ export class CaseModelComponent implements OnInit {
 }
 
 export function initCaseField(cs: Case) {
+  const hashObj = hashToObj<CaseModelHashObj>()
+  let rawUrl = ''
+  if (hashObj.domain) {
+    rawUrl = `${hashObj.domain}${hashObj.urlPath || ''}`
+  }
   cs.summary = ''
   cs.description = ''
   cs.createdAt = undefined
@@ -385,9 +390,19 @@ export function initCaseField(cs: Case) {
   cs.labels = []
   cs.assert = ''
   cs.request = {
-    method: METHODS[0],
+    method: hashObj.method || METHODS[0],
+    host: hashObj.domain || '',
+    urlPath: hashObj.urlPath || '',
+    rawUrl: rawUrl,
     contentType: '',
     body: [],
     auth: { type: '', data: {} }
   }
+  location.hash = ''
+}
+
+export interface CaseModelHashObj {
+  domain?: string
+  method?: string
+  urlPath?: string
 }

@@ -1,0 +1,21 @@
+<nz-dropdown [nzPlacement]="'bottomRight'">
+  <button style="font-size:small;" nz-button nz-dropdown [nzSize]="'small'" [nzType]="isCoverd?'primary':'danger'">
+    <span>{{'field-coverage'|translate}}</span>
+    <i style="margin-left:4px;" class="anticon anticon-down"></i>
+  </button>
+  <ul nz-menu>
+    <li *ngIf="_item.belongs.length===0" nz-menu-item style="color:lightcoral;">{{'tips-online-domain-absent'|translate}}</li>
+    <ng-container *ngIf="_item.belongs.length>0">
+      <li nz-submenu *ngFor="let item of _item.belongs">
+        <span title [style.color]="item.covered?'lightcoral':''">
+          <span *ngIf="item.covered">({{item.count}}) </span>
+          <span>{{item.group}}/{{item.project}}</span>
+        </span>
+        <ul>
+          <li nz-menu-item (click)="createCase(item)">{{'btn-new'|translate}}</li>
+          <li nz-menu-item (click)="stressTest(item)">{{'btn-stress'|translate}}</li>
+        </ul>
+      </li>
+    </ng-container>
+  </ul>
+</nz-dropdown>

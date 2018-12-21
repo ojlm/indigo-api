@@ -54,16 +54,12 @@
                     <i style="padding-left:4px;color:lightgray;" class="anticon anticon-pie-chart"></i>
                   </span>
                   <nz-divider nzType="vertical"></nz-divider>
-                  <span *ngIf="item.belongs" style="float:right;">
-                    <nz-tag *ngFor="let p of item.belongs" [nzColor]="p.covered?'cyan':''">
-                      <span>{{p.group}}/{{p.project}}</span>
-                      <span *ngIf="p.covered">({{p.count}})</span>
-                    </nz-tag>
-                  </span>
                 </div>
               </ng-template>
             </nz-list-item-meta>
             <ng-template #edit>
+              <nz-divider nzType="vertical"></nz-divider>
+              <app-domain-api-item [item]="item"></app-domain-api-item>
               <nz-divider nzType="vertical"></nz-divider>
               <button *ngIf="'GET'===item.method" nz-button nzSize="small" nzType="default" (click)="viewItem(item)">
                 <i style="color:lightblue;" class="anticon anticon-chrome"></i>

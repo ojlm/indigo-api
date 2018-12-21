@@ -4,6 +4,7 @@ import { SharedModule } from '@shared/shared.module'
 import { NgxChartsModule } from '@swimlane/ngx-charts'
 
 import { DashboardRoutingModule } from './dashboard-routing.module'
+import { DomainApiItemComponent } from './domain-api-item/domain-api-item.component'
 import { DomainApiOnlineComponent } from './domain-api-online/domain-api-online.component'
 import { DomainOnlineConfigComponent } from './domain-online-config/domain-online-config.component'
 import { GroupUserTrendComponent } from './group-user-trend/group-user-trend.component'
@@ -20,6 +21,7 @@ const COMPONENT = [
   GroupUserTrendComponent,
   DomainApiOnlineComponent,
   DomainOnlineConfigComponent,
+  DomainApiItemComponent,
 ]
 
 const COMPONENT_NOROUNT = [
