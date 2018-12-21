@@ -14,6 +14,8 @@
           <span>{{item.name}}</span>
         </nz-option>
       </nz-select>
+      <nz-tag *ngIf="!domain" style="padding-left:8px;" nzMode="checkable" [(nzChecked)]="hashObj.showCovRate"
+        (nzCheckedChange)="checkChange($event)" [nzColor]="hashObj.showCovRate?'lightseagreen':'lightgray'">{{'item-show-cov-rate'|translate}}</nz-tag>
       <nz-select *ngIf="domain" style="padding-left:10px;width:100px;" nzMode="default" [nzSize]="'small'"
         [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="queryApi.method" nzAllowClear (ngModelChange)="loadDomainApiData()">
         <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
@@ -30,10 +32,15 @@
     </div>
   </div>
   <div *ngIf="!domain">
-    <div style="overflow:hidden;padding-top:20px;padding-right:12px;">
+    <div *ngIf="!hashObj.showCovRate" style="overflow:hidden;padding-top:20px;padding-right:12px;">
       <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="domainsResult" (select)="onDomainSelect($event)"
-        [xAxis]="true" [yAxis]="true" [legend]="true" [legendTitle]="'🐣 Legend'">
+        [xAxis]="true" [yAxis]="true" [legend]="true" [legendTitle]="'🐣 '+('item-request-count'|translate)">
       </ngx-charts-bar-vertical>
+    </div>
+    <div *ngIf="hashObj.showCovRate" style="overflow:hidden;padding-top:20px;padding-right:12px;">
+      <ngx-charts-bar-horizontal [view]="view1" [scheme]="colorScheme" [results]="domainsCoverateResult" (select)="onDomainSelect($event)"
+        [xAxis]="true" [yAxis]="true" [legend]="true" [legendTitle]="'🦉 '+('field-coverage'|translate)">
+      </ngx-charts-bar-horizontal>
     </div>
   </div>
   <div *ngIf="domain">

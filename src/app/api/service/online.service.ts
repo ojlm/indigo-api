@@ -87,7 +87,8 @@ export interface QueryOnlineApiSubjectSearch {
 
 export interface QueryDomainResponse {
   dates?: AggsItem[]
-  domains?: DataBody<DomainOnlineLog[]>
+  count?: DataBody<DomainOnlineLog[]>
+  coverage?: DataBody<DomainOnlineLog[]>
 }
 
 export interface QueryOnlineApiResponse {

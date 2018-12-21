@@ -318,6 +318,8 @@
   "item-wildcard": "通配符匹配",
   "item-regex": "正则匹配",
   "item-online-domain": "线上域名",
+  "item-request-count": "请求数量",
+  "item-show-cov-rate": "显示覆盖度",
   "error-empty-summary": "名称不能为空",
   "error-empty-group": "业务线不能为空",
   "error-empty-project": "项目不能为空",

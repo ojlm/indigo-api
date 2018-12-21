@@ -318,6 +318,8 @@
   "item-wildcard": "Wildcard",
   "item-regex": "Regex",
   "item-online-domain": "Online Domain",
+  "item-request-count": "Request Count",
+  "item-show-cov-rate": "Show Coverate Rate",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",

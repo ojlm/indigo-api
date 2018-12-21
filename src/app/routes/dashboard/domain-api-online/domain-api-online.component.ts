@@ -40,6 +40,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   apiItems: RestApiOnlineLog[] = []
   // all domains
   domainsResult: NameValue[] = [{ name: 'indigo', value: 0 }]
+  domainsCoverateResult: NameValue[] = [{ name: 'indigo', value: 0 }]
   // single domain series days
   domainChartDrawerVisible = false
   domainResult: NameValue[] = []
@@ -53,7 +54,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   showDomainApis = false
   queryDomainSubject: Subject<AggsQuery>
   queryApiSubject: Subject<QueryOnlineApiSubjectSearch>
-  hashObj: HashObj = {}
+  hashObj: HashObj = { showCovRate: false }
   @HostListener('window:resize')
   resize() {
     this.view1 = [window.innerWidth, Math.floor(window.innerHeight - 150)]
@@ -95,6 +96,10 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
       this.pageTotal = res.data.apis.total
       this.showDomainApis = true
     })
+  }
+
+  checkChange(checked: boolean) {
+    objToHash(this.hashObj)
   }
 
   showDomainSyncSetting() {
@@ -214,10 +219,15 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
           this.domainChange()
         }
       }
-      if (res.data.domains) {
-        this.domains = res.data.domains.list
-        this.domainsResult = res.data.domains.list.map(item => {
+      if (res.data.count) {
+        this.domains = res.data.count.list
+        this.domainsResult = res.data.count.list.map(item => {
           return { name: item.name, value: item.count }
+        })
+      }
+      if (res.data.coverage) {
+        this.domainsCoverateResult = res.data.coverage.list.map(item => {
+          return { name: item.name, value: (item.coverage / 100) }
         })
       }
     })
@@ -259,4 +269,5 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
 
 interface HashObj {
   domain?: string
+  showCovRate?: boolean
 }
