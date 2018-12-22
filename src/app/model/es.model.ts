@@ -375,6 +375,17 @@ export interface RestApiOnlineLog {
   count?: number
   percentage?: number
   belongs?: GroupProject[]
+  metrics?: {
+    p25?: number
+    p50?: number
+    p75?: number
+    p95?: number
+    p99?: number
+    p999?: number
+    min?: number
+    avg?: number
+    max?: number
+  }
 }
 
 export interface GroupProject {
