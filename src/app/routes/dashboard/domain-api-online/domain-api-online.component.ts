@@ -103,15 +103,15 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   showDomainSyncSetting() {
-    const domainLog = this.domains.find(item => item.name === this.domain)
-    if (domainLog) {
+    const domainCount = this.domainResult.find(item => item.name === this.queryDomain.date)
+    if (domainCount) {
       const drawerRef = this.drawerService.create({
-        nzTitle: `${this.domain}(${domainLog.count.toLocaleString()})`,
+        nzTitle: `${this.domain}(${domainCount.value.toLocaleString()})`,
         nzContent: DomainOnlineConfigComponent,
         nzContentParams: {
           data: {
             domain: this.domain,
-            domainTotal: domainLog.count
+            domainTotal: domainCount.value
           }
         },
         nzBodyStyle: {
