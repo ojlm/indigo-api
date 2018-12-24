@@ -82,6 +82,8 @@ export interface QueryOnlineApi extends QueryPage {
   method?: string
   urlPath?: string
   date?: string
+  sortField?: string
+  asc?: boolean
 }
 
 export interface QueryOnlineApiSubjectSearch {

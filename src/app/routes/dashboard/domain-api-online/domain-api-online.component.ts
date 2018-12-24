@@ -28,6 +28,18 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
 
   drawerWidth = calcDrawerWidth()
   methods = METHODS
+  sortFields = [
+    { label: 'count', value: 'count' },
+    { label: 'min', value: 'metrics.min' },
+    { label: 'avg', value: 'metrics.avg' },
+    { label: 'max', value: 'metrics.max' },
+    { label: 'p25', value: 'metrics.p25' },
+    { label: 'p50', value: 'metrics.p50' },
+    { label: 'p75', value: 'metrics.p75' },
+    { label: 'p95', value: 'metrics.p95' },
+    { label: 'p99', value: 'metrics.p99' },
+    { label: 'p999', value: 'metrics.p999' },
+  ]
   view1: any[] = [window.innerWidth, Math.floor(window.innerHeight - 150)]
   view2: any[] = [this.drawerWidth - 20, Math.floor((window.innerHeight - 40) / 2)]
   colorScheme = {

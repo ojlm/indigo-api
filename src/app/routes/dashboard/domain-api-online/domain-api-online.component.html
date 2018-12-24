@@ -23,6 +23,14 @@
       <nz-input-group *ngIf="domain" style="padding-left:5px;" [nzSize]="'small'" [nzAddOnBefore]="'field-path'|translate">
         <input type="text" nz-input [(ngModel)]="queryApi.urlPath" (ngModelChange)="loadDomainApiData()">
       </nz-input-group>
+      <nz-select *ngIf="domain" style="padding-left:5px;width:100px;" nzMode="default" [nzSize]="'small'"
+        [nzPlaceHolder]="'item-sort-field'|translate" [(ngModel)]="queryApi.sortField" nzAllowClear (ngModelChange)="loadDomainApiData()">
+        <nz-option *ngFor="let item of sortFields" [nzLabel]="item.label" [nzValue]="item.value"></nz-option>
+      </nz-select>
+      <nz-tag *ngIf="domain" style="padding-left:4px;" nzMode="checkable" [(nzChecked)]="queryApi.asc" [nzColor]="queryApi.asc?'#2db7f5':'#108ee9'"
+        (nzCheckedChange)="loadDomainApiData()">
+        {{queryApi.asc?('item-asc'|translate):('item-desc'|translate)}}
+      </nz-tag>
       <button *ngIf="domain" style="float:right;margin-left:8px;" nz-button nzSize="small" nzType="default" (click)="showDomainSyncSetting()">
         <i class="anticon anticon-setting"></i>
       </button>
@@ -82,7 +90,7 @@
               <app-domain-api-item [item]="item"></app-domain-api-item>
               <nz-divider nzType="vertical"></nz-divider>
               <button nz-button nzSize="small" nzType="default" (click)="showApiPerfTrend(item)">
-                <i style="color:lightseagreen;" class="anticon anticon-dot-chart"></i>
+                <i style="color:lightseagreen;" class="anticon anticon-line-chart"></i>
               </button>
               <button *ngIf="'GET'===item.method" nz-button nzSize="small" nzType="default" (click)="viewItem(item)">
                 <i style="color:lightblue;" class="anticon anticon-chrome"></i>
