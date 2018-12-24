@@ -47,7 +47,7 @@
     <nz-card [nzBordered]="false" [nzBodyStyle]="{'padding-top':'8px'}">
       <nz-list [nzDataSource]="apiItems" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination">
         <ng-template #item let-item>
-          <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+          <nz-list-item [nzActions]="[edit]">
             <nz-list-item-meta [nzTitle]="nzTitle">
               <ng-template #nzTitle>
                 <div style="padding-left:10px;">
@@ -72,7 +72,7 @@
                     <span style="padding-left:4px;color:lightgray;">p75: {{item.metrics.p75}},</span>
                     <span style="padding-left:4px;color:lightgray;">p95: {{item.metrics.p95}},</span>
                     <span style="padding-left:4px;color:lightgray;">p99: {{item.metrics.p99}},</span>
-                    <span style="padding-left:4px;color:lightgray;">p999: {{item.metrics.p999}},</span>
+                    <span style="padding-left:4px;color:lightgray;">p999: {{item.metrics.p999}}</span>
                   </span>
                 </div>
               </ng-template>
@@ -81,6 +81,9 @@
               <nz-divider nzType="vertical"></nz-divider>
               <app-domain-api-item [item]="item"></app-domain-api-item>
               <nz-divider nzType="vertical"></nz-divider>
+              <button nz-button nzSize="small" nzType="default" (click)="showApiPerfTrend(item)">
+                <i style="color:lightseagreen;" class="anticon anticon-dot-chart"></i>
+              </button>
               <button *ngIf="'GET'===item.method" nz-button nzSize="small" nzType="default" (click)="viewItem(item)">
                 <i style="color:lightblue;" class="anticon anticon-chrome"></i>
               </button>

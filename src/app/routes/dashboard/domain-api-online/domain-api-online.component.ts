@@ -17,6 +17,7 @@ import { hashToObj, objToHash } from 'app/util/urlutils'
 import { NzDrawerService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
+import { ApiMetricsTrendComponent } from '../api-metrics-trend/api-metrics-trend.component'
 import { DomainOnlineConfigComponent } from '../domain-online-config/domain-online-config.component'
 
 @Component({
@@ -98,8 +99,37 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     })
   }
 
+  perfResults(item: RestApiOnlineLog): NameValue[] {
+    const metricsKeys = ['p25', 'p50', 'p75', 'p95', 'p99', 'p999']
+    if (item.metrics) {
+      return metricsKeys.map(name => {
+        return { name: name, value: item.metrics[name] || 0 }
+      })
+    } else {
+      return metricsKeys.map(name => {
+        return { name: name, value: 0 }
+      })
+    }
+  }
+
   checkChange(checked: boolean) {
     objToHash(this.hashObj)
+  }
+
+  showApiPerfTrend(item: RestApiOnlineLog) {
+    const drawerRef = this.drawerService.create({
+      nzTitle: `${item.method} ${item.urlPath}`,
+      nzContent: ApiMetricsTrendComponent,
+      nzContentParams: {
+        data: item
+      },
+      nzBodyStyle: {
+        'padding': '8px'
+      },
+      nzWidth: calcDrawerWidth()
+    })
+    drawerRef.afterClose.subscribe(data => {
+    })
   }
 
   showDomainSyncSetting() {

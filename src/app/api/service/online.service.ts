@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
-import { DomainOnlineConfig, DomainOnlineLog, IndexDocResponse, RestApiOnlineLog } from 'app/model/es.model'
+import { DomainOnlineConfig, DomainOnlineLog, IndexDocResponse, Metrics, RestApiOnlineLog } from 'app/model/es.model'
 import { Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
@@ -66,6 +66,10 @@ export class OnlineService extends BaseService {
   peviewDomainConfigResults(config: PreviewOnlineApi) {
     return this.http.post<ApiRes<RestApiOnlineLog[]>>(`${API_ONLINE}/domain/config/preview`, config)
   }
+
+  getApiPerfMetics(query: QueryOnlineApi) {
+    return this.http.post<ApiRes<ApiMetrics[]>>(`${API_ONLINE}/api/metrics`, query)
+  }
 }
 
 export interface QueryDomain extends QueryPage {
@@ -99,4 +103,9 @@ export interface QueryOnlineApiResponse {
 export interface PreviewOnlineApi {
   config?: DomainOnlineConfig
   domainTotal?: number
+}
+
+export interface ApiMetrics {
+  date?: string
+  metrics?: Metrics
 }
