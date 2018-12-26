@@ -25,7 +25,7 @@ export class ApiMetricsTrendComponent implements OnInit {
     this.item = val
     this.onlineService.getApiPerfMetics({ domain: val.domain, method: val.method, urlPath: val.urlPath, size: 100 }).subscribe(res => {
       if (res.data && res.data.length > 0) {
-        this.result = this.metricsKeys.map(metricsKey => {
+        this.result = this.metricsKeys.filter(k => k !== 'max').map(metricsKey => {
           return {
             name: metricsKey,
             series: res.data.map(item => {
