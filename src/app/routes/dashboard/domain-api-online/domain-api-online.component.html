@@ -17,18 +17,18 @@
       <nz-tag *ngIf="!domain" style="padding-left:8px;" nzMode="checkable" [(nzChecked)]="hashObj.showCovRate"
         (nzCheckedChange)="checkChange($event)" [nzColor]="hashObj.showCovRate?'lightseagreen':'lightgray'">{{'item-show-cov-rate'|translate}}</nz-tag>
       <nz-select *ngIf="domain" style="padding-left:10px;width:100px;" nzMode="default" [nzSize]="'small'"
-        [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="queryApi.method" nzAllowClear (ngModelChange)="loadDomainApiData()">
+        [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="queryApi.method" nzAllowClear (ngModelChange)="reloadDomainApiData()">
         <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
       </nz-select>
       <nz-input-group *ngIf="domain" style="padding-left:5px;" [nzSize]="'small'" [nzAddOnBefore]="'field-path'|translate">
-        <input type="text" nz-input [(ngModel)]="queryApi.urlPath" (ngModelChange)="loadDomainApiData()">
+        <input type="text" nz-input [(ngModel)]="queryApi.urlPath" (ngModelChange)="reloadDomainApiData()">
       </nz-input-group>
       <nz-select *ngIf="domain" style="padding-left:5px;width:100px;" nzMode="default" [nzSize]="'small'"
-        [nzPlaceHolder]="'item-sort-field'|translate" [(ngModel)]="queryApi.sortField" nzAllowClear (ngModelChange)="loadDomainApiData()">
+        [nzPlaceHolder]="'item-sort-field'|translate" [(ngModel)]="queryApi.sortField" nzAllowClear (ngModelChange)="reloadDomainApiData()">
         <nz-option *ngFor="let item of sortFields" [nzLabel]="item.label" [nzValue]="item.value"></nz-option>
       </nz-select>
       <nz-tag *ngIf="domain" style="padding-left:4px;" nzMode="checkable" [(nzChecked)]="queryApi.asc" [nzColor]="queryApi.asc?'#2db7f5':'#108ee9'"
-        (nzCheckedChange)="loadDomainApiData()">
+        (nzCheckedChange)="reloadDomainApiData()">
         {{queryApi.asc?('item-asc'|translate):('item-desc'|translate)}}
       </nz-tag>
       <button *ngIf="domain" style="float:right;margin-left:8px;" nz-button nzSize="small" nzType="default" (click)="showDomainSyncSetting()">
@@ -53,7 +53,8 @@
   </div>
   <div *ngIf="domain">
     <nz-card [nzBordered]="false" [nzBodyStyle]="{'padding-top':'8px'}">
-      <nz-list [nzDataSource]="apiItems" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination">
+      <nz-list [nzDataSource]="apiItems" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
+        [nzLoading]="loading">
         <ng-template #item let-item>
           <nz-list-item [nzActions]="[edit]">
             <nz-list-item-meta [nzTitle]="nzTitle">

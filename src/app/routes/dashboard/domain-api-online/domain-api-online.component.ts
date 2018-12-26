@@ -50,6 +50,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   domain = ''
   dates: AggsItem[] = []
   domains: DomainOnlineLog[] = []
+  loading = false
   apiItems: RestApiOnlineLog[] = []
   // all domains
   domainsResult: NameValue[] = [{ name: 'indigo', value: 0 }]
@@ -105,10 +106,11 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
         this.domainResult = domainCountResult
         this.domainCoverageResults = domainCoverageResults
       }
-      this.apiItems = res.data.apis.list
       this.pageTotal = res.data.apis.total
+      this.apiItems = res.data.apis.list
       this.showDomainApis = true
-    })
+      this.loading = false
+    }, err => this.loading = false)
   }
 
   perfResults(item: RestApiOnlineLog): NameValue[] {
@@ -156,6 +158,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
             domainTotal: domainCount.value
           }
         },
+        nzClosable: false,
         nzBodyStyle: {
           'padding': '8px'
         },
@@ -242,8 +245,14 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     }
   }
 
+  reloadDomainApiData() {
+    this.pageIndex = 1
+    this.loadDomainApiData()
+  }
+
   loadDomainApiData(hasDomain = false) {
     if (this.queryApi.domain && this.queryApi.date) {
+      this.loading = true
       this.queryApiSubject.next({
         query: { ...this.queryApi, ...this.toPageQuery() },
         hasDomain: this.domainResult.length === 0 || hasDomain
