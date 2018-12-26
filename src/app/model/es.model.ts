@@ -415,6 +415,8 @@ export interface FieldPattern {
 export interface DomainOnlineConfig extends BaseDoc {
   domain?: string
   maxApiCount?: number
+  minReqCount?: number
   inclusions?: FieldPattern[]
   exclusions?: FieldPattern[]
+  exMethods?: LabelRef[]
 }

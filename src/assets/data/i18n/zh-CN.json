@@ -98,6 +98,7 @@
   "field-date": "日期",
   "field-domain": "域名",
   "field-max-api-count": "最大接口数",
+  "field-min-req-count": "最小请求数",
   "field-inclusions": "包含",
   "field-exclusions": "排除",
   "field-alias": "别名",

@@ -1,8 +1,17 @@
 <div>
-  <nz-input-group style="padding-bottom:10px;" [nzAddOnBefore]="'field-max-api-count'|translate">
+  <nz-input-group style="padding-bottom:4px;" [nzAddOnBefore]="'field-max-api-count'|translate">
     <input type="text" nz-input [(ngModel)]="config.maxApiCount">
   </nz-input-group>
+  <nz-input-group style="padding-bottom:10px;" [nzAddOnBefore]="'field-min-req-count'|translate">
+    <input type="text" nz-input [(ngModel)]="config.minReqCount">
+  </nz-input-group>
   <nz-card [nzTitle]="'field-exclusions'|translate" [nzExtra]="extraEx" [nzBodyStyle]="{'padding':'8px'}">
+    <nz-input-group>
+      <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="exMethods"
+        nzAllowClear nzShowSearch>
+        <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
+      </nz-select>
+    </nz-input-group>
     <nz-table #nzExclusionTable [nzSize]="'default'" [nzData]="config.exclusions" [nzNoResult]="'tips-no-result'|translate"
       [nzShowPagination]="false" [nzFrontPagination]="false">
       <tbody>

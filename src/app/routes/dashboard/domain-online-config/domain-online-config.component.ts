@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { OnlineService } from 'app/api/service/online.service'
-import { DomainOnlineConfig, RestApiOnlineLog } from 'app/model/es.model'
+import { DomainOnlineConfig, METHODS, RestApiOnlineLog } from 'app/model/es.model'
 import { PageSingleModel } from 'app/model/page.model'
 import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd'
 
@@ -32,6 +32,8 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
     inclusions: [],
     exclusions: [],
   }
+  methods = METHODS
+  exMethods: string[] = []
   domainTotal: number
   previewLoading = false
   apiItems: RestApiOnlineLog[] = []
@@ -44,6 +46,12 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
       this.onlineService.getDomainConfig(this.config.domain).subscribe(res => {
         if (res.data) {
           this.config = res.data
+          if (this.config.minReqCount === 0) {
+            this.config.minReqCount = undefined
+          }
+          if (this.config.exMethods) {
+            this.exMethods = this.config.exMethods.map(m => m.name)
+          }
         }
       })
     }
@@ -79,7 +87,7 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
   }
 
   save() {
-    this.config.maxApiCount = parseInt(this.config.maxApiCount.toString(), 10)
+    this.preHandleConfig()
     this.onlineService.putDomainConfig(this.config).subscribe(res => {
       this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
     })
@@ -88,12 +96,28 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
   preview() {
     this.previewLoading = true
     this.pageIndex = 1
+    this.preHandleConfig()
     this.onlineService.peviewDomainConfigResults({ config: this.config, domainTotal: this.domainTotal }).subscribe(res => {
       this.apiItems = res.data.sort((a, b) => b.count - a.count)
       this.pageTotal = this.apiItems.length
       this.previewLoading = false
       this.setListData()
     }, err => this.previewLoading = false)
+  }
+
+  preHandleConfig() {
+    try {
+      this.config.maxApiCount = parseInt(this.config.maxApiCount.toString(), 10)
+      this.config.minReqCount = parseInt(this.config.minReqCount.toString(), 10)
+    } catch (error) {
+    }
+    if (this.exMethods && this.exMethods.length > 0) {
+      this.config.exMethods = this.exMethods.map(m => {
+        return { name: m }
+      })
+    } else {
+      this.config.exMethods = []
+    }
   }
 
   methodTagColor(item: RestApiOnlineLog) {

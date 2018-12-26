@@ -98,6 +98,7 @@
   "field-date": "Date",
   "field-domain": "Domain",
   "field-max-api-count": "Max Count of API",
+  "field-min-req-count": "Min Request Count",
   "field-inclusions": "Inclusions",
   "field-exclusions": "Exclusions",
   "field-alias": "Alias",
