@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { OnlineService } from 'app/api/service/online.service'
-import { DomainOnlineConfig, METHODS, RestApiOnlineLog } from 'app/model/es.model'
+import { DomainOnlineConfig, FieldPattern, METHODS, RestApiOnlineLog } from 'app/model/es.model'
 import { PageSingleModel } from 'app/model/page.model'
 import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd'
 
@@ -27,6 +27,9 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
       value: 'regex',
     }
   ]
+  exOnly: FieldPattern[] = []
+  aggs: FieldPattern[] = []
+  inOnly: FieldPattern[] = []
   config: DomainOnlineConfig = {
     maxApiCount: 2000,
     inclusions: [],
@@ -52,6 +55,32 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
           if (this.config.exMethods) {
             this.exMethods = this.config.exMethods.map(m => m.name)
           }
+          const inclusions = this.config.inclusions
+          const exclusions = this.config.exclusions
+          const onlyInPatterns: FieldPattern[] = []
+          const onlyExPatterns: FieldPattern[] = []
+          const aggsPatterns: FieldPattern[] = []
+          const inMap: { [k: string]: FieldPattern } = {}
+          if (inclusions) {
+            inclusions.forEach(item => {
+              if (item.alias) { // need aggregation
+                inMap[item.value] = item
+                aggsPatterns.push(item)
+              } else {
+                onlyInPatterns.push(item)
+              }
+            })
+          }
+          if (exclusions) {
+            exclusions.forEach(item => {
+              if (!inMap[item.value]) { // do not need aggregation
+                onlyExPatterns.push(item)
+              }
+            })
+          }
+          this.inOnly = onlyInPatterns
+          this.exOnly = onlyExPatterns
+          this.aggs = aggsPatterns
         }
       })
     }
@@ -66,24 +95,34 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
     private router: Router,
   ) { super() }
 
+  addAggs() {
+    this.aggs.push({
+      type: 'term'
+    })
+  }
+
+  removeAggs(i: number) {
+    this.aggs.splice(i, 1)
+  }
+
   addInclusion() {
-    this.config.inclusions.push({
+    this.inOnly.push({
       type: 'term'
     })
   }
 
   removeInclusion(i: number) {
-    this.config.inclusions.splice(i, 1)
+    this.inOnly.splice(i, 1)
   }
 
   addExclusion() {
-    this.config.exclusions.push({
+    this.exOnly.push({
       type: 'term'
     })
   }
 
   removeExclusion(i: number) {
-    this.config.exclusions.splice(i, 1)
+    this.exOnly.splice(i, 1)
   }
 
   save() {
@@ -118,6 +157,20 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
     } else {
       this.config.exMethods = []
     }
+    const exclusions: FieldPattern[] = []
+    const inclusions: FieldPattern[] = []
+    exclusions.push(...this.exOnly)
+    this.aggs.forEach(item => { // both add inclusion and exclusion
+      const copyItem = { ...item }
+      copyItem.alias = ''
+      exclusions.push(copyItem)
+      inclusions.push(item)
+    })
+    this.inOnly.forEach(item => {
+      inclusions.push(item)
+    })
+    this.config.inclusions = inclusions
+    this.config.exclusions = exclusions
   }
 
   methodTagColor(item: RestApiOnlineLog) {

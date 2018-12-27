@@ -324,6 +324,7 @@
   "item-asc": "升序",
   "item-desc": "降序",
   "item-sort-field": "排序字段",
+  "item-aggs": "聚合",
   "error-empty-summary": "名称不能为空",
   "error-empty-group": "业务线不能为空",
   "error-empty-project": "项目不能为空",

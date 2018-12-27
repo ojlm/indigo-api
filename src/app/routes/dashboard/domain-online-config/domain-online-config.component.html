@@ -12,7 +12,7 @@
         <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
       </nz-select>
     </nz-input-group>
-    <nz-table #nzExclusionTable [nzSize]="'default'" [nzData]="config.exclusions" [nzNoResult]="'tips-no-result'|translate"
+    <nz-table #nzExclusionTable [nzSize]="'default'" [nzData]="exOnly" [nzNoResult]="'tips-no-result'|translate"
       [nzShowPagination]="false" [nzFrontPagination]="false">
       <tbody>
         <tr *ngFor="let item of nzExclusionTable.data; let i = index">
@@ -34,11 +34,11 @@
   <ng-template #extraEx>
     <a (click)="addExclusion()">{{'btn-add'|translate}}</a>
   </ng-template>
-  <nz-card [nzTitle]="'field-inclusions'|translate" [nzExtra]="extraIn" [nzBodyStyle]="{'padding':'8px'}">
-    <nz-table #nzInclusionTable [nzSize]="'default'" [nzData]="config.inclusions" [nzNoResult]="'tips-no-result'|translate"
+  <nz-card [nzTitle]="'item-aggs'|translate" [nzExtra]="extraAggs" [nzBodyStyle]="{'padding':'8px'}">
+    <nz-table #nzAggsTable [nzSize]="'default'" [nzData]="aggs" [nzNoResult]="'tips-no-result'|translate"
       [nzShowPagination]="false" [nzFrontPagination]="false">
       <tbody>
-        <tr *ngFor="let item of nzInclusionTable.data; let i = index">
+        <tr *ngFor="let item of nzAggsTable.data; let i = index">
           <td style="padding:2px;width:120px;">
             <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate" [(ngModel)]="item.type">
               <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value"></nz-option>
@@ -49,6 +49,29 @@
           </td>
           <td style="padding:2px;">
             <input nz-input [(ngModel)]="item.alias" [placeholder]="'field-alias'|translate">
+          </td>
+          <td style="padding:2px;width:32px;">
+            <i class="anticon anticon-close click-icon" (click)="removeAggs(i)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+  <ng-template #extraAggs>
+    <a (click)="addAggs()">{{'btn-add'|translate}}</a>
+  </ng-template>
+  <nz-card [nzTitle]="'field-inclusions'|translate" [nzExtra]="extraIn" [nzBodyStyle]="{'padding':'8px'}">
+    <nz-table #nzInclusionTable [nzSize]="'default'" [nzData]="inOnly" [nzNoResult]="'tips-no-result'|translate"
+      [nzShowPagination]="false" [nzFrontPagination]="false">
+      <tbody>
+        <tr *ngFor="let item of nzInclusionTable.data; let i = index">
+          <td style="padding:2px;width:120px;">
+            <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate" [(ngModel)]="item.type">
+              <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value"></nz-option>
+            </nz-select>
+          </td>
+          <td style="padding:2px;">
+            <input nz-input [(ngModel)]="item.value">
           </td>
           <td style="padding:2px;width:32px;">
             <i class="anticon anticon-close click-icon" (click)="removeInclusion(i)"></i>

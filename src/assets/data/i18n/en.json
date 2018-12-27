@@ -324,6 +324,7 @@
   "item-asc": "Asc",
   "item-desc": "Desc",
   "item-sort-field": "Sort Field",
+  "item-aggs": "Aggregation",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",
