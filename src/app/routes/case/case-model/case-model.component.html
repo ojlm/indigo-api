@@ -27,7 +27,7 @@
               (ngModelChange)="urlChange()">
           </nz-input-group>
           <ng-template #addOnBeforeTemplate>
-            <nz-select style="width:100px;" [(ngModel)]="case.request.method" (ngModelChange)="modelChange()">
+            <nz-select style="width:100px;" [(ngModel)]="case.request.method" (ngModelChange)="methodChange()">
               <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
             </nz-select>
           </ng-template>

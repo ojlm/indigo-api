@@ -87,6 +87,15 @@ export class CaseModelComponent implements OnInit {
     private caseService: CaseService,
   ) { }
 
+  methodChange() {
+    if ('GET' !== this.case.request.method) {
+      if (!this.case.request.contentType) {
+        this.case.request.contentType = HttpContentTypes.X_WWW_FORM_URLENCODED
+      }
+    }
+    this.modelChange()
+  }
+
   modelChange() {
     this.isSaved = false
   }
