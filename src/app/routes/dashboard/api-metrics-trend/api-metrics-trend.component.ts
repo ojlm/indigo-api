@@ -12,7 +12,7 @@ export class ApiMetricsTrendComponent implements OnInit {
 
   result: NameValue[] = []
   item: RestApiOnlineLog = {}
-  metricsKeys = ['min', 'avg', 'max', 'p25', 'p50', 'p75', 'p95', 'p99', 'p999']
+  metricsKeys = ['min', 'avg', 'max', 'p25', 'p50', 'p75', 'p90', 'p95', 'p99', 'p999']
   view: any[] = [calcDrawerWidth() - 40, window.innerHeight - 100]
   colorScheme = {
     domain: [

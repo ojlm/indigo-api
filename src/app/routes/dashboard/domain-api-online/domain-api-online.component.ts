@@ -36,6 +36,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     { label: 'p25', value: 'metrics.p25' },
     { label: 'p50', value: 'metrics.p50' },
     { label: 'p75', value: 'metrics.p75' },
+    { label: 'p90', value: 'metrics.p90' },
     { label: 'p95', value: 'metrics.p95' },
     { label: 'p99', value: 'metrics.p99' },
     { label: 'p999', value: 'metrics.p999' },
