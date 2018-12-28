@@ -2,18 +2,15 @@
   <nz-input-group style="padding-bottom:4px;" [nzAddOnBefore]="'field-max-api-count'|translate">
     <input type="text" nz-input [(ngModel)]="config.maxApiCount">
   </nz-input-group>
-  <nz-input-group style="padding-bottom:10px;" [nzAddOnBefore]="'field-min-req-count'|translate">
-    <input type="text" nz-input [(ngModel)]="config.minReqCount">
-  </nz-input-group>
-  <nz-card [nzTitle]="'field-exclusions'|translate" [nzExtra]="extraEx" [nzBodyStyle]="{'padding':'8px'}">
+  <nz-card [nzTitle]="'field-exclusions'|translate" [nzBodyStyle]="{'padding':'8px'}">
     <nz-input-group>
       <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="exMethods"
         nzAllowClear nzShowSearch>
         <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
       </nz-select>
     </nz-input-group>
-    <nz-table #nzExclusionTable [nzSize]="'default'" [nzData]="exOnly" [nzNoResult]="'tips-no-result'|translate"
-      [nzShowPagination]="false" [nzFrontPagination]="false">
+    <nz-table #nzExclusionTable [nzSize]="'default'" [nzData]="exOnly" [nzNoResult]="'🤔'" [nzShowPagination]="false"
+      [nzFrontPagination]="false">
       <tbody>
         <tr *ngFor="let item of nzExclusionTable.data; let i = index">
           <td style="padding:2px;width:120px;">
@@ -30,13 +27,13 @@
         </tr>
       </tbody>
     </nz-table>
+    <div class="bottom-btns">
+      <a (click)="addExclusion()">{{'btn-add'|translate}}</a>
+    </div>
   </nz-card>
-  <ng-template #extraEx>
-    <a (click)="addExclusion()">{{'btn-add'|translate}}</a>
-  </ng-template>
-  <nz-card [nzTitle]="'item-aggs'|translate" [nzExtra]="extraAggs" [nzBodyStyle]="{'padding':'8px'}">
-    <nz-table #nzAggsTable [nzSize]="'default'" [nzData]="aggs" [nzNoResult]="'tips-no-result'|translate"
-      [nzShowPagination]="false" [nzFrontPagination]="false">
+  <nz-card [nzTitle]="'item-aggs'|translate" [nzBodyStyle]="{'padding':'8px'}">
+    <nz-table #nzAggsTable [nzSize]="'default'" [nzData]="aggs" [nzNoResult]="'🤔'" [nzShowPagination]="false"
+      [nzFrontPagination]="false">
       <tbody>
         <tr *ngFor="let item of nzAggsTable.data; let i = index">
           <td style="padding:2px;width:120px;">
@@ -56,13 +53,13 @@
         </tr>
       </tbody>
     </nz-table>
+    <div class="bottom-btns">
+      <a (click)="addAggs()">{{'btn-add'|translate}}</a>
+    </div>
   </nz-card>
-  <ng-template #extraAggs>
-    <a (click)="addAggs()">{{'btn-add'|translate}}</a>
-  </ng-template>
-  <nz-card [nzTitle]="'field-inclusions'|translate" [nzExtra]="extraIn" [nzBodyStyle]="{'padding':'8px'}">
-    <nz-table #nzInclusionTable [nzSize]="'default'" [nzData]="inOnly" [nzNoResult]="'tips-no-result'|translate"
-      [nzShowPagination]="false" [nzFrontPagination]="false">
+  <nz-card [nzTitle]="'field-inclusions'|translate" [nzBodyStyle]="{'padding':'8px'}">
+    <nz-table #nzInclusionTable [nzSize]="'default'" [nzData]="inOnly" [nzNoResult]="'🤔'" [nzShowPagination]="false"
+      [nzFrontPagination]="false">
       <tbody>
         <tr *ngFor="let item of nzInclusionTable.data; let i = index">
           <td style="padding:2px;width:120px;">
@@ -79,10 +76,21 @@
         </tr>
       </tbody>
     </nz-table>
+    <div class="bottom-btns">
+      <a (click)="addInclusion()">{{'btn-add'|translate}}</a>
+    </div>
   </nz-card>
-  <ng-template #extraIn>
-    <a (click)="addInclusion()">{{'btn-add'|translate}}</a>
-  </ng-template>
+  <nz-card [nzTitle]="'item-second-filter'|translate" [nzBodyStyle]="{'padding':'8px'}">
+    <nz-input-group style="padding-bottom:4px;" [nzAddOnBefore]="'field-min-req-count'|translate">
+      <input type="text" nz-input [(ngModel)]="config.minReqCount">
+    </nz-input-group>
+    <nz-input-group style="padding-bottom:10px;" [nzAddOnBefore]="'field-ex-suffixes'|translate">
+      <input type="text" nz-input [placeholder]="'tips-separated-by-comma'|translate" [(ngModel)]="config.exSuffixes">
+    </nz-input-group>
+    <div style="float:right;padding-right:32px;">
+      <a (click)="addSuffixes()">{{'btn-add-default-suffixes'|translate}}</a>
+    </div>
+  </nz-card>
   <div style="padding:8px;text-align:right;">
     <button nz-button style="background-color:lightcoral;" nzType="primary" [nzLoading]="previewLoading" (click)="preview()">{{'btn-preview'|translate}}</button>
     <button nz-button nzType="primary" (click)="save()">{{'btn-save'|translate}}</button>

@@ -10,6 +10,13 @@ import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd'
 @Component({
   selector: 'app-domain-online-config',
   templateUrl: './domain-online-config.component.html',
+  styles: [`
+    div.bottom-btns {
+      float: right;
+      padding-top: 4px;
+      padding-right: 32px;
+    }
+  `]
 })
 export class DomainOnlineConfigComponent extends PageSingleModel implements OnInit {
 
@@ -41,6 +48,10 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
   previewLoading = false
   apiItems: RestApiOnlineLog[] = []
   list: RestApiOnlineLog[] = []
+  defaultExSuffixes = [
+    '.html', '.js', '.css', '.php', '.log', '.htaccess', '.ini', '.DS_store', '.git',
+    '.config', '.md', '.ico', '.mp3', '.mp4', '.jsp'
+  ]
   @Input()
   set data(val: { domain: string, domainTotal: number }) {
     this.config.domain = val.domain || ''
@@ -94,6 +105,10 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
     private route: ActivatedRoute,
     private router: Router,
   ) { super() }
+
+  addSuffixes() {
+    this.config.exSuffixes = this.defaultExSuffixes.join(',')
+  }
 
   addAggs() {
     this.aggs.push({

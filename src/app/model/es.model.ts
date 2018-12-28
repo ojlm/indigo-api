@@ -417,6 +417,7 @@ export interface DomainOnlineConfig extends BaseDoc {
   domain?: string
   maxApiCount?: number
   minReqCount?: number
+  exSuffixes?: string
   inclusions?: FieldPattern[]
   exclusions?: FieldPattern[]
   exMethods?: LabelRef[]
