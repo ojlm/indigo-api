@@ -189,7 +189,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     }
   }
 
-  domainChange() {
+  domainChange(resetApiQuery: boolean = true) {
     if (this.domain) {
       this.hashObj.domain = this.domain
       this.queryDomain.names = [this.domain]
@@ -201,8 +201,10 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
       this.showDomainApis = false
     }
     objToHash(this.hashObj)
-    this.queryApi.method = undefined
-    this.queryApi.urlPath = undefined
+    if (resetApiQuery) {
+      this.queryApi.method = undefined
+      this.queryApi.urlPath = undefined
+    }
     this.pageIndex = 1
     this.domainResult = []
     this.loadDomainApiData(true)
@@ -246,6 +248,12 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     }
   }
 
+  urlPathChange() {
+    this.hashObj.urlPath = this.queryApi.urlPath
+    objToHash(this.hashObj)
+    this.reloadDomainApiData()
+  }
+
   reloadDomainApiData() {
     this.pageIndex = 1
     this.loadDomainApiData()
@@ -275,11 +283,14 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
         this.queryApi.date = this.queryDomain.date
         if (init) {
           this.domain = this.hashObj.domain
+          if (this.hashObj.urlPath) {
+            this.queryApi.urlPath = this.hashObj.urlPath
+          }
           const index = this.domains.findIndex(d => d.name === this.domain)
           if (-1 === index) {
             this.searchDomain(this.domain)
           }
-          this.domainChange()
+          this.domainChange(false)
         }
       }
       if (res.data.count) {
@@ -333,4 +344,5 @@ interface HashObj {
   domain?: string
   date?: string
   showCovRate?: boolean
+  urlPath?: string
 }
