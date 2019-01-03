@@ -1,9 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { AggsItem, AggsQuery } from 'app/api/service/base.service'
+import { AggsItem } from 'app/api/service/base.service'
 import {
   OnlineService,
   QueryDomain,
+  QueryDomainWildcard,
   QueryOnlineApi,
   QueryOnlineApiResponse,
   QueryOnlineApiSubjectSearch,
@@ -67,7 +68,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     size: 20,
   }
   showDomainApis = false
-  queryDomainSubject: Subject<AggsQuery>
+  queryDomainSubject: Subject<QueryDomainWildcard>
   queryApiSubject: Subject<QueryOnlineApiSubjectSearch>
   hashObj: HashObj = { showCovRate: false }
   @HostListener('window:resize')
@@ -83,12 +84,10 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     private router: Router,
   ) {
     super()
-    const domainResponse = new Subject<ApiRes<AggsItem[]>>()
-    this.queryDomainSubject = this.onlineService.aggDomainTermsSubject(domainResponse)
+    const domainResponse = new Subject<ApiRes<DomainOnlineLog[]>>()
+    this.queryDomainSubject = this.onlineService.queryDomainWildcardSubject(domainResponse)
     domainResponse.subscribe(res => {
-      this.domains = res.data.map(item => {
-        return { name: item.id, count: item.count }
-      })
+      this.domains = res.data.list
     })
     const apiResponse = new Subject<ApiRes<QueryOnlineApiResponse>>()
     this.queryApiSubject = this.onlineService.queryApiSubject(apiResponse)
@@ -242,9 +241,9 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     window.open(`http://${item.domain}${item.urlPath}`)
   }
 
-  searchDomain(prefix: string) {
-    if (prefix) {
-      this.queryDomainSubject.next({ namePrefix: prefix, date: this.queryDomain.date, termsField: 'name', size: 10 })
+  searchDomain(domain: string) {
+    if (domain) {
+      this.queryDomainSubject.next({ domain: domain, date: this.queryDomain.date })
     }
   }
 

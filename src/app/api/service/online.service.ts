@@ -19,6 +19,16 @@ export class OnlineService extends BaseService {
     return this.http.post<ApiRes<QueryDomainResponse>>(`${API_ONLINE}/domain`, query)
   }
 
+  queryDomainWildcardSubject(response: Subject<ApiRes<DomainOnlineLog[]>>) {
+    const querySubject = new Subject<QueryDomainWildcard>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
+      this.http.post<ApiRes<DomainOnlineLog[]>>(`${API_ONLINE}/domain/wildcard`, query).subscribe(
+        res => response.next(res),
+        err => response.error(err))
+    })
+    return querySubject
+  }
+
   aggDomainTerms(query: AggsQuery) {
     return this.http.post<ApiRes<AggsItem[]>>(`${API_ONLINE}/domain/aggs/terms`, query)
   }
@@ -74,6 +84,11 @@ export class OnlineService extends BaseService {
 
 export interface QueryDomain extends QueryPage {
   names?: string[]
+  date?: string
+}
+
+export interface QueryDomainWildcard extends QueryPage {
+  domain?: string
   date?: string
 }
 

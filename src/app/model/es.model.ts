@@ -363,6 +363,7 @@ export interface DeleteResData {
 
 export interface DomainOnlineLog {
   name?: string
+  tag?: string
   count?: number
   date?: string
   coverage?: number
@@ -370,6 +371,7 @@ export interface DomainOnlineLog {
 
 export interface RestApiOnlineLog {
   domain?: string
+  tag?: string
   method?: string
   urlPath?: string
   count?: number
@@ -415,6 +417,7 @@ export interface FieldPattern {
 
 export interface DomainOnlineConfig extends BaseDoc {
   domain?: string
+  tag?: string
   maxApiCount?: number
   minReqCount?: number
   exSuffixes?: string
