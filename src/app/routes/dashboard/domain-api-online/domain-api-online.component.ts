@@ -273,7 +273,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     window.open(`http://${item.domain}${item.urlPath}`)
   }
 
-  searchDomain(domain: string, tag: string) {
+  searchDomain(domain: string, tag: string = '') {
     if (domain) {
       this.queryDomainSubject.next({ domain: domain, tag: tag, date: this.queryDomain.date })
     }
