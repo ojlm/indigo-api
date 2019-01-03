@@ -10,7 +10,7 @@
       <nz-select style="padding-left:5px;width:300px;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'small'"
         [nzPlaceHolder]="'field-domain'|translate" nzAllowClear nzShowSearch [(ngModel)]="domain" (ngModelChange)="domainChange()"
         [nzServerSearch]="true" (nzOnSearch)="searchDomain($event)">
-        <nz-option *ngFor="let item of domains" [nzLabel]="item.name" [nzValue]="item.name" nzCustomContent>
+        <nz-option *ngFor="let item of domains" [nzLabel]="item.name" [nzValue]="item" nzCustomContent>
           <span>
             <nz-tag *ngIf="item.tag" [nzColor]="'#2db7f5'">{{item.tag}}</nz-tag>
             <span>{{item.name}}</span>
@@ -34,6 +34,7 @@
         (nzCheckedChange)="reloadDomainApiData()">
         {{queryApi.asc?('item-asc'|translate):('item-desc'|translate)}}
       </nz-tag>
+      <nz-tag *ngIf="this.domain&&this.domain.tag" [nzColor]="'#2db7f5'">{{this.domain.tag}}</nz-tag>
       <button *ngIf="domain" style="float:right;margin-left:8px;" nz-button nzSize="small" nzType="default" (click)="showDomainSyncSetting()">
         <i class="anticon anticon-setting"></i>
       </button>

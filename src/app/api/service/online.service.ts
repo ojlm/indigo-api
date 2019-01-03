@@ -89,11 +89,13 @@ export interface QueryDomain extends QueryPage {
 
 export interface QueryDomainWildcard extends QueryPage {
   domain?: string
+  tag?: string
   date?: string
 }
 
 export interface QueryOnlineApi extends QueryPage {
   domain?: string
+  tag?: string
   method?: string
   urlPath?: string
   date?: string

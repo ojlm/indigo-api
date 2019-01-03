@@ -49,7 +49,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
       '#e0f7fa', '#b2ebf2', '#80deea', '#4dd0e1', '#26c6da', '#00bcd4', '#00acc1', '#0097a7', '#00838f', '#006064'
     ]
   }
-  domain = ''
+  domain: DomainOnlineLog
   dates: AggsItem[] = []
   domains: DomainOnlineLog[] = []
   loading = false
@@ -88,6 +88,13 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     this.queryDomainSubject = this.onlineService.queryDomainWildcardSubject(domainResponse)
     domainResponse.subscribe(res => {
       this.domains = res.data.list
+      if (this.domain) {
+        res.data.list.forEach(item => {
+          if (item.name === this.domain.name && item.tag === this.domain.tag) {
+            this.domain = item
+          }
+        })
+      }
     })
     const apiResponse = new Subject<ApiRes<QueryOnlineApiResponse>>()
     this.queryApiSubject = this.onlineService.queryApiSubject(apiResponse)
@@ -150,11 +157,11 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     const domainCount = this.domainResult.find(item => item.name === this.queryDomain.date)
     if (domainCount) {
       const drawerRef = this.drawerService.create({
-        nzTitle: `${this.domain}(${domainCount.value.toLocaleString()})`,
+        nzTitle: `${this.domain.tag ? `${this.domain.tag}: ` : ''}${this.domain.name}(${domainCount.value.toLocaleString()})`,
         nzContent: DomainOnlineConfigComponent,
         nzContentParams: {
           data: {
-            domain: this.domain,
+            domain: this.domain.name,
             domainTotal: domainCount.value
           }
         },
@@ -180,7 +187,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     if (this.showDomainApis && this.queryApi.date) {
       this.loadDomainApiData()
     } else {
-      this.domain = ''
+      this.domain = undefined
       this.queryDomain.names = []
       this.queryApi.domain = ''
       this.showDomainApis = false
@@ -189,14 +196,18 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   domainChange(resetApiQuery: boolean = true) {
-    if (this.domain) {
-      this.hashObj.domain = this.domain
-      this.queryDomain.names = [this.domain]
-      this.queryApi.domain = this.domain
+    if (this.domain && this.domain.name) {
+      this.hashObj.domain = this.domain.name
+      this.hashObj.tag = this.domain.tag
+      this.queryDomain.names = [this.domain.name]
+      this.queryApi.domain = this.domain.name
+      this.queryApi.tag = this.domain.tag
     } else {
       delete this.hashObj.domain
+      delete this.hashObj.tag
       this.queryDomain.names = undefined
       this.queryApi.domain = undefined
+      this.queryApi.tag = undefined
       this.showDomainApis = false
     }
     objToHash(this.hashObj)
@@ -210,16 +221,37 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
   }
 
   onDomainSelect(item: NameValue | string) {
+    let domain = ''
+    let tag = ''
+    let splits = []
     if (typeof item === 'string') {
-      this.domain = item
-      const index = this.domains.findIndex(d => d.name === item)
-      if (-1 === index) {
-        this.searchDomain(this.domain)
-      }
-      this.domainChange()
+      splits = item.split(':')
     } else {
-      this.domain = item.name
-      this.domainChange()
+      splits = item.name.split(':')
+    }
+    if (splits.length === 2) {
+      tag = splits[0]
+      domain = splits[1]
+    } else {
+      domain = splits[0]
+    }
+    this.setCurrDomainWhenSelect(domain, tag)
+    this.domainChange()
+  }
+
+  setCurrDomainWhenSelect(domain: string, tag: string) {
+    const index = this.domains.findIndex(d => {
+      if (tag) {
+        return d.tag === tag && d.name === domain
+      } else {
+        return d.name === domain
+      }
+    })
+    if (-1 === index) {
+      this.domain = { name: domain, tag: tag }
+      this.searchDomain(domain, tag)
+    } else {
+      this.domain = this.domains[index]
     }
   }
 
@@ -241,9 +273,9 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
     window.open(`http://${item.domain}${item.urlPath}`)
   }
 
-  searchDomain(domain: string) {
+  searchDomain(domain: string, tag: string) {
     if (domain) {
-      this.queryDomainSubject.next({ domain: domain, date: this.queryDomain.date })
+      this.queryDomainSubject.next({ domain: domain, tag: tag, date: this.queryDomain.date })
     }
   }
 
@@ -281,13 +313,13 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
         objToHash(this.hashObj)
         this.queryApi.date = this.queryDomain.date
         if (init) {
-          this.domain = this.hashObj.domain
+          this.domain = { name: this.hashObj.domain, tag: this.hashObj.tag }
           if (this.hashObj.urlPath) {
             this.queryApi.urlPath = this.hashObj.urlPath
           }
           const index = this.domains.findIndex(d => d.name === this.domain)
           if (-1 === index) {
-            this.searchDomain(this.domain)
+            this.searchDomain(this.domain.name, this.domain.tag)
           }
           this.domainChange(false)
         }
@@ -295,12 +327,12 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
       if (res.data.count) {
         this.domains = res.data.count.list
         this.domainsResult = res.data.count.list.map(item => {
-          return { name: item.name, value: item.count }
+          return { name: `${item.tag ? `${item.tag}:` : ''}${item.name}`, value: item.count }
         })
       }
       if (res.data.coverage) {
         this.domainsCoverateResult = res.data.coverage.list.map(item => {
-          return { name: item.name, value: (item.coverage / 100) }
+          return { name: `${item.tag ? `${item.tag}:` : ''}${item.name}`, value: (item.coverage / 100) }
         })
       }
     })
@@ -341,6 +373,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
 
 interface HashObj {
   domain?: string
+  tag?: string
   date?: string
   showCovRate?: boolean
   urlPath?: string
