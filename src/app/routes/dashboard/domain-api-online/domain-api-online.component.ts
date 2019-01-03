@@ -162,6 +162,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
         nzContentParams: {
           data: {
             domain: this.domain.name,
+            tag: this.domain.tag,
             domainTotal: domainCount.value
           }
         },

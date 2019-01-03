@@ -53,8 +53,9 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
     '.config', '.md', '.ico', '.mp3', '.mp4', '.jsp'
   ]
   @Input()
-  set data(val: { domain: string, domainTotal: number }) {
+  set data(val: { domain: string, domainTotal: number, tag: string }) {
     this.config.domain = val.domain || ''
+    this.config.tag = val.tag || ''
     this.domainTotal = val.domainTotal
     if (this.config.domain) {
       this.onlineService.getDomainConfig(this.config.domain).subscribe(res => {
