@@ -7,7 +7,7 @@
     <li *ngIf="_item.belongs.length===0" nz-menu-item style="color:lightcoral;">{{'tips-online-domain-absent'|translate}}</li>
     <ng-container *ngIf="_item.belongs.length>0">
       <li nz-submenu *ngFor="let item of _item.belongs">
-        <span title [style.color]="item.covered?'lightcoral':''">
+        <span title [style.color]="item.covered?'#108ee9':'lightcoral'">
           <span *ngIf="item.covered">({{item.count}}) </span>
           <span>{{item.group}}/{{item.project}}</span>
         </span>
