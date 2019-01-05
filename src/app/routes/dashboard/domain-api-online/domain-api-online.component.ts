@@ -111,7 +111,7 @@ export class DomainApiOnlineComponent extends PageSingleModel implements OnInit 
           domainCoverageResults.push({ name: item.date, value: cov })
         })
         this.domainResult = domainCountResult
-        this.domainCoverageResults = domainCoverageResults
+        this.domainCoverageResults = domainCoverageResults.reverse()
       }
       this.pageTotal = res.data.apis.total
       this.apiItems = res.data.apis.list
