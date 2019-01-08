@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DeleteItemComponent } from '@shared/delete-item/delete-item.component'
+import { GroupProjectSelectorModel } from '@shared/group-project-selector/group-project-selector.component'
 import { ApiRes } from 'app/model/api.model'
 import { UserProfile } from 'app/model/user.model'
 import { calcDrawerWidth } from 'app/util/drawer'
@@ -33,7 +34,7 @@ import { PageSingleModel } from '../../../model/page.model'
 })
 export class ProjectCasesComponent extends PageSingleModel implements OnInit {
 
-  drawerWidth = calcDrawerWidth(0.3)
+  drawerWidth = calcDrawerWidth(0.45)
   allSelected = false
   selectable = false
   batchMode = false
@@ -48,6 +49,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
   search: QueryCase = {}
   panelSubject: Subject<QueryCase> = new Subject<QueryCase>()
   querySubject: Subject<QueryCase>
+  transferGroupProject: GroupProjectSelectorModel = {}
 
   constructor(
     private caseService: CaseService,
@@ -77,6 +79,10 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
     })
   }
 
+  batchOperationBtnClick() {
+    this.batchMode = true
+  }
+
   resetSeleableState() {
     this.allSelected = false
     this.selectable = false
@@ -91,6 +97,15 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
     this.items.forEach(item => item._checked = false)
   }
 
+  batchTransfer() {
+    const reqBody = { ...this.transferGroupProject, ids: this.selectedItems.map(item => item._id) }
+    this.caseService.batchTransfer(reqBody)
+      .subscribe(res => {
+        this.loadData()
+        this.resetSeleableState()
+      })
+  }
+
   batchAddLabel() {
     if (this.selectedItems.length > 0 && this.batchLabel) {
       const labelItems = this.selectedItems.map(item => {
@@ -100,7 +115,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
         }
       })
       if (labelItems.length > 0) {
-        this.caseService.batchOperate({ labels: labelItems }).subscribe(res => {
+        this.caseService.batchOperateLabels({ labels: labelItems }).subscribe(res => {
           this.loadData()
           this.resetSeleableState()
         })
@@ -120,7 +135,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
         }
       })
       if (labelItems.length > 0) {
-        this.caseService.batchOperate({ labels: labelItems }).subscribe(res => {
+        this.caseService.batchOperateLabels({ labels: labelItems }).subscribe(res => {
           this.loadData()
           this.resetSeleableState()
         })
@@ -243,6 +258,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
   ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
       this.group = params['group']
+      this.transferGroupProject.group = this.group
       this.project = params['project']
       this.loadData()
     })

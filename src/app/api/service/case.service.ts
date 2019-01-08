@@ -100,8 +100,12 @@ export class CaseService extends BaseService {
     return querySubject
   }
 
-  batchOperate(ops: BatchOperation) {
-    return this.http.post<ApiRes<any>>(`${API_CASE}/batch`, ops)
+  batchOperateLabels(ops: BatchOperationLabels) {
+    return this.http.post<ApiRes<any>>(`${API_CASE}/batch/labels`, ops)
+  }
+
+  batchTransfer(ops: BatchTransfer) {
+    return this.http.post<ApiRes<any>>(`${API_CASE}/batch/transfer`, ops)
   }
 }
 
@@ -138,6 +142,12 @@ export interface UpdateCase {
   id?: string
   cs?: Case
 }
-export interface BatchOperation {
+export interface BatchOperationLabels {
   labels?: { id: string, labels: LabelRef[] }[]
+}
+
+export interface BatchTransfer {
+  group?: string
+  project?: string
+  ids?: string[]
 }
