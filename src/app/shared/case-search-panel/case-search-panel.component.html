@@ -13,7 +13,7 @@
       <i class="anticon anticon-{{showAll?'up':'down'}}"></i>
     </button>
   </div>
-  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="10">
+  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="8">
     <nz-input-group>
       <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="search.methods"
         nzAllowClear nzShowSearch (ngModelChange)="modelChange()">
@@ -21,12 +21,17 @@
       </nz-select>
     </nz-input-group>
   </div>
-  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="14">
+  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="16">
     <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-path'|translate">
       <input type="text" nz-input [(ngModel)]="search.path" (ngModelChange)="modelChange()">
     </nz-input-group>
   </div>
-  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="24">
+  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="8">
+    <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-host'|translate">
+      <input type="text" nz-input [(ngModel)]="search.host" (ngModelChange)="modelChange()">
+    </nz-input-group>
+  </div>
+  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="16">
     <nz-input-group [nzAddOnBefore]="'field-labels'|translate">
       <nz-select style="width:100%;" nzMode="multiple" [(ngModel)]="search.labels" nzAllowClear nzShowSearch
         (nzOpenChange)="labelSelectOpenChange()" [nzServerSearch]="true" (nzOnSearch)="searchLabel($event)"

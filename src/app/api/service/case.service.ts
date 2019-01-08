@@ -108,6 +108,7 @@ export class CaseService extends BaseService {
 export interface QueryCase extends QueryPage {
   group?: string
   project?: string
+  host?: string
   methods?: string[]
   path?: string
   text?: string
