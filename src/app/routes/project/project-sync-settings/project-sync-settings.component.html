@@ -3,11 +3,21 @@
     <h1 style="padding-left: 10px;">{{'menu-sync-settings'|translate}}</h1>
   </div>
   <div>
-    <nz-input-group [nzAddOnBefore]="'field-domain'|translate">
-      <input type="text" nz-input [(ngModel)]="domain">
+    <nz-input-group *ngFor="let item of domains" style="padding-top:4px;" [nzAddOnBefore]="'field-domain'|translate">
+      <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
+        [nzPlaceHolder]="'field-domain'|translate" nzAllowClear nzShowSearch [(ngModel)]="item.name" [nzServerSearch]="true"
+        (nzOnSearch)="searchDomain($event)">
+        <nz-option *ngFor="let item of domainLogs" [nzLabel]="item.name" [nzValue]="item.name" nzCustomContent>
+          <span>
+            <nz-tag *ngIf="item.tag" [nzColor]="'#2db7f5'">{{item.tag}}</nz-tag>
+            <span>{{item.name}}</span>
+          </span>
+        </nz-option>
+      </nz-select>
     </nz-input-group>
   </div>
   <div style="padding-top:8px;">
+    <button nz-button nzType="default" (click)="add()">{{'btn-add'|translate}}</button>
     <button nz-button nzType="primary" (click)="save()">{{'btn-save'|translate}}</button>
   </div>
 </div>
