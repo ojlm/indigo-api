@@ -1,0 +1,38 @@
+<div nz-row [nzGutter]="3">
+  <div nz-col nzSpan="12">
+    <nz-input-group [nzAddOnBefore]="'field-group'|translate">
+      <nz-select style="width: 100%;" nzMode="default" [nzPlaceHolder]="'field-group'|translate" nzAllowClear
+        [(ngModel)]="group" (ngModelChange)="modelChange()" nzShowSearch [nzServerSearch]="true" [nzNotFoundContent]="'tips-no-data'|translate"
+        (nzOnSearch)="searchGroup($event)" (nzOpenChange)="openSearchGroup()">
+        <ng-container *ngFor="let item of groups">
+          <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="item.id" nzCustomContent>
+            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover [nzTitle]="item.summary"
+              [nzContent]="item.description"></nz-avatar>
+            <span style="padding-left:10px;">{{item.id}}</span>
+          </nz-option>
+        </ng-container>
+        <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+          <i class="anticon anticon-loading anticon-spin"></i><span> {{'tips-loading-data'|translate}}</span>
+        </nz-option>
+      </nz-select>
+    </nz-input-group>
+  </div>
+  <div nz-col nzSpan="12">
+    <nz-input-group [nzAddOnBefore]="'field-project'|translate">
+      <nz-select style="width: 100%;" nzMode="default" [nzPlaceHolder]="'field-project'|translate" nzAllowClear
+        [(ngModel)]="project" (ngModelChange)="projectChange()" nzShowSearch [nzServerSearch]="true"
+        [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchProject($event)" (nzOpenChange)="openSearchProject()">
+        <ng-container *ngFor="let item of projects">
+          <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="item.id" nzCustomContent>
+            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover [nzTitle]="item.summary"
+              [nzContent]="item.description"></nz-avatar>
+            <span style="padding-left:10px;">{{item.group}}/{{item.id}}</span>
+          </nz-option>
+        </ng-container>
+        <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+          <i class="anticon anticon-loading anticon-spin"></i><span> {{'tips-loading-data'|translate}}</span>
+        </nz-option>
+      </nz-select>
+    </nz-input-group>
+  </div>
+</div>
