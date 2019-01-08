@@ -19,8 +19,10 @@
   </div>
   <div nz-col nzSpan="12">
     <nz-input-group [nzAddOnBefore]="'field-project'|translate">
-      <nz-select style="width: 100%;" nzMode="default" [nzPlaceHolder]="'field-project'|translate" nzAllowClear
-        [(ngModel)]="project" (ngModelChange)="projectChange()" nzShowSearch [nzServerSearch]="true"
+      <input *ngIf="projectEditable" nz-input [placeholder]="'field-project'|translate" [(ngModel)]="project.id"
+        (ngModelChange)="modelChange()">
+      <nz-select *ngIf="!projectEditable" style="width: 100%;" nzMode="default" [nzPlaceHolder]="'field-project'|translate"
+        nzAllowClear [(ngModel)]="project" (ngModelChange)="projectChange()" nzShowSearch [nzServerSearch]="true"
         [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchProject($event)" (nzOpenChange)="openSearchProject()">
         <ng-container *ngFor="let item of projects">
           <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="item.id" nzCustomContent>

@@ -32,6 +32,7 @@ export class GroupProjectSelectorComponent implements OnInit {
   }
   @Output()
   dataChange = new EventEmitter<GroupProjectSelectorModel>()
+  @Input() projectEditable = false
 
   constructor(
     private groupService: GroupService,

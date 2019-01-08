@@ -35,6 +35,10 @@ export class ProjectService extends BaseService {
     return this.http.delete(`${API_PROJECT}/${group}/${id}`) as Observable<ApiRes<any>>
   }
 
+  transfer(op: TransferProject) {
+    return this.http.post<ApiRes<any>>(`${API_PROJECT}/transfer`, op)
+  }
+
   getOpenApi(group: string, id: string) {
     return this.http.get<ApiRes<Project>>(`${API_OPENAPI}/${group}/${id}`)
   }
@@ -68,4 +72,11 @@ export interface QueryProject extends QueryPage {
   id?: string
   text?: string
   group?: string
+}
+
+export interface TransferProject {
+  oldGroup?: string
+  newGroup?: string
+  oldId?: string
+  newId?: string
 }

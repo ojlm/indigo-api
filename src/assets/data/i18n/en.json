@@ -144,6 +144,8 @@
   "title-trend": "Trending",
   "title-request-count": "Request Count",
   "title-coverage": "Coverage",
+  "title-delete-project": "Remove Project",
+  "title-transfer-project": "Transfer Project",
   "content-title-rest": "Rest Api",
   "content-title-env": "Environment",
   "content-title-case-list": "Case List",

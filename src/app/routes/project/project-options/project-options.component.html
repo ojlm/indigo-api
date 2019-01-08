@@ -3,6 +3,30 @@
     <h1 style="padding-left: 10px;">{{'menu-other-options'|translate}}</h1>
   </div>
   <div>
-    <button nz-button nzType="primary" (click)="delete()">{{'btn-delete'|translate}}</button>
+    <nz-divider [nzText]="transferText" nzOrientation="left">
+      <ng-template #transferText>
+        <span class="divider-text">
+          <span>{{'title-transfer-project'|translate}}</span>
+        </span>
+      </ng-template>
+    </nz-divider>
+    <div nz-row [nzGutter]="3">
+      <div nz-col nzSpan="22">
+        <app-group-project-selector [(data)]="transferGroupProject" [projectEditable]="true"></app-group-project-selector>
+      </div>
+      <div nz-col nzSpan="2">
+        <button style="width:100%;" [nzLoading]="loading" nz-button nzType="danger" (click)="transfer()">{{'item-transfer'|translate}}</button>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:40px;">
+    <nz-divider [nzText]="removeText" nzOrientation="left">
+      <ng-template #removeText>
+        <span class="divider-text">
+          <span>{{'title-delete-project'|translate}}</span>
+        </span>
+      </ng-template>
+    </nz-divider>
+    <button style="margin-left:10px;" [nzLoading]="loading" nz-button nzType="danger" (click)="delete()">{{'btn-delete'|translate}}</button>
   </div>
 </div>
