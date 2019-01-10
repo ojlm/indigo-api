@@ -1,4 +1,5 @@
 import { Component } from '@angular/core'
+import { Router } from '@angular/router'
 import { SettingsService } from '@delon/theme'
 
 @Component({
@@ -8,7 +9,10 @@ import { SettingsService } from '@delon/theme'
 export class HeaderComponent {
   searchToggleStatus: boolean
 
-  constructor(public settings: SettingsService) { }
+  constructor(
+    public settings: SettingsService,
+    private router: Router,
+  ) { }
 
   toggleCollapsedSideabar() {
     this.settings.setLayout('collapsed', !this.settings.layout.collapsed)
@@ -16,6 +20,10 @@ export class HeaderComponent {
 
   searchToggleChange() {
     this.searchToggleStatus = !this.searchToggleStatus
+  }
+
+  goDubbo() {
+    this.router.navigateByUrl(`/dubbo`)
   }
 
   goHelp() {

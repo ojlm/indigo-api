@@ -42,6 +42,14 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'dubbo',
+    component: LayoutIndigoComponent,
+    canActivateChild: [JWTGuard],
+    children: [
+      { path: '', loadChildren: './dubbo/dubbo.module#DubboModule' }
+    ]
+  },
+  {
     path: 'system',
     component: LayoutIndigoComponent,
     canActivateChild: [JWTGuard],

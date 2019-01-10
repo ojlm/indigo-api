@@ -7,19 +7,31 @@
 <div class="top-nav-wrap">
   <ul class="top-nav">
     <li class="hidden-xs">
-      <a [routerLink]="['/dashboard/groups']" routerLinkActive="header-item-btn-active">
+      <a class="item" [routerLink]="['/dashboard/groups']" routerLinkActive="header-item-btn-active">
         <span class="header-item-btn">{{'menu-groups' | translate}}</span>
       </a>
     </li>
     <li class="hidden-xs">
-      <a [routerLink]="['/dashboard/projects']" routerLinkActive="header-item-btn-active">
+      <a class="item" [routerLink]="['/dashboard/projects']" routerLinkActive="header-item-btn-active">
         <span class="header-item-btn">{{'menu-projects' | translate}}</span>
       </a>
     </li>
     <li class="hidden-xs">
-      <a [routerLink]="['/dashboard/online']" routerLinkActive="header-item-btn-active">
+      <a class="item" [routerLink]="['/dashboard/online']" routerLinkActive="header-item-btn-active">
         <span class="header-item-btn">{{'menu-online-api' | translate}}</span>
       </a>
+    </li>
+    <li class="hidden-xs">
+      <nz-dropdown nzPlacement="bottomRight">
+        <div class="item" style="border:solid 1px white;border-radius:8px;transform:scale(0.75);" nz-dropdown>
+          <span>Beta</span>
+        </div>
+        <div nz-menu style="width:100px;">
+          <div nz-menu-item (click)="goDubbo()">
+            <span>Dubbo</span>
+          </div>
+        </div>
+      </nz-dropdown>
     </li>
   </ul>
   <ul class="top-nav">
