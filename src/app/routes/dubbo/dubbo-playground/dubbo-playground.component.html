@@ -1,1 +1,28 @@
-<div>Dubbo playground</div>
+<div style="padding:10px 16px;">
+  <div nz-row nzGutter="10" [style.height]="height">
+    <div class="col-panel" nz-col nzSpan="6">
+      <nz-input-group nzAddOnBefore="zk://" [nzSuffix]="tplConn">
+        <input type="text" nz-input placeholder="zookeeper address" [(ngModel)]="interfacesMsg.zkAddr" (keydown.enter)="getInterfaces()">
+        <ng-template #tplConn><a (click)="getInterfaces()"><i class="anticon anticon-enter"></i></a></ng-template>
+      </nz-input-group>
+      <div *ngIf="interfaceList.length>0" style="margin-top:4px;">
+        <nz-table class="assertion-list" nzSize="small" #basicTable [nzFrontPagination]="false" [nzShowPagination]="false"
+          [nzScroll]="tableScroll" [nzData]="interfaceList">
+          <tbody>
+            <tr *ngFor="let item of basicTable.data">
+              <td>{{item.ref}}</td>
+              <td style="width:48px;">
+                <button nz-button nzSize="small" nzType="default" (click)="getProviders(item)">
+                  <i class="anticon anticon-login"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+    <div class="col-panel" nz-col nzSpan="18">
+      reg
+    </div>
+  </div>
+</div>
