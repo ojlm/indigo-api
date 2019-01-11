@@ -1,13 +1,16 @@
-<div style="padding:10px 16px;">
+<div style="padding:10px 16px;overflow: hidden;">
   <div nz-row nzGutter="10" [style.height]="height">
     <div class="col-panel" nz-col nzSpan="6">
       <nz-input-group nzAddOnBefore="zk://" [nzSuffix]="tplConn">
         <input type="text" nz-input placeholder="zookeeper address" [(ngModel)]="interfacesMsg.zkAddr" (keydown.enter)="getInterfaces()">
         <ng-template #tplConn><a (click)="getInterfaces()"><i class="anticon anticon-enter"></i></a></ng-template>
       </nz-input-group>
-      <div *ngIf="interfaceList.length>0" style="margin-top:4px;">
-        <nz-table class="assertion-list" nzSize="small" #basicTable [nzFrontPagination]="false" [nzShowPagination]="false"
-          [nzScroll]="tableScroll" [nzData]="interfaceList">
+      <div style="margin-top:4px;">
+        <nz-input-group nzAddOnBefore="ref:">
+          <input type="text" nz-input [(ngModel)]="interfaceSearchTxt" (ngModelChange)="filterInterfaces()">
+        </nz-input-group>
+        <nz-table nzSize="small" #basicTable [nzFrontPagination]="false" [nzShowPagination]="false" [nzScroll]="tableScroll"
+          [nzData]="interfaces">
           <tbody>
             <tr *ngFor="let item of basicTable.data">
               <td>{{item.ref}}</td>
@@ -22,7 +25,68 @@
       </div>
     </div>
     <div class="col-panel" nz-col nzSpan="18">
-      reg
+      <nz-input-group [nzAddOnBefore]="'dubbo://'" [nzAddOnAfter]="nzAddOnAfterDubbo">
+        <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
+          [nzPlaceHolder]="'provider'" nzAllowClear nzShowSearch [(ngModel)]="selectedProvider" (ngModelChange)="providerChange()"
+          [nzServerSearch]="true" (nzOnSearch)="searchProvider($event)">
+          <nz-option *ngFor="let item of providers" [nzLabel]="dubboAddress(item)" [nzValue]="item" nzCustomContent>
+            <span>
+              <span>{{dubboAddress(item)}}</span>
+            </span>
+          </nz-option>
+        </nz-select>
+        <ng-template #nzAddOnAfterDubbo>
+          <span style="cursor:pointer;color:lightblue;" (click)="telnet()">
+            <i class="anticon anticon-code click-icon"></i>
+          </span>
+        </ng-template>
+      </nz-input-group>
+      <nz-input-group style="margin-top:4px;" [nzAddOnBefore]="'method:'" [nzAddOnAfter]="nzAddOnAfterMethod">
+        <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
+          nzAllowClear nzShowSearch [(ngModel)]="request.method" [nzServerSearch]="true" (nzOnSearch)="searchMethod($event)">
+          <nz-option *ngFor="let item of methods" [nzLabel]="item" [nzValue]="item" nzCustomContent>
+            <span>
+              <span>{{item}}</span>
+            </span>
+          </nz-option>
+        </nz-select>
+        <ng-template #nzAddOnAfterMethod>
+          <span style="cursor:pointer;color:lightblue;" (click)="viewMethods()">
+            <i class="anticon anticon-eye click-icon"></i>
+          </span>
+        </ng-template>
+      </nz-input-group>
+      <div nz-row nzGutter="4" style="margin-top:4px;" [style.height]="subHeight">
+        <div class="body-panel" nz-col nzSpan="14">
+          <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="requestBody">
+          </ngx-monaco-editor>
+        </div>
+        <div class="body-panel" nz-col nzSpan="10">
+          <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="responseBody">
+          </ngx-monaco-editor>
+        </div>
+      </div>
     </div>
   </div>
+</div>
+<nz-drawer [nzClosable]="true" [nzVisible]="methodsDrawerVisible" nzPlacement="right" nzTitle="Parameter Types"
+  (nzOnClose)="methodsDrawerVisible=false;" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'10px'}">
+  <nz-table #nzTable [nzSize]="'default'" [nzData]="parameterTypes" [nzShowPagination]="false" [nzFrontPagination]="false">
+    <tbody>
+      <tr *ngFor="let item of parameterTypes; let i = index">
+        <td style="padding:2px;">
+          <input nz-input [(ngModel)]="item.type">
+        </td>
+        <td style="padding:2px;">
+          <i class="anticon anticon-close click-icon" (click)="removeParameterType(i)"></i>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <button style="margin-top:4px;" nz-button [nzSize]="'small'" nzType="primary" (click)="addParameterType()">{{'btn-add'|translate}}</button>
+</nz-drawer>
+<div style="position:absolute;bottom:40px;right:40px;">
+  <button nz-button [nzSize]="'large'" nzShape="circle" nzType="default" (click)="test()">
+    <a><i class="anticon anticon-play-circle"></i></a>
+  </button>
 </div>
