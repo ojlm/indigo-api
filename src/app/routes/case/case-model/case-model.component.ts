@@ -109,6 +109,7 @@ export class CaseModelComponent implements OnInit {
     let urlStr = this.case.request.rawUrl
     try {
       if (urlStr) {
+        urlStr = decodeURIComponent(urlStr)
         if (!(urlStr.startsWith('http://') || urlStr.startsWith('https://'))) {
           urlStr = `http://${urlStr}`
         }
@@ -145,37 +146,35 @@ export class CaseModelComponent implements OnInit {
 
   paramsChange() {
     this.modelChange()
-    if (this.case.request.query.length > 0) {
-      let search = '?'
-      this.case.request.query.forEach(item => {
-        if (item.enabled) {
-          search += `${item.key || ''}=${item.value || ''}&`
-        }
-      })
-      search = search.substr(0, search.length - 1)
-      try {
-        const rawUrl = this.case.request.rawUrl
-        if (rawUrl && !rawUrl.startsWith('?')) {
-          let hasProtocol = true
-          let url: URL
-          if (!(rawUrl.startsWith('http://') || rawUrl.startsWith('https://'))) {
-            hasProtocol = false
-            url = new URL(`http://${rawUrl}`)
-          } else {
-            url = new URL(rawUrl)
-          }
-          url.search = search
-          if (hasProtocol) {
-            this.case.request.rawUrl = decodeURI(url.toString())
-          } else {
-            this.case.request.rawUrl = decodeURI(url.toString()).replace('http://', '').replace('https://', '')
-          }
-        } else {
-          this.case.request.rawUrl = search
-        }
-      } catch (error) {
-        console.error(error)
+    let search = '?'
+    this.case.request.query.forEach(item => {
+      if (item.enabled) {
+        search += `${item.key || ''}=${item.value || ''}&`
       }
+    })
+    search = search.substr(0, search.length - 1)
+    try {
+      const rawUrl = this.case.request.rawUrl
+      if (rawUrl && !rawUrl.startsWith('?')) {
+        let hasProtocol = true
+        let url: URL
+        if (!(rawUrl.startsWith('http://') || rawUrl.startsWith('https://'))) {
+          hasProtocol = false
+          url = new URL(`http://${rawUrl}`)
+        } else {
+          url = new URL(rawUrl)
+        }
+        url.search = search
+        if (hasProtocol) {
+          this.case.request.rawUrl = decodeURI(url.toString())
+        } else {
+          this.case.request.rawUrl = decodeURI(url.toString()).replace('http://', '').replace('https://', '')
+        }
+      } else {
+        this.case.request.rawUrl = search
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 
