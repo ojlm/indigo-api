@@ -3,8 +3,8 @@
     <div nz-col nzSpan="4" class="border" [ngStyle]="authStyle">
       <div nz-row>
         <div nz-col nzSpan="24">
-          <nz-select style="width:100%;" nzShowSearch nzAllowClear nzPlaceHolder="No Auth" [(ngModel)]="currentAuth"
-            (ngModelChange)="authChange()">
+          <nz-select style="width:100%;" nzShowSearch nzAllowClear [nzDropdownMatchSelectWidth]="false" nzPlaceHolder="No Auth"
+            [(ngModel)]="currentAuth" (ngModelChange)="authChange()">
             <nz-option *ngFor="let item of supports" [nzLabel]="item.type" [nzValue]="item"></nz-option>
           </nz-select>
         </div>
@@ -14,7 +14,7 @@
             <span>{{'btn-add'|translate}}</span>
           </button>
         </div>
-        <div nz-col nzSpan="24">
+        <div nz-col nzSpan="24" style="overflow:auto;">
           <nz-tag *ngFor="let item of auth;let i=index;" style="width:100%;" nzMode="closeable" (nzOnClose)="closeTag(i)"
             (click)="activateTag(item, i)" [nzColor]="tagColor(i)">{{item.type}}</nz-tag>
         </div>
