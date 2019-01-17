@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, HostListener, OnInit } from '@angular/core'
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18NService } from '@core/i18n/i18n.service'
@@ -10,9 +10,11 @@ import {
   GenericRequest,
   GetInterfacesMessage,
 } from 'app/api/service/dubbo.service'
+import { ActorEvent, ActorEventType } from 'app/model/api.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
+import { Subject } from 'rxjs'
 
 @Component({
   selector: 'app-dubbo-playground',
@@ -31,6 +33,9 @@ import { NzMessageService } from 'ng-zorro-antd'
 })
 export class DubboPlaygroundComponent implements OnInit {
 
+  logSubject = new Subject<ActorEvent<string>>()
+  echoSubject = new Subject<string>()
+  telnetDrawerVisible = false
   drawerWidth = calcDrawerWidth(0.4)
   methodsDrawerVisible = false
   interfaceSearchTxt = ''
@@ -51,6 +56,7 @@ export class DubboPlaygroundComponent implements OnInit {
   jsonEditorOption = { ...this.monocoService.getJsonOption(false), theme: this.monocoService.THEME_WHITE }
   requestBody = '[]'
   responseBody = ''
+  testWs: WebSocket
   @HostListener('window:resize')
   resize() {
     this.height = `${window.innerHeight - 70}px`
@@ -66,6 +72,7 @@ export class DubboPlaygroundComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private i18nService: I18NService,
+    private el: ElementRef<HTMLDivElement>,
   ) { }
 
   test() {
@@ -78,12 +85,48 @@ export class DubboPlaygroundComponent implements OnInit {
         this.responseBody = formatJson(res.data)
       })
     } catch (error) {
-
     }
   }
 
   telnet() {
-    console.log('telnet:', this.selectedProvider)
+    this.telnetDrawerVisible = true
+    if (this.selectedProvider.address) {
+      if (!this.testWs) {
+        this.reConnectTelnet()
+      } else if (this.testWs && this.testWs.readyState !== 1) {
+        // not open
+        this.testWs.close()
+        this.testWs = null
+        this.reConnectTelnet()
+      }
+    } else {
+      this.logSubject.next({ type: ActorEventType.ERROR, msg: 'Empty address' })
+    }
+  }
+
+  reConnectTelnet() {
+    this.testWs = this.dubboService.newTelnetWs(this.selectedProvider.address, this.selectedProvider.port)
+    this.testWs.onopen = (event) => {
+      this.testWs.send('help\r\n')
+      this.echoSubject.subscribe(cmd => {
+        this.testWs.send(`${cmd}\r\n`)
+      })
+    }
+    this.testWs.onmessage = (event) => {
+      if (event.data) {
+        try {
+          const res = JSON.parse(event.data) as ActorEvent<string>
+          if (ActorEventType.ITEM === res.type) {
+          } else if (ActorEventType.OVER === res.type) {
+          } else {
+            this.logSubject.next(res)
+          }
+        } catch (error) {
+          this.msgService.error(error)
+          this.testWs.close()
+        }
+      }
+    }
   }
 
   addParameterType() {
@@ -142,7 +185,7 @@ export class DubboPlaygroundComponent implements OnInit {
       if (pieces.length === 2) {
         const newAddr: DubboProvider = {
           address: pieces[0],
-          port: pieces[1]
+          port: parseInt(pieces[1], 10)
         }
         this.providers = [newAddr, ...p]
       } else {
@@ -166,7 +209,7 @@ export class DubboPlaygroundComponent implements OnInit {
       this.request.address = this.selectedProvider.address
       let port: number
       try {
-        port = parseInt(this.selectedProvider.port, 10)
+        port = this.selectedProvider.port
       } catch (error) {
       }
       this.request.port = port

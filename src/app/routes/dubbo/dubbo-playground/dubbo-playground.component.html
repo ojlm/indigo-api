@@ -90,3 +90,7 @@
     <a><i class="anticon anticon-play-circle"></i></a>
   </button>
 </div>
+<nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
+  [nzVisible]="telnetDrawerVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="telnetDrawerVisible=false">
+  <app-console-report [log]="logSubject" [newline]="false" [echo]="true" [echoLog]="echoSubject"></app-console-report>
+</nz-drawer>
