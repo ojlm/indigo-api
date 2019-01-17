@@ -30,6 +30,7 @@ import { JobExecDesc } from '../../model/es.model'
 })
 export class ConsoleReportComponent implements AfterViewInit {
 
+  line = []
   theme: ITheme = {
     foreground: 'white',
     background: '#000000a9',
@@ -45,7 +46,10 @@ export class ConsoleReportComponent implements AfterViewInit {
   }
   xterm = new Terminal(this.option)
   style = {}
-  @Input() log: Subject<ActorEvent<JobExecDesc>>
+  @Input() log: Subject<ActorEvent<JobExecDesc | string>>
+  @Input() newline = true
+  @Input() echo = false
+  @Input() echoLog: Subject<string>
 
   @HostListener('window:resize')
   resize() {
@@ -67,7 +71,7 @@ export class ConsoleReportComponent implements AfterViewInit {
     this.style = {
       'position': 'relative',
       'width': `${window.innerWidth}px`,
-      'height': `${Math.round(window.innerHeight * 0.4)}px`,
+      'height': `${Math.round(window.innerHeight * 0.5)}px`,
       'top': '0px',
       'left': '0px'
     }
@@ -89,6 +93,27 @@ export class ConsoleReportComponent implements AfterViewInit {
     } else {
       this.xterm.writeln(`🤔 : no log subject injected`)
     }
+    if (this.echo) {
+      this.xterm.on('key', (key, ev) => {
+        const printable = !ev.altKey && !ev['altGraphKey'] && !ev.ctrlKey && !ev.metaKey
+        if (ev.keyCode === 13) {
+          this.xterm.write('\r\n')
+          if (this.echoLog) {
+            this.echoLog.next(this.line.join(''))
+          }
+          this.line = []
+        } else if (ev.keyCode === 8) {
+          this.line = this.line.slice(0, -1)
+          this.xterm.write('\b \b')
+        } else if (printable) {
+          this.line.push(key)
+          this.xterm.write(key)
+        }
+      })
+      this.xterm.on('paste', (data) => {
+        this.xterm.write(data)
+      })
+    }
   }
 
   clear() {
@@ -96,10 +121,18 @@ export class ConsoleReportComponent implements AfterViewInit {
   }
 
   printlnOkMsg(msg: string) {
-    this.xterm.writeln(`${msg}`)
+    if (this.newline) {
+      this.xterm.writeln(`${msg}`)
+    } else {
+      this.xterm.write(`${msg}`)
+    }
   }
 
   printlnErrMsg(msg: string) {
-    this.xterm.writeln(`💩 ${msg}`)
+    if (this.newline) {
+      this.xterm.writeln(`💩 ${msg}`)
+    } else {
+      this.xterm.write(`💩 ${msg}`)
+    }
   }
 }
