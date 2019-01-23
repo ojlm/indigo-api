@@ -8,7 +8,9 @@ import {
   DubboProvider,
   DubboService,
   GenericRequest,
+  GetInterfaceMethodParams,
   GetInterfacesMessage,
+  InterfaceMethodParams,
 } from 'app/api/service/dubbo.service'
 import { ActorEvent, ActorEventType } from 'app/model/api.model'
 import { calcDrawerWidth } from 'app/util/drawer'
@@ -57,6 +59,7 @@ export class DubboPlaygroundComponent implements OnInit {
   requestBody = '[]'
   responseBody = ''
   testWs: WebSocket
+  paramsCache: InterfaceMethodParamsCache = {}
   @HostListener('window:resize')
   resize() {
     this.height = `${window.innerHeight - 70}px`
@@ -218,10 +221,34 @@ export class DubboPlaygroundComponent implements OnInit {
       if (this.methods.length > 0) {
         this.request.method = this.methods[0]
       }
+      const msg: GetInterfaceMethodParams = {
+        address: this.selectedProvider.address,
+        port: this.selectedProvider.port,
+        ref: this.selectedProvider.ref
+      }
+      this.dubboService.getParams(msg).subscribe(res => {
+        const params: InterfaceMethodParams = res.data
+        const methodParamCache = {}
+        params.methods.forEach(method => {
+          methodParamCache[method.method] = method.params
+        })
+        this.paramsCache[params.ref] = methodParamCache
+        this.methodChange()
+      })
     } else {
       this.request.address = ''
       this.request.port = undefined
       this.methods = []
+    }
+  }
+
+  methodChange() {
+    const method = this.request.method
+    if (method) {
+      const interfaceCache = this.paramsCache[this.request.interface]
+      if (interfaceCache) {
+        this.request.parameterTypes = interfaceCache[method]
+      }
     }
   }
 
@@ -239,4 +266,12 @@ export class DubboPlaygroundComponent implements OnInit {
 
 export interface ParameterType {
   type?: string
+}
+
+export interface MethodParams {
+  [method: string]: string[]
+}
+
+export interface InterfaceMethodParamsCache {
+  [ref: string]: MethodParams
 }

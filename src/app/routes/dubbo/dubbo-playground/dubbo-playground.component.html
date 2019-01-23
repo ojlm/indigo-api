@@ -43,7 +43,8 @@
       </nz-input-group>
       <nz-input-group style="margin-top:4px;" [nzAddOnBefore]="'method:'" [nzAddOnAfter]="nzAddOnAfterMethod">
         <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
-          nzAllowClear nzShowSearch [(ngModel)]="request.method" [nzServerSearch]="true" (nzOnSearch)="searchMethod($event)">
+          nzAllowClear nzShowSearch [(ngModel)]="request.method" (ngModelChange)="methodChange()" [nzServerSearch]="true"
+          (nzOnSearch)="searchMethod($event)">
           <nz-option *ngFor="let item of methods" [nzLabel]="item" [nzValue]="item" nzCustomContent>
             <span>
               <span>{{item}}</span>

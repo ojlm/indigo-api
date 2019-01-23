@@ -30,6 +30,10 @@ export class DubboService extends BaseService {
     return this.http.post<ApiRes<DubboProvider[]>>(`${API_DUBBO}/providers`, msg)
   }
 
+  getParams(msg: GetInterfaceMethodParams) {
+    return this.http.post<ApiRes<InterfaceMethodParams>>(`${API_DUBBO}/params`, msg)
+  }
+
   test(msg: GenericRequest) {
     return this.http.post<ApiRes<any>>(`${API_DUBBO}/test`, msg)
   }
@@ -53,6 +57,23 @@ export interface GetProvidersMessage {
   zkAddr?: string
   path?: string
   ref?: string
+}
+
+export interface GetInterfaceMethodParams {
+  address?: string
+  port?: number
+  ref?: string
+}
+
+export interface MethodSignature {
+  ret?: string
+  method?: string
+  params?: string[]
+}
+
+export interface InterfaceMethodParams {
+  ref?: string
+  methods?: MethodSignature[]
 }
 
 export interface DubboInterface {
