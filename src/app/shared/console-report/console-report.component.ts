@@ -110,7 +110,10 @@ export class ConsoleReportComponent implements AfterViewInit {
           this.xterm.write(key)
         }
       })
-      this.xterm.on('paste', (data) => {
+      this.xterm.on('paste', (data: string) => {
+        for (let i = 0; i < data.length; ++i) {
+          this.line.push(data[i])
+        }
         this.xterm.write(data)
       })
     }
