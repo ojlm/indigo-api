@@ -2,7 +2,8 @@
   <div nz-row nzGutter="10" [style.height]="height">
     <div class="col-panel" nz-col nzSpan="6">
       <nz-input-group nzAddOnBefore="zk://" [nzSuffix]="tplConn">
-        <input type="text" nz-input placeholder="zookeeper address" [(ngModel)]="interfacesMsg.zkAddr" (keydown.enter)="getInterfaces()">
+        <input type="text" nz-input placeholder="zookeeper address" [(ngModel)]="interfacesMsg.zkAddr" (ngModelChange)="zkChange()"
+          (keydown.enter)="getInterfaces()">
         <ng-template #tplConn><a (click)="getInterfaces()"><i class="anticon anticon-enter"></i></a></ng-template>
       </nz-input-group>
       <div style="margin-top:4px;">

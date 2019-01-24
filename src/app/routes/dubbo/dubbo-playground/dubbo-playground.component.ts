@@ -35,6 +35,7 @@ import { Subject } from 'rxjs'
 })
 export class DubboPlaygroundComponent implements OnInit {
 
+  LOCAL_KEY = 'DUBBO_ZK'
   logSubject = new Subject<ActorEvent<string>>()
   echoSubject = new Subject<string>()
   telnetDrawerVisible = false
@@ -87,6 +88,13 @@ export class DubboPlaygroundComponent implements OnInit {
       this.dubboService.test(this.request).subscribe(res => {
         this.responseBody = formatJson(res.data)
       })
+    } catch (error) {
+    }
+  }
+
+  zkChange() {
+    try {
+      localStorage.setItem(this.LOCAL_KEY, JSON.stringify(this.interfacesMsg))
     } catch (error) {
     }
   }
@@ -168,6 +176,8 @@ export class DubboPlaygroundComponent implements OnInit {
   getProviders(item: DubboInterface) {
     if (item.zkAddr && item.ref) {
       this.request.interface = item.ref
+      this.selectedProvider = {}
+      this.request.method = ''
       this.dubboService.getProviders({ ...item }).subscribe(res => {
         this.rawProviders = res.data
         if (this.rawProviders.length > 0) {
@@ -248,6 +258,11 @@ export class DubboPlaygroundComponent implements OnInit {
       const interfaceCache = this.paramsCache[this.request.interface]
       if (interfaceCache) {
         this.request.parameterTypes = interfaceCache[method]
+        if (this.request.parameterTypes) {
+          this.parameterTypes = this.request.parameterTypes.map(t => {
+            return { type: t }
+          })
+        }
       }
     }
   }
@@ -261,6 +276,13 @@ export class DubboPlaygroundComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    try {
+      const json = localStorage.getItem(this.LOCAL_KEY)
+      if (json) {
+        this.interfacesMsg = JSON.parse(json) as GetInterfacesMessage
+      }
+    } catch (error) {
+    }
   }
 }
 
