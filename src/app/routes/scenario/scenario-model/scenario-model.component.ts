@@ -75,7 +75,9 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     this.testWs = this.scenarioService.newTestWs(this.group, this.project, this.scenarioId)
     this.testWs.onopen = (event) => {
       const testMessage = this.validateAndBuild(true)
-      this.testWs.send(JSON.stringify({ ...testMessage, options: this._ctxOptions }))
+      const options = { ...this._ctxOptions }
+      options.initCtx = undefined
+      this.testWs.send(JSON.stringify({ ...testMessage, options: options }))
     }
     this.testWs.onmessage = (event) => {
       if (event.data) {
