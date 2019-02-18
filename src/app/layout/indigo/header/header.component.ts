@@ -26,6 +26,10 @@ export class HeaderComponent {
     this.router.navigateByUrl(`/dubbo`)
   }
 
+  goCluster() {
+    this.router.navigateByUrl(`/cluster`)
+  }
+
   goHelp() {
     window.open('https://docs.asura.pro')
   }

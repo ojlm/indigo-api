@@ -147,6 +147,7 @@
   "title-delete-project": "删除项目",
   "title-transfer-project": "转移项目",
   "title-playground": "训练场",
+  "title-cluster-dashboard": "集群面板",
   "content-title-rest": "Rest 接口",
   "content-title-env": "环境配置",
   "content-title-case-list": "用例列表",

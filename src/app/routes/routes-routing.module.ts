@@ -42,6 +42,14 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'cluster',
+    component: LayoutIndigoComponent,
+    canActivateChild: [JWTGuard],
+    children: [
+      { path: '', loadChildren: './cluster/cluster.module#ClusterModule' }
+    ]
+  },
+  {
     path: 'dubbo',
     component: LayoutIndigoComponent,
     canActivateChild: [JWTGuard],
