@@ -1,3 +1,17 @@
 <div>
-  cluster
+  <nz-list [nzDataSource]="members" [nzItemLayout]="'horizontal'" [nzRenderItem]="item">
+    <ng-template #item let-item let-i="index">
+      <nz-list-item [nzActions]="[actions]">
+        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
+          <ng-template #nzTitle>
+            {{item|json}}
+          </ng-template>
+          <ng-template #nzDescription>
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #actions>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
 </div>

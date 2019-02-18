@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18NService } from '@core/i18n/i18n.service'
+import { ClusterService, MemberInfo } from 'app/api/service/cluster.service'
 import { NzMessageService } from 'ng-zorro-antd'
 
 @Component({
@@ -12,7 +13,10 @@ import { NzMessageService } from 'ng-zorro-antd'
 })
 export class ClusterDashboardComponent implements OnInit {
 
+  members: MemberInfo[] = []
+
   constructor(
+    private clusterService: ClusterService,
     private monocoService: MonacoService,
     private msgService: NzMessageService,
     private router: Router,
@@ -23,5 +27,8 @@ export class ClusterDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.clusterService.getMembers().subscribe(res => {
+      this.members = res.data
+    })
   }
 }
