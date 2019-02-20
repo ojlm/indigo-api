@@ -174,6 +174,10 @@ export interface QueryJobReport {
   text?: string
   classAlias?: string
   type?: string
+  jobId?: string
+  result?: string
+  timeStart?: string
+  timeEnd?: string
   from?: number
   size?: number
 }

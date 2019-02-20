@@ -7,6 +7,27 @@
     <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzHeader]="nzHeader"
       [nzPagination]="pagination" [nzLoading]="loading">
       <ng-template #nzHeader>
+        <div nz-row [nzGutter]="3" style="margin-bottom:4px;">
+          <div nz-col nzSpan="8">
+            <nz-select style="width: 100%;" nzMode="default" [(ngModel)]="search.jobId" nzPlaceHolder="Select a job"
+              nzAllowClear nzShowSearch [nzServerSearch]="true" [nzDropdownMatchSelectWidth]="false" (nzOnSearch)="searchJob($event)">
+              <ng-container *ngFor="let item of jobs">
+                <nz-option [nzValue]="item._id" [nzLabel]="item.summary" nzCustomContent>
+                  <span>
+                    <span>{{item.summary}}</span>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <span style="color:lightgray;">{{item.creator}}@{{item.createdAt}}</span>
+                  </span>
+                </nz-option>
+              </ng-container>
+            </nz-select>
+          </div>
+          <div nz-col nzSpan="16">
+            <nz-range-picker [(ngModel)]="dates" [nzShowTime]="{ nzFormat: 'HH:mm:ss' }" nzFormat="yyyy-MM-dd HH:mm:ss"
+              [nzPlaceHolder]="[ 'Start Time', 'End Time' ]">
+            </nz-range-picker>
+          </div>
+        </div>
         <div nz-row [nzGutter]="3">
           <div nz-col nzSpan="4">
             <nz-select style="width:100%;" nzShowSearch nzAllowClear [nzPlaceHolder]="'tips-trigger-type'|translate"
@@ -16,11 +37,19 @@
               </nz-option>
             </nz-select>
           </div>
-          <div nz-col nzSpan="20">
+          <div nz-col nzSpan="4">
+            <nz-select style="width:100%;" nzShowSearch nzAllowClear [nzPlaceHolder]="'tips-report-result'|translate"
+              [(ngModel)]="search.result">
+              <nz-option *ngFor="let result of results" nzCustomContent [nzLabel]="result" [nzValue]="result">
+                <span>{{result}}</span>
+              </nz-option>
+            </nz-select>
+          </div>
+          <div nz-col nzSpan="16">
             <nz-input-group [nzSuffix]="suffixButton" nzSearch>
               <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text">
               <ng-template #suffixButton>
-                <button nz-button nzType="primary" (click)="loadData()">
+                <button nz-button nzType="primary" (click)="doSearch()">
                   <i class="anticon anticon-search"></i>
                   <span>{{'btn-search'|translate}}</span>
                 </button>
@@ -57,12 +86,12 @@
             </ng-template>
           </nz-list-item-meta>
           <ng-template #view>
-            <button nz-button nzType="default" nzShape="circle" (click)="viewItem(item)">
+            <button nz-button nzType="default" (click)="viewItem(item)">
               <i class="anticon anticon-dashboard"></i>
             </button>
           </ng-template>
           <ng-template #edit>
-            <button nz-button nzType="default" nzShape="circle" (click)="editItem(item)" [disabled]="!item.jobId">
+            <button nz-button nzType="default" (click)="editItem(item)" [disabled]="!item.jobId">
               <i class="anticon anticon-setting"></i>
             </button>
           </ng-template>

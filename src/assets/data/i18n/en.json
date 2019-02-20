@@ -215,6 +215,7 @@
   "tips-online-domain-absent": "There is no project which own this domain.",
   "tips-separated-by-comma": "File suffiex separated by comma",
   "tips-transfer-case": "This operation will reset environment configuration",
+  "tips-report-result": "Report Result",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",
