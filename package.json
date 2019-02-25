@@ -11,18 +11,21 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
-    "build": "ng build --prod --build-optimizer",
-    "dev": "ng serve --proxy-config proxy.conf.js --disable-host-check true",
+    "start": "npm run color-less && ng serve -o",
+    "build": "npm run color-less && ng build --prod --build-optimizer",
+    "dev": "npm run color-less && ng serve --proxy-config proxy.conf.js --disable-host-check true",
     "test": "ng test",
     "lint": "npm run lint:ts && npm run lint:style",
     "e2e": "ng e2e",
     "analyze": "ng build --prod --build-optimizer --stats-json",
     "test-coverage": "ng test --code-coverage --watch=false",
+    "color-less": "node scripts/color-less.js",
+    "icon": "ng g ng-alain:plugin icon",
     "lint:ts": "tslint -p src/tsconfig.app.json -c tslint.json 'src/**/*.ts'",
     "lint:style": "stylelint \"{src}/**/*.less\" --syntax less",
     "lint-staged": "lint-staged",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json"
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
+    "hmr": "ng serve -c=hmr"
   },
   "private": false,
   "dependencies": {

@@ -12,7 +12,11 @@ import { HeaderComponent } from './indigo/header/header.component'
 import { LayoutGroupComponent } from './indigo/layout-group/layout-group.component'
 import { LayoutIndigoComponent } from './indigo/layout-indigo/layout-indigo.component'
 import { LayoutProjectComponent } from './indigo/layout-project/layout-project.component'
+import { SettingDrawerItemComponent } from './indigo/setting-drawer/setting-drawer-item.component'
+import { SettingDrawerComponent } from './indigo/setting-drawer/setting-drawer.component'
 import { LayoutPassportComponent } from './passport/passport.component'
+
+const SETTINGDRAWER = [SettingDrawerComponent, SettingDrawerItemComponent]
 
 const COMPONENTS = [
   HeaderComponent,
@@ -20,6 +24,7 @@ const COMPONENTS = [
   LayoutFullScreenComponent,
   LayoutGroupComponent,
   LayoutProjectComponent,
+  ...SETTINGDRAWER,
 ]
 
 const HEADERCOMPONENTS = [
@@ -31,13 +36,13 @@ const HEADERCOMPONENTS = [
   HeaderNewComponent
 ]
 
-// passport
 const PASSPORT = [
   LayoutPassportComponent
 ]
 
 @NgModule({
   imports: [SharedModule],
+  entryComponents: SETTINGDRAWER,
   providers: [],
   declarations: [
     ...COMPONENTS,
