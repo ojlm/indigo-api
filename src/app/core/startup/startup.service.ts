@@ -4,9 +4,12 @@ import { ACLService } from '@delon/acl'
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth'
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme'
 import { TranslateService } from '@ngx-translate/core'
+import { NzIconService } from 'ng-zorro-antd'
 import { zip } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 
+import { ICONS } from '../../../style-icons'
+import { ICONS_AUTO } from '../../../style-icons-auto'
 import { UserProfile } from '../../model/user.model'
 import { I18NService } from '../i18n/i18n.service'
 
@@ -17,6 +20,7 @@ import { I18NService } from '../i18n/i18n.service'
 @Injectable()
 export class StartupService {
   constructor(
+    iconSrv: NzIconService,
     private menuService: MenuService,
     private translate: TranslateService,
     @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
@@ -26,7 +30,9 @@ export class StartupService {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private httpClient: HttpClient,
     private injector: Injector
-  ) { }
+  ) {
+    iconSrv.addIcon(...ICONS_AUTO, ...ICONS)
+  }
 
   private viaHttp(resolve: any, reject: any) {
     zip(

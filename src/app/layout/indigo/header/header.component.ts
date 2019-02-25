@@ -1,10 +1,11 @@
-import { Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { SettingsService } from '@delon/theme'
 
 @Component({
   selector: 'layout-header',
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
   searchToggleStatus: boolean
