@@ -31,7 +31,8 @@ export class StartupService {
     private httpClient: HttpClient,
     private injector: Injector
   ) {
-    iconSrv.addIcon(...ICONS_AUTO, ...ICONS)
+    // use dynamic load
+    // iconSrv.addIcon(...ICONS_AUTO, ...ICONS)
   }
 
   private viaHttp(resolve: any, reject: any) {

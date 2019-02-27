@@ -1,26 +1,25 @@
-<div class="wrapper">
-  <div class="router-progress-bar" *ngIf="isFetching"></div>
-  <layout-header class="header"></layout-header>
-  <div class="aside">
-    <div class="aside-inner">
-      <nz-dropdown style="height:42px;" nzTrigger="click" class="user-block">
-        <div nz-dropdown class="user-block-dropdown">
-          <nz-avatar class="avatar" [nzSrc]="group.avatar" [nzText]="group.id?group.id[0].toUpperCase():''"></nz-avatar>
-          <div class="info">
-            <strong>{{group.id}}</strong>
-            <p class="text-truncate mb0" [title]="group.description||group.summary||''">{{group.summary}}</p>
-          </div>
+<div class="alain-default__progress-bar" *ngIf="isFetching"></div>
+<layout-header class="alain-default__header"></layout-header>
+<div class="alain-default__aside">
+  <div class="alain-default__aside-inner">
+    <nz-dropdown style="height:42px;" nzTrigger="click" class="alain-default__aside-user">
+      <div nz-dropdown class="user-block-dropdown">
+        <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="group.avatar" [nzText]="group.id?group.id[0].toUpperCase():''"></nz-avatar>
+        <div class="alain-default__aside-user-info">
+          <strong>{{group.id}}</strong>
+          <p class="text-truncate mb0" [title]="group.description||group.summary||''">{{group.summary}}</p>
         </div>
-      </nz-dropdown>
-      <sidebar-nav class="d-block py-lg"></sidebar-nav>
-      <div>
-        <button class="aside-fold-btn" nz-button nzType="dashed" (click)="toggleCollapsedSidebar()">
-          <i class="anticon anticon-menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
-        </button>
       </div>
+    </nz-dropdown>
+    <sidebar-nav class="d-block py-lg"></sidebar-nav>
+    <div>
+      <button class="aside-fold-btn" nz-button nzType="dashed" (click)="toggleCollapsedSidebar()">
+        <i nz-icon type="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+      </button>
     </div>
   </div>
-  <section class="content">
-    <router-outlet></router-outlet>
-  </section>
 </div>
+<section class="alain-default__content">
+  <router-outlet></router-outlet>
+</section>
+<ng-template #settingHost></ng-template>

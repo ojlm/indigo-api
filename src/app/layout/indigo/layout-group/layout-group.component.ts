@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import { DOCUMENT } from '@angular/common'
+import { Component, ComponentFactoryResolver, ElementRef, Inject, Renderer2 } from '@angular/core'
 import { ActivatedRoute, NavigationEnd, NavigationError, RouteConfigLoadStart, Router } from '@angular/router'
 import { Menu, MenuService, ScrollService, SettingsService } from '@delon/theme'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -6,24 +7,31 @@ import { NzMessageService } from 'ng-zorro-antd'
 import { GroupService } from '../../../api/service/group.service'
 import { SharedService } from '../../../api/service/shared.service'
 import { Group } from '../../../model/es.model'
+import { LayoutAbstractClass } from '../layout-abstract.class'
 
 @Component({
   selector: 'layout-group',
   templateUrl: './layout-group.component.html',
 })
-export class LayoutGroupComponent {
-  isFetching = false
+export class LayoutGroupComponent extends LayoutAbstractClass {
+
   group: Group = {}
+
   constructor(
     router: Router,
+    _message: NzMessageService,
+    resolver: ComponentFactoryResolver,
+    settings: SettingsService,
+    el: ElementRef,
+    renderer: Renderer2,
+    @Inject(DOCUMENT) doc: any,
     scroll: ScrollService,
-    private _message: NzMessageService,
-    public menuSrv: MenuService,
-    public settings: SettingsService,
-    private route: ActivatedRoute,
-    private groupService: GroupService,
-    private sharedService: SharedService,
+    menuSrv: MenuService,
+    route: ActivatedRoute,
+    groupService: GroupService,
+    sharedService: SharedService,
   ) {
+    super(router, _message, resolver, settings, el, renderer, doc)
     sharedService.currentGroup.subscribe(group => this.group = group)
     // scroll to top in change page
     router.events.subscribe(evt => {

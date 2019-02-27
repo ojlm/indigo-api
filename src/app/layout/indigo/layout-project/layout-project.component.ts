@@ -1,33 +1,37 @@
-import { Component } from '@angular/core'
+import { Component, ComponentFactoryResolver, ElementRef, Inject, Renderer2 } from '@angular/core'
+import { DOCUMENT } from '@angular/platform-browser'
 import { ActivatedRoute, NavigationEnd, NavigationError, RouteConfigLoadStart, Router } from '@angular/router'
 import { Menu, MenuService, ScrollService, SettingsService } from '@delon/theme'
 import { NzMessageService } from 'ng-zorro-antd'
 
-import { GroupService } from '../../../api/service/group.service'
 import { ProjectService } from '../../../api/service/project.service'
 import { SharedService } from '../../../api/service/shared.service'
 import { Project } from '../../../model/es.model'
+import { LayoutAbstractClass } from '../layout-abstract.class'
 
 @Component({
   selector: 'layout-project',
   templateUrl: './layout-project.component.html',
 })
-export class LayoutProjectComponent {
+export class LayoutProjectComponent extends LayoutAbstractClass {
 
-  isFetching = false
   project: Project = {}
 
   constructor(
     router: Router,
+    _message: NzMessageService,
+    resolver: ComponentFactoryResolver,
+    settings: SettingsService,
+    el: ElementRef,
+    renderer: Renderer2,
+    @Inject(DOCUMENT) doc: any,
     scroll: ScrollService,
-    private _message: NzMessageService,
-    public menuSrv: MenuService,
-    public settings: SettingsService,
-    private route: ActivatedRoute,
-    private groupService: GroupService,
-    private projectService: ProjectService,
-    private sharedService: SharedService,
+    menuSrv: MenuService,
+    route: ActivatedRoute,
+    projectService: ProjectService,
+    sharedService: SharedService,
   ) {
+    super(router, _message, resolver, settings, el, renderer, doc)
     sharedService.currentProject.subscribe(project => this.project = project)
     // scroll to top in change page
     router.events.subscribe(evt => {
@@ -52,7 +56,7 @@ export class LayoutProjectComponent {
       const project = param.get('project')
       const settingsUrl = `/project/${group}/${project}/settings`
       if (group && project && router.url !== settingsUrl) {
-        this.projectService.getById(group, project).subscribe(
+        projectService.getById(group, project).subscribe(
           res => this.project = res.data,
           err => router.navigateByUrl('/')
         )

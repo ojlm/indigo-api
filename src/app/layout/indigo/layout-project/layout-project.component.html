@@ -1,31 +1,30 @@
-<div class="wrapper">
-  <div class="router-progress-bar" *ngIf="isFetching"></div>
-  <layout-header class="header"></layout-header>
-  <div class="aside">
-    <div class="aside-inner aside-inner-padding">
-      <nz-dropdown style="height:42px;" nzTrigger="click" class="user-block">
-        <div nz-dropdown class="user-block-dropdown">
-          <nz-avatar class="avatar" [nzSrc]="project.avatar" [nzText]="project.id?project.id[0].toUpperCase():''"></nz-avatar>
-          <div class="info">
-            <strong>{{project.id}}</strong>
-            <p class="text-truncate mb0" [title]="project.description||project.summary||''">{{project.summary}}</p>
-          </div>
+<div class="alain-default__progress-bar" *ngIf="isFetching"></div>
+<layout-header class="alain-default__header"></layout-header>
+<div class="alain-default__aside">
+  <div class="alain-default__aside-inner">
+    <nz-dropdown style="height:42px;" nzTrigger="click" class="alain-default__aside-user">
+      <div nz-dropdown class="user-block-dropdown">
+        <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="project.avatar" [nzText]="project.id?project.id[0].toUpperCase():''"></nz-avatar>
+        <div class="alain-default__aside-user-info">
+          <strong>{{project.id}}</strong>
+          <p class="text-truncate mb0" [title]="project.description||project.summary||''">{{project.summary}}</p>
         </div>
-        <ul nz-menu>
-          <li nz-menu-item>
-            <a style="color:darkcyan;" [routerLink]="['/', project.group]">{{project.group}}</a>
-          </li>
-        </ul>
-      </nz-dropdown>
-      <sidebar-nav class="d-block py-lg"></sidebar-nav>
-      <div>
-        <button class="aside-fold-btn" nz-button nzType="dashed" (click)="toggleCollapsedSidebar()">
-          <i class="anticon anticon-menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
-        </button>
       </div>
+      <ul nz-menu>
+        <li nz-menu-item>
+          <a style="color:darkcyan;" [routerLink]="['/', project.group]">{{project.group}}</a>
+        </li>
+      </ul>
+    </nz-dropdown>
+    <sidebar-nav class="d-block py-lg"></sidebar-nav>
+    <div>
+      <button class="aside-fold-btn" nz-button nzType="dashed" (click)="toggleCollapsedSidebar()">
+        <i nz-icon type="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+      </button>
     </div>
   </div>
-  <section class="content">
-    <router-outlet></router-outlet>
-  </section>
 </div>
+<section class="alain-default__content">
+  <router-outlet></router-outlet>
+</section>
+<ng-template #settingHost></ng-template>
