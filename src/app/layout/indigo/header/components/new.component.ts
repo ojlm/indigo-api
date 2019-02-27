@@ -7,7 +7,7 @@ import { SettingsService } from '@delon/theme'
   template: `
   <nz-dropdown nzPlacement="bottomRight">
     <div class="item" nz-dropdown>
-      <i class="anticon anticon-plus"></i>
+      <i nz-icon type="plus" theme="outline"></i>
     </div>
     <div nz-menu class="width-sm">
       <div nz-menu-item (click)="newGroup()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-group' | translate}}</div>

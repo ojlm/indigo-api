@@ -1,7 +1,6 @@
-<div class="wrapper">
-  <div class="router-progress-bar" *ngIf="isFetching"></div>
-  <layout-header class="header"></layout-header>
-  <div class="indigo-content">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<div class="alain-default__progress-bar" *ngIf="isFetching"></div>
+<layout-header class="alain-default__header"></layout-header>
+<section class="indigo-content">
+  <router-outlet></router-outlet>
+</section>
+<ng-template #settingHost></ng-template>
