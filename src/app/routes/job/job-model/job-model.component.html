@@ -64,7 +64,7 @@
     <button *ngIf="!jobId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-new'|translate}}</button>
     <button *ngIf="jobId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-update'|translate}}</button>
     <button *ngIf="!jobId" nz-button nzType="default" (click)="reset()">{{'btn-reset'|translate}}</button>
-    <button nz-button nzType="default" (click)="consoleDrawVisible=!consoleDrawVisible">{{'btn-progress'|translate}}</button>
+    <button nz-button nzType="default" (click)="consoleDrawerVisible=!consoleDrawerVisible">{{'btn-progress'|translate}}</button>
     <button nz-button nzType="default" (click)="goBack()">{{'btn-back'|translate}}</button>
   </div>
 </div>
