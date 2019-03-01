@@ -7,7 +7,7 @@
           {{(search.onlyMe?'tips-only-me':'tips-all-man')|translate}}
         </nz-tag>
         <div>
-          <nz-input-group nzSize="small" nzSearch [nzSuffix]="nzSuffixIcon">
+          <nz-input-group style="width:100%;" nzSize="small" nzSearch [nzSuffix]="nzSuffixIcon">
             <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (ngModelChange)="textChange()">
             <ng-template #nzSuffixIcon>
               <i style="padding-right:4px;font-size:small;" class="anticon anticon-sync click-icon" (click)="doSearch(true)"></i>

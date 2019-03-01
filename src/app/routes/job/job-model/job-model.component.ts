@@ -41,7 +41,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   jobScenarioIds: string[] = []
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
-  consoleDrawVisible = false
+  consoleDrawerVisible = false
   subscribers: JobNotify[] = []
   ctxOptions: ContextOptions = {}
   reportId = ''
@@ -60,7 +60,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   }
 
   test() {
-    this.consoleDrawVisible = true
+    this.consoleDrawerVisible = true
     if (this.testWs) {
       this.testWs.close()
       this.testWs = null

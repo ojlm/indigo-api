@@ -1,13 +1,13 @@
 <form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
   <nz-tabset [nzAnimated]="false" class="tabs" (nzSelectChange)="switch($event)">
-    <nz-tab nzTitle="账户密码登录">
+    <nz-tab [nzTitle]="'tips-login-by-useranme'|translate">
       <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-user">
             <input nz-input formControlName="userName" placeholder="username">
           </nz-input-group>
-          <nz-form-explain *ngIf="userName.dirty && userName.errors">请输入账户名！</nz-form-explain>
+          <nz-form-explain *ngIf="userName.dirty && userName.errors">{{'tips-input-useranme'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -15,19 +15,12 @@
           <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-lock">
             <input nz-input type="password" formControlName="password" placeholder="password">
           </nz-input-group>
-          <nz-form-explain *ngIf="password.dirty && password.errors">
-            请输入密码！
-          </nz-form-explain>
+          <nz-form-explain *ngIf="password.dirty && password.errors">{{'tips-input-password'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </nz-tab>
   </nz-tabset>
   <nz-form-item>
-    <nz-col [nzSpan]="12">
-      <label nz-checkbox formControlName="remember">自动登录</label>
-    </nz-col>
-  </nz-form-item>
-  <nz-form-item>
-    <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loading" class="ant-btn__block">登录</button>
+    <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loading">{{'title-login'|translate}}</button>
   </nz-form-item>
 </form>

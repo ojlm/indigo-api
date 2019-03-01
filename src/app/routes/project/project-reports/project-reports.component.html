@@ -46,7 +46,7 @@
             </nz-select>
           </div>
           <div nz-col nzSpan="16">
-            <nz-input-group [nzSuffix]="suffixButton" nzSearch>
+            <nz-input-group style="width:100%;" [nzSuffix]="suffixButton" nzSearch>
               <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text">
               <ng-template #suffixButton>
                 <button nz-button nzType="primary" (click)="doSearch()">

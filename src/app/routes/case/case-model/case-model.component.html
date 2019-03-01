@@ -11,7 +11,7 @@
   </div>
   <nz-card [nzBordered]="true">
     <nz-row style="margin-bottom:4px;">
-      <nz-input-group [nzSize]="'small'" [nzAddOnBefore]="'field-summary'|translate">
+      <nz-input-group style="width:100%;" [nzSize]="'small'" [nzAddOnBefore]="'field-summary'|translate">
         <input type="text" nz-input [(ngModel)]="case.summary" (ngModelChange)="modelChange()">
       </nz-input-group>
     </nz-row>
@@ -22,7 +22,7 @@
     <nz-affix [nzOffsetTop]="54" (nzChange)="onAffixChange($event)">
       <div [class]="isAffixed?'affixed':''" style="height:32px;line-height:32px;display:flex;">
         <div style="width:100%;">
-          <nz-input-group [nzSize]="'default'" [nzAddOnBefore]="addOnBeforeTemplate">
+          <nz-input-group style="width:100%;" [nzSize]="'default'" [nzAddOnBefore]="addOnBeforeTemplate">
             <input nz-input style="width:100%;" [placeholder]="'tips-enter-url'|translate" [(ngModel)]="case.request.rawUrl"
               (ngModelChange)="urlChange()">
           </nz-input-group>

@@ -6,7 +6,7 @@ import { SettingsService } from '@delon/theme'
 @Component({
   selector: 'header-user',
   template: `
-  <nz-dropdown nzPlacement="bottomRight">
+  <nz-dropdown style="cursor:pointer;" nzPlacement="bottomRight">
     <div class="item d-flex align-items-center px-sm" nz-dropdown>
       <nz-avatar [nzText]="(settings.user.nickname||settings.user.username)[0]"
         style="background-color:transparent;"[nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm">

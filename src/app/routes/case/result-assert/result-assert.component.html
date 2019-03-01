@@ -118,7 +118,7 @@
     </button>
     <button [title]="'tips-fullscreen'|translate" style="margin-left:3px;margin-right:3px;" nzSize="small" [nzType]="isFullscreen?'primary':'dashed'"
       nz-button (click)="fullScreenBtnClick()">
-      <i class="anticon anticon-{{isFullscreen?'shrink':'arrows-alt'}}"></i>
+      <i nz-icon [type]="isFullscreen?'shrink':'arrows-alt'" theme="outline"></i>
     </button>
   </ng-template>
 </div>
