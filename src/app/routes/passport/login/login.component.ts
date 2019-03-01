@@ -69,7 +69,12 @@ export class UserLoginComponent implements OnDestroy {
         })
         this.loading = true
         this.startupSrv.load(res.data).then(() => {
-          this.location.back()
+          const referrer = this.tokenService.referrer
+          if (referrer && referrer.url) {
+            this.router.navigateByUrl(referrer.url)
+          } else {
+            this.router.navigateByUrl('/')
+          }
         })
       }, err => this.loading = false)
   }
