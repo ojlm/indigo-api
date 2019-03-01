@@ -6,18 +6,26 @@ import { SettingsService } from '@delon/theme'
   selector: 'header-new',
   template: `
   <nz-dropdown nzPlacement="bottomRight">
-    <div class="item" nz-dropdown>
-      <i nz-icon type="plus" theme="outline"></i>
+    <div class="alain-default__nav-item" nz-dropdown>
+      <i nz-icon type="plus"></i>
     </div>
     <div nz-menu class="width-sm">
-      <div nz-menu-item (click)="newGroup()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-group' | translate}}</div>
+      <div nz-menu-item (click)="newGroup()"><i nz-icon type="coffee"></i>{{'new-group' | translate}}</div>
       <li nz-menu-divider></li>
-      <div nz-menu-item (click)="newProject()"><i class="anticon anticon-coffee mr-sm"></i>{{'new-project' | translate}}</div>
+      <div nz-menu-item (click)="newProject()"><i nz-icon type="coffee"></i>{{'new-project' | translate}}</div>
       <li *ngIf="project" nz-menu-divider></li>
-      <div *ngIf="project" nz-menu-item (click)="newJob()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-job' | translate}}</div>
-      <div *ngIf="project" nz-menu-item (click)="newCase()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-case' | translate}}</div>
-      <div *ngIf="project" nz-menu-item (click)="newScenario()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-scenario' | translate}}</div>
-      <div *ngIf="project" nz-menu-item (click)="newEnv()"><i class="anticon anticon-plus-square-o mr-sm"></i>{{'new-env' | translate}}</div>
+      <div *ngIf="project" nz-menu-item (click)="newJob()">
+        <i nz-icon type="plus-square"></i>{{'new-job' | translate}}
+      </div>
+      <div *ngIf="project" nz-menu-item (click)="newCase()">
+        <i nz-icon type="plus-square"></i>{{'new-case' | translate}}
+      </div>
+      <div *ngIf="project" nz-menu-item (click)="newScenario()">
+        <i nz-icon type="plus-square"></i>{{'new-scenario' | translate}}
+      </div>
+      <div *ngIf="project" nz-menu-item (click)="newEnv()">
+        <i nz-icon type="plus-square"></i>{{'new-env' | translate}}
+      </div>
     </div>
   </nz-dropdown>
   `,
