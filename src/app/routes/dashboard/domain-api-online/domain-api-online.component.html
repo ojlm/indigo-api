@@ -23,7 +23,7 @@
         [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="queryApi.method" nzAllowClear (ngModelChange)="reloadDomainApiData()">
         <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
       </nz-select>
-      <nz-input-group *ngIf="domain" style="padding-left:5px;" [nzSize]="'small'" [nzAddOnBefore]="'field-path'|translate">
+      <nz-input-group *ngIf="domain" style="padding-left:5px;width:200px;" [nzSize]="'small'" [nzAddOnBefore]="'field-path'|translate">
         <input type="text" nz-input [(ngModel)]="queryApi.urlPath" (ngModelChange)="urlPathChange()">
       </nz-input-group>
       <nz-select *ngIf="domain" style="padding-left:5px;width:100px;" nzMode="default" [nzSize]="'small'"

@@ -1,41 +1,46 @@
+// ng-alain theme region
 @alain-default-header-hg: 48px;
-
-div.indigo-content {
-  margin-top: @alain-default-header-hg;
-}
 
 @alain-default-header-bg: #009688;
 
-.header-item-btn {
+@alain-default-aside-collapsed-wd: @layout-gutter * 6;
+
+// indigo theme region
+section.indigo-content {
+  margin-top: @alain-default-header-hg;
+}
+
+.indigo-header-item-btn {
   color: white;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-@alain-default-header-item-hover-color: wheat;
+@indigo-header-item-hover-color: wheat;
 
-.header-item-btn:hover {
-  color: @alain-default-header-item-hover-color;
+.indigo-header-item-btn:hover {
+  color: @indigo-header-item-hover-color;
 }
 
-.header-item-btn-active>span {
-  color: @alain-default-header-item-hover-color;
+.indigo-header-item-btn-active>span {
+  color: @indigo-header-item-hover-color;
 }
 
-@avatar-bg: lightblue;
-@alain-default-aside-collapsed-wd: @layout-gutter * 6;
-@aside-padding-bottom: 32px;
+@indigo-aside-padding-bottom: 32px;
 
-.aside-fold-btn {
+.indigo-aside-fold-btn {
   position: absolute;
   bottom: 0px;
-  height: @aside-padding-bottom;
+  height: @indigo-aside-padding-bottom;
   width: 100%;
 }
 
-.aside-inner-padding {
-  padding-bottom: @aside-padding-bottom;
+.indigo-sidebar-nav-padding {
+  padding-bottom: @indigo-aside-padding-bottom  !important;
 }
+
+// ng-zorro-antd region
+@avatar-bg: lightblue;
 
 .ant-tag-cyan {
   background-color: #e6fffb57;

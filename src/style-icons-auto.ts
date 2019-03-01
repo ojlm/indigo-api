@@ -5,6 +5,7 @@
 
 import {
   ApiOutline,
+  ArrowsAltOutline,
   BarChartOutline,
   BookOutline,
   CaretRightOutline,
@@ -43,6 +44,7 @@ import {
   ScheduleOutline,
   SelectOutline,
   SettingOutline,
+  ShrinkOutline,
   SyncOutline,
   ToolOutline,
   UserOutline,
@@ -52,6 +54,7 @@ import {
 
 export const ICONS_AUTO = [
   ApiOutline,
+  ArrowsAltOutline,
   BarChartOutline,
   BookOutline,
   CaretRightOutline,
@@ -90,6 +93,7 @@ export const ICONS_AUTO = [
   ScheduleOutline,
   SelectOutline,
   SettingOutline,
+  ShrinkOutline,
   SyncOutline,
   ToolOutline,
   UserOutline,

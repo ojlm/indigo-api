@@ -12,7 +12,7 @@
   <!-- basic info -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card1BodyStyle">
     <div>
-      <nz-input-group [nzAddOnBefore]="summaryTpl">
+      <nz-input-group style="width:100%;" [nzAddOnBefore]="summaryTpl">
         <input nz-input [placeholder]="'field-summary'|translate" [(ngModel)]="jobMeta.summary">
       </nz-input-group>
       <ng-template #summaryTpl>
@@ -23,7 +23,7 @@
       </ng-template>
     </div>
     <div style="margin-top:7px;">
-      <nz-input-group [nzAddOnBefore]="descTpl">
+      <nz-input-group style="width:100%;" [nzAddOnBefore]="descTpl">
         <textarea nz-input [nzAutosize]="{minRows:2, maxRows:4}" [placeholder]="'field-description'|translate"
           [(ngModel)]="jobMeta.description"></textarea>
       </nz-input-group>
@@ -70,6 +70,6 @@
 </div>
 <!-- console draw -->
 <nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
-  [nzVisible]="consoleDrawVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="consoleDrawVisible=false">
-  <app-console-report [log]="logSubject"></app-console-report>
+  [nzVisible]="consoleDrawerVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="consoleDrawerVisible=false">
+  <app-console-report [log]="logSubject" [style.visibility]="consoleDrawerVisible?'visible':'hidden'"></app-console-report>
 </nz-drawer>

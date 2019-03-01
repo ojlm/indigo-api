@@ -3,7 +3,7 @@
     <h1 style="padding-left: 10px;">{{'menu-sync-settings'|translate}}</h1>
   </div>
   <div>
-    <nz-input-group *ngFor="let item of domains" style="padding-top:4px;" [nzAddOnBefore]="'field-domain'|translate">
+    <nz-input-group *ngFor="let item of domains" style="padding-top:4px;width:100%;" [nzAddOnBefore]="'field-domain'|translate">
       <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
         [nzPlaceHolder]="'field-domain'|translate" nzAllowClear nzShowSearch [(ngModel)]="item.name" [nzServerSearch]="true"
         (nzOnSearch)="searchDomain($event)">

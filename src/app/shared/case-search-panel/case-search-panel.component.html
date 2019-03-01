@@ -1,6 +1,6 @@
 <div nz-row [nzGutter]="3">
   <div nz-col nzSpan="22">
-    <nz-input-group [nzSize]="size" [nzSuffix]="suffixButton" nzSearch>
+    <nz-input-group style="width:100%;" [nzSuffix]="suffixButton" nzSearch>
       <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (ngModelChange)="modelChange()"
         (keyup.enter)="modelChange()">
       <ng-template #suffixButton>
@@ -10,29 +10,31 @@
   </div>
   <div nz-col nzSpan="2">
     <button style="width:100%;" nz-button [nzType]="showAll?'primary':'default'" [nzSize]="size" (click)="showAllChange()">
-      <i class="anticon anticon-{{showAll?'up':'down'}}"></i>
+      <i nz-icon [type]="showAll?'up':'down'" theme="outline"></i>
     </button>
   </div>
+</div>
+<div nz-row [nzGutter]="3">
   <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="8">
-    <nz-input-group>
-      <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="search.methods"
-        nzAllowClear nzShowSearch (ngModelChange)="modelChange()">
-        <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
-      </nz-select>
-    </nz-input-group>
+    <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="search.methods"
+      nzAllowClear nzShowSearch (ngModelChange)="modelChange()">
+      <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
+    </nz-select>
   </div>
   <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="16">
     <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-path'|translate">
       <input type="text" nz-input [(ngModel)]="search.path" (ngModelChange)="modelChange()">
     </nz-input-group>
   </div>
+</div>
+<div nz-row [nzGutter]="3">
   <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="8">
     <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-host'|translate">
       <input type="text" nz-input [(ngModel)]="search.host" (ngModelChange)="modelChange()">
     </nz-input-group>
   </div>
   <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="16">
-    <nz-input-group [nzAddOnBefore]="'field-labels'|translate">
+    <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-labels'|translate">
       <nz-select style="width:100%;" nzMode="multiple" [(ngModel)]="search.labels" nzAllowClear nzShowSearch
         (nzOpenChange)="labelSelectOpenChange()" [nzServerSearch]="true" (nzOnSearch)="searchLabel($event)"
         (ngModelChange)="modelChange()">
@@ -45,7 +47,7 @@
           </nz-option>
         </ng-container>
         <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-          <i nz-icon type="loading" class="loading-icon"></i> Loading ...
+          <i nz-icon type="loading"></i> Loading ...
         </nz-option>
       </nz-select>
     </nz-input-group>

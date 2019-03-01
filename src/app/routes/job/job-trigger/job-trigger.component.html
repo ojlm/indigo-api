@@ -56,7 +56,7 @@
       </div>
     </nz-tab>
     <nz-tab [nzTitle]="'title-cron'|translate">
-      <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+      <nz-input-group style="width:100%;" nzSearch [nzSuffix]="suffixIconButton">
         <input type="text" nz-input placeholder="cron expression" [(ngModel)]="trigger.cron" (ngModelChange)="cronInputChange()">
       </nz-input-group>
       <ng-template #suffixIconButton>
