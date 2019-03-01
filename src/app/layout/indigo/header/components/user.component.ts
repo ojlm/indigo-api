@@ -11,7 +11,7 @@ import { SettingsService } from '@delon/theme'
       <nz-avatar [nzText]="(settings.user.nickname||settings.user.username)[0]"
         style="background-color:transparent;"[nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm">
       </nz-avatar>
-      {{settings.user.nickname||settings.user.username}}
+      <span style="color:lightcoral;">{{settings.user.nickname||settings.user.username}}</span>
     </div>
     <div nz-menu class="width-sm">
       <div nz-menu-item (click)="goProfile()"><i class="anticon anticon-profile mr-sm"></i>{{'menu-profile'|translate}}</div>
