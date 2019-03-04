@@ -36,9 +36,9 @@ export class LinkerdHttpComponent implements OnInit {
   ) { }
 
   addNew() {
-    if (this.group && this.project) {
+    if (this.group && this.project && this._server) {
       this.ownedItems.push({ group: this.group, project: this.project, port: '80' })
-      this.all.length = this.all.length + 1
+      this.all = [...this.ownedItems, ...this.unownedItems]
     }
   }
 
@@ -53,7 +53,7 @@ export class LinkerdHttpComponent implements OnInit {
 
   removeOwned(index: number) {
     this.ownedItems.splice(index, 1)
-    this.all.length = this.all.length - 1
+    this.all = [...this.ownedItems, ...this.unownedItems]
   }
 
   proxyServerChange() {
@@ -64,7 +64,6 @@ export class LinkerdHttpComponent implements OnInit {
   loadDtabs() {
     if (this.group && this.project && this._server) {
       this.linkerdService.getV1Http(this.group, this.project, this._server).subscribe(res => {
-        this.all.length = res.data.length
         const owned: DtabItem[] = []
         const unOwned: DtabItem[] = []
         res.data.forEach(item => {
@@ -76,6 +75,7 @@ export class LinkerdHttpComponent implements OnInit {
         })
         this.ownedItems = owned
         this.unownedItems = unOwned
+        this.all = [...this.ownedItems, ...this.unownedItems]
       })
     }
   }
