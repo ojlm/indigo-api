@@ -1,20 +1,32 @@
 <div style="padding-bottom:5px;">
   <div style="text-align:right;padding-bottom:5px;">
+    <nz-input-group style="width:240px;margin-right:8px;" [nzSize]="'small'" [nzAddOnBefore]="'item-proxy-server'|translate">
+      <nz-select style="width:100%;" [(ngModel)]="_server" (ngModelChange)="proxyServerChange()" nzAllowClear
+        [nzDropdownMatchSelectWidth]="false" [nzSize]="'small'" [nzPlaceHolder]="'tips-select-proxy-server'|translate">
+        <nz-option *ngFor="let s of servers" [nzValue]="s.tag" [nzLabel]="s.tag" [nzCustomContent]="true">
+          <div>
+            <a>{{s.tag}}</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <span style="color:lightgray;">{{s.description}}</span>
+          </div>
+        </nz-option>
+      </nz-select>
+    </nz-input-group>
     <button type="button" nz-button [nzType]="showOwned?'primary':'default'" [nzSize]="'small'" (click)="showOwned=!showOwned">
       <span>{{(showOwned?'tips-show-owned':'tips-show-all')|translate}}</span>
     </button>
     <button type="button" nz-button nzType="dashed" [nzSize]="'small'" (click)="addNew()">
       <span>{{'btn-add'|translate}}</span>
     </button>
-    <button type="button" nz-button nzType="dashed" [nzSize]="'small'" (click)="loadData()">
+    <button type="button" nz-button nzType="dashed" [nzSize]="'small'" (click)="loadDtabs()">
       <span>{{'btn-refresh'|translate}}</span>
     </button>
     <button type="button" nz-button nzType="primary" [nzSize]="'small'" (click)="save()">
       <span>{{'btn-save'|translate}}</span>
     </button>
   </div>
-  <nz-table #nzTable [nzSize]="'default'" [nzData]="all" [nzShowPagination]="false"
-    [nzFrontPagination]="false" [nzNoResult]="'tips-no-data'|translate">
+  <nz-table #nzTable [nzSize]="'default'" [nzData]="all" [nzShowPagination]="false" [nzFrontPagination]="false"
+    [nzNoResult]="'tips-no-data'|translate">
     <thead>
       <tr>
         <th *ngIf="!showOwned" style="padding:3px;">

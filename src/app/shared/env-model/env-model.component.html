@@ -45,7 +45,7 @@
       <nz-form-item *ngIf="visibleDtabs" class="form-item">
         <nz-form-label>{{'item-dtabs'|translate}}</nz-form-label>
         <nz-form-control>
-          <app-linkerd-http></app-linkerd-http>
+          <app-linkerd-http [(server)]="server"></app-linkerd-http>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item class="form-item">

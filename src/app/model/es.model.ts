@@ -181,6 +181,7 @@ export interface Environment extends BaseDoc {
   auth?: Authorization[]
   namespace?: string
   enableProxy?: boolean
+  server?: string
   custom?: KeyValueObject[]
   headers?: KeyValueObject[]
 }

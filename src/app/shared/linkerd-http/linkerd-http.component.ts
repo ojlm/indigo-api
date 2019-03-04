@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
-import { DtabItem, LinkerdService } from 'app/api/service/linkerd.service'
+import { DtabItem, LinkerdConfigServer, LinkerdService } from 'app/api/service/linkerd.service'
 import { NzMessageService } from 'ng-zorro-antd'
 
 @Component({
@@ -11,12 +11,22 @@ import { NzMessageService } from 'ng-zorro-antd'
 })
 export class LinkerdHttpComponent implements OnInit {
 
+  servers: LinkerdConfigServer[] = []
   all: DtabItem[] = []
   ownedItems: DtabItem[] = []
   unownedItems: DtabItem[] = []
   group: string
   project: string
   showOwned = true
+  _server: string
+  @Input()
+  set server(val: string) {
+    this._server = val
+  }
+  get server() {
+    return this._server
+  }
+  @Output() serverChange = new EventEmitter<string>()
 
   constructor(
     private linkerdService: LinkerdService,
@@ -33,9 +43,9 @@ export class LinkerdHttpComponent implements OnInit {
   }
 
   save() {
-    if (this.group && this.project) {
+    if (this.group && this.project && this._server) {
       const items = [...this.ownedItems, ...this.unownedItems]
-      this.linkerdService.putV1Http(this.group, this.project, items).subscribe(res => {
+      this.linkerdService.putV1Http(this.group, this.project, items, this._server).subscribe(res => {
         this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
       })
     }
@@ -46,9 +56,14 @@ export class LinkerdHttpComponent implements OnInit {
     this.all.length = this.all.length - 1
   }
 
-  loadData() {
-    if (this.group && this.project) {
-      this.linkerdService.getV1Http(this.group, this.project).subscribe(res => {
+  proxyServerChange() {
+    this.serverChange.emit(this._server)
+    this.loadDtabs()
+  }
+
+  loadDtabs() {
+    if (this.group && this.project && this._server) {
+      this.linkerdService.getV1Http(this.group, this.project, this._server).subscribe(res => {
         this.all.length = res.data.length
         const owned: DtabItem[] = []
         const unOwned: DtabItem[] = []
@@ -65,19 +80,30 @@ export class LinkerdHttpComponent implements OnInit {
     }
   }
 
+  loadServers() {
+    this.linkerdService.getProxyServers().subscribe(res => {
+      this.servers = res.data
+      if (!this._server && this.servers.length > 0) {
+        this._server = this.servers[0].tag
+        this.serverChange.emit(this._server)
+      }
+      this.loadDtabs()
+    })
+  }
+
   ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
       if (params['group'] && params['project']) {
         this.group = params['group']
         this.project = params['project']
-        this.loadData()
+        this.loadServers()
       }
     })
     this.route.parent.parent.params.subscribe(params => {
       if (params['group'] && params['project']) {
         this.group = params['group']
         this.project = params['project']
-        this.loadData()
+        this.loadServers()
       }
     })
   }

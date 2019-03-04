@@ -11,12 +11,16 @@ export class LinkerdService {
 
   constructor(private http: _HttpClient) { }
 
-  getV1Http(group: string, project: string) {
-    return this.http.get<ApiRes<DtabItem[]>>(`${API_LINKERD_V1_DTABS_HTTP}/${group}/${project}`)
+  getProxyServers() {
+    return this.http.get<ApiRes<LinkerdConfigServer[]>>(`${API_LINKERD_V1_DTABS_HTTP}/servers`)
   }
 
-  putV1Http(group: string, project: string, dtabs: DtabItem[]) {
-    return this.http.put<ApiRes<string>>(`${API_LINKERD_V1_DTABS_HTTP}/${group}/${project}`, { dtabs })
+  getV1Http(group: string, project: string, server: string) {
+    return this.http.get<ApiRes<DtabItem[]>>(`${API_LINKERD_V1_DTABS_HTTP}/${group}/${project}/${server}`)
+  }
+
+  putV1Http(group: string, project: string, dtabs: DtabItem[], server: string) {
+    return this.http.put<ApiRes<string>>(`${API_LINKERD_V1_DTABS_HTTP}/${group}/${project}/${server}`, { dtabs })
   }
 }
 
@@ -27,4 +31,15 @@ export interface DtabItem {
   host?: string
   port?: string
   owned?: string
+}
+
+export interface LinkerdConfigServer {
+  tag?: string
+  description?: string
+  namerd?: string
+  proxyHost?: string
+  httpProxyPort?: number
+  httpsProxyPort?: number
+  headerIdentifier?: string
+  httpNs?: string
 }
