@@ -83,10 +83,10 @@ export class LinkerdHttpComponent implements OnInit {
   loadServers() {
     this.linkerdService.getProxyServers().subscribe(res => {
       this.servers = res.data
-      if (!this._server && this.servers.length > 0) {
-        this._server = this.servers[0].tag
-        this.serverChange.emit(this._server)
-      }
+      // if (!this._server && this.servers.length > 0) {
+      //   this._server = this.servers[0].tag
+      //   this.serverChange.emit(this._server)
+      // }
       this.loadDtabs()
     })
   }
