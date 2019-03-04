@@ -6242,10 +6242,10 @@ ng-alain@^7.0.0:
   resolved "https://registry.yarnpkg.com/ng-alain/-/ng-alain-7.0.0.tgz#94a21a89723d509083b81e12cef876412234df98"
   integrity sha512-bVV8rj4y3O6ySKa47jIdqzvIngFQekSAzgXqDUX+RhQD8Rqs35zyeavjS6Bci9NxUqdrQP13ci+bf0LwyAX+1Q==
 
-ng-zorro-antd@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-7.0.0.tgz#a140d22913a20b4d447806adc95a9faa364ffb31"
-  integrity sha512-9RHSNF3sUFS8F9SJdpR8NgZhwGcAOSwvqq4m9SjlvFZi4RnOboijEPbWUxCQRCuVridjy/ixvgYaSduY9K8ZgQ==
+ng-zorro-antd@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/ng-zorro-antd/-/ng-zorro-antd-7.0.1.tgz#4dd42f6c59e59e35238b1b2c503663c35ab0176d"
+  integrity sha512-dNs21hCdKt8oVd0HNGGwCIAsetyI0zduigx1pxcVThXd/j+8G5Z17p+GZpNECdAsaK6YNRqATMuWGgZzCpbDGA==
   dependencies:
     "@angular/cdk" "^7.0.0"
     "@ant-design/icons-angular" "2.0.1"
