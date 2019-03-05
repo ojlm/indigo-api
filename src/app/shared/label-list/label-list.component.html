@@ -7,7 +7,7 @@
   </ng-container>
   <ng-container *ngIf="isEditable">
     <div style="margin-bottom:10px;">
-      <nz-input-group style="width:100%;" nzSearch [nzSuffix]="suffixButton">
+      <nz-input-group style="width:100%;" nzSearch [nzAddOnAfter]="suffixButton">
         <nz-select [nzSize]="'default'" nzMode="tags" style="width: 100%;" [(ngModel)]="values" (nzOpenChange)="labelSelectOpenChange()"
           (ngModelChange)="modelChange()" [nzServerSearch]="true" (nzOnSearch)="searchLabel($event)">
           <nz-option *ngFor="let item of labels" [nzLabel]="item.id" [nzValue]="item.id" nzCustomContent>
