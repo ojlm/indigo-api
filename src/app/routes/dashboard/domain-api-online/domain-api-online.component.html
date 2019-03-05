@@ -1,13 +1,13 @@
 <div>
   <div class="alain-default__content-title" style="margin:0px;">
     <div style="width:100%;">
-      <nz-select style="padding-left:5px;width:150px;" nzMode="default" [nzSize]="'small'" [nzPlaceHolder]="'field-date'|translate"
+      <nz-select style="margin-left:5px;width:150px;" nzMode="default" [nzSize]="'small'" [nzPlaceHolder]="'field-date'|translate"
         nzAllowClear nzShowSearch [(ngModel)]="queryDomain.date" (ngModelChange)="dateChange()">
         <nz-option *ngFor="let item of dates" [nzLabel]="item.id" [nzValue]="item.id" nzCustomContent>
           <span>{{item.id}}</span>
         </nz-option>
       </nz-select>
-      <nz-select style="padding-left:5px;width:300px;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'small'"
+      <nz-select style="margin-left:5px;width:300px;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'small'"
         [nzPlaceHolder]="'field-domain'|translate" nzAllowClear nzShowSearch [(ngModel)]="domain" (ngModelChange)="domainChange()"
         [nzServerSearch]="true" (nzOnSearch)="searchDomain($event)">
         <nz-option *ngFor="let item of domains" [nzLabel]="item.name" [nzValue]="item" nzCustomContent>
@@ -17,20 +17,20 @@
           </span>
         </nz-option>
       </nz-select>
-      <nz-tag *ngIf="!domain" style="padding-left:8px;" nzMode="checkable" [(nzChecked)]="hashObj.showCovRate"
+      <nz-tag *ngIf="!domain" style="margin-left:8px;" nzMode="checkable" [(nzChecked)]="hashObj.showCovRate"
         (nzCheckedChange)="checkChange($event)" [nzColor]="hashObj.showCovRate?'lightseagreen':'lightgray'">{{'item-show-cov-rate'|translate}}</nz-tag>
       <nz-select *ngIf="domain" style="padding-left:10px;width:100px;" nzMode="default" [nzSize]="'small'"
         [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="queryApi.method" nzAllowClear (ngModelChange)="reloadDomainApiData()">
         <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
       </nz-select>
-      <nz-input-group *ngIf="domain" style="padding-left:5px;width:200px;" [nzSize]="'small'" [nzAddOnBefore]="'field-path'|translate">
+      <nz-input-group *ngIf="domain" style="margin-left:5px;width:200px;" [nzSize]="'small'" [nzAddOnBefore]="'field-path'|translate">
         <input type="text" nz-input [(ngModel)]="queryApi.urlPath" (ngModelChange)="urlPathChange()">
       </nz-input-group>
-      <nz-select *ngIf="domain" style="padding-left:5px;width:100px;" nzMode="default" [nzSize]="'small'"
+      <nz-select *ngIf="domain" style="margin-left:5px;width:100px;" nzMode="default" [nzSize]="'small'"
         [nzPlaceHolder]="'item-sort-field'|translate" [(ngModel)]="queryApi.sortField" nzAllowClear (ngModelChange)="reloadDomainApiData()">
         <nz-option *ngFor="let item of sortFields" [nzLabel]="item.label" [nzValue]="item.value"></nz-option>
       </nz-select>
-      <nz-tag *ngIf="domain" style="padding-left:4px;" nzMode="checkable" [(nzChecked)]="queryApi.asc" [nzColor]="queryApi.asc?'#2db7f5':'#108ee9'"
+      <nz-tag *ngIf="domain" style="margin-left:4px;" nzMode="checkable" [(nzChecked)]="queryApi.asc" [nzColor]="queryApi.asc?'#2db7f5':'#108ee9'"
         (nzCheckedChange)="reloadDomainApiData()">
         {{queryApi.asc?('item-asc'|translate):('item-desc'|translate)}}
       </nz-tag>
