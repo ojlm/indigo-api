@@ -115,30 +115,36 @@ export class DomainOnlineConfigComponent extends PageSingleModel implements OnIn
     this.aggs.push({
       type: 'term'
     })
+    this.aggs = [...this.aggs]
   }
 
   removeAggs(i: number) {
     this.aggs.splice(i, 1)
+    this.aggs = [...this.aggs]
   }
 
   addInclusion() {
     this.inOnly.push({
       type: 'term'
     })
+    this.inOnly = [...this.inOnly]
   }
 
   removeInclusion(i: number) {
     this.inOnly.splice(i, 1)
+    this.inOnly = [...this.inOnly]
   }
 
   addExclusion() {
     this.exOnly.push({
       type: 'term'
     })
+    this.exOnly = [...this.exOnly]
   }
 
   removeExclusion(i: number) {
     this.exOnly.splice(i, 1)
+    this.exOnly = [...this.exOnly]
   }
 
   save() {
