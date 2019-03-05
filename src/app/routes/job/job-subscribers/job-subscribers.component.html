@@ -48,21 +48,18 @@
 <nz-drawer [nzVisible]="drawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="drawerVisible=false">
   <div nz-row>
     <div nz-col nzSpan="24">
-      <nz-input-group nzSearch nzSize="default" [nzAddOnBefore]="nzAddOnBefore" [nzAddOnAfter]="nzAddOnAfter">
-        <input type="text" nz-input [placeholder]="'item-subscriber'|translate" [(ngModel)]="editItem.subscriber"
-          (ngModelChange)="modelChange()">
-        <ng-template #nzAddOnBefore>
-          <nz-select nzPlaceHolder="No Notifier" [(ngModel)]="selected" (ngModelChange)="selectChange()">
-            <nz-option *ngFor="let item of supports" [nzLabel]="item.type" [nzValue]="item"></nz-option>
-          </nz-select>
-        </ng-template>
-        <ng-template #nzAddOnAfter>
-          <button nz-button nzType="primary" nzSize="small" nzSearch (click)="saveOrAdd()">
-            <span *ngIf="!_jobId">{{'btn-add'|translate}}</span>
-            <span *ngIf="_jobId">{{'btn-save'|translate}}</span>
-          </button>
-        </ng-template>
-      </nz-input-group>
+      <div style="display:flex;">
+        <nz-select style="min-width:160px;" nzSize="default" nzPlaceHolder="No Notifier" [(ngModel)]="selected"
+          (ngModelChange)="selectChange()">
+          <nz-option *ngFor="let item of supports" [nzLabel]="item.type" [nzValue]="item"></nz-option>
+        </nz-select>
+        <input style="width:100%;" type="text" nzSize="default" nz-input [placeholder]="'item-subscriber'|translate"
+          [(ngModel)]="editItem.subscriber" (ngModelChange)="modelChange()">
+        <button nz-button nzType="primary" nzSize="default" (click)="saveOrAdd()">
+          <span *ngIf="!_jobId">{{'btn-add'|translate}}</span>
+          <span *ngIf="_jobId">{{'btn-save'|translate}}</span>
+        </button>
+      </div>
     </div>
     <div nz-col [nzSpan]="24" style="padding-top:5px;">
       <nz-radio-group [(ngModel)]="editItem.trigger" (ngModelChange)="modelChange()">
