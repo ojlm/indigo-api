@@ -10,7 +10,7 @@
         <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
           <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
           <ng-template #suffixButton>
-            <a class="click-icon" style="margin-right:10px;"><i class="anticon anticon-search" (click)="loadData()"></i></a>
+            <a class="click-icon" style="margin-right:10px;"><i nz-icon type="search" theme="outline" (click)="loadData()"></i></a>
           </ng-template>
         </nz-input-group>
       </ng-template>
@@ -26,11 +26,11 @@
           </nz-list-item-meta>
           <ng-template #edit>
             <button nz-button nzSize="small" nzType="default" (click)="editItem(item)">
-              <i class="anticon anticon-setting"></i>
+              <i nz-icon type="setting" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button nzSize="small" nzType="default" (click)="deleteItem(item)">
-              <i class="anticon anticon-delete"></i>
+              <i nz-icon type="delete" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>

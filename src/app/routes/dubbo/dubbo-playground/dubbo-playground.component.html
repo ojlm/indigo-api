@@ -4,7 +4,7 @@
       <nz-input-group nzAddOnBefore="zk://" [nzSuffix]="tplConn">
         <input type="text" nz-input placeholder="zookeeper address" [(ngModel)]="interfacesMsg.zkAddr" (ngModelChange)="zkChange()"
           (keydown.enter)="getInterfaces()">
-        <ng-template #tplConn><a (click)="getInterfaces()"><i class="anticon anticon-enter"></i></a></ng-template>
+        <ng-template #tplConn><a (click)="getInterfaces()"><i nz-icon type="enter" theme="outline"></i></a></ng-template>
       </nz-input-group>
       <div style="margin-top:4px;">
         <nz-input-group nzAddOnBefore="ref:">
@@ -17,7 +17,7 @@
               <td>{{item.ref}}</td>
               <td style="width:48px;">
                 <button nz-button nzSize="small" nzType="default" (click)="getProviders(item)">
-                  <i class="anticon anticon-login"></i>
+                  <i nz-icon type="login" theme="outline"></i>
                 </button>
               </td>
             </tr>
@@ -38,7 +38,7 @@
         </nz-select>
         <ng-template #nzAddOnAfterDubbo>
           <span style="cursor:pointer;color:lightblue;" (click)="telnet()">
-            <i class="anticon anticon-code click-icon"></i>
+            <i nz-icon type="code" theme="outline" class="click-icon"></i>
           </span>
         </ng-template>
       </nz-input-group>
@@ -54,7 +54,7 @@
         </nz-select>
         <ng-template #nzAddOnAfterMethod>
           <span style="cursor:pointer;color:lightblue;" (click)="viewMethods()">
-            <i class="anticon anticon-eye click-icon"></i>
+            <i nz-icon type="eye" theme="outline" class="click-icon"></i>
           </span>
         </ng-template>
       </nz-input-group>
@@ -80,7 +80,7 @@
           <input nz-input [(ngModel)]="item.type">
         </td>
         <td style="padding:2px;">
-          <i class="anticon anticon-close click-icon" (click)="removeParameterType(i)"></i>
+          <i nz-icon type="close" theme="outline" class="click-icon" (click)="removeParameterType(i)"></i>
         </td>
       </tr>
     </tbody>
@@ -89,7 +89,7 @@
 </nz-drawer>
 <div style="position:absolute;bottom:40px;right:40px;">
   <button nz-button [nzSize]="'large'" nzShape="circle" nzType="default" (click)="test()">
-    <a><i class="anticon anticon-play-circle"></i></a>
+    <a><i nz-icon type="play-circle" theme="outline"></i></a>
   </button>
 </div>
 <nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"

@@ -1,7 +1,7 @@
 <nz-dropdown [nzPlacement]="'bottomRight'">
   <button style="font-size:small;" nz-button nz-dropdown [nzSize]="'small'" [nzType]="isCoverd?'primary':'danger'">
     <span>{{'field-coverage'|translate}}</span>
-    <i style="margin-left:4px;" class="anticon anticon-down"></i>
+    <i style="margin-left:4px;" nz-icon type="down" theme="outline"></i>
   </button>
   <ul nz-menu>
     <li *ngIf="_item.belongs.length===0" nz-menu-item style="color:lightcoral;">{{'tips-online-domain-absent'|translate}}</li>

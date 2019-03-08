@@ -107,14 +107,14 @@
     </button>
     <button [title]="'tips-word-wrap'|translate" style="margin-left:3px;" nzSize="small" [nzType]="wraped?'primary':'dashed'"
       nz-button (click)="wrap()">
-      <i class="anticon anticon-bars"></i>
+      <i nz-icon type="bars" theme="outline"></i>
     </button>
     <button [title]="'tips-format'|translate" style="margin-left:3px;" nzSize="small" nzType="dashed" nz-button (click)="formatAssert()">
-      <i class="anticon anticon-layout"></i>
+      <i nz-icon type="layout" theme="outline"></i>
     </button>
     <button [title]="'tips-full-window'|translate" style="margin-left:3px;" nzSize="small" [nzType]="isFullDocument?'primary':'dashed'"
       nz-button (click)="fullWindowBtnClick()">
-      <i class="anticon anticon-windows-o"></i>
+      <i nz-icon type="windows" theme="outline"></i>
     </button>
     <button [title]="'tips-fullscreen'|translate" style="margin-left:3px;margin-right:3px;" nzSize="small" [nzType]="isFullscreen?'primary':'dashed'"
       nz-button (click)="fullScreenBtnClick()">

@@ -35,13 +35,13 @@
         <div style="display:flex;padding-left:20px;">
           <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()">
             <span>
-              <i class="anticon anticon-scan"></i>
+              <i nz-icon type="scan" theme="outline"></i>
               <span>{{'btn-send'|translate}}</span>
             </span>
           </button>
           <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'" [nzPlacement]="'bottomRight'">
             <span [style.color]="isSaved?'lightgray':'orangered'">
-              <i class="anticon anticon-save"></i>
+              <i nz-icon type="save" theme="outline"></i>
               <span>{{'btn-save'|translate}}</span>
             </span>
             <ul nz-menu>
@@ -56,7 +56,7 @@
           <button *ngIf="!isInDrawer&&!isInNew" nz-button [nzType]="'default'" [nzSize]="'default'" style="margin-left:5px;padding:0px 10px;"
             (click)="history()">
             <span>
-              <i class="anticon anticon-book"></i>
+              <i nz-icon type="book" theme="outline"></i>
               <span>{{'btn-history'|translate}}</span>
             </span>
           </button>

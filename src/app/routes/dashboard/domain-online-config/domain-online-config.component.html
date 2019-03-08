@@ -22,7 +22,7 @@
             <input nz-input [(ngModel)]="item.value">
           </td>
           <td style="padding:2px;width:32px;">
-            <i class="anticon anticon-close click-icon" (click)="removeExclusion(i)"></i>
+            <i nz-icon type="close" theme="outline" class="click-icon" (click)="removeExclusion(i)"></i>
           </td>
         </tr>
       </tbody>
@@ -48,7 +48,7 @@
             <input nz-input [(ngModel)]="item.alias" [placeholder]="'field-alias'|translate">
           </td>
           <td style="padding:2px;width:32px;">
-            <i class="anticon anticon-close click-icon" (click)="removeAggs(i)"></i>
+            <i nz-icon type="close" theme="outline" class="click-icon" (click)="removeAggs(i)"></i>
           </td>
         </tr>
       </tbody>
@@ -71,7 +71,7 @@
             <input nz-input [(ngModel)]="item.value">
           </td>
           <td style="padding:2px;width:32px;">
-            <i class="anticon anticon-close click-icon" (click)="removeInclusion(i)"></i>
+            <i nz-icon type="close" theme="outline" class="click-icon" (click)="removeInclusion(i)"></i>
           </td>
         </tr>
       </tbody>
@@ -109,7 +109,7 @@
               <nz-divider nzType="vertical"></nz-divider>
               <span>
                 <span>{{item.percentage/100 + '%'}}</span>
-                <i style="padding-left:4px;color:lightgray;" class="anticon anticon-pie-chart"></i>
+                <i style="padding-left:4px;color:lightgray;" nz-icon type="pie-chart" theme="outline"></i>
               </span>
               <nz-divider nzType="vertical"></nz-divider>
               <span *ngIf="item.belongs" style="float:right;">

@@ -44,11 +44,11 @@
           </nz-list-item-meta>
           <ng-template #edit>
             <button nz-button nzSize="small" nzType="default" (click)="editOrCheckItem(item, true)">
-              <i class="anticon anticon-setting"></i>
+              <i nz-icon type="setting" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button nzSize="small" nzType="default" (click)="deleteItem(item)">
-              <i class="anticon anticon-delete"></i>
+              <i nz-icon type="delete" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>
@@ -122,7 +122,7 @@
       <app-group-project-selector [(data)]="transferGroupProject"></app-group-project-selector>
       <div style="margin-top:8px;">
         <span style="padding-left:4px;color:lightcoral;font-size:smaller;">
-          <i class="anticon anticon-exclamation-circle"></i>
+          <i nz-icon type="exclamation-circle" theme="outline"></i>
           <span style="padding-left:4px">{{'tips-transfer-case'|translate}}</span>
         </span>
         <button style="float:right;margin-right:8px;" nz-button nzType="primary" [nzSize]="'small'" (click)="batchTransfer()">{{'item-transfer'|translate}}</button>

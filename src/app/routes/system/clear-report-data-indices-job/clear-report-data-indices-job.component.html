@@ -5,7 +5,7 @@
         <nz-input-group [nzPrefix]="prefixCron">
           <input formControlName="cron" nz-input placeholder="Cron Expression">
         </nz-input-group>
-        <ng-template #prefixCron><i class="anticon anticon-schedule"></i></ng-template>
+        <ng-template #prefixCron><i nz-icon type="schedule" theme="outline"></i></ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -13,7 +13,7 @@
         <nz-input-group [nzPrefix]="prefixDay">
           <input formControlName="day" nz-input type="input" placeholder="day">
         </nz-input-group>
-        <ng-template #prefixDay><i class="anticon anticon-calendar"></i></ng-template>
+        <ng-template #prefixDay><i nz-icon type="calendar" theme="outline"></i></ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -27,10 +27,10 @@
     <nz-form-item>
       <nz-form-control>
         <button nz-button [disabled]="!canResume()" nzSize="small" nzType="default" (click)="resume()">
-          <i class="anticon anticon-play-circle-o"></i>
+          <i nz-icon type="play-circle" theme="outline"></i>
         </button>
         <button nz-button [disabled]="!canPause()" nzSize="small" nzType="default" (click)="pause()">
-          <i class="anticon anticon-pause"></i>
+          <i nz-icon type="pause" theme="outline"></i>
         </button>
         <button nz-button type="button" nzSize="small" nzType="primary" (click)="update()">{{'btn-update'|translate}}</button>
       </nz-form-control>

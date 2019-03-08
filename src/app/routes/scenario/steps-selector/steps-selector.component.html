@@ -8,10 +8,10 @@
     <div [sortablejs]="addedItems" [sortablejsOptions]="sortablejsOptions">
       <div class="step" style="width:100%;margin-left:10px;margin-top:6px;margin-right:10px;" *ngFor="let item of addedItems;let i = index;">
         <div>
-          <span><i class="anticon anticon-bars click-icon" style="cursor:grab"></i></span>
+          <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
           <span> {{i+1}}. </span>
           <a style="padding-left:4px;" (click)="removeItem(item, i)">
-            <i class="anticon anticon-close-circle-o click-icon hover-red"></i>
+            <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
           </a>
           <span class="step-title" (click)="viewCase(item)">
             <span style="padding-left:3px;color:darkgray;cursor:pointer;">{{item.summary}}</span>
@@ -34,7 +34,7 @@
         <span style="margin-left:2px;">{{'btn-add-req'|translate}}</span>
       </button>
       <button nz-button style="background-color:transparent;" nzSize="small" nzType="dashed" (click)="addNewCaseStep()">
-        <span><i class="anticon anticon-plus"></i></span>
+        <span><i nz-icon type="plus" theme="outline"></i></span>
         <span style="margin-left:2px;">{{'btn-add-new-req'|translate}}</span>
       </button>
     </div>
@@ -59,7 +59,7 @@
         </ng-container>
       </ng-template>
       <ng-template #addAction>
-        <a (click)="addItem(item)"><i class="anticon anticon-plus-circle-o  click-icon"></i></a>
+        <a (click)="addItem(item)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
       </ng-template>
     </ng-template>
   </nz-list>

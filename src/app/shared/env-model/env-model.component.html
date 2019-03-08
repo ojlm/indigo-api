@@ -36,7 +36,7 @@
             <span>
               <nz-tag [nzColor]="enableProxy?'#108ee9':'#f50'" nzMode="checkable" [(nzChecked)]="enableProxy">{{(enableProxy?'btn-enable':'btn-disable')|translate}}</nz-tag>
               <i (click)="toggleDtabs()" [style.color]="visibleDtabs?'#108ee9':''" [style.fontWeight]="visibleDtabs?'bold':''"
-                class="anticon anticon-eye-o click-icon">
+                  nz-icon type="eye" theme="outline" class="click-icon">
               </i>
             </span>
           </ng-template>

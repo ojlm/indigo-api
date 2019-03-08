@@ -10,7 +10,7 @@
           <nz-input-group style="width:100%;" nzSize="small" nzSearch [nzSuffix]="nzSuffixIcon">
             <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (ngModelChange)="textChange()">
             <ng-template #nzSuffixIcon>
-              <i style="padding-right:4px;font-size:small;" class="anticon anticon-sync click-icon" (click)="doSearch(true)"></i>
+              <i style="padding-right:4px;font-size:small;" nz-icon type="sync" theme="outline" class="click-icon" (click)="doSearch(true)"></i>
             </ng-template>
           </nz-input-group>
         </div>
@@ -47,9 +47,9 @@
             </ng-template>
           </nz-avatar>
           <nz-divider nzType="vertical"></nz-divider>
-          <i class="anticon anticon-copy click-icon" (click)="copyItem(item)"></i>
+          <i nz-icon type="copy" theme="outline" class="click-icon" (click)="copyItem(item)"></i>
           <nz-divider nzType="vertical"></nz-divider>
-          <i class="anticon anticon-setting click-icon" (click)="editItem(item)"></i>
+          <i nz-icon type="setting" theme="outline" class="click-icon" (click)="editItem(item)"></i>
         </ng-template>
       </nz-list-item>
     </ng-template>

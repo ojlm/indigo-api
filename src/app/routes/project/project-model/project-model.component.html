@@ -18,7 +18,7 @@
               </nz-option>
             </ng-container>
             <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-              <i class="anticon anticon-loading anticon-spin"></i><span> {{'tips-loading-data'|translate}}</span>
+              <i nz-icon type="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
             </nz-option>
           </nz-select>
         </nz-form-control>

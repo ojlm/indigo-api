@@ -25,15 +25,15 @@
           </div>
         </ng-template>
         <ng-template #nzAction>
-          <a style="color:lightslategray;" (click)="copy(item, i)"><i class="anticon anticon-copy"></i></a>
-          <a style="color:lightcoral;padding-left:3px;" (click)="remove(item, i)"><i class="anticon anticon-delete"></i></a>
+          <a style="color:lightslategray;" (click)="copy(item, i)"><i nz-icon type="copy" theme="outline"></i></a>
+          <a style="color:lightcoral;padding-left:3px;" (click)="remove(item, i)"><i nz-icon type="delete" theme="outline"></i></a>
         </ng-template>
       </nz-list-item>
     </ng-template>
   </nz-list>
   <ng-template #nzFooter>
     <button nz-button nzSize="small" nzType="dashed" (click)="addItem()">
-      <span><i class="anticon anticon-plus"></i></span>
+      <span><i nz-icon type="plus" theme="outline"></i></span>
       <span style="margin-left:2px;">{{'btn-add-assertion'|translate}}</span>
     </button>
     <button [title]="'tips-assertion-and-or'|translate" nzSize="small" [nzType]="'and'===items.logic?'primary':'danger'"

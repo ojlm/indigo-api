@@ -8,7 +8,7 @@ import { ApiRes } from '../../../../model/api.model'
 @Component({
   selector: 'header-search',
   template: `
-    <nz-input-group nzAddOnBeforeIcon="anticon anticon-search">
+    <nz-input-group nzAddOnBeforeIcon="search">
       <input nz-input [(ngModel)]="q" (ngModelChange)="onSearch()" (focus)="qFocus()" (blur)="qBlur()"
         [placeholder]="'top-search-ph'|translate" [nzAutocomplete]="auto">
     </nz-input-group>

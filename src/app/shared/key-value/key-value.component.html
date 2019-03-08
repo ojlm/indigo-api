@@ -23,7 +23,7 @@
         <input nz-input [(ngModel)]="item.value" (ngModelChange)="modelChange(item,i)">
       </td>
       <td style="padding:2px;">
-        <i *ngIf="i<values.length-1" class="anticon anticon-close click-icon" (click)="remove(i)"></i>
+        <i *ngIf="i<values.length-1" nz-icon type="close" theme="outline" class="click-icon" (click)="remove(i)"></i>
       </td>
     </tr>
   </tbody>

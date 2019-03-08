@@ -3,8 +3,8 @@
 </nz-input-group>
 <ng-template #suffixIconButton>
   <nz-button-group>
-    <button nz-button [nzSize]="'small'" nzType="default" (click)="viewEnv()"><i class="anticon anticon-eye-o"></i></button>
-    <button nz-button [nzSize]="'small'" nzType="default" (click)="selectEnv()"><i class="anticon anticon-select"></i></button>
+    <button nz-button [nzSize]="'small'" nzType="default" (click)="viewEnv()"><i nz-icon type="eye" theme="outline"></i></button>
+    <button nz-button [nzSize]="'small'" nzType="default" (click)="selectEnv()"><i nz-icon type="select" theme="outline"></i></button>
   </nz-button-group>
 </ng-template>
 <nz-drawer [nzClosable]="true" [nzVisible]="envModelDrawerVisible" nzPlacement="right" [nzWidth]="drawerWidth"
@@ -27,7 +27,7 @@
         </nz-list-item-meta>
         <ng-template #edit>
           <button nz-button [nzType]="item._id===_env?'primary':'default'" nzShape="circle" (click)="clickItem(item)">
-            <i class="anticon anticon-check-square-o"></i>
+            <i nz-icon type="check-square" theme="outline"></i>
           </button>
         </ng-template>
       </nz-list-item>

@@ -21,7 +21,7 @@
               <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text">
               <ng-template #suffixButton>
                 <button nz-button nzType="primary" (click)="loadData()">
-                  <i class="anticon anticon-search"></i>
+                  <i nz-icon type="search" theme="outline"></i>
                   <span>{{'btn-search'|translate}}</span>
                 </button>
               </ng-template>
@@ -50,22 +50,22 @@
           </nz-list-item-meta>
           <ng-template #edit>
             <button nz-button nzSize="small" nzType="default" (click)="showTrend(item)">
-              <i class="anticon anticon-bar-chart"></i>
+              <i nz-icon type="bar-chart" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" (click)="resumeItem(item)">
-              <i class="anticon anticon-play-circle-o"></i>
+              <i nz-icon type="play-circle" theme="outline"></i>
             </button>
             <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" (click)="pauseItem(item)">
-              <i class="anticon anticon-pause"></i>
+              <i nz-icon type="pause" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button nzSize="small" nzType="default" (click)="deleteItem(item)">
-              <i class="anticon anticon-delete"></i>
+              <i nz-icon type="delete" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button nzSize="small" nzType="default" (click)="editItem(item)">
-              <i class="anticon anticon-setting"></i>
+              <i nz-icon type="setting" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>

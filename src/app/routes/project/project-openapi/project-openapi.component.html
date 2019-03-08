@@ -4,18 +4,18 @@
     <div>
       <nz-tag *ngIf="!needSave" style="margin-right:5px;" [nzColor]="'green'">
         <span>
-          <i class="anticon anticon-save"></i>
+          <i nz-icon type="save" theme="outline"></i>
           <span>{{'tips-saved'|translate}}</span>
         </span>
       </nz-tag>
       <nz-tag *ngIf="needSave" style="margin-right:5px;" [nzColor]="'red'">
         <span>
-          <i class="anticon anticon-warning"></i>
+          <i nz-icon type="warning" theme="outline"></i>
           <span>{{'tips-wait-save'|translate}}</span>
         </span>
       </nz-tag>
       <button style="margin-right:10px;" nzSize="small" nzType="dashed" nz-button (click)="reload()">
-        <i class="anticon anticon-reload"></i>
+        <i nz-icon type="reload" theme="outline"></i>
       </button>
     </div>
   </div>

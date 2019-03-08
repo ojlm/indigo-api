@@ -64,32 +64,32 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
       menuSrv.clear()
       const menus: Menu[] = [
         {
-          'text': '主导航',
-          'i18n': 'menu-main-navigation',
-          'group': true,
-          'hideInBreadcrumb': true,
+          text: '主导航',
+          i18n: 'menu-main-navigation',
+          group: true,
+          hideInBreadcrumb: true,
           children: [
             {
-              'text': '用例管理',
-              'i18n': 'menu-cases',
-              'icon': 'anticon antanticon anticon-book',
+              text: '用例管理',
+              i18n: 'menu-cases',
+              icon: {type:'icon',value:'book',theme:'outline'},
               children: [
                 {
-                  'text': '用例列表',
-                  'i18n': 'menu-case-list',
-                  'link': `/${group}/${project}`,
+                  text: '用例列表',
+                  i18n: 'menu-case-list',
+                  link: `/${group}/${project}`,
                 },
                 {
-                  'text': '新建用例',
-                  'i18n': 'menu-new-case',
-                  'link': `/cases/${group}/${project}/new`,
+                  text: '新建用例',
+                  i18n: 'menu-new-case',
+                  link: `/cases/${group}/${project}/new`,
                 },
               ]
             },
             {
-              'text': '接口管理',
-              'i18n': 'menu-apis',
-              'icon': 'anticon antanticon anticon-api',
+              text: '接口管理',
+              i18n: 'menu-apis',
+              icon: {type:'icon',value:'api',theme:'outline'},
               children: [
                 // {
                 //   'text': '接口列表',
@@ -102,88 +102,88 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
                 //   'link': `/apis/${group}/${project}/new`,
                 // },
                 {
-                  'text': 'OpenApi',
-                  'i18n': 'menu-openapi',
-                  'link': `/project/${group}/${project}/openapi`,
+                  text: 'OpenApi',
+                  i18n: 'menu-openapi',
+                  link: `/project/${group}/${project}/openapi`,
                 },
               ]
             },
             {
-              'text': '场景管理',
-              'i18n': 'menu-scenarios',
-              'icon': 'anticon antanticon anticon-picture',
+              text: '场景管理',
+              i18n: 'menu-scenarios',
+              icon: {type:'icon',value:'picture',theme:'outline'},
               children: [
                 {
-                  'text': '场景列表',
-                  'i18n': 'menu-scenario-list',
-                  'link': `/scenario/${group}/${project}`,
+                  text: '场景列表',
+                  i18n: 'menu-scenario-list',
+                  link: `/scenario/${group}/${project}`,
                 },
                 {
-                  'text': '新建场景',
-                  'i18n': 'menu-new-scenario',
-                  'link': `/scenarios/${group}/${project}/new`,
+                  text: '新建场景',
+                  i18n: 'menu-new-scenario',
+                  link: `/scenarios/${group}/${project}/new`,
                 },
               ]
             },
             {
-              'text': '任务列表',
-              'i18n': 'menu-jobs',
-              'icon': 'anticon antanticon anticon-schedule',
-              'link': `/job/${group}/${project}`,
+              text: '任务列表',
+              i18n: 'menu-jobs',
+              icon: {type:'icon',value:'schedule',theme:'outline'},
+              link: `/job/${group}/${project}`,
               children: [
                 {
-                  'text': '任务列表',
-                  'i18n': 'menu-job-list',
-                  'link': `/job/${group}/${project}`,
+                  text: '任务列表',
+                  i18n: 'menu-job-list',
+                  link: `/job/${group}/${project}`,
                 },
                 {
-                  'text': '新建任务',
-                  'i18n': 'menu-new-job',
-                  'link': `/jobs/${group}/${project}/new`,
+                  text: '新建任务',
+                  i18n: 'menu-new-job',
+                  link: `/jobs/${group}/${project}/new`,
                 },
                 {
-                  'text': '任务报告',
-                  'i18n': 'menu-job-report',
-                  'link': `/project/${group}/${project}/report`,
+                  text: '任务报告',
+                  i18n: 'menu-job-report',
+                  link: `/project/${group}/${project}/report`,
                 },
               ]
             },
             {
-              'text': '环境管理',
-              'i18n': 'menu-envs',
-              'icon': 'anticon antanticon anticon-environment-o',
+              text: '环境管理',
+              i18n: 'menu-envs',
+              icon: {type:'icon',value:'environment',theme:'outline'},
               children: [
                 {
-                  'text': '环境列表',
-                  'i18n': 'menu-env-list',
-                  'link': `/env/${group}/${project}`,
+                  text: '环境列表',
+                  i18n: 'menu-env-list',
+                  link: `/env/${group}/${project}`,
                 },
                 {
-                  'text': '新建环境',
-                  'i18n': 'menu-new-env',
-                  'link': `/envs/${group}/${project}/new`,
+                  text: '新建环境',
+                  i18n: 'menu-new-env',
+                  lin: `/envs/${group}/${project}/new`,
                 },
               ]
             },
             {
-              'text': '设置',
-              'i18n': 'menu-settings',
-              'icon': 'anticon antanticon anticon-setting',
+              text: '设置',
+              i18n: 'menu-settings',
+              icon: {type:'icon',value:'setting',theme:'outline'},
               children: [
                 {
-                  'text': '基本信息',
-                  'i18n': 'menu-general-info',
-                  'link': `/project/${group}/${project}/settings`,
+                  text: '基本信息',
+                  i18n: 'menu-general-info',
+                  link: `/project/${group}/${project}/settings`,
                 },
                 {
-                  'text': '同步设置',
-                  'i18n': 'menu-sync-settings',
-                  'link': `/project/${group}/${project}/sync`,
+                  text: '同步设置',
+                  i18n: 'menu-sync-settings',
+                  link: `/project/${group}/${project}/sync`,
                 },
                 {
-                  'text': '其他选项',
-                  'i18n': 'menu-other-options',
-                  'link': `/project/${group}/${project}/options`,
+                  text: '其他选项',
+                  i18n: 'menu-other-options',
+                  link: `/project/${group}/${project}/options`,
                 }
               ]
             }

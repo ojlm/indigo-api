@@ -63,38 +63,38 @@ export class LayoutGroupComponent extends LayoutAbstractClass {
       menuSrv.clear()
       const menus: Menu[] = [
         {
-          'text': '主导航',
-          'i18n': 'menu-main-navigation',
-          'group': true,
-          'hideInBreadcrumb': true,
+          text: '主导航',
+          i18n: 'menu-main-navigation',
+          group: true,
+          hideInBreadcrumb: true,
           children: [
             {
-              'text': '项目列表',
-              'i18n': 'menu-projects',
-              'icon': 'anticon antanticon anticon-database',
-              'link': `/${group}`
+              text: '项目列表',
+              i18n: 'menu-projects',
+              icon: {type:'icon',value:'database',theme:'outline'},
+              link: `/${group}`
             },
             {
-              'text': '任务列表',
-              'i18n': 'menu-jobs',
-              'icon': 'anticon antanticon anticon-schedule',
-              'link': `/group/${group}/jobs`
+              text: '任务列表',
+              i18n: 'menu-jobs',
+              icon: {type:'icon',value:'schedule',theme:'outline'},
+              link: `/group/${group}/jobs`
             },
             {
-              'text': '设置',
-              'i18n': 'menu-settings',
-              'icon': 'anticon antanticon anticon-setting',
-              'link': `/group/${group}/settings`,
+              text: '设置',
+              i18n: 'menu-settings',
+              icon: {type:'icon',value:'setting',theme:'outline'},
+              link: `/group/${group}/settings`,
               children: [
                 {
-                  'text': '基本信息',
-                  'i18n': 'menu-general-info',
-                  'link': `/group/${group}/settings`,
+                  text: '基本信息',
+                  i18n: 'menu-general-info',
+                  link: `/group/${group}/settings`,
                 },
                 {
-                  'text': '其他选项',
-                  'i18n': 'menu-other-options',
-                  'link': `/group/${group}/options`,
+                  text: '其他选项',
+                  i18n: 'menu-other-options',
+                  link: `/group/${group}/options`,
                 }
               ]
             }

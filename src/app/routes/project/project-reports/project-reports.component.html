@@ -50,7 +50,7 @@
               <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text">
               <ng-template #suffixButton>
                 <button nz-button nzType="primary" (click)="doSearch()">
-                  <i class="anticon anticon-search"></i>
+                  <i nz-icon type="search" theme="outline"></i>
                   <span>{{'btn-search'|translate}}</span>
                 </button>
               </ng-template>
@@ -87,12 +87,12 @@
           </nz-list-item-meta>
           <ng-template #view>
             <button nz-button nzType="default" (click)="viewItem(item)">
-              <i class="anticon anticon-dashboard"></i>
+              <i nz-icon type="dashboard" theme="outline"></i>
             </button>
           </ng-template>
           <ng-template #edit>
             <button nz-button nzType="default" (click)="editItem(item)" [disabled]="!item.jobId">
-              <i class="anticon anticon-setting"></i>
+              <i nz-icon type="setting" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>

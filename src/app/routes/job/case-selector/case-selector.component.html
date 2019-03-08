@@ -43,7 +43,7 @@
             </div>
           </ng-template>
           <ng-template #removeAction>
-            <a style="padding-right:8px;transform: scale(1.2);" (click)="removeItem(item, i)"><i class="anticon anticon-close click-icon hover-red"></i></a>
+            <a style="padding-right:8px;transform: scale(1.2);" (click)="removeItem(item, i)"><i nz-icon type="close" theme="outline" class="click-icon hover-red"></i></a>
           </ng-template>
         </ng-template>
       </nz-list>
@@ -80,8 +80,8 @@
         </div>
       </ng-template>
       <ng-template #addAction>
-        <a *ngIf="!addedItemsMap[item._id]" (click)="addItem(item)"><i class="anticon anticon-right click-icon"></i></a>
-        <a *ngIf="addedItemsMap[item._id]"><i style="color:yellowgreen;" class="anticon anticon-check-circle-o click-icon"></i></a>
+        <a *ngIf="!addedItemsMap[item._id]" (click)="addItem(item)"><i nz-icon type="right" theme="outline" class="click-icon"></i></a>
+        <a *ngIf="addedItemsMap[item._id]"><i style="color:yellowgreen;" nz-icon type="check-circle" theme="outline" class="click-icon"></i></a>
       </ng-template>
     </ng-template>
   </nz-list>

@@ -36,10 +36,10 @@
       </nz-tag>
       <nz-tag *ngIf="this.domain&&this.domain.tag" [nzColor]="'#2db7f5'">{{this.domain.tag}}</nz-tag>
       <button *ngIf="domain" style="float:right;margin-left:8px;" nz-button nzSize="small" nzType="default" (click)="showDomainSyncSetting()">
-        <i class="anticon anticon-setting"></i>
+        <i nz-icon type="setting" theme="outline"></i>
       </button>
       <button *ngIf="domain" style="float:right;" nz-button nzSize="small" nzType="default" (click)="showDomainCharts()">
-        <i class="anticon anticon-dot-chart"></i>
+        <i nz-icon type="dot-chart" theme="outline"></i>
       </button>
     </div>
   </div>
@@ -71,11 +71,11 @@
                   <nz-divider nzType="vertical"></nz-divider>
                   <span>
                     <span>{{item.percentage/100 + '%'}}</span>
-                    <i style="padding-left:4px;color:lightgray;" class="anticon anticon-pie-chart"></i>
+                    <i style="padding-left:4px;color:lightgray;" nz-icon type="pie-chart" theme="outline"></i>
                   </span>
                   <nz-divider nzType="vertical"></nz-divider>
                   <span *ngIf="item.metrics">
-                    <i style="padding-left:8px;padding-right:4px;color:lightseagreen;" class="anticon anticon-rocket"></i>
+                    <i style="padding-left:8px;padding-right:4px;color:lightseagreen;" nz-icon type="rocket" theme="outline"></i>
                     <span style="color:lightgray;">(ms) </span>
                     <span style="padding-left:0px;">min: {{item.metrics.min}}</span>
                     <span style="padding-left:4px;">avg: {{item.metrics.avg}}</span>
@@ -96,13 +96,13 @@
               <app-domain-api-item [item]="item"></app-domain-api-item>
               <nz-divider nzType="vertical"></nz-divider>
               <button nz-button nzSize="small" nzType="default" (click)="showApiPerfTrend(item)">
-                <i style="color:lightseagreen;" class="anticon anticon-line-chart"></i>
+                <i style="color:lightseagreen;" nz-icon type="line-chart" theme="outline"></i>
               </button>
               <button *ngIf="'GET'===item.method" nz-button nzSize="small" nzType="default" (click)="viewItem(item)">
-                <i style="color:lightblue;" class="anticon anticon-chrome"></i>
+                <i style="color:lightblue;" nz-icon type="chrome" theme="outline"></i>
               </button>
               <button *ngIf="'GET'!==item.method" nz-button nzSize="small" nzType="default" disabled (click)="viewItem(item)">
-                <i style="color:lightgray;" class="anticon anticon-chrome"></i>
+                <i style="color:lightgray;" nz-icon type="chrome" theme="outline"></i>
               </button>
               <nz-divider nzType="vertical"></nz-divider>
             </ng-template>

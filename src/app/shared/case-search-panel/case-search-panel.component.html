@@ -4,7 +4,7 @@
       <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (ngModelChange)="modelChange()"
         (keyup.enter)="modelChange()">
       <ng-template #suffixButton>
-        <a class="click-icon" style="margin-right:10px;"><i class="anticon anticon-search" (click)="modelChange()"></i></a>
+        <a class="click-icon" style="margin-right:10px;"><i nz-icon type="search" theme="outline" (click)="modelChange()"></i></a>
       </ng-template>
     </nz-input-group>
   </div>
