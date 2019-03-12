@@ -72,7 +72,7 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
             {
               text: '用例管理',
               i18n: 'menu-cases',
-              icon: {type:'icon',value:'book',theme:'outline'},
+              icon: { type: 'icon', value: 'book', theme: 'outline' },
               children: [
                 {
                   text: '用例列表',
@@ -89,7 +89,7 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
             {
               text: '接口管理',
               i18n: 'menu-apis',
-              icon: {type:'icon',value:'api',theme:'outline'},
+              icon: { type: 'icon', value: 'api', theme: 'outline' },
               children: [
                 // {
                 //   'text': '接口列表',
@@ -111,7 +111,7 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
             {
               text: '场景管理',
               i18n: 'menu-scenarios',
-              icon: {type:'icon',value:'picture',theme:'outline'},
+              icon: { type: 'icon', value: 'picture', theme: 'outline' },
               children: [
                 {
                   text: '场景列表',
@@ -128,7 +128,7 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
             {
               text: '任务列表',
               i18n: 'menu-jobs',
-              icon: {type:'icon',value:'schedule',theme:'outline'},
+              icon: { type: 'icon', value: 'schedule', theme: 'outline' },
               link: `/job/${group}/${project}`,
               children: [
                 {
@@ -151,7 +151,7 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
             {
               text: '环境管理',
               i18n: 'menu-envs',
-              icon: {type:'icon',value:'environment',theme:'outline'},
+              icon: { type: 'icon', value: 'environment', theme: 'outline' },
               children: [
                 {
                   text: '环境列表',
@@ -161,14 +161,14 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
                 {
                   text: '新建环境',
                   i18n: 'menu-new-env',
-                  lin: `/envs/${group}/${project}/new`,
+                  link: `/envs/${group}/${project}/new`,
                 },
               ]
             },
             {
               text: '设置',
               i18n: 'menu-settings',
-              icon: {type:'icon',value:'setting',theme:'outline'},
+              icon: { type: 'icon', value: 'setting', theme: 'outline' },
               children: [
                 {
                   text: '基本信息',

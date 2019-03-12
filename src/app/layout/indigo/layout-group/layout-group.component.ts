@@ -71,19 +71,19 @@ export class LayoutGroupComponent extends LayoutAbstractClass {
             {
               text: '项目列表',
               i18n: 'menu-projects',
-              icon: {type:'icon',value:'database',theme:'outline'},
+              icon: { type: 'icon', value: 'database', theme: 'outline' },
               link: `/${group}`
             },
             {
               text: '任务列表',
               i18n: 'menu-jobs',
-              icon: {type:'icon',value:'schedule',theme:'outline'},
+              icon: { type: 'icon', value: 'schedule', theme: 'outline' },
               link: `/group/${group}/jobs`
             },
             {
               text: '设置',
               i18n: 'menu-settings',
-              icon: {type:'icon',value:'setting',theme:'outline'},
+              icon: { type: 'icon', value: 'setting', theme: 'outline' },
               link: `/group/${group}/settings`,
               children: [
                 {
