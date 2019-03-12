@@ -1,6 +1,6 @@
 <div>
   <div nz-row>
-    <div nz-col nzSpan="4" class="border" [ngStyle]="authStyle">
+    <div nz-col style="overflow:auto;" nzSpan="4" class="border" [ngStyle]="authStyle">
       <div nz-row>
         <div nz-col nzSpan="24">
           <nz-select style="width:100%;" nzShowSearch nzAllowClear [nzDropdownMatchSelectWidth]="false" nzPlaceHolder="No Auth"
@@ -8,15 +8,19 @@
             <nz-option *ngFor="let item of supports" [nzLabel]="item.type" [nzValue]="item"></nz-option>
           </nz-select>
         </div>
+      </div>
+      <div nz-row>
         <div nz-col nzSpan="24">
           <button type="button" style="margin-top:6px;margin-bottom:3px;" nz-button nzType="dashed" [nzSize]="'small'"
             (click)="add()">
             <span>{{'btn-add'|translate}}</span>
           </button>
         </div>
+      </div>
+      <div nz-row>
         <div nz-col nzSpan="24" style="overflow:auto;">
-          <nz-tag *ngFor="let item of auth;let i=index;" style="width:100%;" nzMode="closeable" (nzOnClose)="closeTag(i)"
-            (click)="activateTag(item, i)" [nzColor]="tagColor(i)">{{item.type}}</nz-tag>
+          <nz-tag *ngFor="let item of auth;let i=index;" nzMode="closeable" (nzOnClose)="closeTag(i)" (click)="activateTag(item, i)"
+            [nzColor]="tagColor(i)">{{item.type}}</nz-tag>
         </div>
       </div>
     </div>
