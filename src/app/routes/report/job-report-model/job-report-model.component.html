@@ -76,8 +76,8 @@
           </td>
           <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
           <td style="width:64px;">
-            <i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i>
-            <i style="padding-left:4px;" class="clickable anticon anticon-setting" (click)="editItem(item)"></i>
+            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon type="dashboard" theme="outline" (click)="viewItem(item)"></i>
+            <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline" (click)="editItem(item)"></i>
           </td>
         </tr>
       </tbody>
@@ -103,7 +103,7 @@
               <nz-tag [nzColor]="tagColor(data.status)">{{data.status}}</nz-tag>
             </td>
             <td style="width:64px;">
-              <i style="padding-left:4px;" class="clickable anticon anticon-setting" (click)="editScenario(data)"></i>
+              <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline" (click)="editScenario(data)"></i>
             </td>
           </tr>
           <tr [nzExpand]="data.expand">
@@ -118,8 +118,8 @@
           </td>
           <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
           <td style="width:64px;">
-            <i *ngIf="'skipped'!=item.status" class="clickable anticon anticon-dashboard" (click)="viewItem(item)"></i>
-            <i style="padding-left:4px;" class="clickable anticon anticon-setting" (click)="editItem(item)"></i>
+            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon type="dashboard" theme="outline" (click)="viewItem(item)"></i>
+            <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline" (click)="editItem(item)"></i>
           </td>
         </tr>
       </tbody>
