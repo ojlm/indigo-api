@@ -38,6 +38,8 @@ export class AuthSelectorComponent implements OnInit {
     if (value && value.length > 0) {
       this.auth = value
       this.activateTag(this.auth[0], 0)
+    } else {
+      this.auth = []
     }
     if (this.supports && this.supports.length < 1 && !this.isSupportsInitialized) {
       this.isSupportsInitialized = true
