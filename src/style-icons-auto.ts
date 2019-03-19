@@ -99,4 +99,4 @@ export const ICONS_AUTO = [
   UserOutline,
   WarningOutline,
   WindowsOutline
-]
+];
