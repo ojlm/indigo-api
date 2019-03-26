@@ -1,6 +1,7 @@
 import { Location } from '@angular/common'
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { AutocompleteContext } from 'app/model/indigo.model'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { Assertion } from '../../../model/es.model'
@@ -27,6 +28,7 @@ import { Assertion } from '../../../model/es.model'
 })
 export class AssertionListComponent implements OnInit {
 
+  @Input() autoCompleteContext = new AutocompleteContext()
   @Input() editorHeight = ''
   items: AssertionItems = { logic: 'and', items: [] }
   @Input() assertions: Assertion[] = []

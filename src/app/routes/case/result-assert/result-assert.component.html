@@ -1,17 +1,21 @@
 <div class="{{isFullDocument?'full-doc':''}}">
-  <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" (nzSelectedIndexChange)="tabIndexChange()"
-    [nzAnimated]="false" [nzTabBarExtraContent]="extraTemplate" [nzTabBarStyle]="tabBarStyle">
+  <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex"
+    (nzSelectedIndexChange)="tabIndexChange()" [nzAnimated]="false" [nzTabBarExtraContent]="extraTemplate"
+    [nzTabBarStyle]="tabBarStyle">
     <nz-tab [nzTitle]="'item-response-assert'|translate">
       <div nz-row style="background-color:white;">
         <div nz-col nzSpan="12">
           <div class="response-toolbox">
-            <button nzSize="small" [nzType]="responseTabType==='entity'?'primary':'dashed'" nz-button (click)="responseTabType='entity'">
+            <button nzSize="small" [nzType]="responseTabType==='entity'?'primary':'dashed'" nz-button
+              (click)="responseTabType='entity'">
               <span>entity</span>
             </button>
-            <button nzSize="small" [nzType]="responseTabType==='headers'?'primary':'dashed'" nz-button (click)="responseTabType='headers'">
+            <button nzSize="small" [nzType]="responseTabType==='headers'?'primary':'dashed'" nz-button
+              (click)="responseTabType='headers'">
               <span>headers</span>
             </button>
-            <button nzSize="small" [nzType]="responseTabType==='status'?'primary':'dashed'" nz-button (click)="responseTabType='status'">
+            <button nzSize="small" [nzType]="responseTabType==='status'?'primary':'dashed'" nz-button
+              (click)="responseTabType='status'">
               <span>status</span>
             </button>
           </div>
@@ -36,32 +40,36 @@
           </div>
         </div>
         <div nz-col nzSpan="12">
-          <app-assertion-list *ngIf="assertSimpleEditorMode" [editorHeight]="assertionEditorHeight" [assertions]="assertions"
-            [(data)]="assertionItems" (dataChange)="assertionItemsChange()"></app-assertion-list>
-          <ngx-monaco-editor *ngIf="!assertSimpleEditorMode" [style.height]="editorFullHeight" [options]="jsonEditorOption"
-            [(ngModel)]="_assert" (ngModelChange)="modelChange()">
+          <app-assertion-list *ngIf="assertSimpleEditorMode" [editorHeight]="assertionEditorHeight"
+            [assertions]="assertions" [(data)]="assertionItems" (dataChange)="assertionItemsChange()"
+            [autoCompleteContext]="autocompleteContext"></app-assertion-list>
+          <ngx-monaco-editor *ngIf="!assertSimpleEditorMode" [style.height]="editorFullHeight"
+            [options]="jsonEditorOption" [(ngModel)]="_assert" (ngModelChange)="modelChange()">
           </ngx-monaco-editor>
         </div>
       </div>
     </nz-tab>
     <nz-tab [nzTitle]="'item-rendered-request'|translate">
-      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="caseRequest"></ngx-monaco-editor>
+      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="caseRequest">
+      </ngx-monaco-editor>
     </nz-tab>
     <nz-tab [nzTitle]="'item-assert-result'|translate">
-      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="caseAssertResult"></ngx-monaco-editor>
+      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption"
+        [(ngModel)]="caseAssertResult"></ngx-monaco-editor>
     </nz-tab>
     <nz-tab [nzTitle]="'item-last-diff'|translate">
-      <ngx-monaco-diff-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [originalModel]="originalModel"
-        [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor>
+      <ngx-monaco-diff-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption"
+        [originalModel]="originalModel" [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor>
     </nz-tab>
     <nz-tab [nzTitle]="'item-initial-context'|translate">
-      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="_initCtx"></ngx-monaco-editor>
+      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="_initCtx">
+      </ngx-monaco-editor>
     </nz-tab>
     <nz-tab [nzTitle]="'item-assert-report'|translate">
       <div style="padding-top:5px;">
         <nz-alert *ngIf="!hasResult" [nzMessage]="'tips-no-result'|translate" nzShowIcon></nz-alert>
-        <nz-alert *ngIf="hasResult" [nzType]="statis.isSuccessful?'success':'error'" nzShowIcon [nzDescription]="nzDescription"
-          [nzMessage]="(statis.isSuccessful?'tips-success':'tips-fail')|translate">
+        <nz-alert *ngIf="hasResult" [nzType]="statis.isSuccessful?'success':'error'" nzShowIcon
+          [nzDescription]="nzDescription" [nzMessage]="(statis.isSuccessful?'tips-success':'tips-fail')|translate">
           <ng-template #nzDescription>
             <div>
               <span class="metrics-item">
@@ -105,19 +113,20 @@
       nz-button (click)="assertEditorModeChange()">
       <i style="font-size:smaller;">{{(assertSimpleEditorMode?'btn-simple':'btn-full')|translate}}</i>
     </button>
-    <button [title]="'tips-word-wrap'|translate" style="margin-left:3px;" nzSize="small" [nzType]="wraped?'primary':'dashed'"
-      nz-button (click)="wrap()">
+    <button [title]="'tips-word-wrap'|translate" style="margin-left:3px;" nzSize="small"
+      [nzType]="wraped?'primary':'dashed'" nz-button (click)="wrap()">
       <i nz-icon type="bars" theme="outline"></i>
     </button>
-    <button [title]="'tips-format'|translate" style="margin-left:3px;" nzSize="small" nzType="dashed" nz-button (click)="formatAssert()">
+    <button [title]="'tips-format'|translate" style="margin-left:3px;" nzSize="small" nzType="dashed" nz-button
+      (click)="formatAssert()">
       <i nz-icon type="layout" theme="outline"></i>
     </button>
-    <button [title]="'tips-full-window'|translate" style="margin-left:3px;" nzSize="small" [nzType]="isFullDocument?'primary':'dashed'"
-      nz-button (click)="fullWindowBtnClick()">
+    <button [title]="'tips-full-window'|translate" style="margin-left:3px;" nzSize="small"
+      [nzType]="isFullDocument?'primary':'dashed'" nz-button (click)="fullWindowBtnClick()">
       <i nz-icon type="windows" theme="outline"></i>
     </button>
-    <button [title]="'tips-fullscreen'|translate" style="margin-left:3px;margin-right:3px;" nzSize="small" [nzType]="isFullscreen?'primary':'dashed'"
-      nz-button (click)="fullScreenBtnClick()">
+    <button [title]="'tips-fullscreen'|translate" style="margin-left:3px;margin-right:3px;" nzSize="small"
+      [nzType]="isFullscreen?'primary':'dashed'" nz-button (click)="fullScreenBtnClick()">
       <i nz-icon [type]="isFullscreen?'shrink':'arrows-alt'" theme="outline"></i>
     </button>
   </ng-template>
