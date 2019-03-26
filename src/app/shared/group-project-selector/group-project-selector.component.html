@@ -1,13 +1,14 @@
 <div nz-row [nzGutter]="3">
   <div nz-col nzSpan="12">
-    <nz-input-group [nzAddOnBefore]="'field-group'|translate">
+    <nz-input-group style="width: 100%;" [nzAddOnBefore]="'field-group'|translate">
       <nz-select style="width: 100%;" nzMode="default" [nzPlaceHolder]="'field-group'|translate" nzAllowClear
-        [(ngModel)]="group" (ngModelChange)="modelChange()" nzShowSearch [nzServerSearch]="true" [nzNotFoundContent]="'tips-no-data'|translate"
-        (nzOnSearch)="searchGroup($event)" (nzOpenChange)="openSearchGroup()">
+        [(ngModel)]="group" (ngModelChange)="modelChange()" nzShowSearch [nzServerSearch]="true"
+        [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchGroup($event)"
+        (nzOpenChange)="openSearchGroup()">
         <ng-container *ngFor="let item of groups">
           <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="item.id" nzCustomContent>
-            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover [nzTitle]="item.summary"
-              [nzContent]="item.description"></nz-avatar>
+            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover
+              [nzTitle]="item.summary" [nzContent]="item.description"></nz-avatar>
             <span style="padding-left:10px;">{{item.id}}</span>
           </nz-option>
         </ng-container>
@@ -18,16 +19,17 @@
     </nz-input-group>
   </div>
   <div nz-col nzSpan="12">
-    <nz-input-group [nzAddOnBefore]="'field-project'|translate">
-      <input *ngIf="projectEditable" nz-input [placeholder]="'field-project'|translate" [(ngModel)]="project.id"
-        (ngModelChange)="modelChange()">
-      <nz-select *ngIf="!projectEditable" style="width: 100%;" nzMode="default" [nzPlaceHolder]="'field-project'|translate"
-        nzAllowClear [(ngModel)]="project" (ngModelChange)="projectChange()" nzShowSearch [nzServerSearch]="true"
-        [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchProject($event)" (nzOpenChange)="openSearchProject()">
+    <nz-input-group style="width: 100%;" [nzAddOnBefore]="'field-project'|translate">
+      <input style="width: 100%;" *ngIf="projectEditable" nz-input [placeholder]="'field-project'|translate"
+        [(ngModel)]="project.id" (ngModelChange)="modelChange()">
+      <nz-select *ngIf="!projectEditable" style="width: 100%;" nzMode="default"
+        [nzPlaceHolder]="'field-project'|translate" nzAllowClear [(ngModel)]="project" (ngModelChange)="projectChange()"
+        nzShowSearch [nzServerSearch]="true" [nzNotFoundContent]="'tips-no-data'|translate"
+        (nzOnSearch)="searchProject($event)" (nzOpenChange)="openSearchProject()">
         <ng-container *ngFor="let item of projects">
           <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="item.id" nzCustomContent>
-            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover [nzTitle]="item.summary"
-              [nzContent]="item.description"></nz-avatar>
+            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover
+              [nzTitle]="item.summary" [nzContent]="item.description"></nz-avatar>
             <span style="padding-left:10px;">{{item.group}}/{{item.id}}</span>
           </nz-option>
         </ng-container>
