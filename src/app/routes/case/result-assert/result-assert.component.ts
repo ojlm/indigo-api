@@ -81,7 +81,7 @@ export class ResultAssertComponent implements OnInit {
       this.response.status = val.response.statusCode.toString()
       this.response.headers = val.response.headers
       this.autocompleteContext.dataSource.status = val.response.statusCode
-      this.autocompleteContext.dataSource.headers = val.request.headers
+      this.autocompleteContext.dataSource.headers = val.response.headers
       this.responseHeaders = []
       for (const k of Object.keys(val.response.headers)) {
         this.responseHeaders.push({ key: k, value: this.response.headers[k] })

@@ -74,6 +74,10 @@ section.indigo-content {
   margin-left: 8px;
 }
 
+.ant-tooltip-inner {
+  padding: 0
+}
+
 .ant-table-body::-webkit-scrollbar {
   width: 5px;
 }
@@ -84,6 +88,21 @@ section.indigo-content {
 }
 
 .ant-table-body::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.7);
+}
+
+.indigo-scroll-bar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.indigo-scroll-bar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 1px;
+}
+
+.indigo-scroll-bar::-webkit-scrollbar-thumb {
   border-radius: 1px;
   box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.7);
 }

@@ -1,5 +1,5 @@
 export class AutocompleteContext {
-  prefix = '$.'
+  prefix = '$'
   dataSource: AutocompleteContextDataSource = {
     status: 200,
     headers: {},

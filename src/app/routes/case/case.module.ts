@@ -4,6 +4,8 @@ import { SharedModule } from '@shared/shared.module'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { AssertionAutoCompleteComponent } from './assertion-list/assertion-auto-complete/assertion-auto-complete.component'
+import { AssertionAutoCompleteDirective } from './assertion-list/assertion-auto-complete/assertion-auto-complete.directive'
 import { AssertionListComponent } from './assertion-list/assertion-list.component'
 import { CaseGeneratorComponent } from './case-generator/case-generator.component'
 import { CaseHistoryComponent } from './case-history/case-history.component'
@@ -19,6 +21,8 @@ const COMPONENT = [
   CaseHistoryComponent,
   AssertionListComponent,
   CaseGeneratorComponent,
+  AssertionAutoCompleteComponent,
+  AssertionAutoCompleteDirective
 ]
 
 const COMPONENT_NOROUNT = []

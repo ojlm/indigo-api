@@ -1,0 +1,29 @@
+.jsonpath-options {
+  list-style: none;
+  overflow-y: auto;
+  max-height: 300px;
+  background: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 1px 6px #EEE;
+  padding-left: 0px;
+  padding-top: 2px;
+}
+
+.jsonpath-options li {
+  min-height: 30px;
+  line-height: 30px;
+  color: black;
+  cursor: pointer;
+  padding: 0 11px;
+  white-space: normal;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.jsonpath-list-bar {
+  background: rgba(151, 212, 240, 0.2);
+}

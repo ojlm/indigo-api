@@ -1,0 +1,14 @@
+<div style="width:100%;" class="indigo-scroll-bar" appAssertionAutocomplete (keydown)="onKeyDown($event)">
+  <input #pathInput nz-input [nzSize]="'small'" (focus)="onFocus()" [placeholder]="'tips-input-json-path'|translate"
+    [(ngModel)]="assertionItem.path" (ngModelChange)="onExpChange($event)">
+  <ul class="jsonpath-options">
+    <li *ngFor="let option of options;let idx = index" [nzTitle]="auto" nzPlacement="rightTop" nz-tooltip
+      (click)="onOptionClick(option)" (mouseenter)='onMouseEnter(idx)'
+      [ngClass]="{'jsonpath-list-bar':optionIndex==idx}">
+      <span>{{option}}</span>
+    </li>
+    <ng-template #auto>
+      <pre class="indigo-scroll-bar" [ngStyle]="preStyles">{{tipsContent}}</pre>
+    </ng-template>
+  </ul>
+</div>

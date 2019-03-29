@@ -5,8 +5,9 @@
         <ng-template #nzContent>
           <div nz-row nzGutter="3" style="width:100%;">
             <div nz-col nzSpan="9">
-              <input nz-input [nzSize]="'small'" [placeholder]="'tips-input-json-path'|translate" [(ngModel)]="item.path"
-                (ngModelChange)="modelChange()">
+              <app-assertion-auto-complete [autoCompleteContext]="autoCompleteContext" [(assertionItem)]="item"
+                (assertionItemChange)="modelChange()">
+              </app-assertion-auto-complete>
             </div>
             <div nz-col nzSpan="6">
               <nz-select style="width:100%;" [nzSize]="'small'" nzShowSearch [(ngModel)]="item.operator"
@@ -26,7 +27,9 @@
         </ng-template>
         <ng-template #nzAction>
           <a style="color:lightslategray;" (click)="copy(item, i)"><i nz-icon type="copy" theme="outline"></i></a>
-          <a style="color:lightcoral;padding-left:3px;" (click)="remove(item, i)"><i nz-icon type="delete" theme="outline"></i></a>
+          <a style="color:lightcoral;padding-left:3px;" (click)="remove(item, i)">
+            <i nz-icon type="delete" theme="outline"></i>
+          </a>
         </ng-template>
       </nz-list-item>
     </ng-template>
