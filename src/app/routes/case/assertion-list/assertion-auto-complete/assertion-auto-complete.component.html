@@ -1,6 +1,6 @@
 <div style="width:100%;" class="indigo-scroll-bar" appAssertionAutocomplete (keydown)="onKeyDown($event)">
   <input #pathInput nz-input [nzSize]="'small'" (focus)="onFocus()" [placeholder]="'tips-input-json-path'|translate"
-    [(ngModel)]="assertionItem.path" (ngModelChange)="onExpChange($event)">
+    [(ngModel)]="assertionItem.path" (ngModelChange)="onExpChange()">
   <ul class="jsonpath-options">
     <li *ngFor="let option of options;let idx = index" [nzTitle]="auto" nzPlacement="rightTop" nz-tooltip
       (click)="onOptionClick(option)" (mouseenter)='onMouseEnter(idx)'
