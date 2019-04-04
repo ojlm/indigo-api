@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/asura-pro/indigo.svg?branch=master)](https://travis-ci.org/asura-pro/indigo)
 ![GitHub release](https://img.shields.io/github/release/asura-pro/indigo.svg)
 ![GitHub](https://img.shields.io/github/license/asura-pro/indigo.svg)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 
 ### 特性
 
