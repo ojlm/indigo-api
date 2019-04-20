@@ -23,10 +23,6 @@ export class HeaderComponent {
     this.searchToggleStatus = !this.searchToggleStatus
   }
 
-  goDubbo() {
-    this.router.navigateByUrl(`/dubbo`)
-  }
-
   goCluster() {
     this.router.navigateByUrl(`/cluster`)
   }
