@@ -1,3 +1,5 @@
+import { GenericRequest } from 'app/api/service/dubbo.service'
+
 import { DataBody } from './api.model'
 import { JobData } from './job.model'
 import { UserProfile } from './user.model'
@@ -425,4 +427,10 @@ export interface DomainOnlineConfig extends BaseDoc {
   inclusions?: FieldPattern[]
   exclusions?: FieldPattern[]
   exMethods?: LabelRef[]
+}
+
+export interface DubboRequest extends BaseDoc, GenericRequest {
+  group?: string
+  project?: string
+  assert?: object
 }

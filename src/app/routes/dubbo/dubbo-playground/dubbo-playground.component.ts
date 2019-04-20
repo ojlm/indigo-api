@@ -7,12 +7,12 @@ import {
   DubboInterface,
   DubboProvider,
   DubboService,
-  GenericRequest,
   GetInterfaceMethodParams,
   GetInterfacesMessage,
   InterfaceMethodParams,
 } from 'app/api/service/dubbo.service'
 import { ActorEvent, ActorEventType } from 'app/model/api.model'
+import { DubboRequest } from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -24,9 +24,6 @@ import { Subject } from 'rxjs'
   styles: [`
     .col-panel {
       height: 100%;
-      border: 1px solid lightgray;
-      border-radius: 8px;
-      padding: 10px;
     }
     .body-panel {
       height: 100%;
@@ -36,6 +33,9 @@ import { Subject } from 'rxjs'
 export class DubboPlaygroundComponent implements OnInit {
 
   LOCAL_KEY = 'DUBBO_ZK'
+  isSending = false
+  isInDrawer = false
+  isSaved = true
   logSubject = new Subject<ActorEvent<string>>()
   echoSubject = new Subject<string>()
   telnetDrawerVisible = false
@@ -51,7 +51,7 @@ export class DubboPlaygroundComponent implements OnInit {
   methods: string[] = []
   selectedProvider: DubboProvider = {}
   parameterTypes: ParameterType[] = [{ type: '' }]
-  request: GenericRequest = {}
+  request: DubboRequest = {}
   height = `${window.innerHeight - 70}px`
   subHeight = `${window.innerHeight - 148}px`
   tableScroll = { y: `${window.innerHeight - 160}px` }
@@ -79,17 +79,35 @@ export class DubboPlaygroundComponent implements OnInit {
     private el: ElementRef<HTMLDivElement>,
   ) { }
 
-  test() {
+  modelChange() {
+    this.isSaved = false
+  }
+
+  send() {
     let reqBody: any[] = []
     try {
       reqBody = JSON.parse(this.requestBody)
       this.request.args = reqBody
       this.request.parameterTypes = this.parameterTypes.filter(item => item.type).map(item => item.type)
-      this.dubboService.test(this.request).subscribe(res => {
+      this.isSending = true
+      this.dubboService.test({ id: this.request._id, request: this.request }).subscribe(res => {
         this.responseBody = formatJson(res.data)
-      })
+        this.isSending = false
+      }, err => this.isSending = false)
     } catch (error) {
     }
+  }
+
+  save() {
+
+  }
+
+  saveAs() {
+
+  }
+
+  reset() {
+
   }
 
   zkChange() {

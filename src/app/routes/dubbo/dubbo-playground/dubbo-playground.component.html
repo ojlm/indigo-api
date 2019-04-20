@@ -1,79 +1,125 @@
-<div style="padding:10px 16px;overflow: hidden;">
-  <div nz-row nzGutter="10" [style.height]="height">
-    <div class="col-panel" nz-col nzSpan="6">
-      <nz-input-group nzAddOnBefore="zk://" [nzSuffix]="tplConn">
-        <input type="text" nz-input placeholder="zookeeper address" [(ngModel)]="interfacesMsg.zkAddr" (ngModelChange)="zkChange()"
-          (keydown.enter)="getInterfaces()">
-        <ng-template #tplConn><a (click)="getInterfaces()"><i nz-icon type="enter" theme="outline"></i></a></ng-template>
-      </nz-input-group>
-      <div style="margin-top:4px;">
-        <nz-input-group nzAddOnBefore="ref:">
-          <input type="text" nz-input [(ngModel)]="interfaceSearchTxt" (ngModelChange)="filterInterfaces()">
-        </nz-input-group>
-        <nz-table nzSize="small" #basicTable [nzFrontPagination]="false" [nzShowPagination]="false" [nzScroll]="tableScroll"
-          [nzData]="interfaces">
-          <tbody>
-            <tr *ngFor="let item of basicTable.data">
-              <td>{{item.ref}}</td>
-              <td style="width:48px;">
-                <button nz-button nzSize="small" nzType="default" (click)="getProviders(item)">
-                  <i nz-icon type="login" theme="outline"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </div>
-    </div>
-    <div class="col-panel" nz-col nzSpan="18">
-      <nz-input-group [nzAddOnBefore]="'dubbo://'" [nzAddOnAfter]="nzAddOnAfterDubbo">
-        <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
-          [nzPlaceHolder]="'provider'" nzAllowClear nzShowSearch [(ngModel)]="selectedProvider" (ngModelChange)="providerChange()"
-          [nzServerSearch]="true" (nzOnSearch)="searchProvider($event)">
-          <nz-option *ngFor="let item of providers" [nzLabel]="dubboAddress(item)" [nzValue]="item" nzCustomContent>
-            <span>
-              <span>{{dubboAddress(item)}}</span>
-            </span>
-          </nz-option>
-        </nz-select>
-        <ng-template #nzAddOnAfterDubbo>
-          <span style="cursor:pointer;color:lightblue;" (click)="telnet()">
-            <i nz-icon type="code" theme="outline" class="click-icon"></i>
-          </span>
-        </ng-template>
-      </nz-input-group>
-      <nz-input-group style="margin-top:4px;" [nzAddOnBefore]="'method:'" [nzAddOnAfter]="nzAddOnAfterMethod">
-        <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
-          nzAllowClear nzShowSearch [(ngModel)]="request.method" (ngModelChange)="methodChange()" [nzServerSearch]="true"
-          (nzOnSearch)="searchMethod($event)">
-          <nz-option *ngFor="let item of methods" [nzLabel]="item" [nzValue]="item" nzCustomContent>
-            <span>
-              <span>{{item}}</span>
-            </span>
-          </nz-option>
-        </nz-select>
-        <ng-template #nzAddOnAfterMethod>
-          <span style="cursor:pointer;color:lightblue;" (click)="viewMethods()">
-            <i nz-icon type="eye" theme="outline" class="click-icon"></i>
-          </span>
-        </ng-template>
-      </nz-input-group>
-      <div nz-row nzGutter="4" style="margin-top:4px;" [style.height]="subHeight">
-        <div class="body-panel" nz-col nzSpan="14">
-          <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="requestBody">
-          </ngx-monaco-editor>
-        </div>
-        <div class="body-panel" nz-col nzSpan="10">
-          <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="responseBody">
-          </ngx-monaco-editor>
-        </div>
-      </div>
-    </div>
+<div>
+  <div *ngIf="!isInDrawer" style="padding:8px;margin-bottom:12px;" class="alain-default__content-title">
+    <h1 style="padding-left:10px;">Dubbo</h1>
+    <span>
+      <span [style.color]="isSaved?'black':'lightseagreen'">{{request.summary}}</span>
+      <span *ngIf="request._id">
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;"
+          [routerLink]="['/dubboes', group, project, request._id]">({{request._id}})</a>
+      </span>
+    </span>
   </div>
+  <nz-card [nzBordered]="true">
+    <div style="display:flex;">
+      <nz-input-group style="width:100%;" [nzSize]="'default'" [nzAddOnBefore]="'field-summary'|translate">
+        <input nz-input style="width:100%;" [placeholder]="'field-summary'|translate" [(ngModel)]="request.summary"
+          (ngModelChange)="modelChange()">
+      </nz-input-group>
+      <div style="display:flex;padding-left:10px;">
+        <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()">
+          <span>
+            <i nz-icon type="scan" theme="outline"></i>
+            <span>{{'btn-send'|translate}}</span>
+          </span>
+        </button>
+        <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'"
+          [nzPlacement]="'bottomRight'">
+          <span [style.color]="isSaved?'lightgray':'orangered'">
+            <i nz-icon type="save" theme="outline"></i>
+            <span>{{'btn-save'|translate}}</span>
+          </span>
+          <ul nz-menu>
+            <li nz-menu-item (click)="saveAs()">
+              <a>{{'btn-save-as'|translate}}</a>
+            </li>
+            <li nz-menu-item (click)="reset()">
+              <a>{{'btn-reset'|translate}}</a>
+            </li>
+          </ul>
+        </nz-dropdown-button>
+      </div>
+    </div>
+    <div style="overflow:hidden;margin-top:4px;">
+      <div nz-row nzGutter="10" [style.height]="height">
+        <div class="col-panel" nz-col nzSpan="6">
+          <nz-input-group style="width:100%;" nzAddOnBefore="zk://" [nzSuffix]="tplConn">
+            <input style="width:100%;" type="text" nz-input placeholder="zookeeper address"
+              [(ngModel)]="interfacesMsg.zkAddr" (ngModelChange)="zkChange()" (keydown.enter)="getInterfaces()">
+            <ng-template #tplConn><a (click)="getInterfaces()"><i nz-icon type="enter" theme="outline"></i></a>
+            </ng-template>
+          </nz-input-group>
+          <div style="margin-top:4px;">
+            <nz-input-group style="width:100%;" nzAddOnBefore="ref:">
+              <input type="text" nz-input [(ngModel)]="interfaceSearchTxt" (ngModelChange)="filterInterfaces()">
+            </nz-input-group>
+            <nz-table style="margin-top:4px;" nzSize="small" #basicTable [nzFrontPagination]="false"
+              [nzShowPagination]="false" [nzScroll]="tableScroll" [nzData]="interfaces">
+              <tbody>
+                <tr *ngFor="let item of basicTable.data">
+                  <td>{{item.ref}}</td>
+                  <td style="width:48px;">
+                    <button nz-button nzSize="small" nzType="default" (click)="getProviders(item)">
+                      <i nz-icon type="login" theme="outline"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+        <div class="col-panel" nz-col nzSpan="18">
+          <nz-input-group style="width:100%;" [nzAddOnBefore]="'dubbo://'" [nzAddOnAfter]="nzAddOnAfterDubbo">
+            <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
+              [nzPlaceHolder]="'provider'" nzAllowClear nzShowSearch [(ngModel)]="selectedProvider"
+              (ngModelChange)="providerChange()" [nzServerSearch]="true" (nzOnSearch)="searchProvider($event)">
+              <nz-option *ngFor="let item of providers" [nzLabel]="dubboAddress(item)" [nzValue]="item" nzCustomContent>
+                <span>
+                  <span>{{dubboAddress(item)}}</span>
+                </span>
+              </nz-option>
+            </nz-select>
+            <ng-template #nzAddOnAfterDubbo>
+              <span style="cursor:pointer;color:lightblue;" (click)="telnet()">
+                <i nz-icon type="code" theme="outline" class="click-icon"></i>
+              </span>
+            </ng-template>
+          </nz-input-group>
+          <nz-input-group style="margin-top:4px;width:100%;" [nzAddOnBefore]="'method:'"
+            [nzAddOnAfter]="nzAddOnAfterMethod">
+            <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
+              nzAllowClear nzShowSearch [(ngModel)]="request.method" (ngModelChange)="methodChange()"
+              [nzServerSearch]="true" (nzOnSearch)="searchMethod($event)">
+              <nz-option *ngFor="let item of methods" [nzLabel]="item" [nzValue]="item" nzCustomContent>
+                <span>
+                  <span>{{item}}</span>
+                </span>
+              </nz-option>
+            </nz-select>
+            <ng-template #nzAddOnAfterMethod>
+              <span style="cursor:pointer;color:lightblue;" (click)="viewMethods()">
+                <i nz-icon type="eye" theme="outline" class="click-icon"></i>
+              </span>
+            </ng-template>
+          </nz-input-group>
+          <div nz-row nzGutter="4" style="margin-top:4px;" [style.height]="subHeight">
+            <div class="body-panel" nz-col nzSpan="14">
+              <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="requestBody">
+              </ngx-monaco-editor>
+            </div>
+            <div class="body-panel" nz-col nzSpan="10">
+              <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="responseBody">
+              </ngx-monaco-editor>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-card>
 </div>
 <nz-drawer [nzClosable]="true" [nzVisible]="methodsDrawerVisible" nzPlacement="right" nzTitle="Parameter Types"
   (nzOnClose)="methodsDrawerVisible=false;" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'10px'}">
-  <nz-table #nzTable [nzSize]="'default'" [nzData]="parameterTypes" [nzShowPagination]="false" [nzFrontPagination]="false">
+  <nz-table #nzTable [nzSize]="'default'" [nzData]="parameterTypes" [nzShowPagination]="false"
+    [nzFrontPagination]="false">
     <tbody>
       <tr *ngFor="let item of parameterTypes; let i = index">
         <td style="padding:2px;">
@@ -85,14 +131,12 @@
       </tr>
     </tbody>
   </nz-table>
-  <button style="margin-top:4px;" nz-button [nzSize]="'small'" nzType="primary" (click)="addParameterType()">{{'btn-add'|translate}}</button>
+  <button style="margin-top:4px;" nz-button [nzSize]="'small'" nzType="primary"
+    (click)="addParameterType()">{{'btn-add'|translate}}</button>
 </nz-drawer>
-<div style="position:absolute;bottom:40px;right:40px;">
-  <button nz-button [nzSize]="'large'" nzShape="circle" nzType="default" (click)="test()">
-    <a><i nz-icon type="play-circle" theme="outline"></i></a>
-  </button>
-</div>
-<nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
-  [nzVisible]="telnetDrawerVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="telnetDrawerVisible=false">
-  <app-console-report [log]="logSubject" [newline]="false" [echo]="true" [echoLog]="echoSubject" [style.visibility]="telnetDrawerVisible?'visible':'hidden'"></app-console-report>
+<nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}"
+  [nzBodyStyle]="{'padding':'0px'}" [nzVisible]="telnetDrawerVisible" [nzHeight]="0" [nzClosable]="false"
+  (nzOnClose)="telnetDrawerVisible=false">
+  <app-console-report [log]="logSubject" [newline]="false" [echo]="true" [echoLog]="echoSubject"
+    [style.visibility]="telnetDrawerVisible?'visible':'hidden'"></app-console-report>
 </nz-drawer>
