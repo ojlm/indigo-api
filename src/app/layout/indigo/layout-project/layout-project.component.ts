@@ -87,6 +87,23 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
               ]
             },
             {
+              text: 'Dubbo',
+              i18n: 'menu-dubbo-test',
+              icon: { type: 'icon', value: 'dollar', theme: 'outline' },
+              children: [
+                {
+                  text: '列表',
+                  i18n: 'menu-list',
+                  link: `/dubbo/${group}/${project}`,
+                },
+                {
+                  text: '新建',
+                  i18n: 'menu-new',
+                  link: `/dubboes/${group}/${project}/new`,
+                },
+              ]
+            },
+            {
               text: '接口管理',
               i18n: 'menu-apis',
               icon: { type: 'icon', value: 'api', theme: 'outline' },

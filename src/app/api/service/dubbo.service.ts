@@ -3,9 +3,11 @@ import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
-import { ApiRes } from 'app/model/api.model'
+import { ApiRes, QueryPage } from 'app/model/api.model'
+import { DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
 import { newWS } from 'app/util/ws'
 import { NzMessageService } from 'ng-zorro-antd'
+import { Observable } from 'rxjs'
 
 import { API_DUBBO, API_WS_DUBBO } from '../path'
 import { BaseService } from './base.service'
@@ -22,6 +24,26 @@ export class DubboService extends BaseService {
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
   ) { super() }
 
+  query(query: QueryDubboRequest) {
+    return this.http.post<ApiRes<DubboRequest[]>>(`${API_DUBBO}/query`, query)
+  }
+
+  index(doc: DubboRequest) {
+    return this.http.put(API_DUBBO, doc) as Observable<ApiRes<IndexDocResponse>>
+  }
+
+  delete(id: string) {
+    return this.http.delete(`${API_DUBBO}/${id}`) as Observable<ApiRes<any>>
+  }
+
+  update(id: string, doc: DubboRequest) {
+    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_DUBBO}/update/${id}`, doc)
+  }
+
+  getById(id: string) {
+    return this.http.get<ApiRes<DubboRequest>>(`${API_DUBBO}/${id}`)
+  }
+
   getInterfaces(msg: GetInterfacesMessage) {
     return this.http.post<ApiRes<DubboInterface[]>>(`${API_DUBBO}/interfaces`, msg)
   }
@@ -34,7 +56,7 @@ export class DubboService extends BaseService {
     return this.http.post<ApiRes<InterfaceMethodParams>>(`${API_DUBBO}/params`, msg)
   }
 
-  test(msg: GenericRequest) {
+  test(msg: { id: string, request: DubboRequest }) {
     return this.http.post<ApiRes<any>>(`${API_DUBBO}/test`, msg)
   }
 
@@ -92,8 +114,6 @@ export interface DubboProvider {
 }
 
 export interface GenericRequest {
-  group?: string
-  project?: string
   dubboGroup?: string
   interface?: string
   method?: string
@@ -102,4 +122,11 @@ export interface GenericRequest {
   address?: string
   port?: number
   version?: string
+}
+
+export interface QueryDubboRequest extends QueryPage {
+  group?: string
+  project?: string
+  text?: string
+  interface?: string
 }
