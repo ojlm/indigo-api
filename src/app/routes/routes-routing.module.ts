@@ -29,6 +29,7 @@ import { ProjectEnvsComponent } from './project/project-envs/project-envs.compon
 import { ProjectJobsComponent } from './project/project-jobs/project-jobs.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 import { ProjectScenariosComponent } from './project/project-scenarios/project-scenarios.component'
+import { ProjectSqlListComponent } from './project/project-sql-list/project-sql-list.component'
 
 const routes: Routes = [
   {
@@ -162,7 +163,7 @@ const routes: Routes = [
   },
   {
     path: 'sql/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', component: ProjectDubboListComponent, data: { titleI18n: 'title-sql-list' } },
+      { path: '', component: ProjectSqlListComponent, data: { titleI18n: 'title-sql-list' } },
       { path: ':sqlId', loadChildren: './sql/sql.module#SqlModule' }
     ]
   },

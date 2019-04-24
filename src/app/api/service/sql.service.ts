@@ -55,6 +55,7 @@ export interface QuerySqlRequest extends QueryPage {
   database?: string
   table?: string
   sql?: string
+  hasCreators?: boolean
 }
 
 export interface SqlResult {

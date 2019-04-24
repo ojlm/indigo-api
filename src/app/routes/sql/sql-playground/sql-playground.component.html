@@ -1,0 +1,87 @@
+<div>
+  <div *ngIf="!isInDrawer" style="padding:8px;margin-bottom:12px;" class="alain-default__content-title">
+    <h1 style="padding-left:10px;">Sql</h1>
+    <span>
+      <span [style.color]="isSaved?'black':'lightseagreen'">{{request.summary}}</span>
+      <span *ngIf="request._id">
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;"
+          [routerLink]="['/sql', group, project, request._id]">({{request._id}})</a>
+      </span>
+    </span>
+  </div>
+  <nz-card [nzBordered]="true">
+    <div style="display:flex;">
+      <nz-input-group style="width:100%;" [nzSize]="'default'" [nzAddOnBefore]="'field-summary'|translate">
+        <input nz-input style="width:100%;" [placeholder]="'field-summary'|translate" [(ngModel)]="request.summary"
+          (ngModelChange)="modelChange()">
+      </nz-input-group>
+      <div style="display:flex;padding-left:10px;">
+        <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()">
+          <span>
+            <i nz-icon type="scan" theme="outline"></i>
+            <span>{{'btn-send'|translate}}</span>
+          </span>
+        </button>
+        <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'"
+          [nzPlacement]="'bottomRight'">
+          <span [style.color]="isSaved?'lightgray':'orangered'">
+            <i nz-icon type="save" theme="outline"></i>
+            <span>{{'btn-save'|translate}}</span>
+          </span>
+          <ul nz-menu>
+            <li nz-menu-item (click)="saveAs()">
+              <a>{{'btn-save-as'|translate}}</a>
+            </li>
+            <li nz-menu-item (click)="reset()">
+              <a>{{'btn-reset'|translate}}</a>
+            </li>
+          </ul>
+        </nz-dropdown-button>
+      </div>
+    </div>
+    <div style="overflow:hidden;margin-top:4px;">
+      <div nz-row nzGutter="8">
+        <div nz-col nzSpan="6">
+          <div class="col-panel">
+            <label>Host:</label>
+            <input style="width:100%;" type="text" nz-input placeholder="Database hostname" [(ngModel)]="request.host"
+              (ngModelChange)="modelChange()">
+          </div>
+          <div class="col-panel">
+            <label>Port:</label>
+            <input style="width:100%;" type="text" nz-input placeholder="Database port" [(ngModel)]="request.port"
+              (ngModelChange)="modelChange()">
+          </div>
+          <div class="col-panel">
+            <label>Database:</label>
+            <input style="width:100%;" type="text" nz-input placeholder="Database name" [(ngModel)]="request.database"
+              (ngModelChange)="modelChange()">
+          </div>
+          <div class="col-panel">
+            <label>Username:</label>
+            <input style="width:100%;" type="text" nz-input placeholder="Database username"
+              [(ngModel)]="request.username" (ngModelChange)="modelChange()">
+          </div>
+          <div class="col-panel">
+            <label>Password:</label>
+            <input style="width:100%;" type="text" nz-input placeholder="Database password"
+              [(ngModel)]="request.password" (ngModelChange)="modelChange()">
+          </div>
+        </div>
+        <div nz-col nzSpan="18" style="border-left:1px solid lightgray;">
+          <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false"
+            [nzTabBarStyle]="tabBarStyle">
+            <nz-tab [nzTitle]="'Sql'">
+              <ngx-monaco-editor [style.height]="subHeight" [options]="sqlEditorOption" [(ngModel)]="request.sql">
+              </ngx-monaco-editor>
+            </nz-tab>
+            <nz-tab [nzTitle]="'item-assert-result'|translate">
+              <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="responseStr">
+              </ngx-monaco-editor>
+            </nz-tab>
+          </nz-tabset>
+        </div>
+      </div>
+    </div>
+  </nz-card>
+</div>
