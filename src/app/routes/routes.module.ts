@@ -21,6 +21,7 @@ import { ProjectEnvsComponent } from './project/project-envs/project-envs.compon
 import { ProjectJobsComponent } from './project/project-jobs/project-jobs.component'
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 import { ProjectScenariosComponent } from './project/project-scenarios/project-scenarios.component'
+import { ProjectSqlListComponent } from './project/project-sql-list/project-sql-list.component'
 import { RouteRoutingModule } from './routes-routing.module'
 
 const COMPONENTS = [
@@ -47,6 +48,7 @@ const COMPONENTS = [
   ProjectJobsComponent,
   ProjectScenariosComponent,
   ProjectDubboListComponent,
+  ProjectSqlListComponent,
 ]
 const COMPONENTS_NOROUNT = []
 
