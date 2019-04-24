@@ -433,4 +433,20 @@ export interface DubboRequest extends BaseDoc, GenericRequest {
   group?: string
   project?: string
   assert?: object
+  labels?: LabelRef[]
+}
+
+export interface SqlRequest extends BaseDoc {
+  group?: string
+  project?: string
+  host?: string
+  port?: number
+  username?: string
+  password?: string
+  encryptedPass?: string
+  database?: string
+  table?: string
+  sql?: string
+  assert?: object
+  labels?: LabelRef[]
 }

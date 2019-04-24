@@ -89,7 +89,7 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
             {
               text: 'Dubbo',
               i18n: 'menu-dubbo-test',
-              icon: { type: 'icon', value: 'dollar', theme: 'outline' },
+              icon: { type: 'icon', value: 'alibaba', theme: 'outline' },
               children: [
                 {
                   text: '列表',
@@ -100,6 +100,23 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
                   text: '新建',
                   i18n: 'menu-new',
                   link: `/dubboes/${group}/${project}/new`,
+                },
+              ]
+            },
+            {
+              text: 'Sql',
+              i18n: 'menu-sql-test',
+              icon: { type: 'icon', value: 'database', theme: 'outline' },
+              children: [
+                {
+                  text: '列表',
+                  i18n: 'menu-list',
+                  link: `/sql/${group}/${project}`,
+                },
+                {
+                  text: '新建',
+                  i18n: 'menu-new',
+                  link: `/sqls/${group}/${project}/new`,
                 },
               ]
             },

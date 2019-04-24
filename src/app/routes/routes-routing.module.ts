@@ -161,6 +161,17 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'sql/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: '', component: ProjectDubboListComponent, data: { titleI18n: 'title-sql-list' } },
+      { path: ':sqlId', loadChildren: './sql/sql.module#SqlModule' }
+    ]
+  },
+  {
+    path: 'sqls/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
+      { path: 'new', loadChildren: './sql/sql.module#SqlModule' }
+    ]
+  },
+  {
     path: ':group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: GroupProjectsComponent, data: { titleI18n: 'title-groups' } }
     ]
