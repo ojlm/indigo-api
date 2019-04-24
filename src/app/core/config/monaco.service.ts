@@ -59,4 +59,14 @@ export class MonacoService {
       readOnly: readOnly
     }
   }
+
+  getSqlOption(readOnly = false) {
+    return {
+      theme: this.THEME_BLACK,
+      language: 'sql',
+      automaticLayout: true,
+      contextmenu: false,
+      readOnly: readOnly
+    }
+  }
 }
