@@ -52,8 +52,10 @@ export class SqlPlaygroundComponent implements OnInit {
   jsonRoEditorOption = { ...this.monocoService.getJsonOption(true), theme: this.monocoService.THEME_WHITE }
   jsonEditorOption = { ...this.monocoService.getJsonOption(false), theme: this.monocoService.THEME_WHITE }
   responseStr = ''
-  @Output() newSql = new EventEmitter<SqlRequest>()
-  @Output() updateSql = new EventEmitter<SqlRequest>()
+  assertionsStr = ''
+  resultStr = ''
+  @Output() newStepEvent = new EventEmitter<SqlRequest>()
+  @Output() updateStepEvent = new EventEmitter<SqlRequest>()
   @HostListener('window:resize')
   resize() {
     this.height = `${window.innerHeight - 70}px`
@@ -82,7 +84,8 @@ export class SqlPlaygroundComponent implements OnInit {
     const newReq = this.preHandleRequest(this.request)
     if (newReq) {
       this.sqlService.test({ id: this.request._id, request: newReq }).subscribe(res => {
-        this.responseStr = formatJson(res.data)
+        this.responseStr = formatJson(res.data.context)
+        this.resultStr = formatJson({ statis: res.data.statis, result: res.data.result })
         this.isSending = false
       }, err => this.isSending = false)
     }
@@ -95,8 +98,8 @@ export class SqlPlaygroundComponent implements OnInit {
         if (this.request._id) {
           this.sqlService.update(this.request._id, newReq).subscribe(res => {
             this.isSaved = true
-            if (this.updateSql) {
-              this.updateSql.emit(this.toStepItem())
+            if (this.updateStepEvent) {
+              this.updateStepEvent.emit(this.toStepItem())
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -104,8 +107,8 @@ export class SqlPlaygroundComponent implements OnInit {
           this.sqlService.index(newReq).subscribe(res => {
             this.request._id = res.data.id
             this.isSaved = true
-            if (this.newSql) {
-              this.newSql.emit(this.toStepItem())
+            if (this.newStepEvent) {
+              this.newStepEvent.emit(this.toStepItem())
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -132,8 +135,8 @@ export class SqlPlaygroundComponent implements OnInit {
         this.sqlService.index(newReq).subscribe(res => {
           this.request._id = res.data.id
           this.isSaved = true
-          if (this.newSql) {
-            this.newSql.emit(this.toStepItem())
+          if (this.newStepEvent) {
+            this.newStepEvent.emit(this.toStepItem())
           }
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         })
@@ -155,15 +158,25 @@ export class SqlPlaygroundComponent implements OnInit {
       this.msgService.error('port must be a number')
       return null
     } else {
-      const newReq: SqlRequest = JSON.parse(JSON.stringify(req))
-      newReq._id = undefined
-      newReq._creator = undefined
-      newReq.creator = undefined
-      newReq.createdAt = undefined
-      newReq.group = this.group
-      newReq.project = this.project
-      newReq.port = port
-      return newReq
+      try {
+        const newReq: SqlRequest = JSON.parse(JSON.stringify(req))
+        newReq._id = undefined
+        newReq._creator = undefined
+        newReq.creator = undefined
+        newReq.createdAt = undefined
+        newReq.group = this.group
+        newReq.project = this.project
+        newReq.port = port
+        if (this.assertionsStr) {
+          newReq.assert = JSON.parse(this.assertionsStr)
+        } else {
+          newReq.assert = {}
+        }
+        return newReq
+      } catch (error) {
+        this.msgService.error('invalid format')
+        return null
+      }
     }
   }
 
@@ -180,6 +193,7 @@ export class SqlPlaygroundComponent implements OnInit {
         this.sqlService.getById(sqlId).subscribe(res => {
           this.request = res.data
           this.request._id = sqlId
+          this.assertionsStr = formatJson(this.request.assert, 2)
         })
       } else {
         if (!this.request._id) {
