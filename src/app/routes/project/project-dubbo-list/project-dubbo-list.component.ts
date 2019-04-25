@@ -1,10 +1,8 @@
 import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { DeleteItemComponent } from '@shared/delete-item/delete-item.component'
 import { DubboService, QueryDubboRequest } from 'app/api/service/dubbo.service'
 import { DubboRequest } from 'app/model/es.model'
-import { calcDrawerWidth } from 'app/util/drawer'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 
 import { PageSingleModel } from '../../../model/page.model'
@@ -41,8 +39,16 @@ export class ProjectDubboListComponent extends PageSingleModel implements OnInit
     }
   }
 
+  getSignature(item: DubboRequest) {
+    let parameterTypes = ''
+    if (item.parameterTypes) {
+      parameterTypes = item.parameterTypes.map(p => p.type).join(', ')
+    }
+    return `${item.interface}.${item.method}(${parameterTypes})`
+  }
+
   getRouter(item: DubboRequest) {
-    return `/scenario/${this.group}/${this.project}/${item._id}`
+    return `/dubbo/${this.group}/${this.project}/${item._id}`
   }
 
   editItem(item: DubboRequest) {
@@ -50,25 +56,7 @@ export class ProjectDubboListComponent extends PageSingleModel implements OnInit
   }
 
   deleteItem(item: DubboRequest) {
-    const drawerRef = this.drawerService.create({
-      nzTitle: item.summary,
-      nzContent: DeleteItemComponent,
-      nzContentParams: {
-        data: {
-          type: 'scenario',
-          value: item
-        }
-      },
-      nzBodyStyle: {
-        'padding': '8px'
-      },
-      nzWidth: calcDrawerWidth(0.33)
-    })
-    drawerRef.afterClose.subscribe(data => {
-      if (data) {
-        this.loadData()
-      }
-    })
+    this.msgService.info('TBD')
   }
 
   pageChange() {

@@ -432,6 +432,9 @@ export interface DomainOnlineConfig extends BaseDoc {
 export interface DubboRequest extends BaseDoc, GenericRequest {
   group?: string
   project?: string
+  zkAddr?: string
+  zkPort?: string
+  path?: string
   assert?: object
   labels?: LabelRef[]
 }
