@@ -5,7 +5,7 @@
       <span [style.color]="isSaved?'black':'lightseagreen'">{{request.summary}}</span>
       <span *ngIf="request._id">
         <a style="color:lightgray;padding-left:5px;font-size:smaller;"
-          [routerLink]="['/dubboes', group, project, request._id]">({{request._id}})</a>
+          [routerLink]="['/dubbo', group, project, request._id]">({{request._id}})</a>
       </span>
     </span>
   </div>
@@ -44,28 +44,30 @@
         <div class="col-panel" nz-col nzSpan="6">
           <nz-input-group style="width:100%;" nzAddOnBefore="zk://" [nzSuffix]="tplConn">
             <input style="width:100%;" type="text" nz-input placeholder="zookeeper address"
-              [(ngModel)]="interfacesMsg.zkAddr" (ngModelChange)="zkChange()" (keydown.enter)="getInterfaces()">
-            <ng-template #tplConn><a (click)="getInterfaces()"><i nz-icon type="enter" theme="outline"></i></a>
+              [(ngModel)]="zkConnectString" (ngModelChange)="zkChange()" (keydown.enter)="getInterfaces()">
+            <ng-template #tplConn>
+              <a (click)="getInterfaces()"><i nz-icon type="enter" theme="outline"></i></a>
             </ng-template>
           </nz-input-group>
-          <div style="margin-top:4px;">
-            <nz-input-group style="width:100%;" nzAddOnBefore="ref:">
-              <input type="text" nz-input [(ngModel)]="interfaceSearchTxt" (ngModelChange)="filterInterfaces()">
-            </nz-input-group>
-            <nz-table style="margin-top:4px;" nzSize="small" #basicTable [nzFrontPagination]="false"
-              [nzShowPagination]="false" [nzScroll]="tableScroll" [nzData]="interfaces">
-              <tbody>
-                <tr *ngFor="let item of basicTable.data">
-                  <td>{{item.ref}}</td>
-                  <td style="width:48px;">
-                    <button nz-button nzSize="small" nzType="default" (click)="getProviders(item)">
-                      <i nz-icon type="login" theme="outline"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </nz-table>
-          </div>
+          <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="ref:">
+            <input type="text" nz-input [(ngModel)]="interfaceSearchTxt" (ngModelChange)="filterInterfaces()">
+          </nz-input-group>
+          <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="path:">
+            <input type="text" nz-input [(ngModel)]="interfacesMsg.path" (ngModelChange)="zkPathChange()">
+          </nz-input-group>
+          <nz-table style="margin-top:4px;" nzSize="small" #basicTable [nzFrontPagination]="false"
+            [nzShowPagination]="false" [nzScroll]="tableScroll" [nzData]="interfaces">
+            <tbody>
+              <tr *ngFor="let item of basicTable.data">
+                <td>{{item.ref}}</td>
+                <td style="width:48px;">
+                  <button nz-button nzSize="small" nzType="default" (click)="getProviders(item)">
+                    <i nz-icon type="login" theme="outline"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
         </div>
         <div class="col-panel" nz-col nzSpan="18">
           <nz-input-group style="width:100%;" [nzAddOnBefore]="'dubbo://'" [nzAddOnAfter]="nzAddOnAfterDubbo">
@@ -101,15 +103,26 @@
               </span>
             </ng-template>
           </nz-input-group>
-          <div nz-row nzGutter="4" style="margin-top:4px;" [style.height]="subHeight">
-            <div class="body-panel" nz-col nzSpan="14">
-              <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="requestBody">
-              </ngx-monaco-editor>
-            </div>
-            <div class="body-panel" nz-col nzSpan="10">
-              <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="responseBody">
-              </ngx-monaco-editor>
-            </div>
+          <div style="margin-top:4px;" [style.height]="subHeight">
+            <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false"
+              [nzTabBarStyle]="tabBarStyle">
+              <nz-tab [nzTitle]="'Request'">
+                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="requestStr">
+                </ngx-monaco-editor>
+              </nz-tab>
+              <nz-tab [nzTitle]="'Context'">
+                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="responseStr">
+                </ngx-monaco-editor>
+              </nz-tab>
+              <nz-tab [nzTitle]="'Assertions'">
+                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="assertionsStr">
+                </ngx-monaco-editor>
+              </nz-tab>
+              <nz-tab [nzTitle]="'Result'">
+                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="resultStr">
+                </ngx-monaco-editor>
+              </nz-tab>
+            </nz-tabset>
           </div>
         </div>
       </div>

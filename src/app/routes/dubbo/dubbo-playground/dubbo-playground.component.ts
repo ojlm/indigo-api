@@ -1,8 +1,10 @@
 import { Location } from '@angular/common'
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core'
+import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
+import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
+import { CaseService } from 'app/api/service/case.service'
 import {
   DubboInterface,
   DubboProvider,
@@ -10,9 +12,10 @@ import {
   GetInterfaceMethodParams,
   GetInterfacesMessage,
   InterfaceMethodParams,
+  ParameterType,
 } from 'app/api/service/dubbo.service'
 import { ActorEvent, ActorEventType } from 'app/model/api.model'
-import { DubboRequest } from 'app/model/es.model'
+import { Assertion, DubboRequest } from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -32,17 +35,27 @@ import { Subject } from 'rxjs'
 })
 export class DubboPlaygroundComponent implements OnInit {
 
-  LOCAL_KEY = 'DUBBO_ZK'
+  group = ''
+  project = ''
+  tabBarStyle = {
+    'background-color': 'snow',
+    'margin': '0px',
+    'height': '40px'
+  }
   isSending = false
+  isInNew = false
   isInDrawer = false
   isSaved = true
+  assertions: Assertion[] = []
+  tabIndex = 0
   logSubject = new Subject<ActorEvent<string>>()
   echoSubject = new Subject<string>()
   telnetDrawerVisible = false
   drawerWidth = calcDrawerWidth(0.4)
   methodsDrawerVisible = false
   interfaceSearchTxt = ''
-  interfacesMsg: GetInterfacesMessage = {}
+  zkConnectString = ''
+  interfacesMsg: GetInterfacesMessage = { path: '/dubbo' }
   rawInterfaces: DubboInterface[] = []
   interfaces: DubboInterface[] = []
   rawProviders: DubboProvider[] = []
@@ -57,10 +70,14 @@ export class DubboPlaygroundComponent implements OnInit {
   tableScroll = { y: `${window.innerHeight - 160}px` }
   jsonRoEditorOption = { ...this.monocoService.getJsonOption(true), theme: this.monocoService.THEME_WHITE }
   jsonEditorOption = { ...this.monocoService.getJsonOption(false), theme: this.monocoService.THEME_WHITE }
-  requestBody = '[]'
-  responseBody = ''
+  requestStr = '[]'
+  assertionsStr = ''
+  responseStr = ''
+  resultStr = ''
   testWs: WebSocket
   paramsCache: InterfaceMethodParamsCache = {}
+  @Output() newStepEvent = new EventEmitter<DubboRequest>()
+  @Output() updateStepEvent = new EventEmitter<DubboRequest>()
   @HostListener('window:resize')
   resize() {
     this.height = `${window.innerHeight - 70}px`
@@ -70,6 +87,7 @@ export class DubboPlaygroundComponent implements OnInit {
 
   constructor(
     private dubboService: DubboService,
+    private caseService: CaseService,
     private monocoService: MonacoService,
     private msgService: NzMessageService,
     private router: Router,
@@ -84,37 +102,88 @@ export class DubboPlaygroundComponent implements OnInit {
   }
 
   send() {
-    let reqBody: any[] = []
-    try {
-      reqBody = JSON.parse(this.requestBody)
-      this.request.args = reqBody
-      this.request.parameterTypes = this.parameterTypes.filter(item => item.type).map(item => item.type)
+    const newReq = this.preHandleRequest(this.request)
+    if (null != newReq) {
       this.isSending = true
-      this.dubboService.test({ id: this.request._id, request: this.request }).subscribe(res => {
-        this.responseBody = formatJson(res.data)
+      this.dubboService.test({ id: this.request._id, request: newReq }).subscribe(res => {
+        this.responseStr = formatJson(res.data.context)
+        this.resultStr = formatJson({ statis: res.data.statis, result: res.data.result })
         this.isSending = false
       }, err => this.isSending = false)
-    } catch (error) {
     }
   }
 
   save() {
-
+    if (this.request.summary) {
+      const newReq = this.preHandleRequest(this.request)
+      if (newReq) {
+        if (this.request._id) {
+          this.dubboService.update(this.request._id, newReq).subscribe(res => {
+            this.isSaved = true
+            if (this.updateStepEvent) {
+              this.updateStepEvent.emit(this.toStepItem())
+            }
+            this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+          })
+        } else {
+          this.dubboService.index(newReq).subscribe(res => {
+            this.request._id = res.data.id
+            this.isSaved = true
+            if (this.newStepEvent) {
+              this.newStepEvent.emit(this.toStepItem())
+            }
+            this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+          })
+        }
+      }
+    } else {
+      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorEmptySummary))
+    }
   }
 
   saveAs() {
-
+    if (this.request.summary) {
+      const newReq = this.preHandleRequest(this.request)
+      if (newReq) {
+        this.dubboService.index(newReq).subscribe(res => {
+          this.request._id = res.data.id
+          this.isSaved = true
+          if (this.newStepEvent) {
+            this.newStepEvent.emit(this.toStepItem())
+          }
+          this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+        })
+      }
+    } else {
+      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorEmptySummary))
+    }
   }
 
   reset() {
 
   }
 
-  zkChange() {
-    try {
-      localStorage.setItem(this.LOCAL_KEY, JSON.stringify(this.interfacesMsg))
-    } catch (error) {
+  private toStepItem() {
+    const step: DubboRequest = {
+      _id: this.request._id,
+      summary: this.request.summary,
+      description: this.request.description,
     }
+    return step
+  }
+
+  zkChange() {
+    const pieces = this.zkConnectString.split(':')
+    if (pieces.length === 2) {
+      this.interfacesMsg.zkAddr = pieces[0]
+      this.interfacesMsg.zkPort = parseInt(pieces[1], 10)
+      this.request.zkAddr = this.interfacesMsg.zkAddr
+      this.request.zkPort = this.interfacesMsg.zkPort
+    }
+  }
+
+  zkPathChange() {
+    this.request.path = this.interfacesMsg.path
   }
 
   telnet() {
@@ -258,7 +327,9 @@ export class DubboPlaygroundComponent implements OnInit {
         const params: InterfaceMethodParams = res.data
         const methodParamCache = {}
         params.methods.forEach(method => {
-          methodParamCache[method.method] = method.params
+          methodParamCache[method.method] = method.params.map(p => {
+            return { type: p }
+          })
         })
         this.paramsCache[params.ref] = methodParamCache
         this.methodChange()
@@ -277,9 +348,7 @@ export class DubboPlaygroundComponent implements OnInit {
       if (interfaceCache) {
         this.request.parameterTypes = interfaceCache[method]
         if (this.request.parameterTypes) {
-          this.parameterTypes = this.request.parameterTypes.map(t => {
-            return { type: t }
-          })
+          this.parameterTypes = this.request.parameterTypes
         }
       }
     }
@@ -293,23 +362,92 @@ export class DubboPlaygroundComponent implements OnInit {
     return `${item.address}${portStr}`
   }
 
-  ngOnInit(): void {
-    try {
-      const json = localStorage.getItem(this.LOCAL_KEY)
-      if (json) {
-        this.interfacesMsg = JSON.parse(json) as GetInterfacesMessage
+  preHandleRequest(req: DubboRequest) {
+    let port: number
+    if (this.request.port) {
+      port = parseInt(this.request.port.toString(), 10)
+    }
+    if (!port || isNaN(port)) {
+      this.msgService.error('port must be a number')
+      return null
+    } else {
+      try {
+        const newReq: DubboRequest = JSON.parse(JSON.stringify(req))
+        const reqBody = JSON.parse(this.requestStr)
+        newReq.args = { args: reqBody }
+        newReq.parameterTypes = this.parameterTypes.filter(item => item.type)
+        newReq._id = undefined
+        newReq._creator = undefined
+        newReq.creator = undefined
+        newReq.createdAt = undefined
+        newReq.group = this.group
+        newReq.project = this.project
+        newReq.port = port
+        if (this.assertionsStr) {
+          newReq.assert = JSON.parse(this.assertionsStr)
+        } else {
+          newReq.assert = {}
+        }
+        return newReq
+      } catch (error) {
+        this.msgService.error('format error')
+        return null
       }
-    } catch (error) {
+    }
+  }
+
+  ngOnInit(): void {
+    this.route.parent.parent.params.subscribe(params => {
+      this.group = params['group']
+      this.project = params['project']
+    })
+    this.route.parent.params.subscribe(params => {
+      const docId = params['dubboId']
+      if (docId) {
+        this.isInNew = true
+        initRequestField(this.request)
+        this.dubboService.getById(docId).subscribe(res => {
+          this.request = res.data
+          this.request._id = docId
+          this.interfaceSearchTxt = this.request.interface
+          this.selectedProvider = {
+            address: this.request.address,
+            port: this.request.port
+          }
+          this.providers = [this.selectedProvider]
+          if (this.request.zkAddr && this.request.zkPort) {
+            this.zkConnectString = `${this.request.zkAddr}:${this.request.zkPort}`
+            this.interfacesMsg = {
+              zkAddr: this.request.zkAddr,
+              zkPort: this.request.port,
+              path: this.request.path
+            }
+          }
+          this.methods = [this.request.method]
+          this.requestStr = formatJson(this.request.args.args, 2)
+          this.parameterTypes = this.request.parameterTypes
+          this.assertionsStr = formatJson(this.request.assert, 2)
+        })
+      } else {
+        if (!this.request._id) {
+          initRequestField(this.request)
+        }
+      }
+    })
+    if (this.assertions && this.assertions.length === 0) {
+      this.caseService.getAllAssertions().subscribe(res => {
+        this.assertions = res.data
+      })
     }
   }
 }
 
-export interface ParameterType {
-  type?: string
+export function initRequestField(request: DubboRequest) {
+
 }
 
 export interface MethodParams {
-  [method: string]: string[]
+  [method: string]: ParameterType[]
 }
 
 export interface InterfaceMethodParamsCache {

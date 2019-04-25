@@ -433,7 +433,7 @@ export interface DubboRequest extends BaseDoc, GenericRequest {
   group?: string
   project?: string
   zkAddr?: string
-  zkPort?: string
+  zkPort?: number
   path?: string
   assert?: object
   labels?: LabelRef[]
