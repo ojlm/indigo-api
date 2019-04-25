@@ -4,7 +4,7 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
 import { ApiRes, QueryPage } from 'app/model/api.model'
-import { DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
+import { CaseStatis, DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
 import { newWS } from 'app/util/ws'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Observable } from 'rxjs'
@@ -57,7 +57,7 @@ export class DubboService extends BaseService {
   }
 
   test(msg: { id: string, request: DubboRequest }) {
-    return this.http.post<ApiRes<any>>(`${API_DUBBO}/test`, msg)
+    return this.http.post<ApiRes<DubboResult>>(`${API_DUBBO}/test`, msg)
   }
 
   newTelnetWs(address: string, port: number = 0) {
@@ -72,11 +72,13 @@ export class DubboService extends BaseService {
 
 export interface GetInterfacesMessage {
   zkAddr?: string
+  zkPort?: number
   path?: string
 }
 
 export interface GetProvidersMessage {
   zkAddr?: string
+  zkPort?: number
   path?: string
   ref?: string
 }
@@ -100,6 +102,7 @@ export interface InterfaceMethodParams {
 
 export interface DubboInterface {
   zkAddr?: string
+  zkPort?: number
   path?: string
   ref?: string
 }
@@ -137,4 +140,10 @@ export interface QueryDubboRequest extends QueryPage {
   project?: string
   text?: string
   interface?: string
+}
+
+export interface DubboResult {
+  context?: object
+  statis?: CaseStatis
+  result?: object
 }
