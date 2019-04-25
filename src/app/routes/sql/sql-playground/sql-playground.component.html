@@ -75,8 +75,16 @@
               <ngx-monaco-editor [style.height]="subHeight" [options]="sqlEditorOption" [(ngModel)]="request.sql">
               </ngx-monaco-editor>
             </nz-tab>
-            <nz-tab [nzTitle]="'item-assert-result'|translate">
+            <nz-tab [nzTitle]="'Context'">
               <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="responseStr">
+              </ngx-monaco-editor>
+            </nz-tab>
+            <nz-tab [nzTitle]="'Assertions'">
+              <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="assertionsStr">
+              </ngx-monaco-editor>
+            </nz-tab>
+            <nz-tab [nzTitle]="'Result'">
+              <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="resultStr">
               </ngx-monaco-editor>
             </nz-tab>
           </nz-tabset>
