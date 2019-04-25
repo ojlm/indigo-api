@@ -113,12 +113,20 @@ export interface DubboProvider {
   methods?: string[]
 }
 
+export interface ParameterType {
+  type?: string
+}
+
+export interface ArgumentList {
+  args?: any[]
+}
+
 export interface GenericRequest {
   dubboGroup?: string
   interface?: string
   method?: string
-  parameterTypes?: string[]
-  args?: any[]
+  parameterTypes?: ParameterType[]
+  args?: ArgumentList
   address?: string
   port?: number
   version?: string

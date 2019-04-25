@@ -25,6 +25,7 @@
           </nz-list-item-meta>
           <ng-template #nzDescription>
             <div style="font-size:small;">
+              <span>{{getSignature(item)}}</span>
               <nz-divider nzType="vertical"></nz-divider>
               <span>{{item.createdAt}}</span>
             </div>
