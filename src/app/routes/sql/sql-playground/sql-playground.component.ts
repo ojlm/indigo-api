@@ -99,7 +99,7 @@ export class SqlPlaygroundComponent implements OnInit {
           this.sqlService.update(this.request._id, newReq).subscribe(res => {
             this.isSaved = true
             if (this.updateStepEvent) {
-              this.updateStepEvent.emit(this.toStepItem())
+              this.updateStepEvent.emit(this.request)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -108,7 +108,7 @@ export class SqlPlaygroundComponent implements OnInit {
             this.request._id = res.data.id
             this.isSaved = true
             if (this.newStepEvent) {
-              this.newStepEvent.emit(this.toStepItem())
+              this.newStepEvent.emit(this.request)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -119,15 +119,6 @@ export class SqlPlaygroundComponent implements OnInit {
     }
   }
 
-  private toStepItem() {
-    const step: SqlRequest = {
-      _id: this.request._id,
-      summary: this.request.summary,
-      description: this.request.description,
-    }
-    return step
-  }
-
   saveAs() {
     if (this.request.summary) {
       const newReq = this.preHandleRequest(this.request)
@@ -136,7 +127,7 @@ export class SqlPlaygroundComponent implements OnInit {
           this.request._id = res.data.id
           this.isSaved = true
           if (this.newStepEvent) {
-            this.newStepEvent.emit(this.toStepItem())
+            this.newStepEvent.emit(this.request)
           }
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         })

@@ -73,6 +73,7 @@ export interface Case extends BaseDoc {
 export interface ScenarioStep {
   id?: string
   type?: string
+  stored?: boolean
   data?: any
 }
 

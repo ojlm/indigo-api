@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
+import { Component, HostListener, Input, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
@@ -53,8 +53,9 @@ export class CaseModelComponent implements OnInit {
       this._ctxOptions = val
     }
   }
-  @Output() newCase = new EventEmitter<Case>()
-  @Output() updateCase = new EventEmitter<Case>()
+  // for step selector usage
+  newCase: Function
+  updateCase: Function
   isInDrawer = false
   isInNew = false
   group = ''
@@ -207,7 +208,7 @@ export class CaseModelComponent implements OnInit {
           this.caseService.update(this.case._id, cs).subscribe(res => {
             this.isSaved = true
             if (this.updateCase) {
-              this.updateCase.emit(this.toStepCase())
+              this.updateCase(this.case)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -217,7 +218,7 @@ export class CaseModelComponent implements OnInit {
             this.updateCaseRoute()
             this.isSaved = true
             if (this.newCase) {
-              this.newCase.emit(this.toStepCase())
+              this.newCase(this.case)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -237,7 +238,7 @@ export class CaseModelComponent implements OnInit {
           this.updateCaseRoute()
           this.isSaved = true
           if (this.newCase) {
-            this.newCase.emit(this.toStepCase())
+            this.newCase(this.case)
           }
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         })
@@ -291,8 +292,8 @@ export class CaseModelComponent implements OnInit {
     c._creator = undefined
     c.creator = undefined
     c.createdAt = undefined
-    c.group = this.group
-    c.project = this.project
+    c.group = this.group || cs.group
+    c.project = this.project || cs.project
     // handle reqeust
     const req = c.request
     if (req && req.body) {
@@ -344,44 +345,34 @@ export class CaseModelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.parent.parent.params.subscribe(params => {
-      this.group = params['group']
-      this.project = params['project']
-    })
-    this.route.parent.params.subscribe(params => {
-      const caseId = params['caseId']
-      if (caseId) { // edit
-        this.isInNew = true
-        initCaseField(this.case)
-        this.caseService.getById(caseId).subscribe(res => {
-          this.case = res.data
-          this.case._id = caseId
-          this.updateCaseRoute()
-        })
-      } else {
-        if (!this.case._id) {
+    if (this.route.parent && this.route.parent.parent) {
+      // if it was created from NzDrawerService, this.route.parent will be null
+      this.route.parent.parent.params.subscribe(params => {
+        this.group = params['group']
+        this.project = params['project']
+      })
+      this.route.parent.params.subscribe(params => {
+        const caseId = params['caseId']
+        if (caseId) { // edit
+          this.isInNew = true
           initCaseField(this.case)
+          this.caseService.getById(caseId).subscribe(res => {
+            this.case = res.data
+            this.case._id = caseId
+            this.updateCaseRoute()
+          })
+        } else {
+          if (!this.case._id) {
+            initCaseField(this.case)
+          }
         }
-      }
-    })
+      })
+    }
     if (this.assertions && this.assertions.length === 0) {
       this.caseService.getAllAssertions().subscribe(res => {
         this.assertions = res.data
       })
     }
-  }
-
-  private toStepCase() {
-    const stepCase: Case = {
-      _id: this.case._id,
-      summary: this.case.summary,
-      description: this.case.description,
-      request: {
-        method: this.case.request.method,
-        urlPath: this.case.request.urlPath,
-      }
-    }
-    return stepCase
   }
 }
 

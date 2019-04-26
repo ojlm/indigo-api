@@ -1,0 +1,51 @@
+<nz-tabset [nzAnimated]="false" [(nzSelectedIndex)]="tabIndex" (nzSelectedIndexChange)="tabIndexChange()">
+  <nz-tab [nzTitle]="httpTemplate">
+    <ng-template #httpTemplate> <i nz-icon type="book"></i>HTTP</ng-template>
+    <nz-list [nzDataSource]="httpItems" nzBordered nzSize="small" [nzHeader]="httpHeader" [nzFooter]="httpFooter"
+      [nzRenderItem]="item">
+      <ng-template #item let-item>
+        <nz-list-item [nzContent]="httpContent" [nzActions]="[httpActions]"></nz-list-item>
+        <ng-template #httpContent>
+          <div style="padding-left:3px;">
+            <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
+            <span>{{item.request.urlPath}}</span>
+            <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);"
+              (click)="viewHttpStep(item)">{{item.summary}}</a>
+          </div>
+          <ng-container *ngIf="item.labels">
+            <span style="margin-left:auto;transform:scale(0.8);">
+              <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+            </span>
+          </ng-container>
+        </ng-template>
+        <ng-template #httpActions>
+          <a (click)="addHttpStep(item)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
+        </ng-template>
+      </ng-template>
+    </nz-list>
+    <ng-template #httpHeader>
+      <app-case-search-panel [(data)]="searchHttpStepModel" (dataChange)="searchHttpSteps()"></app-case-search-panel>
+    </ng-template>
+    <ng-template #httpFooter>
+      <nz-pagination *ngIf="httpItems.length>0" [nzSize]="'small'" [(nzPageIndex)]="httpItemsPage.pageIndex"
+        [nzShowTotal]="httpTotalTemplate" [nzTotal]="httpItemsPage.pageTotal" [nzPageSize]="httpItemsPage.pageSize"
+        (nzPageIndexChange)="searchHttpSteps()">
+      </nz-pagination>
+      <ng-template #httpTotalTemplate let-total>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{total}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+    </ng-template>
+  </nz-tab>
+  <nz-tab [nzTitle]="dubboTemplate">
+    <ng-template #dubboTemplate> <i nz-icon type="alibaba"></i>Dubbo</ng-template>
+
+  </nz-tab>
+  <nz-tab [nzTitle]="sqlTemplate">
+    <ng-template #sqlTemplate> <i nz-icon type="database"></i>MySql</ng-template>
+
+  </nz-tab>
+</nz-tabset>

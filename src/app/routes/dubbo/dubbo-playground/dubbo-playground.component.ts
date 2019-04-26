@@ -121,7 +121,7 @@ export class DubboPlaygroundComponent implements OnInit {
           this.dubboService.update(this.request._id, newReq).subscribe(res => {
             this.isSaved = true
             if (this.updateStepEvent) {
-              this.updateStepEvent.emit(this.toStepItem())
+              this.updateStepEvent.emit(this.request)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -130,7 +130,7 @@ export class DubboPlaygroundComponent implements OnInit {
             this.request._id = res.data.id
             this.isSaved = true
             if (this.newStepEvent) {
-              this.newStepEvent.emit(this.toStepItem())
+              this.newStepEvent.emit(this.request)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -149,7 +149,7 @@ export class DubboPlaygroundComponent implements OnInit {
           this.request._id = res.data.id
           this.isSaved = true
           if (this.newStepEvent) {
-            this.newStepEvent.emit(this.toStepItem())
+            this.newStepEvent.emit(this.request)
           }
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         })
@@ -161,15 +161,6 @@ export class DubboPlaygroundComponent implements OnInit {
 
   reset() {
 
-  }
-
-  private toStepItem() {
-    const step: DubboRequest = {
-      _id: this.request._id,
-      summary: this.request.summary,
-      description: this.request.description,
-    }
-    return step
   }
 
   zkChange() {

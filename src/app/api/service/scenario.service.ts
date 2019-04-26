@@ -8,7 +8,15 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, ApiResObj, QueryPage } from '../../model/api.model'
-import { DeleteResData, IndexDocResponse, Scenario } from '../../model/es.model'
+import {
+  Case,
+  DeleteResData,
+  DubboRequest,
+  IndexDocResponse,
+  Scenario,
+  ScenarioStep,
+  SqlRequest,
+} from '../../model/es.model'
 import { newWS } from '../../util/ws'
 import { API_SCENARIO, API_SCENARIO_QUERY, API_WS_SCENARIO_TEST } from '../path'
 import { BaseService } from './base.service'
@@ -42,7 +50,7 @@ export class ScenarioService extends BaseService {
   }
 
   getById(id: string) {
-    return this.http.get<ApiRes<Scenario>>(`${API_SCENARIO}/${id}`)
+    return this.http.get<ApiRes<ScenarioResponse>>(`${API_SCENARIO}/${id}`)
   }
 
   newQuerySubject(response: Subject<ApiRes<Scenario[]>>) {
@@ -76,6 +84,43 @@ export interface QueryScenario extends QueryPage {
   ids?: string[]
 }
 
+export interface ScenarioResponse {
+  scenario?: Scenario
+  case?: { [k: string]: Case }
+  dubbo?: { [k: string]: DubboRequest }
+  sql?: { [k: string]: SqlRequest }
+}
+
 export const ScenarioStepType = {
-  CASE: 'case'
+  CASE: 'case',
+  SQL: 'sql',
+  DUBBO: 'dubbo',
+}
+
+export function caseToScenarioStep(doc: Case): ScenarioStep {
+  return {
+    id: doc._id,
+    type: ScenarioStepType.CASE,
+    stored: false,
+  }
+}
+
+export function sqlRequestToScenarioStep(doc: SqlRequest): ScenarioStep {
+  return {
+    id: doc._id,
+    type: ScenarioStepType.SQL,
+    stored: false,
+  }
+}
+
+export function dubboRequestToScenarioStep(doc: DubboRequest): ScenarioStep {
+  return {
+    id: doc._id,
+    type: ScenarioStepType.DUBBO,
+    stored: false,
+  }
+}
+
+export function getScenarioStepCacheKey(step: ScenarioStep) {
+  return `${step.type}:${step.id}`
 }
