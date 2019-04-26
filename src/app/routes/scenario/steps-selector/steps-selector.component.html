@@ -5,85 +5,54 @@
         <span style="font-size:small;color:darkgray;">{{'field-steps'|translate}}</span>
       </ng-template>
     </nz-divider>
-    <div [sortablejs]="addedItems" [sortablejsOptions]="sortablejsOptions">
-      <div class="step" style="width:100%;margin-left:10px;margin-top:6px;margin-right:10px;" *ngFor="let item of addedItems;let i = index;">
-        <div>
-          <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
-          <span> {{i+1}}. </span>
-          <a style="padding-left:4px;" (click)="removeItem(item, i)">
-            <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
-          </a>
-          <span class="step-title" (click)="viewCase(item)">
-            <span style="padding-left:3px;color:darkgray;cursor:pointer;">{{item.summary}}</span>
-          </span>
-          <ng-container *ngIf="item.labels">
-            <span style="float:right;transform:scale(0.8);">
-              <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+    <div [sortablejs]="steps" [sortablejsOptions]="sortablejsOptions">
+      <div class="step" style="width:100%;margin-left:10px;margin-top:6px;margin-right:10px;"
+        *ngFor="let item of steps;let i = index;">
+        <div [ngSwitch]="item.type">
+          <ng-container *ngSwitchCase="'case'">
+            <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+            <span> {{i+1}}. </span>
+            <a style="padding-left:4px;" (click)="removeStep(item, i)">
+              <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+            </a>
+            <span class="step-title" (click)="viewStep(item)">
+              <span style="padding-left:3px;color:darkgray;cursor:pointer;">{{getStepData(item).summary}}</span>
             </span>
+            <ng-container *ngIf="item.labels">
+              <span style="float:right;transform:scale(0.8);">
+                <nz-tag *ngFor="let item of getStepData(item).labels">{{getStepData(item).name}}</nz-tag>
+              </span>
+            </ng-container>
+            <div style="padding-left:16px;">
+              <nz-badge [nzStatus]="getStepStatus(item).status"></nz-badge>
+              <nz-tag [nzColor]="methodTagColor(item)">{{getStepData(item).request.method}}</nz-tag>
+              <span style="font-size:smaller;color:lightgray;">{{getStepData(item).request.urlPath}}</span>
+            </div>
           </ng-container>
-        </div>
-        <div style="padding-left:16px;">
-          <nz-badge [nzStatus]="item.status"></nz-badge>
-          <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
-          <span style="font-size:smaller;color:lightgray;">{{item.request.urlPath}}</span>
         </div>
       </div>
     </div>
     <div nz-row style="padding:16px;">
-      <button nz-button style="background-color:transparent;" nzSize="small" nzType="dashed" (click)="addCaseStep()">
+      <button nz-button nzSize="small" nzType="dashed" (click)="selectStep()">
         <span style="margin-left:2px;">{{'btn-add-req'|translate}}</span>
       </button>
-      <button nz-button style="background-color:transparent;" nzSize="small" nzType="dashed" (click)="addNewCaseStep()">
-        <span><i nz-icon type="plus" theme="outline"></i></span>
-        <span style="margin-left:2px;">{{'btn-add-new-req'|translate}}</span>
-      </button>
+      <nz-dropdown-button style="margin-left:4px;" nzSize="small" nzType="dashed" (nzClick)="addNewStep()">
+        <span>
+          <span><i nz-icon type="plus" theme="outline"></i></span>
+          <span style="margin-left:2px;">{{'btn-add-new-req'|translate}}</span>
+        </span>
+        <ul nz-menu>
+          <li nz-menu-item>MySQL</li>
+          <li nz-menu-item>Dubbo</li>
+        </ul>
+      </nz-dropdown-button>
     </div>
   </div>
 </div>
-<!-- select cases drawer -->
-<nz-drawer [nzVisible]="caseListDrawerVisible" [nzWidth]="caseListDrawerWidth" [nzBodyStyle]="{'padding':'8px'}"
-  [nzClosable]="false" (nzOnClose)="caseListDrawerVisible=false">
-  <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzHeader]="nzHeader" [nzFooter]="nzFooter" [nzRenderItem]="item">
-    <ng-template #item let-item>
-      <nz-list-item [nzContent]="nzContent" [nzActions]="[addAction]"></nz-list-item>
-      <ng-template #nzContent>
-        <div style="padding-left:3px;">
-          <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
-          <span>{{item.request.urlPath}}</span>
-          <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);" (click)="viewCase(item)">{{item.summary}}</a>
-        </div>
-        <ng-container *ngIf="item.labels">
-          <span style="margin-left:auto;transform:scale(0.8);">
-            <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
-          </span>
-        </ng-container>
-      </ng-template>
-      <ng-template #addAction>
-        <a (click)="addItem(item)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
-      </ng-template>
-    </ng-template>
-  </nz-list>
-  <ng-template #nzHeader>
-    <app-case-search-panel [(data)]="searchCase" (dataChange)="search()"></app-case-search-panel>
-  </ng-template>
-  <ng-template #nzFooter>
-    <nz-pagination *ngIf="items.length>0" [nzSize]="'small'" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate"
-      [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="search()">
-    </nz-pagination>
-    <ng-template #totalTemplate let-total>
-      <span style="color:lightgray;">
-        <span>{{'item-total'|translate}}</span>
-        <span> {{total}} </span>
-        <span>{{'item-item'|translate}}</span>
-      </span>
-    </ng-template>
-    <div *ngIf="items.length<=0">{{'tips-no-data'|translate}}</div>
-  </ng-template>
-</nz-drawer>
-<!-- case model drawer -->
-<nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="caseModeldrawerWidth" [nzBodyStyle]="{'padding':'8px'}"
-  [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
-  <app-case-model *ngIf="caseModelDrawerSwitch" [id]="editCaseId" [result]="editCaseResult" (newCase)="addItem($event)"
-    (updateCase)="updateCase($event)" [ctxOptions]="_ctxOptions">
-  </app-case-model>
+<!-- select steps drawer -->
+<nz-drawer [nzVisible]="stepListDrawerVisible" [nzWidth]="stepListDrawerWidth" [nzBodyStyle]="{'padding':'4px'}"
+  [nzClosable]="false" (nzOnClose)="stepListDrawerVisible=false">
+  <app-select-step *ngIf="stepListDrawerSwitch" [group]="group" [project]="project" [onSelectSubject]="onSelectSubject"
+    [onUpdateSubject]="onUpdateSubject" [ctxOptions]="_ctxOptions">
+  </app-select-step>
 </nz-drawer>

@@ -8,7 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { CaseService } from '../../../api/service/case.service'
-import { ScenarioService } from '../../../api/service/scenario.service'
+import { ScenarioResponse, ScenarioService } from '../../../api/service/scenario.service'
 import { ActorEvent, ActorEventType } from '../../../model/api.model'
 import { ContextOptions, JobExecDesc, ReportItemEvent, Scenario } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
@@ -32,6 +32,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   project: string
   scenario: Scenario = { steps: [] }
   scenarioId: string
+  scenarioResponse: ScenarioResponse = {}
   submitting = false
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
@@ -140,7 +141,8 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   loadDataById() {
     if (this.scenarioId) {
       this.scenarioService.getById(this.scenarioId).subscribe(res => {
-        this.scenario = res.data
+        this.scenarioResponse = res.data
+        this.scenario = res.data.scenario
         this._ctxOptions.scenarioEnv = this.scenario.env
         if (!this.scenario.steps) { this.scenario.steps = [] }
       })

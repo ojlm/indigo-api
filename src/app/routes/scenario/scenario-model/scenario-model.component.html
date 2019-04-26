@@ -4,7 +4,8 @@
     <span>
       <span>
         <span [style.color]="'lightseagreen'">{{scenario.summary}}</span>
-        <a *ngIf="scenarioId" style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/scenario', scenario.group, scenario.project, scenarioId]">({{scenarioId}})</a>
+        <a *ngIf="scenarioId" style="color:lightgray;padding-left:5px;font-size:smaller;"
+          [routerLink]="['/scenario', scenario.group, scenario.project, scenarioId]">({{scenarioId}})</a>
       </span>
       <app-env-selector [(env)]="scenario.env" (envChange)="envChange()"></app-env-selector>
     </span>
@@ -36,7 +37,8 @@
     </div>
   </nz-card>
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
-    <app-steps-selector [(data)]="scenario.steps" [eventSubject]="eventSubject" [ctxOptions]="_ctxOptions"></app-steps-selector>
+    <app-steps-selector [scenarioResponse]="scenarioResponse" [(data)]="scenario.steps" [eventSubject]="eventSubject"
+      [ctxOptions]="_ctxOptions"></app-steps-selector>
   </nz-card>
   <div style="margin-top:7px;">
     <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="test()">
@@ -45,15 +47,20 @@
         <span>{{'btn-test'|translate}}</span>
       </span>
     </button>
-    <button *ngIf="!scenarioId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-new'|translate}}</button>
-    <button *ngIf="scenarioId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-update'|translate}}</button>
+    <button *ngIf="!scenarioId" nz-button nzType="primary" [nzLoading]="submitting"
+      (click)="submit()">{{'btn-new'|translate}}</button>
+    <button *ngIf="scenarioId" nz-button nzType="primary" [nzLoading]="submitting"
+      (click)="submit()">{{'btn-update'|translate}}</button>
     <button *ngIf="!scenarioId" nz-button nzType="default" (click)="reset()">{{'btn-reset'|translate}}</button>
-    <button nz-button nzType="default" (click)="consoleDrawerVisible=!consoleDrawerVisible">{{'btn-progress'|translate}}</button>
+    <button nz-button nzType="default"
+      (click)="consoleDrawerVisible=!consoleDrawerVisible">{{'btn-progress'|translate}}</button>
     <button *ngIf="!fromSelector" nz-button nzType="default" (click)="goBack()">{{'btn-back'|translate}}</button>
   </div>
 </div>
 <!-- console draw -->
-<nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
-  [nzVisible]="consoleDrawerVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="consoleDrawerVisible=false">
-  <app-console-report [log]="logSubject" [style.visibility]="consoleDrawerVisible?'visible':'hidden'"></app-console-report>
+<nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}"
+  [nzBodyStyle]="{'padding':'0px'}" [nzVisible]="consoleDrawerVisible" [nzHeight]="0" [nzClosable]="false"
+  (nzOnClose)="consoleDrawerVisible=false">
+  <app-console-report [log]="logSubject" [style.visibility]="consoleDrawerVisible?'visible':'hidden'">
+  </app-console-report>
 </nz-drawer>

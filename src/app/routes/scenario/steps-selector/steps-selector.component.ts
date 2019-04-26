@@ -5,12 +5,11 @@ import { SortablejsOptions } from 'angular-sortablejs'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
-import { CaseService, QueryCase } from '../../../api/service/case.service'
-import { ScenarioService, ScenarioStepType } from '../../../api/service/scenario.service'
-import { ActorEvent, ApiRes } from '../../../model/api.model'
-import { Case, CaseResult, ContextOptions, ReportItemEvent, ScenarioStep } from '../../../model/es.model'
-import { PageSingleModel } from '../../../model/page.model'
+import { getScenarioStepCacheKey, ScenarioResponse, ScenarioService } from '../../../api/service/scenario.service'
+import { ActorEvent } from '../../../model/api.model'
+import { Case, ContextOptions, ReportItemEvent, ScenarioStep } from '../../../model/es.model'
 import { calcDrawerWidth } from '../../../util/drawer'
+import { ScenarioStepData, StepEvent } from '../select-step/select-step.component'
 
 @Component({
   selector: 'app-steps-selector',
@@ -34,8 +33,10 @@ import { calcDrawerWidth } from '../../../util/drawer'
   `],
   templateUrl: './steps-selector.component.html',
 })
-export class StepsSelectorComponent extends PageSingleModel implements OnInit {
+export class StepsSelectorComponent implements OnInit {
 
+  group: string
+  project: string
   sortablejsOptions: SortablejsOptions = {
     handle: '.anticon-bars',
     onUpdate: function (event: any) {
@@ -43,42 +44,46 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
       this.modelChange()
     }.bind(this)
   }
-  caseListDrawerWidth = calcDrawerWidth(0.7)
-  caseModeldrawerWidth = calcDrawerWidth()
-  pageSize = 10
-  group: string
-  project: string
-  items: Case[] = []
-  searchCase: QueryCase = {}
-  searchCaseSubject: Subject<QueryCase>
-  caseListDrawerSwitch = false
-  caseListDrawerVisible = false
-  caseModelDrawerSwitch = false
-  caseDrawerVisible = false
-  editCaseId: string
-  editCaseResult: CaseResult
-  addedItems: CaseExt[] = []
+  stepListDrawerWidth = calcDrawerWidth(0.7)
+  stepListDrawerSwitch = false
+  stepListDrawerVisible = false
+  steps: ScenarioStep[] = []
+  stepsDataCache: { [k: string]: ScenarioStepData } = {}
+  stepsStatusCache: { [k: string]: StepStatusData } = {}
   stepCurrent = 0
+  onSelectSubject: Subject<StepEvent> = new Subject()
+  onUpdateSubject: Subject<StepEvent> = new Subject()
+  @Input()
+  set scenarioResponse(val: ScenarioResponse) {
+    if (val.case) {
+      for (const k of Object.keys(val.case)) {
+        this.stepsDataCache[`case:${k}`] = val.case[k]
+      }
+    }
+    if (val.dubbo) {
+      for (const k of Object.keys(val.dubbo)) {
+        this.stepsDataCache[`dubbo:${k}`] = val.dubbo[k]
+      }
+    }
+    if (val.sql) {
+      for (const k of Object.keys(val.sql)) {
+        this.stepsDataCache[`sql:${k}`] = val.sql[k]
+      }
+    }
+  }
   @Input() eventSubject: Subject<ActorEvent<ReportItemEvent>>
   @Input()
   set data(steps: ScenarioStep[]) {
-    if (steps.length > 0 && this.addedItems.length === 0) {
-      const caseIds = steps.filter(step => ScenarioStepType.CASE === step.type).map(step => step.id)
-      this.caseService.query({ ids: caseIds }).subscribe(res => {
-        this.addedItems = res.data.list
-      })
-    } else if (steps.length === 0 && this.addedItems.length !== 0) {
-      this.addedItems = []
+    if (steps.length > 0 && this.steps.length === 0) {
+      this.steps = steps
+    } else if (steps.length === 0 && this.steps.length !== 0) {
+      this.steps = []
+      this.stepsDataCache = {}
+      this.stepsStatusCache = {}
     }
   }
   get data() {
-    return this.addedItems.map(item => {
-      const step: ScenarioStep = {
-        type: ScenarioStepType.CASE,
-        id: item._id
-      }
-      return step
-    })
+    return this.steps
   }
   _ctxOptions: ContextOptions = {}
   @Input()
@@ -89,79 +94,62 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
   }
   @Output() dataChange = new EventEmitter<ScenarioStep[]>()
   @HostListener('window:resize')
-  resizeBy() {
-    this.caseListDrawerWidth = calcDrawerWidth(0.7)
-    this.caseModeldrawerWidth = calcDrawerWidth()
+  resize() {
+    this.stepListDrawerWidth = calcDrawerWidth(0.7)
   }
 
   constructor(
-    private caseService: CaseService,
     private scenarioService: ScenarioService,
     private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-  ) {
-    super()
-    const response = new Subject<ApiRes<Case[]>>()
-    response.subscribe(res => {
-      this.pageTotal = res.data.total
-      this.items = res.data.list
-    })
-    this.searchCaseSubject = this.caseService.newQuerySubject(response)
+  ) { }
+
+  selectStep() {
+    this.stepListDrawerSwitch = true
+    this.stepListDrawerVisible = true
   }
 
-  addCaseStep() {
-    if (!this.caseListDrawerSwitch) {
-      this.search()
-    }
-    this.caseListDrawerSwitch = true
-    this.caseListDrawerVisible = true
-  }
-
-  addNewCaseStep() {
-    this.caseModelDrawerSwitch = true
+  addNewStep() {
     this.clearStatus()
-    this.editCaseId = ''
-    this.editCaseResult = undefined
-    this.caseDrawerVisible = true
   }
 
-  addItem(item: Case) {
+  onStepAdded(event: StepEvent) {
     this.clearStatus()
-    this.addedItems.push(item)
+    const step = event.step
+    const stepData = event.stepData
+    this.stepsDataCache[getScenarioStepCacheKey(step)] = stepData
+    this.steps.push(step)
     this.modelChange()
   }
 
-  updateCase(item: Case) {
+  onStepUpdate(event: StepEvent) {
     this.clearStatus()
-    const newAddedItems = []
-    this.addedItems.forEach(i => {
-      if (i._id === item._id) {
-        newAddedItems.push(item)
+    const step = event.step
+    const stepData = event.stepData
+    const tmpSteps = []
+    this.steps.forEach(i => {
+      if (i.id === step.id) {
+        tmpSteps.push(step)
+        this.stepsDataCache[getScenarioStepCacheKey(step)] = stepData
       } else {
-        newAddedItems.push(i)
+        tmpSteps.push(i)
       }
     })
-    this.addedItems = newAddedItems
-    const newItems = []
-    this.items.forEach(i => {
-      if (i._id === item._id) {
-        newItems.push(item)
-      } else {
-        newItems.push(i)
-      }
-    })
-    this.items = newItems
+    this.steps = tmpSteps
   }
 
   modelChange() {
     this.dataChange.emit(this.data)
   }
 
-  removeItem(item: Case, i: number) {
+  removeStep(step: ScenarioStep, i: number) {
     this.clearStatus()
-    this.addedItems.splice(i, 1)
+    this.steps.splice(i, 1)
+    const stepCacheKey = getScenarioStepCacheKey(step)
+    delete this.stepsDataCache[stepCacheKey]
+    delete this.stepsStatusCache[stepCacheKey]
     this.modelChange()
   }
 
@@ -180,42 +168,40 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
     }
   }
 
-  viewCase(item: CaseExt) {
-    this.caseModelDrawerSwitch = true
-    this.editCaseId = item._id
-    if (item.report) {
-      this.editCaseResult = item.report.result
-      if (item.report.result) {
-        const ctx = item.report.result.context
-        if (ctx) {
-          const initCtx = { ...ctx }
-          delete initCtx['entity']
-          delete initCtx['headers']
-          delete initCtx['status']
-          if (this._ctxOptions) {
-            this._ctxOptions.initCtx = initCtx
-            this._ctxOptions = { ...this._ctxOptions }
-          }
-        }
-      }
-    } else {
-      this.editCaseResult = undefined
-      this._ctxOptions.initCtx = {}
-      this._ctxOptions = { ...this._ctxOptions }
-    }
-    this.caseDrawerVisible = true
+  viewStep(step: ScenarioStep) {
+    console.log(step)
+    // if (item.report) {
+    //   if (item.report.result) {
+    //     const ctx = item.report.result.context
+    //     if (ctx) {
+    //       const initCtx = { ...ctx }
+    //       delete initCtx['entity']
+    //       delete initCtx['headers']
+    //       delete initCtx['status']
+    //       if (this._ctxOptions) {
+    //         this._ctxOptions.initCtx = initCtx
+    //         this._ctxOptions = { ...this._ctxOptions }
+    //       }
+    //     }
+    //   }
+    // } else {
+    //   this._ctxOptions.initCtx = {}
+    //   this._ctxOptions = { ...this._ctxOptions }
+    // }
   }
 
-  search(q: any = null) {
-    if (this.group && this.project) {
-      this.searchCaseSubject.next({ group: this.group, project: this.project, ...this.searchCase, ...this.toPageQuery() })
-    }
+  getStepData(step: ScenarioStep) {
+    return this.stepsDataCache[getScenarioStepCacheKey(step)] || {}
+  }
+
+  getStepStatus(step: ScenarioStep) {
+    return this.stepsStatusCache[getScenarioStepCacheKey(step)] || {}
   }
 
   clearStatus() {
-    this.addedItems.forEach(item => {
-      item.status = ''
-      item.report = undefined
+    this.steps.forEach(step => {
+      const cacheKey = getScenarioStepCacheKey(step)
+      this.stepsStatusCache[cacheKey] = {}
     })
   }
 
@@ -231,21 +217,30 @@ export class StepsSelectorComponent extends PageSingleModel implements OnInit {
         if (0 === this.stepCurrent) {
           this.clearStatus()
         }
-        const addedStep = this.addedItems[reportItem.index]
-        addedStep.report = reportItem
+        const statusData: StepStatusData = {}
+        statusData.report = reportItem
         if ('pass' === reportItem.status) {
-          addedStep.status = 'success'
+          statusData.status = 'success'
         } else if ('fail' === reportItem.status) {
-          addedStep.status = 'error'
+          statusData.status = 'error'
         } else {
-          addedStep.status = 'default'
+          statusData.status = 'default'
         }
+        const step = this.steps[reportItem.index]
+        const cacheKey = getScenarioStepCacheKey(step)
+        this.stepsStatusCache[cacheKey] = statusData
       })
     }
+    this.onSelectSubject.subscribe(event => {
+      this.onStepAdded(event)
+    })
+    this.onUpdateSubject.subscribe(event => {
+      this.onStepUpdate(event)
+    })
   }
 }
 
-interface CaseExt extends Case {
+interface StepStatusData {
   report?: ReportItemEvent
   status?: string
 }
