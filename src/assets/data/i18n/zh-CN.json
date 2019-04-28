@@ -226,6 +226,7 @@
   "tips-input-useranme": "请输入账户名！",
   "tips-input-password": "请输入密码！",
   "tips-select-proxy-server": "选个代理呀",
+  "tips-step-checkbox": "是否花费更多内存保存响应到场景中",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",
