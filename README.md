@@ -1,6 +1,5 @@
 ## Indigo
-接口管理，调试，自动化测试，监控 系统，目前实现 HTTP/HTTPS，后端项目 [indigo-api](https://github.com/asura-pro/indigo-api)。
-> 在线 Demo: https://asura.pro/ , 用户名和密码一样即可登录，管理员账号密码: `indigo/indigo`。
+接口管理，调试，自动化测试，监控 系统
 
 [![Build Status](https://travis-ci.org/asura-pro/indigo.svg?branch=master)](https://travis-ci.org/asura-pro/indigo)
 ![GitHub release](https://img.shields.io/github/release/asura-pro/indigo.svg)
@@ -9,7 +8,7 @@
 
 ### 特性
 
-- 支持 HTTP, HTTPS, DUBBO 协议
+- 支持 HTTP, HTTPS, DUBBO, MySql 请求
 - 国际化支持
 - OpenApi 接口定义管理
 - 丰富可扩展的断言类型
