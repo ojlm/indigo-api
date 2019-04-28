@@ -54,7 +54,6 @@ import { ScenarioStepData, StepEvent } from '../select-step/select-step.componen
 })
 export class StepsSelectorComponent implements OnInit {
 
-  stepCheckTooltip = ''
   @Input() group: string
   @Input() project: string
   sortablejsOptions: SortablejsOptions = {
