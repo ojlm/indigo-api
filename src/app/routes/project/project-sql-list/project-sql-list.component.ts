@@ -1,7 +1,7 @@
 import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { QuerySqlRequest, SqlService } from 'app/api/service/sql.service'
+import { QuerySqlRequest, sqlRequestSignature, SqlService } from 'app/api/service/sql.service'
 import { SqlRequest } from 'app/model/es.model'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 
@@ -53,6 +53,10 @@ export class ProjectSqlListComponent extends PageSingleModel implements OnInit {
 
   pageChange() {
     this.loadData()
+  }
+
+  getSqlRequestSignature(item: SqlRequest) {
+    return sqlRequestSignature(item)
   }
 
   ngOnInit(): void {

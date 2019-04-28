@@ -14,8 +14,8 @@ import { calcDrawerWidth } from '../../util/drawer'
 })
 export class EnvSelectorComponent extends PageSingleModel implements OnInit {
 
-  group: string
-  project: string
+  @Input() group: string
+  @Input() project: string
   items: Environment[] = []
   loading = false
   drawerWidth = calcDrawerWidth()
@@ -93,9 +93,12 @@ export class EnvSelectorComponent extends PageSingleModel implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.parent.parent.params.subscribe(params => {
-      this.group = params['group']
-      this.project = params['project']
-    })
+    if (this.route.parent && this.route.parent.parent) {
+      // not in drawer
+      this.route.parent.parent.params.subscribe(params => {
+        this.group = params['group']
+        this.project = params['project']
+      })
+    }
   }
 }

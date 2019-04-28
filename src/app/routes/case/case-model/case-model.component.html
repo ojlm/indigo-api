@@ -4,9 +4,11 @@
     <span>
       <span [style.color]="isSaved?'black':'lightseagreen'">{{case.summary}}</span>
       <span *ngIf="case._id">
-        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/case', group, project, case._id]">({{case._id}})</a>
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;"
+          [routerLink]="['/case', group, project, case._id]">({{case._id}})</a>
       </span>
-      <app-env-selector [(env)]="case.env" (envChange)="modelChange()"></app-env-selector>
+      <app-env-selector [group]="group" [project]="project" [(env)]="case.env" (envChange)="modelChange()">
+      </app-env-selector>
     </span>
   </div>
   <nz-card [nzBordered]="true">
@@ -23,8 +25,8 @@
       <div [class]="isAffixed?'affixed':''" style="height:32px;line-height:32px;display:flex;">
         <div style="width:100%;">
           <nz-input-group style="width:100%;" [nzSize]="'default'" [nzAddOnBefore]="addOnBeforeTemplate">
-            <input nz-input style="width:100%;" [placeholder]="'tips-enter-url'|translate" [(ngModel)]="case.request.rawUrl"
-              (ngModelChange)="urlChange()">
+            <input nz-input style="width:100%;" [placeholder]="'tips-enter-url'|translate"
+              [(ngModel)]="case.request.rawUrl" (ngModelChange)="urlChange()">
           </nz-input-group>
           <ng-template #addOnBeforeTemplate>
             <nz-select style="width:100px;" [(ngModel)]="case.request.method" (ngModelChange)="methodChange()">
@@ -39,7 +41,8 @@
               <span>{{'btn-send'|translate}}</span>
             </span>
           </button>
-          <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'" [nzPlacement]="'bottomRight'">
+          <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'"
+            [nzPlacement]="'bottomRight'">
             <span [style.color]="isSaved?'lightgray':'orangered'">
               <i nz-icon type="save" theme="outline"></i>
               <span>{{'btn-save'|translate}}</span>
@@ -53,8 +56,8 @@
               </li>
             </ul>
           </nz-dropdown-button>
-          <button *ngIf="!isInDrawer&&!isInNew" nz-button [nzType]="'default'" [nzSize]="'default'" style="margin-left:5px;padding:0px 10px;"
-            (click)="history()">
+          <button *ngIf="!isInDrawer&&isInNew" nz-button [nzType]="'default'" [nzSize]="'default'"
+            style="margin-left:5px;padding:0px 10px;" (click)="history()">
             <span>
               <i nz-icon type="book" theme="outline"></i>
               <span>{{'btn-history'|translate}}</span>
@@ -85,12 +88,13 @@
         </app-media-object>
       </nz-tab>
       <nz-tab [nzTitle]="'item-result-assert'|translate">
-        <app-result-assert [assertions]="assertions" [(index)]="assertResultTabIndex" [result]="testResult" [(assert)]="case.assert"
-          [lastResult]="lastResult" [ctxOptions]="_ctxOptions" (assertChange)="modelChange()">
+        <app-result-assert [assertions]="assertions" [(index)]="assertResultTabIndex" [result]="testResult"
+          [(assert)]="case.assert" [lastResult]="lastResult" [ctxOptions]="_ctxOptions" (assertChange)="modelChange()">
         </app-result-assert>
       </nz-tab>
       <nz-tab [nzTitle]="'item-generator'|translate">
-        <app-case-generator [assertions]="assertions" [(data)]="case.generator" (dataChange)="modelChange()"></app-case-generator>
+        <app-case-generator [assertions]="assertions" [(data)]="case.generator" (dataChange)="modelChange()">
+        </app-case-generator>
       </nz-tab>
     </nz-tabset>
   </nz-card>
@@ -104,6 +108,7 @@
   <!-- drawer -->
   <nz-drawer *ngIf="!isInDrawer&&!isInNew" [nzClosable]="false" [nzVisible]="historyVisible" nzPlacement="right"
     (nzOnClose)="historyVisible=false" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'0px'}">
-    <app-case-history [group]="group" [project]="project" (oncopy)="copyFromHis($event)" (onedit)="editFromHis($event)"></app-case-history>
+    <app-case-history [group]="group" [project]="project" (oncopy)="copyFromHis($event)" (onedit)="editFromHis($event)">
+    </app-case-history>
   </nz-drawer>
 </div>

@@ -4,9 +4,11 @@
     <span>
       <span [style.color]="'lightseagreen'">{{jobMeta.summary}}</span>
       <span *ngIf="jobId">
-        <a style="color:lightgray;padding-left:5px;font-size:smaller;" [routerLink]="['/job', jobMeta.group, jobMeta.project, jobId]">({{jobId}})</a>
+        <a style="color:lightgray;padding-left:5px;font-size:smaller;"
+          [routerLink]="['/job', jobMeta.group, jobMeta.project, jobId]">({{jobId}})</a>
       </span>
-      <app-env-selector [(env)]="jobMeta.env" (envChange)="envChange()"></app-env-selector>
+      <app-env-selector [group]="group" [project]="project" [(env)]="jobMeta.env" (envChange)="envChange()">
+      </app-env-selector>
     </span>
   </div>
   <!-- basic info -->
@@ -41,13 +43,14 @@
   </nz-card>
   <!-- job data -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
-    <nz-tabset style="min-height:240px" [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false" [nzSize]="'small'"
-      (nzSelectedIndexChange)="tabIndexChange($event)">
+    <nz-tabset style="min-height:240px" [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false"
+      [nzSize]="'small'" (nzSelectedIndexChange)="tabIndexChange($event)">
       <nz-tab [nzTitle]="'field-case'|translate">
         <app-case-selector [(data)]="jobCaseIds" [(ext)]="jobDataExt" [ctxOptions]="ctxOptions"></app-case-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'field-scenario'|translate">
-        <app-scenario-selector *ngIf="scenarioSelectorSwitch" [(data)]="jobScenarioIds" [ctxOptions]="ctxOptions"></app-scenario-selector>
+        <app-scenario-selector *ngIf="scenarioSelectorSwitch" [(data)]="jobScenarioIds" [ctxOptions]="ctxOptions">
+        </app-scenario-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'item-subscribers'|translate">
         <app-job-subscribers *ngIf="jobSubscribersSwitch" [(data)]="subscribers"></app-job-subscribers>
@@ -61,15 +64,20 @@
         <span>{{'btn-test'|translate}}</span>
       </span>
     </button>
-    <button *ngIf="!jobId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-new'|translate}}</button>
-    <button *ngIf="jobId" nz-button nzType="primary" [nzLoading]="submitting" (click)="submit()">{{'btn-update'|translate}}</button>
+    <button *ngIf="!jobId" nz-button nzType="primary" [nzLoading]="submitting"
+      (click)="submit()">{{'btn-new'|translate}}</button>
+    <button *ngIf="jobId" nz-button nzType="primary" [nzLoading]="submitting"
+      (click)="submit()">{{'btn-update'|translate}}</button>
     <button *ngIf="!jobId" nz-button nzType="default" (click)="reset()">{{'btn-reset'|translate}}</button>
-    <button nz-button nzType="default" (click)="consoleDrawerVisible=!consoleDrawerVisible">{{'btn-progress'|translate}}</button>
+    <button nz-button nzType="default"
+      (click)="consoleDrawerVisible=!consoleDrawerVisible">{{'btn-progress'|translate}}</button>
     <button nz-button nzType="default" (click)="goBack()">{{'btn-back'|translate}}</button>
   </div>
 </div>
 <!-- console draw -->
-<nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
-  [nzVisible]="consoleDrawerVisible" [nzHeight]="0" [nzClosable]="false" (nzOnClose)="consoleDrawerVisible=false">
-  <app-console-report [log]="logSubject" [style.visibility]="consoleDrawerVisible?'visible':'hidden'"></app-console-report>
+<nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}"
+  [nzBodyStyle]="{'padding':'0px'}" [nzVisible]="consoleDrawerVisible" [nzHeight]="0" [nzClosable]="false"
+  (nzOnClose)="consoleDrawerVisible=false">
+  <app-console-report [log]="logSubject" [style.visibility]="consoleDrawerVisible?'visible':'hidden'">
+  </app-console-report>
 </nz-drawer>

@@ -2,12 +2,24 @@ import { Location } from '@angular/common'
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { SortablejsOptions } from 'angular-sortablejs'
-import { NzMessageService } from 'ng-zorro-antd'
+import { dubboRequestSignature } from 'app/api/service/dubbo.service'
+import { sqlRequestSignature } from 'app/api/service/sql.service'
+import { CaseModelComponent } from 'app/routes/case/case-model/case-model.component'
+import { DubboPlaygroundComponent } from 'app/routes/dubbo/dubbo-playground/dubbo-playground.component'
+import { SqlPlaygroundComponent } from 'app/routes/sql/sql-playground/sql-playground.component'
+import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
-import { getScenarioStepCacheKey, ScenarioResponse, ScenarioService } from '../../../api/service/scenario.service'
+import {
+  caseToScenarioStep,
+  dubboRequestToScenarioStep,
+  getScenarioStepCacheKey,
+  ScenarioResponse,
+  ScenarioStepType,
+  sqlRequestToScenarioStep,
+} from '../../../api/service/scenario.service'
 import { ActorEvent } from '../../../model/api.model'
-import { Case, ContextOptions, ReportItemEvent, ScenarioStep } from '../../../model/es.model'
+import { Case, ContextOptions, DubboRequest, ReportItemEvent, ScenarioStep, SqlRequest } from '../../../model/es.model'
 import { calcDrawerWidth } from '../../../util/drawer'
 import { ScenarioStepData, StepEvent } from '../select-step/select-step.component'
 
@@ -27,16 +39,24 @@ import { ScenarioStepData, StepEvent } from '../select-step/select-step.componen
       display: inline-block;
     }
     .step:hover .hover-red:hover {
-      color:red;
+      color: red;
       transform: rotate(180deg);
+    }
+    .step .small-text {
+      padding-left: 4px;
+      color: darkgray;
+    }
+    .step .check {
+      padding-right: 4px;
     }
   `],
   templateUrl: './steps-selector.component.html',
 })
 export class StepsSelectorComponent implements OnInit {
 
-  group: string
-  project: string
+  stepCheckTooltip = ''
+  @Input() group: string
+  @Input() project: string
   sortablejsOptions: SortablejsOptions = {
     handle: '.anticon-bars',
     onUpdate: function (event: any) {
@@ -99,7 +119,7 @@ export class StepsSelectorComponent implements OnInit {
   }
 
   constructor(
-    private scenarioService: ScenarioService,
+    private drawerService: NzDrawerService,
     private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
@@ -111,20 +131,88 @@ export class StepsSelectorComponent implements OnInit {
     this.stepListDrawerVisible = true
   }
 
-  addNewStep() {
-    this.clearStatus()
+  addNewHttpStep() {
+    this.drawerService.create({
+      nzWidth: this.stepListDrawerWidth,
+      nzContent: CaseModelComponent,
+      nzContentParams: {
+        group: this.group,
+        project: this.project,
+        isInDrawer: true,
+        ctxOptions: this._ctxOptions,
+        newStep: (stepData: Case) => {
+          this.onSelectSubject.next({ step: caseToScenarioStep(stepData), stepData: stepData })
+        },
+        updateStep: (stepData: Case) => {
+          this.onUpdateSubject.next({ step: caseToScenarioStep(stepData), stepData: stepData })
+        },
+      },
+      nzBodyStyle: {
+        padding: '4px'
+      },
+      nzClosable: false,
+    })
+  }
+
+  addNewSqlStep() {
+    this.drawerService.create({
+      nzWidth: this.stepListDrawerWidth,
+      nzContent: SqlPlaygroundComponent,
+      nzContentParams: {
+        group: this.group,
+        project: this.project,
+        isInDrawer: true,
+        ctxOptions: this._ctxOptions,
+        newStep: (stepData: SqlRequest) => {
+          this.onSelectSubject.next({ step: sqlRequestToScenarioStep(stepData), stepData: stepData })
+        },
+        updateStep: (stepData: SqlRequest) => {
+          this.onUpdateSubject.next({ step: sqlRequestToScenarioStep(stepData), stepData: stepData })
+        },
+      },
+      nzBodyStyle: {
+        padding: '4px'
+      },
+      nzClosable: false,
+    })
+  }
+
+  addNewDubboStep() {
+    this.drawerService.create({
+      nzWidth: this.stepListDrawerWidth,
+      nzContent: DubboPlaygroundComponent,
+      nzContentParams: {
+        group: this.group,
+        project: this.project,
+        isInDrawer: true,
+        ctxOptions: this._ctxOptions,
+        newStep: (stepData: DubboRequest) => {
+          this.onSelectSubject.next({ step: dubboRequestToScenarioStep(stepData), stepData: stepData })
+        },
+        updateStep: (stepData: DubboRequest) => {
+          this.onUpdateSubject.next({ step: dubboRequestToScenarioStep(stepData), stepData: stepData })
+        },
+      },
+      nzBodyStyle: {
+        padding: '4px'
+      },
+      nzClosable: false,
+    })
   }
 
   onStepAdded(event: StepEvent) {
+    console.log('add step:', event)
     this.clearStatus()
     const step = event.step
     const stepData = event.stepData
     this.stepsDataCache[getScenarioStepCacheKey(step)] = stepData
     this.steps.push(step)
+    this.steps = [...this.steps]
     this.modelChange()
   }
 
   onStepUpdate(event: StepEvent) {
+    console.log('update step:', event)
     this.clearStatus()
     const step = event.step
     const stepData = event.stepData
@@ -153,41 +241,92 @@ export class StepsSelectorComponent implements OnInit {
     this.modelChange()
   }
 
-  methodTagColor(item: Case) {
-    switch (item.request.method) {
-      case 'GET':
-        return 'green'
-      case 'DELETE':
-        return 'red'
-      case 'POST':
-        return 'cyan'
-      case 'PUT':
-        return 'blue'
-      default:
-        return 'purple'
+  getDubboRequestSignature(step: ScenarioStep) {
+    const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)]
+    if (stepData) {
+      return dubboRequestSignature(stepData)
+    } else {
+      return ''
+    }
+  }
+
+  getSqlRequestSignature(step: ScenarioStep) {
+    const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)]
+    if (stepData) {
+      return sqlRequestSignature(stepData)
+    } else {
+      return ''
+    }
+  }
+
+  methodTagColor(step: ScenarioStep) {
+    const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)]
+    if (stepData) {
+      switch (stepData.request.method) {
+        case 'GET':
+          return 'green'
+        case 'DELETE':
+          return 'red'
+        case 'POST':
+          return 'cyan'
+        case 'PUT':
+          return 'blue'
+        default:
+          return 'purple'
+      }
     }
   }
 
   viewStep(step: ScenarioStep) {
     console.log(step)
-    // if (item.report) {
-    //   if (item.report.result) {
-    //     const ctx = item.report.result.context
-    //     if (ctx) {
-    //       const initCtx = { ...ctx }
-    //       delete initCtx['entity']
-    //       delete initCtx['headers']
-    //       delete initCtx['status']
-    //       if (this._ctxOptions) {
-    //         this._ctxOptions.initCtx = initCtx
-    //         this._ctxOptions = { ...this._ctxOptions }
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   this._ctxOptions.initCtx = {}
-    //   this._ctxOptions = { ...this._ctxOptions }
-    // }
+    const item = this.stepsStatusCache[getScenarioStepCacheKey(step)]
+    let stepResult: any
+    if (item && item.report) {
+      if (item.report.result) {
+        stepResult = item.report.result
+        const ctx = item.report.result.context
+        if (ctx) {
+          const initCtx = { ...ctx }
+          delete initCtx['entity']
+          delete initCtx['headers']
+          delete initCtx['status']
+          if (this._ctxOptions) {
+            this._ctxOptions.initCtx = initCtx
+            this._ctxOptions = { ...this._ctxOptions }
+          }
+        }
+      }
+    } else {
+      stepResult = null
+      this._ctxOptions.initCtx = {}
+      this._ctxOptions = { ...this._ctxOptions }
+    }
+    if (ScenarioStepType.CASE === step.type) {
+      this.openStepModelDrawer(step, stepResult, CaseModelComponent)
+    } else if (ScenarioStepType.DUBBO === step.type) {
+      this.openStepModelDrawer(step, stepResult, DubboPlaygroundComponent)
+    } else if (ScenarioStepType.SQL === step.type) {
+      this.openStepModelDrawer(step, stepResult, SqlPlaygroundComponent)
+    }
+  }
+
+  openStepModelDrawer(step: ScenarioStep, stepResult: object, component: any) {
+    this.drawerService.create({
+      nzWidth: this.stepListDrawerWidth,
+      nzContent: component,
+      nzContentParams: {
+        group: this.group,
+        project: this.project,
+        id: step.id,
+        ctxOptions: this._ctxOptions,
+        result: stepResult,
+        isInDrawer: true,
+      },
+      nzBodyStyle: {
+        padding: '4px'
+      },
+      nzClosable: false,
+    })
   }
 
   getStepData(step: ScenarioStep) {

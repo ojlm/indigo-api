@@ -23,8 +23,6 @@ export class CaseModelComponent implements OnInit {
   drawerWidth = calcDrawerWidth(0.3)
   @Input()
   set id(caseId: string) {
-    this.isInDrawer = true
-    initCaseField(this.case)
     this.testResult = {}
     this.lastResult = {}
     this.tabIndex = 1
@@ -54,12 +52,12 @@ export class CaseModelComponent implements OnInit {
     }
   }
   // for step selector usage
-  newCase: Function
-  updateCase: Function
-  isInDrawer = false
+  @Input() newStep: Function
+  @Input() updateStep: Function
+  @Input() isInDrawer = false
+  @Input() group = ''
+  @Input() project = ''
   isInNew = false
-  group = ''
-  project = ''
   caseRoute = ''
   isAffixed = false
   case: Case = {}
@@ -86,7 +84,9 @@ export class CaseModelComponent implements OnInit {
     private location: Location,
     private i18nService: I18NService,
     private caseService: CaseService,
-  ) { }
+  ) {
+    initCaseField(this.case)
+  }
 
   methodChange() {
     if ('GET' !== this.case.request.method) {
@@ -180,7 +180,7 @@ export class CaseModelComponent implements OnInit {
   }
 
   send() {
-    const cs = this.preHandleCaseBeforeRequest(this.case)
+    const cs = this.preHandleRequest(this.case)
     if (cs) {
       this.isSending = true
       if (this.testResult) {
@@ -202,13 +202,13 @@ export class CaseModelComponent implements OnInit {
 
   save() {
     if (this.case.summary) {
-      const cs = this.preHandleCaseBeforeRequest(this.case)
+      const cs = this.preHandleRequest(this.case)
       if (cs) {
         if (this.case._id) {
           this.caseService.update(this.case._id, cs).subscribe(res => {
             this.isSaved = true
-            if (this.updateCase) {
-              this.updateCase(this.case)
+            if (this.updateStep) {
+              this.updateStep(this.case)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -217,8 +217,8 @@ export class CaseModelComponent implements OnInit {
             this.case._id = res.data.id
             this.updateCaseRoute()
             this.isSaved = true
-            if (this.newCase) {
-              this.newCase(this.case)
+            if (this.newStep) {
+              this.newStep(this.case)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -231,14 +231,14 @@ export class CaseModelComponent implements OnInit {
 
   saveAs() {
     if (this.case.summary) {
-      const cs = this.preHandleCaseBeforeRequest(this.case)
+      const cs = this.preHandleRequest(this.case)
       if (cs) {
         this.caseService.index(cs).subscribe(res => {
           this.case._id = res.data.id
           this.updateCaseRoute()
           this.isSaved = true
-          if (this.newCase) {
-            this.newCase(this.case)
+          if (this.newStep) {
+            this.newStep(this.case)
           }
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         })
@@ -286,7 +286,7 @@ export class CaseModelComponent implements OnInit {
   /**
    * 处理格式满足后端数据结构和类型需求
    */
-  preHandleCaseBeforeRequest(cs: Case) {
+  preHandleRequest(cs: Case) {
     const c: Case = JSON.parse(JSON.stringify(cs))
     c._id = undefined
     c._creator = undefined
@@ -354,17 +354,12 @@ export class CaseModelComponent implements OnInit {
       this.route.parent.params.subscribe(params => {
         const caseId = params['caseId']
         if (caseId) { // edit
-          this.isInNew = true
-          initCaseField(this.case)
+          this.isInNew = false
           this.caseService.getById(caseId).subscribe(res => {
             this.case = res.data
             this.case._id = caseId
             this.updateCaseRoute()
           })
-        } else {
-          if (!this.case._id) {
-            initCaseField(this.case)
-          }
         }
       })
     }
@@ -376,6 +371,7 @@ export class CaseModelComponent implements OnInit {
   }
 }
 
+// make ui ready and reset data model
 export function initCaseField(cs: Case) {
   const hashObj = hashToObj<CaseModelHashObj>()
   let rawUrl = ''

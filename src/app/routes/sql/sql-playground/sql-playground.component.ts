@@ -1,11 +1,11 @@
 import { Location } from '@angular/common'
-import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core'
+import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { CaseService } from 'app/api/service/case.service'
-import { SqlService } from 'app/api/service/sql.service'
+import { SqlResult, SqlService } from 'app/api/service/sql.service'
 import { Assertion, SqlRequest } from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
@@ -30,8 +30,8 @@ import { NzMessageService } from 'ng-zorro-antd'
 })
 export class SqlPlaygroundComponent implements OnInit {
 
-  group = ''
-  project = ''
+  @Input() group = ''
+  @Input() project = ''
   tabBarStyle = {
     'background-color': 'snow',
     'margin': '0px',
@@ -39,9 +39,11 @@ export class SqlPlaygroundComponent implements OnInit {
   }
   assertions: Assertion[] = []
   tabIndex = 0
+  assertResultTabIndex = 0
   isSending = false
-  isInDrawer = false
-  isInNew = false
+  @Input() newStep: Function
+  @Input() updateStep: Function
+  @Input() isInDrawer = false
   isSaved = true
   drawerWidth = calcDrawerWidth(0.4)
   request: SqlRequest = {}
@@ -54,8 +56,20 @@ export class SqlPlaygroundComponent implements OnInit {
   responseStr = ''
   assertionsStr = ''
   resultStr = ''
-  @Output() newStepEvent = new EventEmitter<SqlRequest>()
-  @Output() updateStepEvent = new EventEmitter<SqlRequest>()
+  @Input()
+  set id(docId: string) {
+    this.tabIndex = 1
+    this.assertResultTabIndex = 0
+    this.loadDataById(docId)
+  }
+  @Input()
+  set result(result: SqlResult) {
+    if (result) {
+      this.tabIndex = 5
+      this.assertResultTabIndex = 5
+      this.dealResult(result)
+    }
+  }
   @HostListener('window:resize')
   resize() {
     this.height = `${window.innerHeight - 70}px`
@@ -73,7 +87,9 @@ export class SqlPlaygroundComponent implements OnInit {
     private location: Location,
     private i18nService: I18NService,
     private el: ElementRef<HTMLDivElement>,
-  ) { }
+  ) {
+    initRequestField(this.request)
+  }
 
   modelChange() {
     this.isSaved = false
@@ -84,11 +100,15 @@ export class SqlPlaygroundComponent implements OnInit {
     const newReq = this.preHandleRequest(this.request)
     if (newReq) {
       this.sqlService.test({ id: this.request._id, request: newReq }).subscribe(res => {
-        this.responseStr = formatJson(res.data.context)
-        this.resultStr = formatJson({ statis: res.data.statis, result: res.data.result })
+        this.dealResult(res.data)
         this.isSending = false
       }, err => this.isSending = false)
     }
+  }
+
+  dealResult(result: SqlResult) {
+    this.responseStr = formatJson(result.context)
+    this.resultStr = formatJson({ statis: result.statis, result: result.result })
   }
 
   save() {
@@ -98,8 +118,8 @@ export class SqlPlaygroundComponent implements OnInit {
         if (this.request._id) {
           this.sqlService.update(this.request._id, newReq).subscribe(res => {
             this.isSaved = true
-            if (this.updateStepEvent) {
-              this.updateStepEvent.emit(this.request)
+            if (this.updateStep) {
+              this.updateStep(this.request)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -107,8 +127,8 @@ export class SqlPlaygroundComponent implements OnInit {
           this.sqlService.index(newReq).subscribe(res => {
             this.request._id = res.data.id
             this.isSaved = true
-            if (this.newStepEvent) {
-              this.newStepEvent.emit(this.request)
+            if (this.newStep) {
+              this.newStep(this.request)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -126,8 +146,8 @@ export class SqlPlaygroundComponent implements OnInit {
         this.sqlService.index(newReq).subscribe(res => {
           this.request._id = res.data.id
           this.isSaved = true
-          if (this.newStepEvent) {
-            this.newStepEvent.emit(this.request)
+          if (this.newStep) {
+            this.newStep(this.request)
           }
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         })
@@ -155,8 +175,8 @@ export class SqlPlaygroundComponent implements OnInit {
         newReq._creator = undefined
         newReq.creator = undefined
         newReq.createdAt = undefined
-        newReq.group = this.group
-        newReq.project = this.project
+        newReq.group = this.group || req.group
+        newReq.project = this.project || req.project
         newReq.port = port
         if (this.assertionsStr) {
           newReq.assert = JSON.parse(this.assertionsStr)
@@ -171,27 +191,26 @@ export class SqlPlaygroundComponent implements OnInit {
     }
   }
 
+  loadDataById(docId: string) {
+    if (docId) {
+      this.sqlService.getById(docId).subscribe(res => {
+        this.request = res.data
+        this.request._id = docId
+        this.assertionsStr = formatJson(this.request.assert, 2)
+      })
+    }
+  }
+
   ngOnInit(): void {
-    this.route.parent.parent.params.subscribe(params => {
-      this.group = params['group']
-      this.project = params['project']
-    })
-    this.route.parent.params.subscribe(params => {
-      const sqlId = params['sqlId']
-      if (sqlId) {
-        this.isInNew = true
-        initRequestField(this.request)
-        this.sqlService.getById(sqlId).subscribe(res => {
-          this.request = res.data
-          this.request._id = sqlId
-          this.assertionsStr = formatJson(this.request.assert, 2)
-        })
-      } else {
-        if (!this.request._id) {
-          initRequestField(this.request)
-        }
-      }
-    })
+    if (this.route.parent && this.route.parent.parent) {
+      this.route.parent.parent.params.subscribe(params => {
+        this.group = params['group']
+        this.project = params['project']
+      })
+      this.route.parent.params.subscribe(params => {
+        this.loadDataById(params['sqlId'])
+      })
+    }
     if (this.assertions && this.assertions.length === 0) {
       this.caseService.getAllAssertions().subscribe(res => {
         this.assertions = res.data

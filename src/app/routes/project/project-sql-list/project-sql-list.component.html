@@ -25,7 +25,7 @@
           </nz-list-item-meta>
           <ng-template #nzDescription>
             <div style="font-size:small;">
-              <span>{{item.host}}:{{item.port}}/{{item.database}}/{{item.table}}</span>
+              <span>{{getSqlRequestSignature(item)}}</span>
               <nz-divider nzType="vertical"></nz-divider>
               <span>{{item.createdAt}}</span>
             </div>
