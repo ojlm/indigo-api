@@ -28,8 +28,8 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     'padding': '12px',
     'background-color': 'snow'
   }
-  group: string
-  project: string
+  @Input() group: string
+  @Input() project: string
   scenario: Scenario = { steps: [] }
   scenarioId: string
   scenarioResponse: ScenarioResponse = {}

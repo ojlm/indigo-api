@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core'
+import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18nKey } from '@core/i18n/i18n.message'
@@ -35,19 +35,19 @@ import { Subject } from 'rxjs'
 })
 export class DubboPlaygroundComponent implements OnInit {
 
-  group = ''
-  project = ''
+  @Input() isInDrawer = false
+  @Input() group = ''
+  @Input() project = ''
   tabBarStyle = {
     'background-color': 'snow',
     'margin': '0px',
     'height': '40px'
   }
   isSending = false
-  isInNew = false
-  isInDrawer = false
   isSaved = true
   assertions: Assertion[] = []
   tabIndex = 0
+  assertResultTabIndex = 0
   logSubject = new Subject<ActorEvent<string>>()
   echoSubject = new Subject<string>()
   telnetDrawerVisible = false
@@ -76,8 +76,14 @@ export class DubboPlaygroundComponent implements OnInit {
   resultStr = ''
   testWs: WebSocket
   paramsCache: InterfaceMethodParamsCache = {}
-  @Output() newStepEvent = new EventEmitter<DubboRequest>()
-  @Output() updateStepEvent = new EventEmitter<DubboRequest>()
+  @Input() newStep: Function
+  @Input() updateStep: Function
+  @Input()
+  set id(docId: string) {
+    this.tabIndex = 1
+    this.assertResultTabIndex = 0
+    this.loadDataById(docId)
+  }
   @HostListener('window:resize')
   resize() {
     this.height = `${window.innerHeight - 70}px`
@@ -95,7 +101,9 @@ export class DubboPlaygroundComponent implements OnInit {
     private location: Location,
     private i18nService: I18NService,
     private el: ElementRef<HTMLDivElement>,
-  ) { }
+  ) {
+    initRequestField(this.request)
+  }
 
   modelChange() {
     this.isSaved = false
@@ -120,8 +128,8 @@ export class DubboPlaygroundComponent implements OnInit {
         if (this.request._id) {
           this.dubboService.update(this.request._id, newReq).subscribe(res => {
             this.isSaved = true
-            if (this.updateStepEvent) {
-              this.updateStepEvent.emit(this.request)
+            if (this.updateStep) {
+              this.updateStep(this.request)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -129,8 +137,8 @@ export class DubboPlaygroundComponent implements OnInit {
           this.dubboService.index(newReq).subscribe(res => {
             this.request._id = res.data.id
             this.isSaved = true
-            if (this.newStepEvent) {
-              this.newStepEvent.emit(this.request)
+            if (this.newStep) {
+              this.newStep(this.request)
             }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           })
@@ -148,8 +156,8 @@ export class DubboPlaygroundComponent implements OnInit {
         this.dubboService.index(newReq).subscribe(res => {
           this.request._id = res.data.id
           this.isSaved = true
-          if (this.newStepEvent) {
-            this.newStepEvent.emit(this.request)
+          if (this.newStep) {
+            this.newStep(this.request)
           }
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         })
@@ -371,8 +379,8 @@ export class DubboPlaygroundComponent implements OnInit {
         newReq._creator = undefined
         newReq.creator = undefined
         newReq.createdAt = undefined
-        newReq.group = this.group
-        newReq.project = this.project
+        newReq.group = this.group || req.group
+        newReq.project = this.project || req.group
         newReq.port = port
         if (this.assertionsStr) {
           newReq.assert = JSON.parse(this.assertionsStr)
@@ -387,44 +395,41 @@ export class DubboPlaygroundComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.route.parent.parent.params.subscribe(params => {
-      this.group = params['group']
-      this.project = params['project']
-    })
-    this.route.parent.params.subscribe(params => {
-      const docId = params['dubboId']
-      if (docId) {
-        this.isInNew = true
-        initRequestField(this.request)
-        this.dubboService.getById(docId).subscribe(res => {
-          this.request = res.data
-          this.request._id = docId
-          this.interfaceSearchTxt = this.request.interface
-          this.selectedProvider = {
-            address: this.request.address,
-            port: this.request.port
-          }
-          this.providers = [this.selectedProvider]
-          if (this.request.zkAddr && this.request.zkPort) {
-            this.zkConnectString = `${this.request.zkAddr}:${this.request.zkPort}`
-            this.interfacesMsg = {
-              zkAddr: this.request.zkAddr,
-              zkPort: this.request.port,
-              path: this.request.path
-            }
-          }
-          this.methods = [this.request.method]
-          this.requestStr = formatJson(this.request.args.args, 2)
-          this.parameterTypes = this.request.parameterTypes
-          this.assertionsStr = formatJson(this.request.assert, 2)
-        })
-      } else {
-        if (!this.request._id) {
-          initRequestField(this.request)
+  loadDataById(docId: string) {
+    this.dubboService.getById(docId).subscribe(res => {
+      this.request = res.data
+      this.request._id = docId
+      this.interfaceSearchTxt = this.request.interface
+      this.selectedProvider = {
+        address: this.request.address,
+        port: this.request.port
+      }
+      this.providers = [this.selectedProvider]
+      if (this.request.zkAddr && this.request.zkPort) {
+        this.zkConnectString = `${this.request.zkAddr}:${this.request.zkPort}`
+        this.interfacesMsg = {
+          zkAddr: this.request.zkAddr,
+          zkPort: this.request.port,
+          path: this.request.path
         }
       }
+      this.methods = [this.request.method]
+      this.requestStr = formatJson(this.request.args.args, 2)
+      this.parameterTypes = this.request.parameterTypes
+      this.assertionsStr = formatJson(this.request.assert, 2)
     })
+  }
+
+  ngOnInit(): void {
+    if (this.route.parent && this.route.parent.parent) {
+      this.route.parent.parent.params.subscribe(params => {
+        this.group = params['group']
+        this.project = params['project']
+      })
+      this.route.parent.params.subscribe(params => {
+        this.loadDataById(params['dubboId'])
+      })
+    }
     if (this.assertions && this.assertions.length === 0) {
       this.caseService.getAllAssertions().subscribe(res => {
         this.assertions = res.data

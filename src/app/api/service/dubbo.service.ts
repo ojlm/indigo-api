@@ -70,6 +70,14 @@ export class DubboService extends BaseService {
   }
 }
 
+export function dubboRequestSignature(item: DubboRequest) {
+  let parameterTypes = ''
+  if (item.parameterTypes) {
+    parameterTypes = item.parameterTypes.map(p => p.type).join(', ')
+  }
+  return `${item.interface}.${item.method}(${parameterTypes})`
+}
+
 export interface GetInterfacesMessage {
   zkAddr?: string
   zkPort?: number

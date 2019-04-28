@@ -76,10 +76,10 @@ export class SelectStepComponent implements OnInit {
       nzContent: CaseModelComponent,
       nzContentParams: {
         id: item._id,
-        newCase: (stepData: Case) => {
+        newStep: (stepData: Case) => {
           this.onSelectSubject.next({ step: caseToScenarioStep(stepData), stepData: stepData })
         },
-        updateCase: (stepData: Case) => {
+        updateStep: (stepData: Case) => {
           this.httpItems = this.httpItems.map(httpItem => {
             if (httpItem._id === stepData._id) {
               return stepData
@@ -133,7 +133,7 @@ export class SelectStepComponent implements OnInit {
   }
 }
 
-export type ScenarioStepData = Case | SqlRequest | DubboRequest
+export type ScenarioStepData = Case & SqlRequest & DubboRequest
 
 export interface StepEvent {
   step: ScenarioStep

@@ -1,7 +1,7 @@
 import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { DubboService, QueryDubboRequest } from 'app/api/service/dubbo.service'
+import { dubboRequestSignature, DubboService, QueryDubboRequest } from 'app/api/service/dubbo.service'
 import { DubboRequest } from 'app/model/es.model'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 
@@ -40,11 +40,7 @@ export class ProjectDubboListComponent extends PageSingleModel implements OnInit
   }
 
   getSignature(item: DubboRequest) {
-    let parameterTypes = ''
-    if (item.parameterTypes) {
-      parameterTypes = item.parameterTypes.map(p => p.type).join(', ')
-    }
-    return `${item.interface}.${item.method}(${parameterTypes})`
+    return dubboRequestSignature(item)
   }
 
   getRouter(item: DubboRequest) {

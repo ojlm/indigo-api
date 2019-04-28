@@ -5,6 +5,8 @@ import { SortablejsModule } from 'angular-sortablejs'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
 import { CaseModule } from '../case/case.module'
+import { DubboModule } from '../dubbo/dubbo.module'
+import { SqlModule } from '../sql/sql.module'
 import { ScenarioModelComponent } from './scenario-model/scenario-model.component'
 import { ScenarioRoutingModule } from './scenario-routing.module'
 import { SelectStepComponent } from './select-step/select-step.component'
@@ -25,7 +27,9 @@ const COMPONENT_NOROUNT = []
     SortablejsModule,
     SharedModule,
     ScenarioRoutingModule,
-    CaseModule
+    CaseModule,
+    DubboModule,
+    SqlModule,
   ],
   exports: [...COMPONENT],
   providers: [],
