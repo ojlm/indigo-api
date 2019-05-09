@@ -241,7 +241,7 @@ export class StepsSelectorComponent implements OnInit {
   }
 
   getDubboRequestSignature(step: ScenarioStep) {
-    const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)]
+    const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)] as DubboRequest
     if (stepData) {
       return dubboRequestSignature(stepData)
     } else {
@@ -250,7 +250,7 @@ export class StepsSelectorComponent implements OnInit {
   }
 
   getSqlRequestSignature(step: ScenarioStep) {
-    const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)]
+    const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)] as SqlRequest
     if (stepData) {
       return sqlRequestSignature(stepData)
     } else {
@@ -259,7 +259,7 @@ export class StepsSelectorComponent implements OnInit {
   }
 
   methodTagColor(step: ScenarioStep) {
-    const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)]
+    const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)] as Case
     if (stepData) {
       switch (stepData.request.method) {
         case 'GET':
@@ -277,7 +277,6 @@ export class StepsSelectorComponent implements OnInit {
   }
 
   viewStep(step: ScenarioStep) {
-    console.log(step)
     const item = this.stepsStatusCache[getScenarioStepCacheKey(step)]
     let stepResult: any
     if (item && item.report) {

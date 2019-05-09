@@ -46,7 +46,9 @@ export class SqlPlaygroundComponent implements OnInit {
   @Input() isInDrawer = false
   isSaved = true
   drawerWidth = calcDrawerWidth(0.4)
-  request: SqlRequest = {}
+  request: SqlRequest = {
+    request: {}
+  }
   height = `${window.innerHeight - 70}px`
   subHeight = `${window.innerHeight - 148}px`
   tableScroll = { y: `${window.innerHeight - 160}px` }
@@ -162,8 +164,8 @@ export class SqlPlaygroundComponent implements OnInit {
 
   preHandleRequest(req: SqlRequest) {
     let port: number
-    if (this.request.port) {
-      port = parseInt(this.request.port.toString(), 10)
+    if (this.request.request.port) {
+      port = parseInt(this.request.request.port.toString(), 10)
     }
     if (!port || isNaN(port)) {
       this.msgService.error('port must be a number')
@@ -177,7 +179,7 @@ export class SqlPlaygroundComponent implements OnInit {
         newReq.createdAt = undefined
         newReq.group = this.group || req.group
         newReq.project = this.project || req.project
-        newReq.port = port
+        newReq.request.port = port
         if (this.assertionsStr) {
           newReq.assert = JSON.parse(this.assertionsStr)
         } else {
@@ -208,7 +210,9 @@ export class SqlPlaygroundComponent implements OnInit {
         this.project = params['project']
       })
       this.route.parent.params.subscribe(params => {
-        this.loadDataById(params['sqlId'])
+        if (params['sqlId']) {
+          this.loadDataById(params['sqlId'])
+        }
       })
     }
     if (this.assertions && this.assertions.length === 0) {

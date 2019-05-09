@@ -48,7 +48,11 @@ export class SqlService extends BaseService {
 }
 
 export function sqlRequestSignature(item: SqlRequest) {
-  return `${item.host}:${item.port}/${item.database}/${item.table}`
+  if (item.request) {
+    return `${item.request.host}:${item.request.port}/${item.request.database}/${item.request.table}`
+  } else {
+    return ''
+  }
 }
 
 export interface QuerySqlRequest extends QueryPage {

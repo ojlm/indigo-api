@@ -44,35 +44,36 @@
         <div nz-col nzSpan="6">
           <div class="col-panel">
             <label>Host:</label>
-            <input style="width:100%;" type="text" nz-input placeholder="Database hostname" [(ngModel)]="request.host"
-              (ngModelChange)="modelChange()">
+            <input style="width:100%;" type="text" nz-input placeholder="Database hostname"
+              [(ngModel)]="request.request.host" (ngModelChange)="modelChange()">
           </div>
           <div class="col-panel">
             <label>Port:</label>
-            <input style="width:100%;" type="text" nz-input placeholder="Database port" [(ngModel)]="request.port"
-              (ngModelChange)="modelChange()">
+            <input style="width:100%;" type="text" nz-input placeholder="Database port"
+              [(ngModel)]="request.request.port" (ngModelChange)="modelChange()">
           </div>
           <div class="col-panel">
             <label>Database:</label>
-            <input style="width:100%;" type="text" nz-input placeholder="Database name" [(ngModel)]="request.database"
-              (ngModelChange)="modelChange()">
+            <input style="width:100%;" type="text" nz-input placeholder="Database name"
+              [(ngModel)]="request.request.database" (ngModelChange)="modelChange()">
           </div>
           <div class="col-panel">
             <label>Username:</label>
             <input style="width:100%;" type="text" nz-input placeholder="Database username"
-              [(ngModel)]="request.username" (ngModelChange)="modelChange()">
+              [(ngModel)]="request.request.username" (ngModelChange)="modelChange()">
           </div>
           <div class="col-panel">
             <label>Password:</label>
             <input style="width:100%;" type="text" nz-input placeholder="Database password"
-              [(ngModel)]="request.password" (ngModelChange)="modelChange()">
+              [(ngModel)]="request.request.password" (ngModelChange)="modelChange()">
           </div>
         </div>
         <div nz-col nzSpan="18" style="border-left:1px solid lightgray;">
           <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false"
             [nzTabBarStyle]="tabBarStyle">
             <nz-tab [nzTitle]="'Sql'">
-              <ngx-monaco-editor [style.height]="subHeight" [options]="sqlEditorOption" [(ngModel)]="request.sql">
+              <ngx-monaco-editor [style.height]="subHeight" [options]="sqlEditorOption"
+                [(ngModel)]="request.request.sql">
               </ngx-monaco-editor>
             </nz-tab>
             <nz-tab [nzTitle]="'Context'">
