@@ -430,19 +430,23 @@ export interface DomainOnlineConfig extends BaseDoc {
   exMethods?: LabelRef[]
 }
 
-export interface DubboRequest extends BaseDoc, GenericRequest {
-  group?: string
-  project?: string
+export interface DubboRequestBody extends GenericRequest {
   zkAddr?: string
   zkPort?: number
   path?: string
+}
+
+export interface DubboRequest extends BaseDoc {
+  group?: string
+  project?: string
+  env?: string
+  request?: DubboRequestBody
+  generator?: CaseGenerator
   assert?: object
   labels?: LabelRef[]
 }
 
-export interface SqlRequest extends BaseDoc {
-  group?: string
-  project?: string
+export interface SqlRequestBody {
   host?: string
   port?: number
   username?: string
@@ -451,6 +455,14 @@ export interface SqlRequest extends BaseDoc {
   database?: string
   table?: string
   sql?: string
+}
+
+export interface SqlRequest extends BaseDoc {
+  group?: string
+  project?: string
+  env?: string
+  request?: SqlRequestBody
   assert?: object
   labels?: LabelRef[]
+  generator?: CaseGenerator
 }

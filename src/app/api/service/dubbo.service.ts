@@ -71,11 +71,15 @@ export class DubboService extends BaseService {
 }
 
 export function dubboRequestSignature(item: DubboRequest) {
-  let parameterTypes = ''
-  if (item.parameterTypes) {
-    parameterTypes = item.parameterTypes.map(p => p.type).join(', ')
+  if (item.request) {
+    let parameterTypes = ''
+    if (item.request.parameterTypes) {
+      parameterTypes = item.request.parameterTypes.map(p => p.type).join(', ')
+    }
+    return `${item.request.interface}.${item.request.method}(${parameterTypes})`
+  } else {
+    return ''
   }
-  return `${item.interface}.${item.method}(${parameterTypes})`
 }
 
 export interface GetInterfacesMessage {

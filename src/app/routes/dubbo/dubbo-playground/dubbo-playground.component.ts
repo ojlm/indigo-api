@@ -64,7 +64,11 @@ export class DubboPlaygroundComponent implements OnInit {
   methods: string[] = []
   selectedProvider: DubboProvider = {}
   parameterTypes: ParameterType[] = [{ type: '' }]
-  request: DubboRequest = {}
+  request: DubboRequest = {
+    request: {
+      path: '/dubbo'
+    }
+  }
   height = `${window.innerHeight - 70}px`
   subHeight = `${window.innerHeight - 148}px`
   tableScroll = { y: `${window.innerHeight - 160}px` }
@@ -176,13 +180,13 @@ export class DubboPlaygroundComponent implements OnInit {
     if (pieces.length === 2) {
       this.interfacesMsg.zkAddr = pieces[0]
       this.interfacesMsg.zkPort = parseInt(pieces[1], 10)
-      this.request.zkAddr = this.interfacesMsg.zkAddr
-      this.request.zkPort = this.interfacesMsg.zkPort
+      this.request.request.zkAddr = this.interfacesMsg.zkAddr
+      this.request.request.zkPort = this.interfacesMsg.zkPort
     }
   }
 
   zkPathChange() {
-    this.request.path = this.interfacesMsg.path
+    this.request.request.path = this.interfacesMsg.path
   }
 
   telnet() {
@@ -243,7 +247,7 @@ export class DubboPlaygroundComponent implements OnInit {
       const filter = this.rawInterfaces.filter(item => item.ref.toLowerCase().indexOf(this.interfaceSearchTxt.toLowerCase()) > -1)
       if (filter.length === 0) {
         this.interfaces = [{ ref: this.interfaceSearchTxt }]
-        this.request.interface = this.interfaceSearchTxt
+        this.request.request.interface = this.interfaceSearchTxt
       } else {
         this.interfaces = filter
       }
@@ -261,9 +265,9 @@ export class DubboPlaygroundComponent implements OnInit {
 
   getProviders(item: DubboInterface) {
     if (item.zkAddr && item.ref) {
-      this.request.interface = item.ref
+      this.request.request.interface = item.ref
       this.selectedProvider = {}
-      this.request.method = ''
+      this.request.request.method = ''
       this.dubboService.getProviders({ ...item }).subscribe(res => {
         this.rawProviders = res.data
         if (this.rawProviders.length > 0) {
@@ -305,17 +309,17 @@ export class DubboPlaygroundComponent implements OnInit {
 
   providerChange() {
     if (this.selectedProvider) {
-      this.request.address = this.selectedProvider.address
+      this.request.request.address = this.selectedProvider.address
       let port: number
       try {
         port = this.selectedProvider.port
       } catch (error) {
       }
-      this.request.port = port
+      this.request.request.port = port
       this.rawMethods = this.selectedProvider.methods || []
       this.methods = [...this.rawMethods]
       if (this.methods.length > 0) {
-        this.request.method = this.methods[0]
+        this.request.request.method = this.methods[0]
       }
       const msg: GetInterfaceMethodParams = {
         address: this.selectedProvider.address,
@@ -334,20 +338,20 @@ export class DubboPlaygroundComponent implements OnInit {
         this.methodChange()
       })
     } else {
-      this.request.address = ''
-      this.request.port = undefined
+      this.request.request.address = ''
+      this.request.request.port = undefined
       this.methods = []
     }
   }
 
   methodChange() {
-    const method = this.request.method
+    const method = this.request.request.method
     if (method) {
-      const interfaceCache = this.paramsCache[this.request.interface]
+      const interfaceCache = this.paramsCache[this.request.request.interface]
       if (interfaceCache) {
-        this.request.parameterTypes = interfaceCache[method]
-        if (this.request.parameterTypes) {
-          this.parameterTypes = this.request.parameterTypes
+        this.request.request.parameterTypes = interfaceCache[method]
+        if (this.request.request.parameterTypes) {
+          this.parameterTypes = this.request.request.parameterTypes
         }
       }
     }
@@ -363,8 +367,8 @@ export class DubboPlaygroundComponent implements OnInit {
 
   preHandleRequest(req: DubboRequest) {
     let port: number
-    if (this.request.port) {
-      port = parseInt(this.request.port.toString(), 10)
+    if (this.request.request.port) {
+      port = parseInt(this.request.request.port.toString(), 10)
     }
     if (!port || isNaN(port)) {
       this.msgService.error('port must be a number')
@@ -373,15 +377,15 @@ export class DubboPlaygroundComponent implements OnInit {
       try {
         const newReq: DubboRequest = JSON.parse(JSON.stringify(req))
         const reqBody = JSON.parse(this.requestStr)
-        newReq.args = { args: reqBody }
-        newReq.parameterTypes = this.parameterTypes.filter(item => item.type)
+        newReq.request.args = { args: reqBody }
+        newReq.request.parameterTypes = this.parameterTypes.filter(item => item.type)
         newReq._id = undefined
         newReq._creator = undefined
         newReq.creator = undefined
         newReq.createdAt = undefined
         newReq.group = this.group || req.group
         newReq.project = this.project || req.group
-        newReq.port = port
+        newReq.request.port = port
         if (this.assertionsStr) {
           newReq.assert = JSON.parse(this.assertionsStr)
         } else {
@@ -399,23 +403,23 @@ export class DubboPlaygroundComponent implements OnInit {
     this.dubboService.getById(docId).subscribe(res => {
       this.request = res.data
       this.request._id = docId
-      this.interfaceSearchTxt = this.request.interface
+      this.interfaceSearchTxt = this.request.request.interface
       this.selectedProvider = {
-        address: this.request.address,
-        port: this.request.port
+        address: this.request.request.address,
+        port: this.request.request.port
       }
       this.providers = [this.selectedProvider]
-      if (this.request.zkAddr && this.request.zkPort) {
-        this.zkConnectString = `${this.request.zkAddr}:${this.request.zkPort}`
+      if (this.request.request.zkAddr && this.request.request.zkPort) {
+        this.zkConnectString = `${this.request.request.zkAddr}:${this.request.request.zkPort}`
         this.interfacesMsg = {
-          zkAddr: this.request.zkAddr,
-          zkPort: this.request.port,
-          path: this.request.path
+          zkAddr: this.request.request.zkAddr,
+          zkPort: this.request.request.port,
+          path: this.request.request.path
         }
       }
-      this.methods = [this.request.method]
-      this.requestStr = formatJson(this.request.args.args, 2)
-      this.parameterTypes = this.request.parameterTypes
+      this.methods = [this.request.request.method]
+      this.requestStr = formatJson(this.request.request.args.args, 2)
+      this.parameterTypes = this.request.request.parameterTypes
       this.assertionsStr = formatJson(this.request.assert, 2)
     })
   }
@@ -427,7 +431,9 @@ export class DubboPlaygroundComponent implements OnInit {
         this.project = params['project']
       })
       this.route.parent.params.subscribe(params => {
-        this.loadDataById(params['dubboId'])
+        if (params['dubboId']) {
+          this.loadDataById(params['dubboId'])
+        }
       })
     }
     if (this.assertions && this.assertions.length === 0) {
