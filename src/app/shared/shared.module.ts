@@ -25,6 +25,7 @@ import { LabelListComponent } from './label-list/label-list.component'
 import { LinkerdHttpComponent } from './linkerd-http/linkerd-http.component'
 import { PofileSimpleComponent } from './profile-simple/profile-simple.component'
 import { RestModelComponent } from './rest-model/rest-model.component'
+import { SqlSearchPanelComponent } from './sql-search-panel/sql-search-panel.component'
 
 // delon
 // i18n
@@ -51,6 +52,7 @@ const COMPONENTS = [
   CaseSearchPanelComponent,
   DeleteItemComponent,
   GroupProjectSelectorComponent,
+  SqlSearchPanelComponent,
 ]
 const DIRECTIVES = []
 // endregion
