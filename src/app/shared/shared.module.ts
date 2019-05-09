@@ -20,6 +20,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor'
 
 import { CaseSearchPanelComponent } from './case-search-panel/case-search-panel.component'
 import { DeleteItemComponent } from './delete-item/delete-item.component'
+import { DubboSearchPanelComponent } from './dubbo-search-panel/dubbo-search-panel.component'
 import { GroupProjectSelectorComponent } from './group-project-selector/group-project-selector.component'
 import { LabelListComponent } from './label-list/label-list.component'
 import { LinkerdHttpComponent } from './linkerd-http/linkerd-http.component'
@@ -53,6 +54,7 @@ const COMPONENTS = [
   DeleteItemComponent,
   GroupProjectSelectorComponent,
   SqlSearchPanelComponent,
+  DubboSearchPanelComponent,
 ]
 const DIRECTIVES = []
 // endregion

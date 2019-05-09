@@ -7,7 +7,8 @@ import { ApiRes, QueryPage } from 'app/model/api.model'
 import { CaseStatis, DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
 import { newWS } from 'app/util/ws'
 import { NzMessageService } from 'ng-zorro-antd'
-import { Observable } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
+import { debounceTime } from 'rxjs/operators'
 
 import { API_DUBBO, API_WS_DUBBO } from '../path'
 import { BaseService } from './base.service'
@@ -67,6 +68,16 @@ export class DubboService extends BaseService {
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorWsOnError))
     }
     return ws
+  }
+
+  newQuerySubject(response: Subject<ApiRes<QueryDubboRequest[]>>) {
+    const querySubject = new Subject<DubboRequest>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
+      this.http.post<ApiRes<DubboRequest[]>>(`${API_DUBBO}/query`, query).subscribe(
+        res => response.next(res),
+        err => response.next(null))
+    })
+    return querySubject
   }
 }
 
