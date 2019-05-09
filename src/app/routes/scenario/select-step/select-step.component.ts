@@ -1,6 +1,7 @@
 import { Location } from '@angular/common'
 import { Component, HostListener, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { GroupProjectSelectorModel } from '@shared/group-project-selector/group-project-selector.component'
 import { ApiRes } from 'app/model/api.model'
 import { PageSingleModel } from 'app/model/page.model'
 import { CaseModelComponent } from 'app/routes/case/case-model/case-model.component'
@@ -14,15 +15,42 @@ import { Case, ContextOptions, DubboRequest, ScenarioStep, SqlRequest } from '..
 
 @Component({
   selector: 'app-select-step',
-  styles: [],
+  styles: [`
+    .search-group-project {
+      margin-bottom: 8px;
+    }
+    .line {
+      width: 100%;
+    }
+    .line .title {
+      padding-left: 10px;
+      font-size: smaller;
+      color: lightgray;
+    }
+    .line .tail-labels {
+      float: right;
+      transform: scale(0.8);
+      margin-right: 8px;
+    }
+    .line .tail-labels span {
+      color: lightblue;
+    }`
+  ],
   templateUrl: './select-step.component.html',
 })
 export class SelectStepComponent implements OnInit {
 
-  @Input() group = ''
-  @Input() project = ''
+  @Input()
+  set group(val: string) {
+    this.searchGroupProject.group = val
+  }
+  @Input()
+  set project(val: string) {
+    this.searchGroupProject.project = val
+  }
   tabIndex = 0
   drawerWidth = calcDrawerWidth()
+  searchGroupProject: GroupProjectSelectorModel
 
   httpItems: Case[] = []
   httpItemsPage = new PageSingleModel()
@@ -51,10 +79,26 @@ export class SelectStepComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
   ) {
+    this.searchGroupProject = {
+      group: this.group,
+      project: this.project
+    }
   }
 
   tabIndexChange() {
     console.log(this.tabIndex)
+  }
+
+  groupProjectChange() {
+    switch (this.tabIndex) {
+      case 0:
+        this.searchHttpSteps()
+        break
+      case 1:
+        break
+      case 2:
+        break
+    }
   }
 
   addHttpStep(item: Case) {
@@ -76,6 +120,7 @@ export class SelectStepComponent implements OnInit {
       nzContent: CaseModelComponent,
       nzContentParams: {
         id: item._id,
+        isInDrawer: true,
         newStep: (stepData: Case) => {
           this.onSelectSubject.next({ step: caseToScenarioStep(stepData), stepData: stepData })
         },
@@ -114,12 +159,9 @@ export class SelectStepComponent implements OnInit {
   }
 
   searchHttpSteps() {
-    if (this.group && this.project) {
-      this.searchHttpStepSubject.next({
-        group: this.group, project: this.project,
-        ...this.searchHttpStepModel, ...this.httpItemsPage.toPageQuery()
-      })
-    }
+    this.searchHttpStepSubject.next({
+      ...this.searchHttpStepModel, ...this.httpItemsPage.toPageQuery(), ...this.searchGroupProject
+    })
   }
 
   ngOnInit(): void {

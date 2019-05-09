@@ -74,6 +74,7 @@ export interface ScenarioStep {
   id?: string
   type?: string
   stored?: boolean
+  enabled?: boolean
   data?: any
 }
 
