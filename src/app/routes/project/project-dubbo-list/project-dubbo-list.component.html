@@ -7,13 +7,7 @@
     <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
       [nzLoading]="loading" [nzHeader]="nzHeader">
       <ng-template #nzHeader>
-        <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
-          <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
-          <ng-template #suffixButton>
-            <a class="click-icon" style="margin-right:10px;"><i nz-icon type="search" theme="outline"
-                (click)="loadData()"></i></a>
-          </ng-template>
-        </nz-input-group>
+        <app-dubbo-search-panel [(data)]="search" [subject]="searchPanelSubject"></app-dubbo-search-panel>
       </ng-template>
       <ng-template #item let-item>
         <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
