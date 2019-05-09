@@ -25,6 +25,10 @@ export class GroupProjectSelectorComponent implements OnInit {
     if (this.model.group) {
       this.group = { id: this.model.group }
       this.groups.push(this.group)
+      if (this.model.project) {
+        this.project = { group: this.model.group, id: this.model.project }
+        this.projects.push(this.project)
+      }
     }
   }
   get data() {
