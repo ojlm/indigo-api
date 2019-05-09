@@ -5,7 +5,8 @@ import { _HttpClient } from '@delon/theme'
 import { ApiRes, QueryPage } from 'app/model/api.model'
 import { CaseStatis, IndexDocResponse, SqlRequest, UpdateDocResponse } from 'app/model/es.model'
 import { NzMessageService } from 'ng-zorro-antd'
-import { Observable } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
+import { debounceTime } from 'rxjs/operators'
 
 import { API_SQL } from '../path'
 import { BaseService } from './base.service'
@@ -44,6 +45,16 @@ export class SqlService extends BaseService {
 
   test(msg: { id: string, request: SqlRequest }) {
     return this.http.post<ApiRes<SqlResult>>(`${API_SQL}/test`, msg)
+  }
+
+  newQuerySubject(response: Subject<ApiRes<SqlRequest[]>>) {
+    const querySubject = new Subject<QuerySqlRequest>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
+      this.http.post<ApiRes<SqlRequest[]>>(`${API_SQL}/query`, query).subscribe(
+        res => response.next(res),
+        err => response.next(null))
+    })
+    return querySubject
   }
 }
 

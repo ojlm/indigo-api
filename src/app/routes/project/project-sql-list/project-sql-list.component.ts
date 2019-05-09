@@ -2,8 +2,10 @@ import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { QuerySqlRequest, sqlRequestSignature, SqlService } from 'app/api/service/sql.service'
+import { ApiRes } from 'app/model/api.model'
 import { SqlRequest } from 'app/model/es.model'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
+import { Subject } from 'rxjs'
 
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -14,6 +16,8 @@ import { PageSingleModel } from '../../../model/page.model'
 export class ProjectSqlListComponent extends PageSingleModel implements OnInit {
 
   search: QuerySqlRequest = {}
+  searchPanelSubject: Subject<QuerySqlRequest> = new Subject<QuerySqlRequest>()
+  querySubject: Subject<QuerySqlRequest>
   items: SqlRequest[] = []
   loading = false
   group: string
@@ -26,16 +30,24 @@ export class ProjectSqlListComponent extends PageSingleModel implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-  ) { super() }
+  ) {
+    super()
+    const response = new Subject<ApiRes<SqlRequest[]>>()
+    this.querySubject = this.sqlService.newQuerySubject(response)
+    response.subscribe(res => {
+      this.loading = false
+      this.items = res.data.list
+      this.pageTotal = res.data.total
+    }, err => this.loading = false)
+    this.searchPanelSubject.subscribe(search => {
+      this.loadData()
+    })
+  }
 
   loadData() {
     if (this.group && this.project) {
       this.loading = true
-      this.sqlService.query({ group: this.group, project: this.project, ...this.search, ...this.toPageQuery() }).subscribe(res => {
-        this.items = res.data.list
-        this.pageTotal = res.data.total
-        this.loading = false
-      }, err => this.loading = false)
+      this.querySubject.next({ group: this.group, project: this.project, ...this.search, ...this.toPageQuery() })
     }
   }
 
