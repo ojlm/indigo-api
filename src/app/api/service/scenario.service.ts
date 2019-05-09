@@ -102,6 +102,7 @@ export function caseToScenarioStep(doc: Case): ScenarioStep {
     id: doc._id,
     type: ScenarioStepType.CASE,
     stored: false,
+    enabled: true,
   }
 }
 
@@ -110,6 +111,7 @@ export function sqlRequestToScenarioStep(doc: SqlRequest): ScenarioStep {
     id: doc._id,
     type: ScenarioStepType.SQL,
     stored: false,
+    enabled: true,
   }
 }
 
@@ -118,6 +120,7 @@ export function dubboRequestToScenarioStep(doc: DubboRequest): ScenarioStep {
     id: doc._id,
     type: ScenarioStepType.DUBBO,
     stored: false,
+    enabled: true,
   }
 }
 

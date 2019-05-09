@@ -1,22 +1,28 @@
 <nz-tabset [nzAnimated]="false" [(nzSelectedIndex)]="tabIndex" (nzSelectedIndexChange)="tabIndexChange()">
   <nz-tab [nzTitle]="httpTemplate">
     <ng-template #httpTemplate> <i nz-icon type="book"></i>HTTP</ng-template>
+    <div class="search-group-project">
+      <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
+      </app-group-project-selector>
+    </div>
     <nz-list [nzDataSource]="httpItems" nzBordered nzSize="small" [nzHeader]="httpHeader" [nzFooter]="httpFooter"
       [nzRenderItem]="item">
       <ng-template #item let-item>
         <nz-list-item [nzContent]="httpContent" [nzActions]="[httpActions]"></nz-list-item>
         <ng-template #httpContent>
-          <div style="padding-left:3px;">
-            <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
-            <span>{{item.request.urlPath}}</span>
-            <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);"
-              (click)="viewHttpStep(item)">{{item.summary}}</a>
-          </div>
-          <ng-container *ngIf="item.labels">
-            <span style="margin-left:auto;transform:scale(0.8);">
-              <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+          <div class="line">
+            <span style="padding-left:3px;">
+              <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
+              <span>{{item.request.urlPath}}</span>
+              <a class="title" href="javascript:void(0);" (click)="viewHttpStep(item)">{{item.summary}}</a>
             </span>
-          </ng-container>
+            <span class="tail-labels">
+              <span>{{item.group}}/{{item.project}}</span>
+              <ng-container *ngIf="item.labels">
+                <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+              </ng-container>
+            </span>
+          </div>
         </ng-template>
         <ng-template #httpActions>
           <a (click)="addHttpStep(item)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
@@ -42,10 +48,16 @@
   </nz-tab>
   <nz-tab [nzTitle]="dubboTemplate">
     <ng-template #dubboTemplate> <i nz-icon type="alibaba"></i>Dubbo</ng-template>
-
+    <div class="search-group-project">
+      <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
+      </app-group-project-selector>
+    </div>
   </nz-tab>
   <nz-tab [nzTitle]="sqlTemplate">
     <ng-template #sqlTemplate> <i nz-icon type="database"></i>MySql</ng-template>
-
+    <div class="search-group-project">
+      <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
+      </app-group-project-selector>
+    </div>
   </nz-tab>
 </nz-tabset>

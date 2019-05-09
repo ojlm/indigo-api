@@ -49,6 +49,14 @@ import { ScenarioStepData, StepEvent } from '../select-step/select-step.componen
     .step .check {
       padding-right: 4px;
     }
+    .step .tail-labels {
+      float: right;
+      transform: scale(0.8);
+      margin-right: 8px;
+    }
+    .step .tail-labels span {
+      color: lightblue;
+    }
   `],
   templateUrl: './steps-selector.component.html',
 })
@@ -123,7 +131,8 @@ export class StepsSelectorComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-  ) { }
+  ) {
+  }
 
   selectStep() {
     this.stepListDrawerSwitch = true

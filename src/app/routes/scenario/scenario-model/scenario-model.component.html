@@ -38,8 +38,8 @@
     </div>
   </nz-card>
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
-    <app-steps-selector [scenarioResponse]="scenarioResponse" [(data)]="scenario.steps" [eventSubject]="eventSubject"
-      [ctxOptions]="_ctxOptions"></app-steps-selector>
+    <app-steps-selector [group]="group" [project]="project" [scenarioResponse]="scenarioResponse"
+      [(data)]="scenario.steps" [eventSubject]="eventSubject" [ctxOptions]="_ctxOptions"></app-steps-selector>
   </nz-card>
   <div style="margin-top:7px;">
     <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="test()">
