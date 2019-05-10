@@ -209,7 +209,6 @@ export class StepsSelectorComponent implements OnInit {
   }
 
   onStepAdded(event: StepEvent) {
-    console.log('add step:', event)
     this.clearStatus()
     const step = event.step
     const stepData = event.stepData
@@ -220,7 +219,6 @@ export class StepsSelectorComponent implements OnInit {
   }
 
   onStepUpdate(event: StepEvent) {
-    console.log('update step:', event)
     this.clearStatus()
     const step = event.step
     const stepData = event.stepData

@@ -6,26 +6,26 @@
       </app-group-project-selector>
     </div>
     <nz-list [nzDataSource]="httpItems" nzBordered nzSize="small" [nzHeader]="httpHeader" [nzFooter]="httpFooter"
-      [nzRenderItem]="item">
-      <ng-template #item let-item>
+      [nzRenderItem]="httpItem">
+      <ng-template #httpItem let-httpItem>
         <nz-list-item [nzContent]="httpContent" [nzActions]="[httpActions]"></nz-list-item>
         <ng-template #httpContent>
           <div class="line">
             <span style="padding-left:3px;">
-              <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
-              <span>{{item.request.urlPath}}</span>
-              <a class="title" href="javascript:void(0);" (click)="viewHttpStep(item)">{{item.summary}}</a>
+              <nz-tag [nzColor]="methodTagColor(httpItem)">{{httpItem.request.method}}</nz-tag>
+              <span>{{httpItem.request.urlPath}}</span>
+              <a class="title" href="javascript:void(0);" (click)="viewHttpStep(httpItem)">{{httpItem.summary}}</a>
             </span>
             <span class="tail-labels">
-              <span>{{item.group}}/{{item.project}}</span>
-              <ng-container *ngIf="item.labels">
-                <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+              <span>{{httpItem.group}}/{{httpItem.project}}</span>
+              <ng-container *ngIf="httpItem.labels">
+                <nz-tag *ngFor="let label of httpItem.labels">{{label.name}}</nz-tag>
               </ng-container>
             </span>
           </div>
         </ng-template>
         <ng-template #httpActions>
-          <a (click)="addHttpStep(item)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
+          <a (click)="addHttpStep(httpItem)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
         </ng-template>
       </ng-template>
     </nz-list>
@@ -37,10 +37,10 @@
         [nzShowTotal]="httpTotalTemplate" [nzTotal]="httpItemsPage.pageTotal" [nzPageSize]="httpItemsPage.pageSize"
         (nzPageIndexChange)="searchHttpSteps()">
       </nz-pagination>
-      <ng-template #httpTotalTemplate let-total>
+      <ng-template #httpTotalTemplate let-httpTotal>
         <span style="color:lightgray;">
           <span>{{'item-total'|translate}}</span>
-          <span> {{total}} </span>
+          <span> {{httpTotal}} </span>
           <span>{{'item-item'|translate}}</span>
         </span>
       </ng-template>
@@ -52,6 +52,52 @@
       <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
       </app-group-project-selector>
     </div>
+    <nz-list [nzDataSource]="dubboItems" nzBordered nzSize="small" [nzHeader]="dubboHeader" [nzFooter]="dubboFooter"
+      [nzRenderItem]="dubboItem">
+      <ng-template #dubboItem let-dubboItem>
+        <nz-list-item [nzContent]="dubboContent" [nzActions]="[dubboActions]"></nz-list-item>
+        <ng-template #dubboContent>
+          <div class="line">
+            <span style="padding-left:3px;">
+              <nz-tag [nzColor]="'gold'">
+                <i nz-icon nzType="alibaba" nzTheme="outline"></i>
+                <span> dubbo</span>
+              </nz-tag>
+              <a class="title" href="javascript:void(0);" (click)="viewDubboStep(dubboItem)">
+                <span class="summary">{{dubboItem.summary}}</span>
+                <span>{{dubboSignature(dubboItem)}}</span>
+              </a>
+            </span>
+            <span class="tail-labels">
+              <span>{{dubboItem.group}}/{{dubboItem.project}}</span>
+              <ng-container *ngIf="dubboItem.labels">
+                <nz-tag *ngFor="let label of dubboItem.labels">{{label.name}}</nz-tag>
+              </ng-container>
+            </span>
+          </div>
+        </ng-template>
+        <ng-template #dubboActions>
+          <a (click)="addDubboStep(dubboItem)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
+        </ng-template>
+      </ng-template>
+    </nz-list>
+    <ng-template #dubboHeader>
+      <app-dubbo-search-panel [(data)]="searchDubboStepModel" (dataChange)="searchDubboSteps()">
+      </app-dubbo-search-panel>
+    </ng-template>
+    <ng-template #dubboFooter>
+      <nz-pagination *ngIf="dubboItems.length>0" [nzSize]="'small'" [(nzPageIndex)]="dubboItemsPage.pageIndex"
+        [nzShowTotal]="dubboTotalTemplate" [nzTotal]="dubboItemsPage.pageTotal" [nzPageSize]="dubboItemsPage.pageSize"
+        (nzPageIndexChange)="searchDubboSteps()">
+      </nz-pagination>
+      <ng-template #dubboTotalTemplate let-dubboTotal>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{dubboTotal}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+    </ng-template>
   </nz-tab>
   <nz-tab [nzTitle]="sqlTemplate">
     <ng-template #sqlTemplate> <i nz-icon type="database"></i>MySql</ng-template>
@@ -59,5 +105,50 @@
       <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
       </app-group-project-selector>
     </div>
+    <nz-list [nzDataSource]="sqlItems" nzBordered nzSize="small" [nzHeader]="sqlHeader" [nzFooter]="sqlFooter"
+      [nzRenderItem]="sqlItem">
+      <ng-template #sqlItem let-sqlItem>
+        <nz-list-item [nzContent]="sqlContent" [nzActions]="[sqlActions]"></nz-list-item>
+        <ng-template #sqlContent>
+          <div class="line">
+            <span style="padding-left:3px;">
+              <nz-tag [nzColor]="'geekblue'">
+                <i nz-icon nzType="database" nzTheme="outline"></i>
+                <span> sql</span>
+              </nz-tag>
+              <a class="title" href="javascript:void(0);" (click)="viewSqlStep(sqlItem)">
+                <span class="summary">{{sqlItem.summary}}</span>
+                <span>{{sqlSignature(sqlItem)}}</span>
+              </a>
+            </span>
+            <span class="tail-labels">
+              <span>{{sqlItem.group}}/{{sqlItem.project}}</span>
+              <ng-container *ngIf="sqlItem.labels">
+                <nz-tag *ngFor="let label of sqlItem.labels">{{label.name}}</nz-tag>
+              </ng-container>
+            </span>
+          </div>
+        </ng-template>
+        <ng-template #sqlActions>
+          <a (click)="addSqlStep(sqlItem)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
+        </ng-template>
+      </ng-template>
+    </nz-list>
+    <ng-template #sqlHeader>
+      <app-sql-search-panel [(data)]="searchSqlStepModel" (dataChange)="searchSqlSteps()"></app-sql-search-panel>
+    </ng-template>
+    <ng-template #sqlFooter>
+      <nz-pagination *ngIf="sqlItems.length>0" [nzSize]="'small'" [(nzPageIndex)]="sqlItems.pageIndex"
+        [nzShowTotal]="sqlTotalTemplate" [nzTotal]="sqlItemsPage.pageTotal" [nzPageSize]="sqlItemsPage.pageSize"
+        (nzPageIndexChange)="searchSqlSteps()">
+      </nz-pagination>
+      <ng-template #sqlTotalTemplate let-sqlTotal>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{sqlTotal}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+    </ng-template>
   </nz-tab>
 </nz-tabset>
