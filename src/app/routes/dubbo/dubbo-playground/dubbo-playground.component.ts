@@ -1,6 +1,5 @@
-import { Location } from '@angular/common'
-import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Component, HostListener, Input, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
@@ -16,7 +15,7 @@ import {
   ParameterType,
 } from 'app/api/service/dubbo.service'
 import { ActorEvent, ActorEventType } from 'app/model/api.model'
-import { Assertion, DubboRequest } from 'app/model/es.model'
+import { Assertion, CaseReportItemMetrics, CaseStatis, DubboRequest } from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -40,7 +39,7 @@ export class DubboPlaygroundComponent implements OnInit {
   @Input() group = ''
   @Input() project = ''
   tabBarStyle = {
-    'background-color': 'snow',
+    'background-color': '#fadb140a',
     'margin': '0px',
     'height': '40px'
   }
@@ -48,7 +47,6 @@ export class DubboPlaygroundComponent implements OnInit {
   isSaved = true
   assertions: Assertion[] = []
   tabIndex = 0
-  assertResultTabIndex = 0
   logSubject = new Subject<ActorEvent<string>>()
   echoSubject = new Subject<string>()
   telnetDrawerVisible = false
@@ -75,7 +73,10 @@ export class DubboPlaygroundComponent implements OnInit {
   tableScroll = { y: `${window.innerHeight - 160}px` }
   jsonRoEditorOption = { ...this.monocoService.getJsonOption(true), theme: this.monocoService.THEME_WHITE }
   jsonEditorOption = { ...this.monocoService.getJsonOption(false), theme: this.monocoService.THEME_WHITE }
+  metrics: CaseReportItemMetrics = {}
+  statis: CaseStatis = {}
   requestStr = '[]'
+  renderedRequestStr = ''
   assertionsStr = ''
   responseStr = ''
   resultStr = ''
@@ -85,14 +86,13 @@ export class DubboPlaygroundComponent implements OnInit {
   @Input() updateStep: Function
   @Input()
   set id(docId: string) {
-    this.tabIndex = 1
-    this.assertResultTabIndex = 0
+    this.tabIndex = 0
     this.loadDataById(docId)
   }
   @Input()
   set result(result: DubboResult) {
     if (result) {
-      this.tabIndex = 4
+      this.tabIndex = 5
       this.dealResult(result)
     }
   }
@@ -108,11 +108,8 @@ export class DubboPlaygroundComponent implements OnInit {
     private caseService: CaseService,
     private monocoService: MonacoService,
     private msgService: NzMessageService,
-    private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
     private i18nService: I18NService,
-    private el: ElementRef<HTMLDivElement>,
   ) {
     initRequestField(this.request)
   }
@@ -127,15 +124,18 @@ export class DubboPlaygroundComponent implements OnInit {
       this.isSending = true
       this.dubboService.test({ id: this.request._id, request: newReq }).subscribe(res => {
         this.dealResult(res.data)
-        this.tabIndex = 3
+        this.tabIndex = 5
         this.isSending = false
       }, err => this.isSending = false)
     }
   }
 
   dealResult(result: DubboResult) {
-    this.responseStr = formatJson(result.response.body)
-    this.resultStr = formatJson({ statis: result.statis, result: result.result })
+    this.renderedRequestStr = formatJson(result.request, 2)
+    this.responseStr = formatJson(result.response.body, 2)
+    this.resultStr = formatJson(result.result, 2)
+    this.statis = result.statis || {}
+    this.metrics = result.metrics || {}
   }
 
   save() {
@@ -185,7 +185,7 @@ export class DubboPlaygroundComponent implements OnInit {
   }
 
   reset() {
-
+    this.msgService.info('TBD')
   }
 
   zkChange() {
