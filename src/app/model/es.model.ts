@@ -1,7 +1,7 @@
 import { GenericRequest } from 'app/api/service/dubbo.service'
 
 import { DataBody } from './api.model'
-import { JobData } from './job.model'
+import { AbstractResult, JobData } from './job.model'
 import { UserProfile } from './user.model'
 
 interface BaseDoc {
@@ -142,15 +142,9 @@ export interface CaseReportItemMetrics {
   totalTime?: number
 }
 
-export interface CaseResult {
-  caseId?: string
-  assert?: any
-  context?: any
+export interface CaseResult extends AbstractResult {
   request?: CaseResultRequest
   response?: CaseResultResponse
-  statis?: CaseStatis
-  metrics?: CaseReportItemMetrics
-  result?: Object
 }
 
 export const METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS', 'TRACE']

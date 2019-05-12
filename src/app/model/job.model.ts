@@ -1,4 +1,4 @@
-import { Job } from './es.model'
+import { CaseReportItemMetrics, CaseStatis, Job } from './es.model'
 
 export interface JobMeta {
   group?: string
@@ -60,4 +60,16 @@ export const TriggerType = {
   SIMPLE: 'simple',
   CRON: 'cron',
   API: 'api',
+}
+
+export interface AbstractResult {
+  docId?: string
+  assert?: any
+  context?: any
+  request?: any
+  response?: any
+  metrics?: CaseReportItemMetrics
+  statis?: CaseStatis
+  result?: object
+  generator?: string
 }
