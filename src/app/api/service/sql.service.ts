@@ -10,7 +10,7 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { API_SQL } from '../path'
-import { BaseService } from './base.service'
+import { AggsItem, BaseService } from './base.service'
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +54,16 @@ export class SqlService extends BaseService {
       this.http.post<ApiRes<SqlRequest[]>>(`${API_SQL}/query`, query).subscribe(
         res => response.next(res),
         err => response.next(null))
+    })
+    return querySubject
+  }
+
+  aggsLabelsSubject(response: Subject<ApiRes<AggsItem[]>>) {
+    const querySubject = new Subject<string>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(label => {
+      this.http.get<ApiRes<AggsItem[]>>(`${API_SQL}/aggs/labels?label=${label}`).subscribe(
+        res => response.next(res),
+        err => response.error(err))
     })
     return querySubject
   }

@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { AggsItem } from 'app/api/service/base.service'
 import { CaseService } from 'app/api/service/case.service'
+import { DubboService } from 'app/api/service/dubbo.service'
+import { ScenarioStepType } from 'app/api/service/scenario.service'
+import { SqlService } from 'app/api/service/sql.service'
 import { ApiRes } from 'app/model/api.model'
 import { Subject } from 'rxjs'
 
@@ -15,7 +18,30 @@ export class LabelListComponent implements OnInit {
   labels: AggsItem[] = []
   isEditable = false
   values: string[] = []
+  response = new Subject<ApiRes<AggsItem[]>>()
   queryLabelSubject: Subject<string>
+  @Input()
+  set type(val: string) {
+    if (!this.queryLabelSubject) {
+      switch (val) {
+        case ScenarioStepType.DUBBO:
+          this.queryLabelSubject = this.dubboService.aggsLabelsSubject(this.response)
+          break
+        case ScenarioStepType.SQL:
+          this.queryLabelSubject = this.sqlService.aggsLabelsSubject(this.response)
+          break
+        case ScenarioStepType.CASE:
+          this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.response)
+          break
+        default:
+          this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.response)
+          break
+      }
+      this.response.subscribe(res => {
+        this.labels = res.data
+      })
+    }
+  }
   @Input()
   get data() {
     return this.values.map(item => {
@@ -32,12 +58,9 @@ export class LabelListComponent implements OnInit {
 
   constructor(
     private caseService: CaseService,
+    private dubboService: DubboService,
+    private sqlService: SqlService,
   ) {
-    const response = new Subject<ApiRes<AggsItem[]>>()
-    this.queryLabelSubject = this.caseService.aggsLabelsSubject(response)
-    response.subscribe(res => {
-      this.labels = res.data
-    })
   }
 
   labelSelectOpenChange() {
