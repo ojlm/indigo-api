@@ -39,6 +39,9 @@
         </nz-dropdown-button>
       </div>
     </div>
+    <nz-row style="margin:4px;">
+      <app-label-list [(data)]="request.labels" [type]="'dubbo'" (dataChange)="modelChange()"></app-label-list>
+    </nz-row>
     <div style="overflow:hidden;margin-top:4px;">
       <div nz-row nzGutter="10" [style.height]="height">
         <div class="col-panel" nz-col nzSpan="6">
