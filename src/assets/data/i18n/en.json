@@ -349,6 +349,8 @@
   "item-selected": "Selected",
   "item-transfer": "Transfer",
   "item-proxy-server": "Proxy",
+  "item-request-body": "Request",
+  "item-response-body": "Response",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",

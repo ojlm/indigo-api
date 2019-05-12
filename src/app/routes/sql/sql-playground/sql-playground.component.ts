@@ -1,12 +1,11 @@
-import { Location } from '@angular/common'
-import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Component, HostListener, Input, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { CaseService } from 'app/api/service/case.service'
 import { SqlResult, SqlService } from 'app/api/service/sql.service'
-import { Assertion, SqlRequest } from 'app/model/es.model'
+import { Assertion, CaseReportItemMetrics, CaseStatis, SqlRequest } from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -33,13 +32,12 @@ export class SqlPlaygroundComponent implements OnInit {
   @Input() group = ''
   @Input() project = ''
   tabBarStyle = {
-    'background-color': 'snow',
+    'background-color': '#1890ff12',
     'margin': '0px',
     'height': '40px'
   }
   assertions: Assertion[] = []
   tabIndex = 0
-  assertResultTabIndex = 0
   isSending = false
   @Input() newStep: Function
   @Input() updateStep: Function
@@ -55,20 +53,21 @@ export class SqlPlaygroundComponent implements OnInit {
   sqlEditorOption = { ...this.monocoService.getSqlOption(false), theme: this.monocoService.THEME_WHITE }
   jsonRoEditorOption = { ...this.monocoService.getJsonOption(true), theme: this.monocoService.THEME_WHITE }
   jsonEditorOption = { ...this.monocoService.getJsonOption(false), theme: this.monocoService.THEME_WHITE }
-  responseStr = ''
+  metrics: CaseReportItemMetrics = {}
+  statis: CaseStatis = {}
+  renderedRequestStr = ''
   assertionsStr = ''
+  responseStr = ''
   resultStr = ''
   @Input()
   set id(docId: string) {
-    this.tabIndex = 1
-    this.assertResultTabIndex = 0
+    this.tabIndex = 0
     this.loadDataById(docId)
   }
   @Input()
   set result(result: SqlResult) {
     if (result) {
       this.tabIndex = 5
-      this.assertResultTabIndex = 5
       this.dealResult(result)
     }
   }
@@ -84,11 +83,8 @@ export class SqlPlaygroundComponent implements OnInit {
     private sqlService: SqlService,
     private monocoService: MonacoService,
     private msgService: NzMessageService,
-    private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
     private i18nService: I18NService,
-    private el: ElementRef<HTMLDivElement>,
   ) {
     initRequestField(this.request)
   }
@@ -103,15 +99,18 @@ export class SqlPlaygroundComponent implements OnInit {
     if (newReq) {
       this.sqlService.test({ id: this.request._id, request: newReq }).subscribe(res => {
         this.dealResult(res.data)
-        this.tabIndex = 3
+        this.tabIndex = 5
         this.isSending = false
       }, err => this.isSending = false)
     }
   }
 
   dealResult(result: SqlResult) {
-    this.responseStr = formatJson(result.response.body)
-    this.resultStr = formatJson({ statis: result.statis, result: result.result })
+    this.renderedRequestStr = formatJson(result.request, 2)
+    this.responseStr = formatJson(result.response.body, 2)
+    this.resultStr = formatJson(result.result, 2)
+    this.statis = result.statis || {}
+    this.metrics = result.metrics || {}
   }
 
   save() {
@@ -161,6 +160,7 @@ export class SqlPlaygroundComponent implements OnInit {
   }
 
   reset() {
+    this.msgService.info('TBD')
   }
 
   preHandleRequest(req: SqlRequest) {
