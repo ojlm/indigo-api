@@ -24,6 +24,7 @@ import { DubboSearchPanelComponent } from './dubbo-search-panel/dubbo-search-pan
 import { GroupProjectSelectorComponent } from './group-project-selector/group-project-selector.component'
 import { LabelListComponent } from './label-list/label-list.component'
 import { LinkerdHttpComponent } from './linkerd-http/linkerd-http.component'
+import { PlaygroundReportTabComponent } from './playground-report-tab/playground-report-tab.component'
 import { PofileSimpleComponent } from './profile-simple/profile-simple.component'
 import { RestModelComponent } from './rest-model/rest-model.component'
 import { SqlSearchPanelComponent } from './sql-search-panel/sql-search-panel.component'
@@ -55,6 +56,7 @@ const COMPONENTS = [
   GroupProjectSelectorComponent,
   SqlSearchPanelComponent,
   DubboSearchPanelComponent,
+  PlaygroundReportTabComponent,
 ]
 const DIRECTIVES = []
 // endregion

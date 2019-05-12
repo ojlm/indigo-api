@@ -63,7 +63,6 @@ export class ResultAssertComponent implements OnInit {
   entityBlobUrl: SafeUrl
   @Input() assertions: Assertion[] = []
   assertionItems: AssertionItems = { logic: 'and', items: [] }
-  hasResult = false
   @Input()
   set index(val: number) {
     this.tabIndex = val
@@ -72,11 +71,6 @@ export class ResultAssertComponent implements OnInit {
   indexChange = new EventEmitter<number>()
   @Input()
   set result(val: CaseResult) {
-    if (val && val.statis) {
-      this.hasResult = true
-    } else {
-      this.hasResult = false
-    }
     if (val.response && val.response.statusCode && val.response.headers) {
       this.response.status = val.response.statusCode.toString()
       this.response.headers = val.response.headers

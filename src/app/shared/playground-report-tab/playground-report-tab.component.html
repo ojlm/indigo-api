@@ -1,0 +1,38 @@
+<nz-alert *ngIf="!hasResult" [nzMessage]="'tips-no-result'|translate" nzShowIcon></nz-alert>
+<nz-alert *ngIf="hasResult" [nzType]="_statis.isSuccessful?'success':'error'" nzShowIcon [nzDescription]="nzDescription"
+  [nzMessage]="(_statis.isSuccessful?'tips-success':'tips-fail')|translate">
+  <ng-template #nzDescription>
+    <div>
+      <span class="metrics-item">
+        <span class="metrics-item-label">{{'tips-assertion-pass'|translate}}: </span>
+        <span class="metrics-item-value">{{_statis.passed}}</span>
+      </span>
+      <span class="metrics-item">
+        <span class="metrics-item-label">{{'tips-assertion-fail'|translate}}: </span>
+        <span class="metrics-item-value">{{_statis.failed}}</span>
+      </span>
+    </div>
+    <div>
+      <span class="metrics-item">
+        <span class="metrics-item-label">{{'tips-render-request-time'|translate}}: </span>
+        <span class="metrics-item-value">{{metrics.renderRequestTime}} ms</span>
+      </span>
+      <span class="metrics-item">
+        <span class="metrics-item-label">{{'tips-render-auth-time'|translate}}: </span>
+        <span class="metrics-item-value">{{metrics.renderAuthTime}} ms</span>
+      </span>
+      <span class="metrics-item">
+        <span class="metrics-item-label">{{'tips-request-time'|translate}}: </span>
+        <span class="metrics-item-value">{{metrics.requestTime}} ms</span>
+      </span>
+      <span class="metrics-item">
+        <span class="metrics-item-label">{{'tips-eval-assertion-time'|translate}}: </span>
+        <span class="metrics-item-value">{{metrics.evalAssertionTime}} ms</span>
+      </span>
+      <span class="metrics-item">
+        <span class="metrics-item-label">{{'tips-total-time'|translate}}: </span>
+        <span class="metrics-item-value">{{metrics.totalTime}} ms</span>
+      </span>
+    </div>
+  </ng-template>
+</nz-alert>
