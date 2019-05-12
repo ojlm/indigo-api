@@ -4,7 +4,8 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
 import { ApiRes, QueryPage } from 'app/model/api.model'
-import { CaseStatis, DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
+import { DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
+import { AbstractResult } from 'app/model/job.model'
 import { newWS } from 'app/util/ws'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Observable, Subject } from 'rxjs'
@@ -165,8 +166,11 @@ export interface QueryDubboRequest extends QueryPage {
   interface?: string
 }
 
-export interface DubboResult {
-  context?: object
-  statis?: CaseStatis
-  result?: object
+export interface DubboResponseReportModel {
+  body?: object
+}
+
+export interface DubboResult extends AbstractResult {
+  request?: GenericRequest
+  response?: DubboResponseReportModel
 }

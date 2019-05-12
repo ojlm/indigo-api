@@ -8,6 +8,7 @@ import { CaseService } from 'app/api/service/case.service'
 import {
   DubboInterface,
   DubboProvider,
+  DubboResult,
   DubboService,
   GetInterfaceMethodParams,
   GetInterfacesMessage,
@@ -88,6 +89,13 @@ export class DubboPlaygroundComponent implements OnInit {
     this.assertResultTabIndex = 0
     this.loadDataById(docId)
   }
+  @Input()
+  set result(result: DubboResult) {
+    if (result) {
+      this.tabIndex = 4
+      this.dealResult(result)
+    }
+  }
   @HostListener('window:resize')
   resize() {
     this.height = `${window.innerHeight - 70}px`
@@ -118,11 +126,16 @@ export class DubboPlaygroundComponent implements OnInit {
     if (null != newReq) {
       this.isSending = true
       this.dubboService.test({ id: this.request._id, request: newReq }).subscribe(res => {
-        this.responseStr = formatJson(res.data.context)
-        this.resultStr = formatJson({ statis: res.data.statis, result: res.data.result })
+        this.dealResult(res.data)
+        this.tabIndex = 3
         this.isSending = false
       }, err => this.isSending = false)
     }
+  }
+
+  dealResult(result: DubboResult) {
+    this.responseStr = formatJson(result.response.body)
+    this.resultStr = formatJson({ statis: result.statis, result: result.result })
   }
 
   save() {
