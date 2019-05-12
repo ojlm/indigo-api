@@ -103,13 +103,14 @@ export class SqlPlaygroundComponent implements OnInit {
     if (newReq) {
       this.sqlService.test({ id: this.request._id, request: newReq }).subscribe(res => {
         this.dealResult(res.data)
+        this.tabIndex = 3
         this.isSending = false
       }, err => this.isSending = false)
     }
   }
 
   dealResult(result: SqlResult) {
-    this.responseStr = formatJson(result.context)
+    this.responseStr = formatJson(result.response.body)
     this.resultStr = formatJson({ statis: result.statis, result: result.result })
   }
 

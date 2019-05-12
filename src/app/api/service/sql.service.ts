@@ -3,7 +3,8 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
 import { ApiRes, QueryPage } from 'app/model/api.model'
-import { CaseStatis, IndexDocResponse, SqlRequest, UpdateDocResponse } from 'app/model/es.model'
+import { IndexDocResponse, SqlRequest, UpdateDocResponse } from 'app/model/es.model'
+import { AbstractResult } from 'app/model/job.model'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
@@ -77,8 +78,20 @@ export interface QuerySqlRequest extends QueryPage {
   hasCreators?: boolean
 }
 
-export interface SqlResult {
-  context?: object
-  statis?: CaseStatis
-  result?: object
+export interface SqlRequestReportModel {
+  host?: string
+  port?: number
+  username?: string
+  database?: string
+  table?: string
+  sql?: string
+}
+
+export interface SqlResponseReportModel {
+  body?: object
+}
+
+export interface SqlResult extends AbstractResult {
+  request?: SqlRequestReportModel
+  response?: SqlResponseReportModel
 }
