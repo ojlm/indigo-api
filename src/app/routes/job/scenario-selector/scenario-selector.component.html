@@ -20,7 +20,9 @@
       </ng-template>
     </nz-list>
     <ng-template #nzHeader>
-      <input nz-input [nzSize]="'small'" style="background-color:transparent;" [placeholder]="'tips-search'|translate"
+      <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="search()">
+      </app-group-project-selector>
+      <input nz-input [nzSize]="'default'" style="margin-top: 4px;" [placeholder]="'tips-search'|translate"
         [(ngModel)]="searchText" (ngModelChange)="search()">
     </ng-template>
     <ng-template #nzFooter>
@@ -43,8 +45,10 @@
       <ng-template #addedItemsTpl let-item let-i="index">
         <nz-list-item [nzContent]="nzAddedContent" [nzActions]="[removeAction]"></nz-list-item>
         <ng-template #nzAddedContent>
-          <div style="padding-left:3px;width:100%;cursor:pointer;" (click)="viewScenario(item)">
+          <div style="width:100%;cursor:pointer;" (click)="viewScenario(item)">
+            <span style="margin-right: 4px;">{{i + 1}}.</span>
             <a>{{item.summary}}</a>
+            <span style="float:right;color:lightslategray;">{{item.group}}/{{item.project}}</span>
           </div>
         </ng-template>
         <ng-template #removeAction>
