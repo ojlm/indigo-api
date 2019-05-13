@@ -10,14 +10,14 @@
       <ng-template #httpItem let-httpItem>
         <nz-list-item [nzContent]="httpContent" [nzActions]="[httpActions]"></nz-list-item>
         <ng-template #httpContent>
-          <div class="line">
+          <div class="line" (click)="viewHttpStep(httpItem)">
             <span style="padding-left:3px;">
               <nz-tag [nzColor]="methodTagColor(httpItem)">{{httpItem.request.method}}</nz-tag>
               <span>{{httpItem.request.urlPath}}</span>
-              <a class="title" href="javascript:void(0);" (click)="viewHttpStep(httpItem)">{{httpItem.summary}}</a>
+              <span class="title">{{httpItem.summary}}</span>
             </span>
+            <span class="tail-text">{{httpItem.group}}/{{httpItem.project}}</span>
             <span class="tail-labels">
-              <span>{{httpItem.group}}/{{httpItem.project}}</span>
               <ng-container *ngIf="httpItem.labels">
                 <nz-tag *ngFor="let label of httpItem.labels">{{label.name}}</nz-tag>
               </ng-container>
@@ -57,19 +57,19 @@
       <ng-template #dubboItem let-dubboItem>
         <nz-list-item [nzContent]="dubboContent" [nzActions]="[dubboActions]"></nz-list-item>
         <ng-template #dubboContent>
-          <div class="line">
+          <div class="line" (click)="viewDubboStep(dubboItem)">
             <span style="padding-left:3px;">
               <nz-tag [nzColor]="'gold'">
                 <i nz-icon nzType="alibaba" nzTheme="outline"></i>
                 <span> dubbo</span>
               </nz-tag>
-              <a class="title" href="javascript:void(0);" (click)="viewDubboStep(dubboItem)">
+              <span class="title">
                 <span class="summary">{{dubboItem.summary}}</span>
                 <span>{{dubboSignature(dubboItem)}}</span>
-              </a>
+              </span>
             </span>
+            <span class="tail-text">{{dubboItem.group}}/{{dubboItem.project}}</span>
             <span class="tail-labels">
-              <span>{{dubboItem.group}}/{{dubboItem.project}}</span>
               <ng-container *ngIf="dubboItem.labels">
                 <nz-tag *ngFor="let label of dubboItem.labels">{{label.name}}</nz-tag>
               </ng-container>
@@ -110,19 +110,19 @@
       <ng-template #sqlItem let-sqlItem>
         <nz-list-item [nzContent]="sqlContent" [nzActions]="[sqlActions]"></nz-list-item>
         <ng-template #sqlContent>
-          <div class="line">
+          <div class="line" (click)="viewSqlStep(sqlItem)">
             <span style="padding-left:3px;">
               <nz-tag [nzColor]="'geekblue'">
                 <i nz-icon nzType="database" nzTheme="outline"></i>
                 <span> sql</span>
               </nz-tag>
-              <a class="title" href="javascript:void(0);" (click)="viewSqlStep(sqlItem)">
+              <span class="title">
                 <span class="summary">{{sqlItem.summary}}</span>
                 <span>{{sqlSignature(sqlItem)}}</span>
-              </a>
+              </span>
             </span>
+            <span class="tail-text">{{sqlItem.group}}/{{sqlItem.project}}</span>
             <span class="tail-labels">
-              <span>{{sqlItem.group}}/{{sqlItem.project}}</span>
               <ng-container *ngIf="sqlItem.labels">
                 <nz-tag *ngFor="let label of sqlItem.labels">{{label.name}}</nz-tag>
               </ng-container>

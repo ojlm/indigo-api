@@ -10,20 +10,22 @@
         *ngFor="let item of steps;let i = index;">
         <div [ngSwitch]="item.type">
           <ng-container *ngSwitchCase="'case'">
-            <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
-            <a style="padding-left:4px;" (click)="removeStep(item, i)">
-              <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
-            </a>
-            <span> {{i+1}}. </span>
-            <span class="step-title" (click)="viewStep(item)">
-              <span class="small-text">{{getStepData(item).summary}}</span>
-            </span>
-            <span class="tail-labels">
-              <ng-container *ngIf="item.labels">
-                <nz-tag *ngFor="let item of getStepData(item).labels">{{getStepData(item).name}}</nz-tag>
-              </ng-container>
-              <span>{{getStepData(item).group}}/{{getStepData(item).project}}</span>
-            </span>
+            <div class="step-title-wrapper">
+              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <a style="padding-left:4px;" (click)="removeStep(item, i)">
+                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+              </a>
+              <span> {{i+1}}. </span>
+              <span class="step-title" (click)="viewStep(item)">
+                <span class="small-text">{{getStepData(item).summary}}</span>
+                <span class="tail-text">{{getStepData(item).group}}/{{getStepData(item).project}}</span>
+                <span class="tail-labels">
+                  <ng-container *ngIf="getStepData(item).labels">
+                    <nz-tag *ngFor="let label of getStepData(item).labels">{{label.name}}</nz-tag>
+                  </ng-container>
+                </span>
+              </span>
+            </div>
             <div>
               <nz-badge [nzStatus]="getStepStatus(item).status"></nz-badge>
               <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"
@@ -33,20 +35,22 @@
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="'dubbo'">
-            <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
-            <a style="padding-left:4px;" (click)="removeStep(item, i)">
-              <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
-            </a>
-            <span> {{i+1}}. </span>
-            <span class="step-title" (click)="viewStep(item)">
-              <span class="small-text">{{getStepData(item).summary}}</span>
-            </span>
-            <span class="tail-labels">
-              <ng-container *ngIf="item.labels">
-                <nz-tag *ngFor="let item of getStepData(item).labels">{{getStepData(item).name}}</nz-tag>
-              </ng-container>
-              <span>{{getStepData(item).group}}/{{getStepData(item).project}}</span>
-            </span>
+            <div class="step-title-wrapper">
+              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <a style="padding-left:4px;" (click)="removeStep(item, i)">
+                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+              </a>
+              <span> {{i+1}}. </span>
+              <span class="step-title" (click)="viewStep(item)">
+                <span class="small-text">{{getStepData(item).summary}}</span>
+                <span class="tail-text">{{getStepData(item).group}}/{{getStepData(item).project}}</span>
+                <span class="tail-labels">
+                  <ng-container *ngIf="getStepData(item).labels">
+                    <nz-tag *ngFor="let label of getStepData(item).labels">{{label.name}}</nz-tag>
+                  </ng-container>
+                </span>
+              </span>
+            </div>
             <div>
               <nz-badge [nzStatus]="getStepStatus(item).status"></nz-badge>
               <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"
@@ -59,20 +63,22 @@
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="'sql'">
-            <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
-            <a style="padding-left:4px;" (click)="removeStep(item, i)">
-              <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
-            </a>
-            <span> {{i+1}}. </span>
-            <span class="step-title" (click)="viewStep(item)">
-              <span class="small-text">{{getStepData(item).summary}}</span>
-            </span>
-            <span class="tail-labels">
-              <ng-container *ngIf="item.labels">
-                <nz-tag *ngFor="let item of getStepData(item).labels">{{getStepData(item).name}}</nz-tag>
-              </ng-container>
-              <span>{{getStepData(item).group}}/{{getStepData(item).project}}</span>
-            </span>
+            <div class="step-title-wrapper">
+              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <a style="padding-left:4px;" (click)="removeStep(item, i)">
+                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+              </a>
+              <span> {{i+1}}. </span>
+              <span class="step-title" (click)="viewStep(item)">
+                <span class="small-text">{{getStepData(item).summary}}</span>
+                <span class="tail-text">{{getStepData(item).group}}/{{getStepData(item).project}}</span>
+                <span class="tail-labels">
+                  <ng-container *ngIf="getStepData(item).labels">
+                    <nz-tag *ngFor="let label of getStepData(item).labels">{{label.name}}</nz-tag>
+                  </ng-container>
+                </span>
+              </span>
+            </div>
             <div>
               <nz-badge [nzStatus]="getStepStatus(item).status"></nz-badge>
               <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"

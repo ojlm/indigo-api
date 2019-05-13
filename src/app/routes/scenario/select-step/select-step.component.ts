@@ -27,13 +27,14 @@ import { Case, ContextOptions, DubboRequest, ScenarioStep, SqlRequest } from '..
     }
     .line {
       width: 100%;
+      cursor: pointer;
     }
     .line .title {
       padding-left: 4px;
       font-size: smaller;
       color: lightgray;
     }
-    .line .title .summary{
+    .line .title .summary {
       color: black;
       margin-right: 4px;
     }
@@ -42,8 +43,10 @@ import { Case, ContextOptions, DubboRequest, ScenarioStep, SqlRequest } from '..
       transform: scale(0.8);
       margin-right: 8px;
     }
-    .line .tail-labels span {
-      color: lightblue;
+    .line .tail-text {
+      float: right;
+      color: lightslategrey;
+      font-size: small;
     }`
   ],
   templateUrl: './select-step.component.html',
