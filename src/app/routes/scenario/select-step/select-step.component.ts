@@ -41,7 +41,6 @@ import { Case, ContextOptions, DubboRequest, ScenarioStep, SqlRequest } from '..
     .line .tail-labels {
       float: right;
       transform: scale(0.8);
-      margin-right: 8px;
     }
     .line .tail-text {
       float: right;

@@ -8,11 +8,14 @@
           <div style="padding-left:3px;width:100%;cursor:pointer;" (click)="viewScenario(item)">
             <span style="color:black;">{{item.summary}}</span>
             <span style="padding-left:5px;color:lightgray;">{{item.description}}</span>
+            <span style="float:right;color:lightslategray;">{{item.group}}/{{item.project}}</span>
           </div>
         </ng-template>
         <ng-template #addAction>
-          <a *ngIf="!addedItemsMap[item._id]" (click)="addItem(item)"><i nz-icon type="right" theme="outline" class="click-icon"></i></a>
-          <a *ngIf="addedItemsMap[item._id]"><i style="color:yellowgreen;" nz-icon type="check-circle" theme="outline" class="click-icon"></i></a>
+          <a *ngIf="!addedItemsMap[item._id]" (click)="addItem(item)"><i nz-icon type="right" theme="outline"
+              class="click-icon"></i></a>
+          <a *ngIf="addedItemsMap[item._id]"><i style="color:yellowgreen;" nz-icon type="check-circle" theme="outline"
+              class="click-icon"></i></a>
         </ng-template>
       </ng-template>
     </nz-list>
@@ -52,12 +55,9 @@
     <ng-template #nzAddedHeader>
       <div>
         <span>{{'tips-items-added-to-job'|translate}}</span>
-        <nz-badge [nzShowZero]="true" [nzCount]="addedItems.length" [nzStyle]="{backgroundColor:'#52c41a','margin-left':'5px'}"></nz-badge>
+        <nz-badge [nzShowZero]="true" [nzCount]="addedItems.length"
+          [nzStyle]="{backgroundColor:'#52c41a','margin-left':'5px'}"></nz-badge>
       </div>
     </ng-template>
   </div>
-  <!-- scenario drawer -->
-  <nz-drawer [nzVisible]="scenarioDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="scenarioDrawerVisible=false">
-    <app-scenario-model [id]="editScenarioId" [ctxOptions]="_ctxOptions"></app-scenario-model>
-  </nz-drawer>
 </div>

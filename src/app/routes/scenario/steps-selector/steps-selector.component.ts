@@ -59,7 +59,6 @@ import { ScenarioStepData, StepEvent } from '../select-step/select-step.componen
     .step .tail-labels {
       float: right;
       transform: scale(0.8);
-      margin-right: 8px;
     }
     .step .tail-text {
       float: right;
@@ -367,10 +366,12 @@ export class StepsSelectorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.parent.parent.params.subscribe(params => {
-      this.group = params['group']
-      this.project = params['project']
-    })
+    if (this.route.parent && this.route.parent.parent) {
+      this.route.parent.parent.params.subscribe(params => {
+        this.group = params['group']
+        this.project = params['project']
+      })
+    }
     if (this.eventSubject) {
       this.eventSubject.subscribe(log => {
         const reportItem = log.data

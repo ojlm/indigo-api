@@ -1,7 +1,7 @@
-import { Location } from '@angular/common'
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { NzMessageService } from 'ng-zorro-antd'
+import { ActivatedRoute } from '@angular/router'
+import { ScenarioModelComponent } from 'app/routes/scenario/scenario-model/scenario-model.component'
+import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { QueryScenario, ScenarioService } from '../../../api/service/scenario.service'
@@ -35,8 +35,6 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
   project: string
   items: Scenario[] = []
   searchSubject: Subject<QueryScenario>
-  scenarioDrawerVisible = false
-  editScenarioId: string
   searchText: string
   addedItemsMap = {}
   addedItems: Scenario[] = []
@@ -70,11 +68,10 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
   }
 
   constructor(
+    private drawerService: NzDrawerService,
     private scenarioService: ScenarioService,
     private msgService: NzMessageService,
-    private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
   ) {
     super()
     const response = new Subject<ApiRes<Scenario[]>>()
@@ -99,8 +96,18 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
   }
 
   viewScenario(item: Scenario) {
-    this.editScenarioId = item._id
-    this.scenarioDrawerVisible = true
+    this.drawerService.create({
+      nzWidth: this.drawerWidth,
+      nzContent: ScenarioModelComponent,
+      nzContentParams: {
+        id: item._id,
+        ctxOptions: this._ctxOptions
+      },
+      nzBodyStyle: {
+        padding: '4px'
+      },
+      nzClosable: false,
+    })
   }
 
   search() {
