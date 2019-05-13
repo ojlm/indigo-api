@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { GroupProjectSelectorModel } from '@shared/group-project-selector/group-project-selector.component'
 import { ScenarioModelComponent } from 'app/routes/scenario/scenario-model/scenario-model.component'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
@@ -31,9 +32,10 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
 
   drawerWidth = calcDrawerWidth(0.75)
   pageSize = 10
-  group: string
-  project: string
+  @Input() group: string
+  @Input() project: string
   items: Scenario[] = []
+  searchGroupProject: GroupProjectSelectorModel
   searchSubject: Subject<QueryScenario>
   searchText: string
   addedItemsMap = {}
@@ -64,7 +66,7 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
   }
   @HostListener('window:resize')
   resize() {
-    this.drawerWidth = calcDrawerWidth()
+    this.drawerWidth = calcDrawerWidth(0.75)
   }
 
   constructor(
@@ -111,13 +113,17 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
   }
 
   search() {
-    this.searchSubject.next({ group: this.group, project: this.project, text: this.searchText, ...this.toPageQuery() })
+    this.searchSubject.next({ ...this.searchGroupProject, text: this.searchText, ...this.toPageQuery() })
   }
 
   ngOnInit(): void {
     this.route.parent.parent.params.subscribe(params => {
       this.group = params['group']
       this.project = params['project']
+      this.searchGroupProject = {
+        group: this.group,
+        project: this.project
+      }
       this.searchSubject.next({ group: this.group, project: this.project })
     })
   }
