@@ -32,6 +32,13 @@ import { ScenarioStepData, StepEvent } from '../select-step/select-step.componen
       display: none;
       transition: all 0.3s ease;
     }
+    .step-title-wrapper {
+      display: flex;
+      margin-right: 12px;
+    }
+    .step-title {
+      width: 100%;
+    }
     .step-title:hover {
       cursor: pointer;
     }
@@ -54,8 +61,10 @@ import { ScenarioStepData, StepEvent } from '../select-step/select-step.componen
       transform: scale(0.8);
       margin-right: 8px;
     }
-    .step .tail-labels span {
-      color: lightblue;
+    .step .tail-text {
+      float: right;
+      color: lightslategrey;
+      font-size: small;
     }
   `],
   templateUrl: './steps-selector.component.html',
@@ -241,9 +250,17 @@ export class StepsSelectorComponent implements OnInit {
   removeStep(step: ScenarioStep, i: number) {
     this.clearStatus()
     this.steps.splice(i, 1)
-    const stepCacheKey = getScenarioStepCacheKey(step)
-    delete this.stepsDataCache[stepCacheKey]
-    delete this.stepsStatusCache[stepCacheKey]
+    let count = 1
+    this.steps.forEach(item => {
+      if (item.id === step.id) {
+        count++
+      }
+    })
+    if (count === 1) {
+      const stepCacheKey = getScenarioStepCacheKey(step)
+      delete this.stepsDataCache[stepCacheKey]
+      delete this.stepsStatusCache[stepCacheKey]
+    }
     this.modelChange()
   }
 
@@ -367,6 +384,8 @@ export class StepsSelectorComponent implements OnInit {
           statusData.status = 'success'
         } else if ('fail' === reportItem.status) {
           statusData.status = 'error'
+        } else if ('skipped' === reportItem.status) {
+          statusData.status = 'warning'
         } else {
           statusData.status = 'default'
         }
