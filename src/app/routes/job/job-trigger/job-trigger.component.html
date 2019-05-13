@@ -16,16 +16,18 @@
             </label>
           </div>
           <div nz-col [nzSpan]="8">
-            <nz-date-picker style="width:80%;" [nzStyle]="{'width':'100%'}" [(ngModel)]="startDate" nzShowTime [nzSize]="'small'"
-              [nzFormat]="'YYYY-MM-DD HH:mm:ss'" nzAllowClear (ngModelChange)="startDateChange($event)">
+            <nz-date-picker style="width:80%;" [nzStyle]="{'width':'100%'}" [(ngModel)]="startDate" nzShowTime
+              [nzSize]="'small'" [nzFormat]="'yyyy-MM-dd HH:mm:ss'" nzAllowClear
+              (ngModelChange)="startDateChange($event)">
             </nz-date-picker>
           </div>
           <div nz-col [nzSpan]="2">
             <span>{{'content-end-time'|translate}}</span>
           </div>
           <div nz-col [nzSpan]="8">
-            <nz-date-picker style="width:80%;" [nzStyle]="{'width':'100%'}" [(ngModel)]="endDate" nzShowTime [nzFormat]="'YYYY-MM-DD HH:mm:ss'"
-              [nzSize]="'small'" nzAllowClear (ngModelChange)="endDateChange($event)">
+            <nz-date-picker style="width:80%;" [nzStyle]="{'width':'100%'}" [(ngModel)]="endDate" nzShowTime
+              [nzFormat]="'yyyy-MM-dd HH:mm:ss'" [nzSize]="'small'" nzAllowClear
+              (ngModelChange)="endDateChange($event)">
             </nz-date-picker>
           </div>
         </div>
@@ -39,8 +41,8 @@
             </label>
           </div>
           <div nz-col [nzSpan]="2">
-            <nz-input-number [nzSize]="'small'" style="width:100%;" [nzMin]="0" [nzStep]="1" [(ngModel)]="trigger.repeatCount"
-              (ngModelChange)="repeatForever=false">
+            <nz-input-number [nzSize]="'small'" style="width:100%;" [nzMin]="0" [nzStep]="1"
+              [(ngModel)]="trigger.repeatCount" (ngModelChange)="repeatForever=false">
             </nz-input-number>
           </div>
         </div>
@@ -49,7 +51,8 @@
             <span>{{'content-repeat-interval'|translate}}</span>
           </div>
           <div nz-col [nzSpan]="4">
-            <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1" [(ngModel)]="trigger.interval"></nz-input-number>
+            <nz-input-number [nzSize]="'small'" [nzMin]="0" [nzStep]="1" [(ngModel)]="trigger.interval">
+            </nz-input-number>
             <span>{{'content-seconds'|translate}}</span>
           </div>
         </div>
@@ -57,13 +60,17 @@
     </nz-tab>
     <nz-tab [nzTitle]="'title-cron'|translate">
       <nz-input-group style="width:100%;" nzSearch [nzAddOnAfter]="suffixIconButton">
-        <input type="text" nz-input placeholder="cron expression" [(ngModel)]="trigger.cron" (ngModelChange)="cronInputChange()">
+        <input type="text" nz-input placeholder="cron expression" [(ngModel)]="trigger.cron"
+          (ngModelChange)="cronInputChange()">
       </nz-input-group>
       <ng-template #suffixIconButton>
-        <button nz-button nzType="primary" (click)="checkCron()"><i nz-icon type="schedule" theme="outline"></i></button>
+        <button nz-button nzType="primary" (click)="checkCron()"><i nz-icon type="schedule"
+            theme="outline"></i></button>
       </ng-template>
-      <nz-alert *ngIf="cronErrorMsg" style="padding-top:5px;" nzType="error" [nzMessage]="cronErrorMsg" nzShowIcon></nz-alert>
-      <nz-alert *ngIf="cronDates.length>0" style="padding-top:5px;" nzType="info" [nzMessage]="nzMessage" nzShowIcon></nz-alert>
+      <nz-alert *ngIf="cronErrorMsg" style="padding-top:5px;" nzType="error" [nzMessage]="cronErrorMsg" nzShowIcon>
+      </nz-alert>
+      <nz-alert *ngIf="cronDates.length>0" style="padding-top:5px;" nzType="info" [nzMessage]="nzMessage" nzShowIcon>
+      </nz-alert>
       <ng-template #nzMessage>
         <div *ngFor="let item of cronDates">
           {{item}}
