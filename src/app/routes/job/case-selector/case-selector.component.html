@@ -1,4 +1,5 @@
-<nz-card style="background-color:transparent;min-height:240px;padding:4px;" [nzTitle]="cardTitle" [nzBodyStyle]="{'padding':'0px'}">
+<nz-card style="background-color:transparent;min-height:240px;padding:4px;" [nzTitle]="cardTitle"
+  [nzBodyStyle]="{'padding':'0px'}">
   <div nz-row nzType="flex" nzJustify="start" [nzGutter]="3">
     <div nz-col nzSpan="24">
       <div *ngIf="_ext" style="padding:8px;" nz-row [nzGutter]="3">
@@ -34,16 +35,21 @@
             <div style="padding-left:3px;width:100%;">
               <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
               <span>{{item.request.urlPath}}</span>
-              <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);" (click)="viewCase(item)">{{item.summary}}</a>
-              <ng-container *ngIf="item.labels">
-                <span style="float:right;transform:scale(0.8);">
-                  <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
-                </span>
-              </ng-container>
+              <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);"
+                (click)="viewCase(item)">{{item.summary}}</a>
+              <span class="title-tail">
+                <span class="tail-text">{{item.group}}/{{item.project}}</span>
+                <ng-container *ngIf="item.labels">
+                  <span class="tail-labels">
+                    <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+                  </span>
+                </ng-container>
+              </span>
             </div>
           </ng-template>
           <ng-template #removeAction>
-            <a style="padding-right:8px;transform: scale(1.2);" (click)="removeItem(item, i)"><i nz-icon type="close" theme="outline" class="click-icon hover-red"></i></a>
+            <a style="padding-right:8px;transform: scale(1.2);" (click)="removeItem(item, i)"><i nz-icon type="close"
+                theme="outline" class="click-icon hover-red"></i></a>
           </ng-template>
         </ng-template>
       </nz-list>
@@ -52,36 +58,45 @@
 </nz-card>
 <ng-template #cardTitle>
   <div style="margin-top:4px;">
-    <button nz-button style="background-color:transparent;" nzSize="small" nzType="dashed" (click)="showCaseListDrawer()">
+    <button nz-button style="background-color:transparent;" nzSize="small" nzType="dashed"
+      (click)="showCaseListDrawer()">
       <span style="margin-left:2px;">{{'btn-add'|translate}}</span>
     </button>
     <span style="float:right;font-size:smaller;color:black;">
       <span>{{'tips-items-added-to-job'|translate}}</span>
-      <nz-badge [nzShowZero]="true" [nzCount]="addedItems.length" [nzStyle]="{backgroundColor:'#52c41a','margin-left':'5px'}"></nz-badge>
+      <nz-badge [nzShowZero]="true" [nzCount]="addedItems.length"
+        [nzStyle]="{backgroundColor:'#52c41a','margin-left':'5px'}"></nz-badge>
     </span>
   </div>
 </ng-template>
 <!-- select cases drawer -->
 <nz-drawer [nzVisible]="caseListDrawerVisible" [nzWidth]="caseListDrawerWidth" [nzBodyStyle]="{'padding':'8px'}"
   [nzClosable]="false" (nzOnClose)="caseListDrawerVisible=false">
-  <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzHeader]="nzHeader" [nzFooter]="nzFooter" [nzRenderItem]="item">
+  <nz-list [nzDataSource]="items" nzBordered nzSize="small" [nzHeader]="nzHeader" [nzFooter]="nzFooter"
+    [nzRenderItem]="item">
     <ng-template #item let-item>
       <nz-list-item [nzContent]="nzContent" [nzActions]="[addAction]"></nz-list-item>
       <ng-template #nzContent>
         <div style="padding-left:3px;width:100%;">
           <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
           <span>{{item.request.urlPath}}</span>
-          <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);" (click)="viewCase(item)">{{item.summary}}</a>
-          <ng-container *ngIf="item.labels">
-            <span style="float:right;transform:scale(0.8);">
-              <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
-            </span>
-          </ng-container>
+          <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);"
+            (click)="viewCase(item)">{{item.summary}}</a>
+          <span class="title-tail">
+            <span class="tail-text">{{item.group}}/{{item.project}}</span>
+            <ng-container *ngIf="item.labels">
+              <span class="tail-labels">
+                <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+              </span>
+            </ng-container>
+          </span>
         </div>
       </ng-template>
       <ng-template #addAction>
-        <a *ngIf="!addedItemsMap[item._id]" (click)="addItem(item)"><i nz-icon type="right" theme="outline" class="click-icon"></i></a>
-        <a *ngIf="addedItemsMap[item._id]"><i style="color:yellowgreen;" nz-icon type="check-circle" theme="outline" class="click-icon"></i></a>
+        <a *ngIf="!addedItemsMap[item._id]" (click)="addItem(item)"><i nz-icon type="right" theme="outline"
+            class="click-icon"></i></a>
+        <a *ngIf="addedItemsMap[item._id]"><i style="color:yellowgreen;" nz-icon type="check-circle" theme="outline"
+            class="click-icon"></i></a>
       </ng-template>
     </ng-template>
   </nz-list>
@@ -120,6 +135,7 @@
   </ng-template>
 </nz-drawer>
 <!-- case draw -->
-<nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false" (nzOnClose)="caseDrawerVisible=false">
+<nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false"
+  (nzOnClose)="caseDrawerVisible=false">
   <app-case-model *ngIf="caseModelDrawerSwitch" [id]="editCaseId" [ctxOptions]="_ctxOptions"></app-case-model>
 </nz-drawer>

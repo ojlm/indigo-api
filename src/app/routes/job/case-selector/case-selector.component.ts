@@ -33,6 +33,18 @@ import { calcDrawerWidth } from '../../../util/drawer'
       padding: 4px;
       font-weight: bold;
     }
+    .title-tail {
+      margin-right: 4px;
+    }
+    .title-tail .tail-labels {
+      float: right;
+      transform: scale(0.8);
+    }
+    .title-tail .tail-text {
+      float: right;
+      color: lightslategrey;
+      font-size: small;
+    }
   `],
   templateUrl: './case-selector.component.html',
 })
