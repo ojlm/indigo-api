@@ -108,7 +108,17 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
   }
 
   editItem(item: CaseReportItem) {
-    this.router.navigateByUrl(`/case/${this.report.group}/${this.report.project}/${item.id}`)
+    switch (item.type) {
+      case ScenarioStepType.DUBBO:
+        this.router.navigateByUrl(`/dubbo/${this.report.group}/${this.report.project}/${item.id}`)
+        break
+      case ScenarioStepType.SQL:
+        this.router.navigateByUrl(`/sql/${this.report.group}/${this.report.project}/${item.id}`)
+        break
+      default:
+        this.router.navigateByUrl(`/case/${this.report.group}/${this.report.project}/${item.id}`)
+        break
+    }
   }
 
   viewItem(item: CaseReportItem) {
