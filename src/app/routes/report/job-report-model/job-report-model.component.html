@@ -45,7 +45,8 @@
   <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;">
     <div nz-row nzGutter="4">
       <div nz-col nzSpan="12">
-        <ngx-charts-advanced-pie-chart [view]="view" [label]="'tips-total'|translate" [scheme]="colorScheme" [results]="assertions">
+        <ngx-charts-advanced-pie-chart [view]="view" [label]="'tips-total'|translate" [scheme]="colorScheme"
+          [results]="assertions">
         </ngx-charts-advanced-pie-chart>
       </div>
       <div nz-col nzSpan="12">
@@ -56,28 +57,34 @@
   <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;" [nzTitle]="'field-case'|translate"
     [nzBodyStyle]="{'padding':'9px'}">
     <nz-table #caseTable nzSize="small" [nzData]="displayCaseItems" [nzPageSizeOptions]="[10,20,50,100]"
-      [(nzPageIndex)]="casePageIndex" [nzShowSizeChanger]="true" [(nzPageSize)]="pageSize" [nzShowTotal]="caseTotalTemplate">
+      [(nzPageIndex)]="casePageIndex" [nzShowSizeChanger]="true" [(nzPageSize)]="pageSize"
+      [nzShowTotal]="caseTotalTemplate">
       <thead>
         <tr>
           <th style="background-color:transparent;">{{'item-no'|translate}}</th>
           <th style="background-color:transparent;">{{'item-name'|translate}}</th>
-          <th style="background-color:transparent;" nzShowFilter [nzFilters]="resultFiltersList" [nzFilterMultiple]="true"
-            (nzFilterChange)="filterResultsChange($event)">{{'item-result'|translate}}</th>
+          <th style="background-color:transparent;" nzShowFilter [nzFilters]="resultFiltersList"
+            [nzFilterMultiple]="true" (nzFilterChange)="filterResultsChange($event)">{{'item-result'|translate}}</th>
           <th style="background-color:transparent;">{{'item-assertion-ok-ko'|translate}}</th>
           <th style="background-color:transparent;"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of caseTable.data;let i = index">
-          <td>{{(casePageIndex-1)*pageSize+i+1}}</td>
-          <td><a (click)="viewItem(item)">{{item.title}}</a></td>
+          <td class="no">{{(casePageIndex-1)*pageSize+i+1}}</td>
+          <td>
+            <nz-tag [nzColor]="typeColor(item)">{{typeText(item)}}</nz-tag>
+            <a (click)="viewItem(item)">{{item.title}}</a>
+          </td>
           <td>
             <nz-tag [nzColor]="item.status==='pass'?'cyan':'magenta'">{{item.status}}</nz-tag>
           </td>
           <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
           <td style="width:64px;">
-            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon type="dashboard" theme="outline" (click)="viewItem(item)"></i>
-            <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline" (click)="editItem(item)"></i>
+            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon type="dashboard" theme="outline"
+              (click)="viewItem(item)"></i>
+            <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline"
+              (click)="editItem(item)"></i>
           </td>
         </tr>
       </tbody>
@@ -92,8 +99,8 @@
   </nz-card>
   <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;" [nzTitle]="'field-scenario'|translate"
     [nzBodyStyle]="{'padding':'9px'}">
-    <nz-table #scenarioTable nzSize="small" [nzData]="scenarioItems" [(nzPageIndex)]="scenarioPageIndex" [nzPageSize]="pageSize"
-      [nzShowTotal]="scenarioTotalTemplate">
+    <nz-table #scenarioTable nzSize="small" [nzData]="scenarioItems" [(nzPageIndex)]="scenarioPageIndex"
+      [nzPageSize]="pageSize" [nzShowTotal]="scenarioTotalTemplate">
       <tbody>
         <ng-template ngFor let-data let-i="index" [ngForOf]="scenarioTable.data">
           <tr style="cursor:pointer;" (click)="data.expand=!data.expand">
@@ -103,23 +110,30 @@
               <nz-tag [nzColor]="tagColor(data.status)">{{data.status}}</nz-tag>
             </td>
             <td style="width:64px;">
-              <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline" (click)="editScenario(data)"></i>
+              <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline"
+                (click)="editScenario(data)"></i>
             </td>
           </tr>
           <tr [nzExpand]="data.expand">
             <td colspan="4">
-              <nz-table #innerTable nzSize="small" [nzData]="data.steps" [nzFrontPagination]="false" [nzShowPagination]="false">
+              <nz-table #innerTable nzSize="small" [nzData]="data.steps" [nzFrontPagination]="false"
+                [nzShowPagination]="false">
       <tbody>
         <tr *ngFor="let item of innerTable.data;let i = index">
-          <td>{{i+1}}</td>
-          <td><a (click)="viewItem(item)">{{item.title}}</a></td>
+          <td class="no">{{i+1}}</td>
+          <td>
+            <nz-tag [nzColor]="typeColor(item)">{{typeText(item)}}</nz-tag>
+            <a (click)="viewItem(item)">{{item.title}}</a>
+          </td>
           <td>
             <nz-tag [nzColor]="tagColor(item.status)">{{item.status}}</nz-tag>
           </td>
           <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
           <td style="width:64px;">
-            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon type="dashboard" theme="outline" (click)="viewItem(item)"></i>
-            <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline" (click)="editItem(item)"></i>
+            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon type="dashboard" theme="outline"
+              (click)="viewItem(item)"></i>
+            <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline"
+              (click)="editItem(item)"></i>
           </td>
         </tr>
       </tbody>
@@ -140,8 +154,8 @@
   <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;" [nzTitle]="'item-trend'|translate">
     <div nz-row>
       <div nz-col nzSpan="24">
-        <ngx-charts-area-chart [view]="fullView" [scheme]="{'domain':['lightseagreen']}" [results]="okRates" [legend]="false"
-          [xAxis]="true" [yAxis]="true">
+        <ngx-charts-area-chart [view]="fullView" [scheme]="{'domain':['lightseagreen']}" [results]="okRates"
+          [legend]="false" [xAxis]="true" [yAxis]="true">
         </ngx-charts-area-chart>
       </div>
       <div nz-col nzSpan="24" style="margin-top:100px;">

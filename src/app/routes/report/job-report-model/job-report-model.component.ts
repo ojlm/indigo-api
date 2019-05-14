@@ -1,14 +1,11 @@
-import { Location } from '@angular/common'
 import { Component, HostListener, OnInit } from '@angular/core'
-import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 
-import { CaseService } from '../../../api/service/case.service'
 import { JobService } from '../../../api/service/job.service'
-import { ScenarioService } from '../../../api/service/scenario.service'
+import { ScenarioStepType } from '../../../api/service/scenario.service'
 import { CaseReportItem, JobReport, JobReportDataStatistic, ScenarioReportItem } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 import { calcDrawerWidth } from '../../../util/drawer'
@@ -18,6 +15,9 @@ import { JobReportItemComponent } from '../job-report-item/job-report-item.compo
   selector: 'app-job-report-model',
   templateUrl: './job-report-model.component.html',
   styles: [`
+    .no {
+      width: 100px;
+    }
     .span-label {
       color: darkgray;
     }
@@ -33,15 +33,11 @@ import { JobReportItemComponent } from '../job-report-item/job-report-item.compo
 export class JobReportModelComponent extends PageSingleModel implements OnInit {
 
   constructor(
-    private fb: FormBuilder,
-    private caseService: CaseService,
-    private scenarioService: ScenarioService,
     private drawerService: NzDrawerService,
     private jobService: JobService,
     private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
     private i18nService: I18NService,
   ) {
     super()
@@ -126,6 +122,32 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
           data: item
         }
       })
+    }
+  }
+
+  typeText(item: CaseReportItem) {
+    switch (item.type) {
+      case ScenarioStepType.CASE:
+        return 'http'
+      case ScenarioStepType.DUBBO:
+        return ScenarioStepType.DUBBO
+      case ScenarioStepType.SQL:
+        return ScenarioStepType.SQL
+      default:
+        return 'http'
+    }
+  }
+
+  typeColor(item: CaseReportItem) {
+    switch (item.type) {
+      case ScenarioStepType.CASE:
+        return 'cyan'
+      case ScenarioStepType.DUBBO:
+        return 'gold'
+      case ScenarioStepType.SQL:
+        return 'geekblue'
+      default:
+        return 'cyan'
     }
   }
 

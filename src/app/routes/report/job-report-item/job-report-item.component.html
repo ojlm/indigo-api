@@ -23,41 +23,43 @@
       <span class="metrics-item-value">{{metrics.totalTime}} ms</span>
     </span>
   </div>
-  <nz-divider [nzText]="generalText" nzOrientation="left">
-    <ng-template #generalText>
-      <span class="divider-text">
-        <span>General</span>
-      </span>
-    </ng-template>
-  </nz-divider>
-  <div>
+  <div *ngIf="isHttp()">
+    <nz-divider [nzText]="generalText" nzOrientation="left">
+      <ng-template #generalText>
+        <span class="divider-text">
+          <span>General</span>
+        </span>
+      </ng-template>
+    </nz-divider>
     <div>
-      <span class="label-text">Request URL:</span>
-      <span class="label-value">{{request.url}}</span>
+      <div>
+        <span class="label-text">Request URL:</span>
+        <span class="label-value">{{request.url}}</span>
+      </div>
+      <div>
+        <span class="label-text">Request Method:</span>
+        <span class="label-value">{{request.method}}</span>
+      </div>
+      <div>
+        <span class="label-text">Status Code:</span>
+        <span class="label-value">
+          <nz-badge [nzStatus]="response.statusCode<300?'success':'error'"></nz-badge>
+          <span>{{response.statusCode}} {{response.statusMsg}}</span>
+        </span>
+      </div>
     </div>
+    <nz-divider [nzText]="reqHText" nzOrientation="left">
+      <ng-template #reqHText>
+        <span class="divider-text">
+          <span>Request Headers</span>
+        </span>
+      </ng-template>
+    </nz-divider>
     <div>
-      <span class="label-text">Request Method:</span>
-      <span class="label-value">{{request.method}}</span>
-    </div>
-    <div>
-      <span class="label-text">Status Code:</span>
-      <span class="label-value">
-        <nz-badge [nzStatus]="response.statusCode<300?'success':'error'"></nz-badge>
-        <span>{{response.statusCode}} {{response.statusMsg}}</span>
-      </span>
-    </div>
-  </div>
-  <nz-divider [nzText]="reqHText" nzOrientation="left">
-    <ng-template #reqHText>
-      <span class="divider-text">
-        <span>Request Headers</span>
-      </span>
-    </ng-template>
-  </nz-divider>
-  <div>
-    <div *ngFor="let item of requestHeaders">
-      <span class="label-text">{{item.key}}:</span>
-      <span class="label-value">{{item.value}}</span>
+      <div *ngFor="let item of requestHeaders">
+        <span class="label-text">{{item.key}}:</span>
+        <span class="label-value">{{item.value}}</span>
+      </div>
     </div>
   </div>
   <nz-divider [nzText]="reqBText" nzOrientation="left">
@@ -67,7 +69,8 @@
       </span>
     </ng-template>
   </nz-divider>
-  <ngx-monaco-editor *ngIf="request.body" style="height:240px;" [options]="requestBodyEditorOption" [(ngModel)]="request.body"></ngx-monaco-editor>
+  <ngx-monaco-editor *ngIf="request.body" style="height:240px;" [options]="requestBodyEditorOption"
+    [(ngModel)]="request.body"></ngx-monaco-editor>
   <nz-divider [nzText]="resHText" nzOrientation="left">
     <ng-template #resHText>
       <span class="divider-text">
@@ -75,19 +78,19 @@
       </span>
     </ng-template>
   </nz-divider>
-  <div>
+  <div *ngIf="isHttp()">
     <div *ngFor="let item of responseHeaders">
       <span class="label-text">{{item.key}}:</span>
       <span class="label-value">{{item.value}}</span>
     </div>
+    <nz-divider [nzText]="resBText" nzOrientation="left">
+      <ng-template #resBText>
+        <span class="divider-text">
+          <span>Response Body</span>
+        </span>
+      </ng-template>
+    </nz-divider>
   </div>
-  <nz-divider [nzText]="resBText" nzOrientation="left">
-    <ng-template #resBText>
-      <span class="divider-text">
-        <span>Response Body</span>
-      </span>
-    </ng-template>
-  </nz-divider>
   <embed *ngIf="entityEmbed" width="100%;" height="240px" [src]="entityBlobUrl" />
   <ngx-monaco-editor *ngIf="!entityEmbed && response.body" style="height:240px;" [options]="responseBodyEditorOption"
     [(ngModel)]="response.body"></ngx-monaco-editor>
@@ -98,7 +101,8 @@
       </span>
     </ng-template>
   </nz-divider>
-  <ngx-monaco-editor style="height:300px;" [options]="jsonEditorOption" [(ngModel)]="itemData.assertions"></ngx-monaco-editor>
+  <ngx-monaco-editor style="height:300px;" [options]="jsonEditorOption" [(ngModel)]="itemData.assertions">
+  </ngx-monaco-editor>
   <nz-divider [nzText]="assertionsRText" nzOrientation="left">
     <ng-template #assertionsRText>
       <span class="divider-text">
@@ -106,5 +110,6 @@
       </span>
     </ng-template>
   </nz-divider>
-  <ngx-monaco-editor style="height:300px;" [options]="jsonEditorOption" [(ngModel)]="itemData.assertionsResult"></ngx-monaco-editor>
+  <ngx-monaco-editor style="height:300px;" [options]="jsonEditorOption" [(ngModel)]="itemData.assertionsResult">
+  </ngx-monaco-editor>
 </div>
