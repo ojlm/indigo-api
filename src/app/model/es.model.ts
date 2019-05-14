@@ -236,8 +236,8 @@ export interface JobReportDataItem {
   scenarioId?: string
   jobId?: string
   metrics?: CaseReportItemMetrics
-  request?: CaseDataItemRequest
-  response?: CaseResultResponse
+  request?: ReportDataItemRequest
+  response?: ReportDataItemResponse
   assertions?: Object
   assertionsResult?: Object
 }
@@ -298,6 +298,7 @@ export interface CaseReportItem {
   itemId?: string
   status?: string
   msg?: string
+  type?: string
   statis?: CaseStatis
 }
 
@@ -461,3 +462,14 @@ export interface SqlRequest extends BaseDoc {
   labels?: LabelRef[]
   generator?: CaseGenerator
 }
+
+export interface DubboRequestReportModel {
+  body?: any
+}
+
+export interface SqlRequestReportModel {
+  body?: any
+}
+
+type ReportDataItemRequest = CaseDataItemRequest | SqlRequest | DubboRequest
+type ReportDataItemResponse = CaseResultResponse | DubboRequestReportModel | SqlRequestReportModel

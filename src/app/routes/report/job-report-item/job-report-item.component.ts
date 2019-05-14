@@ -1,15 +1,11 @@
 import { Location } from '@angular/common'
 import { Component, Input, OnInit } from '@angular/core'
-import { FormBuilder } from '@angular/forms'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18NService } from '@core/i18n/i18n.service'
-import { NzMessageService } from 'ng-zorro-antd'
+import { ScenarioStepType } from 'app/api/service/scenario.service'
 
-import { CaseService } from '../../../api/service/case.service'
 import { JobService } from '../../../api/service/job.service'
-import { ScenarioService } from '../../../api/service/scenario.service'
 import {
   CaseDataItemRequest,
   CaseReportItem,
@@ -69,14 +65,8 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
   entityBlobUrl: SafeUrl
 
   constructor(
-    private fb: FormBuilder,
-    private caseService: CaseService,
-    private scenarioService: ScenarioService,
     private jobService: JobService,
-    private msgService: NzMessageService,
     private monocoService: MonacoService,
-    private router: Router,
-    private route: ActivatedRoute,
     private location: Location,
     private i18nService: I18NService,
     private sanitizer: DomSanitizer,
@@ -84,57 +74,74 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
     super()
   }
 
+  isHttp() {
+    if (this.item.type === ScenarioStepType.DUBBO || this.item.type === ScenarioStepType.SQL) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   ngOnInit(): void {
     if (this.day && this.item.itemId) {
       this.jobService.getReportItemById(this.day, this.item.itemId).subscribe(res => {
         this.itemData = res.data
         this.metrics = this.itemData.metrics
-        this.request = this.itemData.request
+        this.request = this.itemData.request as CaseDataItemRequest
         this.response = this.itemData.response
-        try {
-          if (this.request.body) {
-            const obj = JSON.parse(this.request.body)
-            this.request.body = JSON.stringify(obj, null, '  ')
-          }
-        } catch (error) {
-          this.requestBodyEditorOption = this.monocoService.getHtmlOption(true)
-        }
-        // handle response
-        try {
-          if (this.response.contentType.startsWith('image/') || this.response.contentType.startsWith('application/pdf')) {
-            const b = atob(this.response.body)
-            const buffer = new ArrayBuffer(b.length)
-            const array = new Uint8Array(buffer)
-            for (let i = 0; i < b.length; ++i) {
-              array[i] = b.charCodeAt(i)
+        if (this.isHttp()) {
+          try {
+            if (this.request.body) {
+              const obj = JSON.parse(this.request.body)
+              this.request.body = JSON.stringify(obj, null, '  ')
             }
-            const blob = new Blob([array], { type: this.response.contentType })
-            this.entityBlobUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
-            this.entityEmbed = true
-          } else if (this.response.contentType.startsWith('application/javascript')) {
-            this.responseBodyEditorOption = this.monocoService.getJavascriptOption(true)
-            this.entityEmbed = false
-          } else if (this.response.contentType.startsWith('text/html')) {
+          } catch (error) {
+            this.requestBodyEditorOption = this.monocoService.getHtmlOption(true)
+          }
+          // handle response
+          try {
+            if (this.response.contentType.startsWith('image/') || this.response.contentType.startsWith('application/pdf')) {
+              const b = atob(this.response.body)
+              const buffer = new ArrayBuffer(b.length)
+              const array = new Uint8Array(buffer)
+              for (let i = 0; i < b.length; ++i) {
+                array[i] = b.charCodeAt(i)
+              }
+              const blob = new Blob([array], { type: this.response.contentType })
+              this.entityBlobUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
+              this.entityEmbed = true
+            } else if (this.response.contentType.startsWith('application/javascript')) {
+              this.responseBodyEditorOption = this.monocoService.getJavascriptOption(true)
+              this.entityEmbed = false
+            } else if (this.response.contentType.startsWith('text/html')) {
+              this.responseBodyEditorOption = this.monocoService.getHtmlOption(true)
+              this.entityEmbed = false
+            } else {
+              // application/json
+              if (typeof this.response.body === 'string') {
+                this.response.body = JSON.stringify(JSON.parse(this.response.body), null, '    ')
+              } else {
+                this.response.body = JSON.stringify(this.response.body, null, '    ')
+              }
+              this.entityEmbed = false
+            }
+          } catch (error) {
             this.responseBodyEditorOption = this.monocoService.getHtmlOption(true)
             this.entityEmbed = false
-          } else {
-            // application/json
-            if (typeof this.response.body === 'string') {
-              this.response.body = JSON.stringify(JSON.parse(this.response.body), null, '    ')
-            } else {
-              this.response.body = JSON.stringify(this.response.body, null, '    ')
-            }
-            this.entityEmbed = false
           }
-        } catch (error) {
-          this.responseBodyEditorOption = this.monocoService.getHtmlOption(true)
-          this.entityEmbed = false
-        }
-        for (const k of Object.keys(this.request.headers)) {
-          this.requestHeaders.push({ key: k, value: this.request.headers[k] })
-        }
-        for (const k of Object.keys(this.response.headers)) {
-          this.responseHeaders.push({ key: k, value: this.response.headers[k] })
+          for (const k of Object.keys(this.request.headers)) {
+            this.requestHeaders.push({ key: k, value: this.request.headers[k] })
+          }
+          for (const k of Object.keys(this.response.headers)) {
+            this.responseHeaders.push({ key: k, value: this.response.headers[k] })
+          }
+        } else {
+          this.request = {
+            body: formatJson(this.request, 2)
+          }
+          this.response = {
+            body: formatJson(this.response.body, 2)
+          }
         }
         this.itemData.assertions = formatJson(this.itemData.assertions, 2)
         this.itemData.assertionsResult = formatJson(this.itemData.assertionsResult, 2)
