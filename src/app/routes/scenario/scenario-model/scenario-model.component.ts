@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
+import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
@@ -28,7 +29,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   }
   @Input() group: string
   @Input() project: string
-  scenario: Scenario = { steps: [] }
+  scenario: Scenario = { steps: [], imports: [], exports: [] }
   scenarioId: string
   scenarioResponse: ScenarioResponse = {}
   submitting = false
@@ -126,6 +127,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
       return
     }
     const scenario = { ...this.scenario }
+    scenario.imports = formatImportsToSave(scenario.imports)
     return scenario
   }
 

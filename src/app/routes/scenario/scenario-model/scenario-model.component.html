@@ -38,8 +38,19 @@
     </div>
   </nz-card>
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
-    <app-steps-selector [group]="group" [project]="project" [scenarioResponse]="scenarioResponse"
-      [(data)]="scenario.steps" [eventSubject]="eventSubject" [ctxOptions]="_ctxOptions"></app-steps-selector>
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false" [nzSize]="'small'">
+      <nz-tab [nzTitle]="'field-steps'|translate">
+        <app-steps-selector [group]="group" [project]="project" [scenarioResponse]="scenarioResponse"
+          [(data)]="scenario.steps" [eventSubject]="eventSubject" [ctxOptions]="_ctxOptions"></app-steps-selector>
+      </nz-tab>
+      <nz-tab [nzTitle]="'item-imports'|translate">
+        <app-variables-import-table [(data)]="scenario.imports" [defaultScope]="'_s'">
+        </app-variables-import-table>
+      </nz-tab>
+      <nz-tab [nzTitle]="'item-exports'|translate">
+        <app-variables-export-table [(data)]="scenario.exports"></app-variables-export-table>
+      </nz-tab>
+    </nz-tabset>
   </nz-card>
   <div style="margin-top:7px;">
     <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="test()">

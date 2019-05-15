@@ -85,6 +85,7 @@ export interface Scenario extends BaseDoc {
   env?: string
   steps?: ScenarioStep[]
   labels?: LabelRef[]
+  imports?: VariablesImportItem[]
   exports?: VariablesExportItem[]
 }
 
@@ -216,6 +217,7 @@ export interface Job extends BaseDoc {
   scheduler?: string
   jobData?: JobData
   trigger?: JobTrigger[]
+  imports?: VariablesImportItem[]
 }
 
 export interface JobReportData {
@@ -482,6 +484,15 @@ export interface VariablesExportItem {
   srcPath?: string
   dstName?: string
   scope?: string
+  description?: string
+  enabled?: boolean
+  function?: string
+}
+
+export interface VariablesImportItem {
+  name?: string
+  scope?: string
+  value?: any
   description?: string
   enabled?: boolean
   function?: string

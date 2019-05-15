@@ -4,13 +4,14 @@ import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
+import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { CaseService } from '../../../api/service/case.service'
 import { JobService, NewJob } from '../../../api/service/job.service'
 import { ActorEvent, ActorEventType } from '../../../model/api.model'
-import { ContextOptions, JobExecDesc, JobNotify } from '../../../model/es.model'
+import { ContextOptions, JobExecDesc, JobNotify, VariablesImportItem } from '../../../model/es.model'
 import { JobDataExt, JobMeta, TriggerMeta } from '../../../model/job.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -45,6 +46,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   subscribers: JobNotify[] = []
   ctxOptions: ContextOptions = {}
   reportId = ''
+  imports: VariablesImportItem[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -166,7 +168,8 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         }),
         ext: this.jobDataExt
       },
-      notifies: this.subscribers
+      notifies: this.subscribers,
+      imports: formatImportsToSave(this.imports),
     }
     return newJob
   }
@@ -190,6 +193,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         this.jobId = jobId
         this.jobService.getById(jobId).subscribe(res => {
           const job = res.data
+          this.imports = job.imports
           this.jobMeta.summary = job.summary
           this.jobMeta.description = job.description
           this.jobMeta.scheduler = job.scheduler

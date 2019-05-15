@@ -3,13 +3,13 @@
     <tr>
       <th style="padding:3px;width:24px;"></th>
       <th style="padding:3px;">
-        <span>{{'item-src-path'|translate}}</span>
+        <span>{{'item-var-name'|translate}}</span>
       </th>
       <th style="padding:3px;">
         <span>{{'item-scope'|translate}}</span>
       </th>
       <th style="padding:3px;">
-        <span>{{'item-var-name'|translate}}</span>
+        <span>{{'field-value'|translate}}</span>
       </th>
       <th style="padding:3px;">
         <span>{{'field-description'|translate}}</span>
@@ -23,7 +23,7 @@
         <label style="margin:0px;" nz-checkbox [(ngModel)]="item.enabled" (ngModelChange)="modelChange(item,i)"></label>
       </td>
       <td style="padding:2px;">
-        <input nz-input [(ngModel)]="item.srcPath" (ngModelChange)="modelChange(item,i)">
+        <input nz-input [(ngModel)]="item.name" (ngModelChange)="modelChange(item,i)">
       </td>
       <td style="padding:2px;">
         <nz-select style="width: 100%;" [(ngModel)]="item.scope">
@@ -31,7 +31,7 @@
         </nz-select>
       </td>
       <td style="padding:2px;">
-        <input nz-input [(ngModel)]="item.dstName" (ngModelChange)="modelChange(item,i)">
+        <input nz-input [(ngModel)]="item.value" (ngModelChange)="modelChange(item,i)">
       </td>
       <td style="padding:2px;">
         <input nz-input [(ngModel)]="item.description" (ngModelChange)="modelChange(item,i)">
