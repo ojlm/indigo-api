@@ -66,7 +66,8 @@ export class DubboPlaygroundComponent implements OnInit {
   request: DubboRequest = {
     request: {
       path: '/dubbo'
-    }
+    },
+    exports: []
   }
   height = `${window.innerHeight - 70}px`
   subHeight = `${window.innerHeight - 148}px`

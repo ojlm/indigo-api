@@ -45,7 +45,8 @@ export class SqlPlaygroundComponent implements OnInit {
   isSaved = true
   drawerWidth = calcDrawerWidth(0.4)
   request: SqlRequest = {
-    request: {}
+    request: {},
+    exports: []
   }
   height = `${window.innerHeight - 70}px`
   subHeight = `${window.innerHeight - 148}px`
