@@ -390,8 +390,7 @@ export class DubboPlaygroundComponent implements OnInit {
     } else {
       try {
         const newReq: DubboRequest = JSON.parse(JSON.stringify(req))
-        const reqBody = JSON.parse(this.requestStr)
-        newReq.request.args = { args: reqBody }
+        newReq.request.args = this.requestStr
         newReq.request.parameterTypes = this.parameterTypes.filter(item => item.type)
         newReq._id = undefined
         newReq._creator = undefined
@@ -432,7 +431,7 @@ export class DubboPlaygroundComponent implements OnInit {
         }
       }
       this.methods = [this.request.request.method]
-      this.requestStr = formatJson(this.request.request.args.args, 2)
+      this.requestStr = this.request.request.args
       this.parameterTypes = this.request.request.parameterTypes
       this.assertionsStr = formatJson(this.request.assert, 2)
     })
