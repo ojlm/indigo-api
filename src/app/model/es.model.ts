@@ -1,4 +1,4 @@
-import { GenericRequest } from 'app/api/service/dubbo.service'
+import { ParameterType } from 'app/api/service/dubbo.service'
 
 import { DataBody } from './api.model'
 import { AbstractResult, JobData } from './job.model'
@@ -430,7 +430,15 @@ export interface DomainOnlineConfig extends BaseDoc {
   exMethods?: LabelRef[]
 }
 
-export interface DubboRequestBody extends GenericRequest {
+export interface DubboRequestBody {
+  dubboGroup?: string
+  interface?: string
+  method?: string
+  parameterTypes?: ParameterType[]
+  args?: string
+  address?: string
+  port?: number
+  version?: string
   zkAddr?: string
   zkPort?: number
   path?: string
