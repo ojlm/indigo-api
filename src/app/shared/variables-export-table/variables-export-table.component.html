@@ -1,0 +1,44 @@
+<nz-table #nzTable [nzSize]="'default'" [nzData]="values" [nzShowPagination]="false" [nzFrontPagination]="false">
+  <thead>
+    <tr>
+      <th style="padding:3px;width:24px;"></th>
+      <th style="padding:3px;">
+        <span>{{'item-src-path'|translate}}</span>
+      </th>
+      <th style="padding:3px;">
+        <span>{{'item-scope'|translate}}</span>
+      </th>
+      <th style="padding:3px;">
+        <span>{{'item-dst-name'|translate}}</span>
+      </th>
+      <th style="padding:3px;">
+        <span>{{'field-description'|translate}}</span>
+      </th>
+      <th style="padding:3px;width:24px;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of nzTable.data; let i = index">
+      <td style="padding:2px;width:24px;">
+        <label style="margin:0px;" nz-checkbox [(ngModel)]="item.enabled" (ngModelChange)="modelChange(item,i)"></label>
+      </td>
+      <td style="padding:2px;">
+        <input nz-input [(ngModel)]="item.srcPath" (ngModelChange)="modelChange(item,i)">
+      </td>
+      <td style="padding:2px;">
+        <nz-select style="width: 100%;" [(ngModel)]="item.scope">
+          <nz-option *ngFor="let item of scopes" [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+        </nz-select>
+      </td>
+      <td style="padding:2px;">
+        <input nz-input [(ngModel)]="item.dstName" (ngModelChange)="modelChange(item,i)">
+      </td>
+      <td style="padding:2px;">
+        <input nz-input [(ngModel)]="item.description" (ngModelChange)="modelChange(item,i)">
+      </td>
+      <td style="padding:2px;">
+        <i *ngIf="i<values.length-1" nz-icon type="close" theme="outline" class="click-icon" (click)="remove(i)"></i>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
