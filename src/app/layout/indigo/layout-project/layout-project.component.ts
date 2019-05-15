@@ -70,18 +70,18 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
           hideInBreadcrumb: true,
           children: [
             {
-              text: '用例管理',
+              text: 'Http 请求',
               i18n: 'menu-cases',
-              icon: { type: 'icon', value: 'book', theme: 'outline' },
+              icon: { type: 'icon', value: 'chrome', theme: 'outline' },
               children: [
                 {
-                  text: '用例列表',
-                  i18n: 'menu-case-list',
+                  text: 'Http 列表',
+                  i18n: 'menu-list',
                   link: `/${group}/${project}`,
                 },
                 {
-                  text: '新建用例',
-                  i18n: 'menu-new-case',
+                  text: '新建 Http',
+                  i18n: 'menu-new',
                   link: `/cases/${group}/${project}/new`,
                 },
               ]
@@ -160,7 +160,7 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
               ]
             },
             {
-              text: '任务列表',
+              text: '任务管理',
               i18n: 'menu-jobs',
               icon: { type: 'icon', value: 'schedule', theme: 'outline' },
               link: `/job/${group}/${project}`,
