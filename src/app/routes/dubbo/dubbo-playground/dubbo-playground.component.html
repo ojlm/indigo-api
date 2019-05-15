@@ -132,6 +132,10 @@
                 <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="resultStr">
                 </ngx-monaco-editor>
               </nz-tab>
+              <nz-tab [nzTitle]="'item-exports'|translate">
+                <app-variables-export-table [(data)]="request.exports" (dataChange)="modelChange()">
+                </app-variables-export-table>
+              </nz-tab>
               <nz-tab [nzTitle]="'item-assert-report'|translate">
                 <div style="padding-top:5px;">
                   <app-playground-report-tab [statis]="statis" [metrics]="metrics"></app-playground-report-tab>

@@ -96,6 +96,10 @@
         <app-case-generator [assertions]="assertions" [(data)]="case.generator" (dataChange)="modelChange()">
         </app-case-generator>
       </nz-tab>
+      <nz-tab [nzTitle]="'item-exports'|translate">
+        <app-variables-export-table [(data)]="case.exports" (dataChange)="modelChange()">
+        </app-variables-export-table>
+      </nz-tab>
     </nz-tabset>
   </nz-card>
   <div *ngIf="case._creator" style="text-align:right;padding-right:10px;">
