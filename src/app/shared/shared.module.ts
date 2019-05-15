@@ -29,6 +29,7 @@ import { PofileSimpleComponent } from './profile-simple/profile-simple.component
 import { RestModelComponent } from './rest-model/rest-model.component'
 import { SqlSearchPanelComponent } from './sql-search-panel/sql-search-panel.component'
 import { VariablesExportTableComponent } from './variables-export-table/variables-export-table.component'
+import { VariablesImportTableComponent } from './variables-import-table/variables-import-table.component'
 
 // delon
 // i18n
@@ -59,6 +60,7 @@ const COMPONENTS = [
   DubboSearchPanelComponent,
   PlaygroundReportTabComponent,
   VariablesExportTableComponent,
+  VariablesImportTableComponent,
 ]
 const DIRECTIVES = []
 // endregion

@@ -1,10 +1,13 @@
 <div nz-row nzType="flex" nzJustify="start" [nzGutter]="3">
-  <div nz-col nzSpan="24" style="border:1px solid lightgray;border-radius:5px;">
+  <div nz-col nzSpan="24">
+    <!--
+    <div nz-col nzSpan="24" style="border:1px solid lightgray;border-radius:5px;">
     <nz-divider style="margin-top:5px;" [nzText]="nzText" nzOrientation="left">
       <ng-template #nzText>
         <span style="font-size:small;color:darkgray;">{{'field-steps'|translate}}</span>
       </ng-template>
     </nz-divider>
+    -->
     <div [sortablejs]="steps" [sortablejsOptions]="sortablejsOptions">
       <div class="step" style="width:100%;margin-left:10px;margin-top:6px;margin-right:10px;"
         *ngFor="let item of steps;let i = index;">
