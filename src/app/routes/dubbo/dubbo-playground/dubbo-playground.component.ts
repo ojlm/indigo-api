@@ -92,7 +92,7 @@ export class DubboPlaygroundComponent implements OnInit {
   @Input()
   set result(result: DubboResult) {
     if (result) {
-      this.tabIndex = 5
+      this.tabIndex = 6
       this.dealResult(result)
     }
   }
@@ -124,7 +124,7 @@ export class DubboPlaygroundComponent implements OnInit {
       this.isSending = true
       this.dubboService.test({ id: this.request._id, request: newReq }).subscribe(res => {
         this.dealResult(res.data)
-        this.tabIndex = 5
+        this.tabIndex = 6
         this.isSending = false
       }, err => this.isSending = false)
     }

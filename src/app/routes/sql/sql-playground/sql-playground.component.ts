@@ -67,7 +67,7 @@ export class SqlPlaygroundComponent implements OnInit {
   @Input()
   set result(result: SqlResult) {
     if (result) {
-      this.tabIndex = 5
+      this.tabIndex = 6
       this.dealResult(result)
     }
   }
@@ -99,7 +99,7 @@ export class SqlPlaygroundComponent implements OnInit {
     if (newReq) {
       this.sqlService.test({ id: this.request._id, request: newReq }).subscribe(res => {
         this.dealResult(res.data)
-        this.tabIndex = 5
+        this.tabIndex = 6
         this.isSending = false
       }, err => this.isSending = false)
     }
