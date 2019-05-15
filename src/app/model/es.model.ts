@@ -68,6 +68,7 @@ export interface Case extends BaseDoc {
   env?: string
   labels?: LabelRef[]
   generator?: CaseGenerator
+  exports?: VariablesExportItem[]
 }
 
 export interface ScenarioStep {
@@ -84,6 +85,7 @@ export interface Scenario extends BaseDoc {
   env?: string
   steps?: ScenarioStep[]
   labels?: LabelRef[]
+  exports?: VariablesExportItem[]
 }
 
 export interface KeyValueObject {
@@ -440,6 +442,7 @@ export interface DubboRequest extends BaseDoc {
   generator?: CaseGenerator
   assert?: object
   labels?: LabelRef[]
+  exports?: VariablesExportItem[]
 }
 
 export interface SqlRequestBody {
@@ -451,6 +454,7 @@ export interface SqlRequestBody {
   database?: string
   table?: string
   sql?: string
+  exports?: VariablesExportItem[]
 }
 
 export interface SqlRequest extends BaseDoc {
@@ -473,3 +477,12 @@ export interface SqlRequestReportModel {
 
 type ReportDataItemRequest = CaseDataItemRequest | SqlRequest | DubboRequest
 type ReportDataItemResponse = CaseResultResponse | DubboRequestReportModel | SqlRequestReportModel
+
+export interface VariablesExportItem {
+  srcPath?: string
+  dstName?: string
+  scope?: string
+  description?: string
+  enabled?: boolean
+  function?: string
+}
