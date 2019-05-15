@@ -467,6 +467,7 @@ export interface SqlRequest extends BaseDoc {
   assert?: object
   labels?: LabelRef[]
   generator?: CaseGenerator
+  exports?: VariablesExportItem[]
 }
 
 export interface DubboRequestReportModel {

@@ -394,6 +394,7 @@ export function initCaseField(cs: Case) {
     auth: { type: '', data: {} }
   }
   location.hash = ''
+  cs.exports = []
 }
 
 export interface CaseModelHashObj {
