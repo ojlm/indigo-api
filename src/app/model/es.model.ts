@@ -93,6 +93,7 @@ export interface KeyValueObject {
   key?: string
   value?: string
   enabled?: boolean
+  description?: string
 }
 
 export interface MediaObject {
