@@ -10,7 +10,6 @@ import {
   DubboResult,
   DubboService,
   GetInterfaceMethodParams,
-  GetInterfacesMessage,
   InterfaceMethodParams,
   ParameterType,
 } from 'app/api/service/dubbo.service'
@@ -53,8 +52,6 @@ export class DubboPlaygroundComponent implements OnInit {
   drawerWidth = calcDrawerWidth(0.4)
   methodsDrawerVisible = false
   interfaceSearchTxt = ''
-  zkConnectString = ''
-  interfacesMsg: GetInterfacesMessage = { path: '/dubbo' }
   rawInterfaces: DubboInterface[] = []
   interfaces: DubboInterface[] = []
   rawProviders: DubboProvider[] = []
@@ -189,20 +186,6 @@ export class DubboPlaygroundComponent implements OnInit {
     this.msgService.info('TBD')
   }
 
-  zkChange() {
-    const pieces = this.zkConnectString.split(':')
-    if (pieces.length === 2) {
-      this.interfacesMsg.zkAddr = pieces[0]
-      this.interfacesMsg.zkPort = parseInt(pieces[1], 10)
-      this.request.request.zkAddr = this.interfacesMsg.zkAddr
-      this.request.request.zkPort = this.interfacesMsg.zkPort
-    }
-  }
-
-  zkPathChange() {
-    this.request.request.path = this.interfacesMsg.path
-  }
-
   telnet() {
     this.telnetDrawerVisible = true
     if (this.selectedProvider.address) {
@@ -271,14 +254,17 @@ export class DubboPlaygroundComponent implements OnInit {
   }
 
   getInterfaces() {
-    this.dubboService.getInterfaces(this.interfacesMsg).subscribe(res => {
+    this.dubboService.getInterfaces({
+      zkConnectString: this.request.request.zkConnectString,
+      path: this.request.request.path
+    }).subscribe(res => {
       this.rawInterfaces = res.data
       this.interfaces = [...this.rawInterfaces]
     })
   }
 
   getProviders(item: DubboInterface) {
-    if (item.zkAddr && item.ref) {
+    if (item.zkConnectString && item.ref) {
       this.request.request.interface = item.ref
       this.selectedProvider = {}
       this.request.request.method = ''
@@ -422,14 +408,6 @@ export class DubboPlaygroundComponent implements OnInit {
         port: this.request.request.port
       }
       this.providers = [this.selectedProvider]
-      if (this.request.request.zkAddr && this.request.request.zkPort) {
-        this.zkConnectString = `${this.request.request.zkAddr}:${this.request.request.zkPort}`
-        this.interfacesMsg = {
-          zkAddr: this.request.request.zkAddr,
-          zkPort: this.request.request.port,
-          path: this.request.request.path
-        }
-      }
       this.methods = [this.request.request.method]
       this.requestStr = this.request.request.args
       this.parameterTypes = this.request.request.parameterTypes

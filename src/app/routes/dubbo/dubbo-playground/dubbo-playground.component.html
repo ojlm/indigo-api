@@ -47,7 +47,8 @@
         <div class="col-panel" nz-col nzSpan="6">
           <nz-input-group style="width:100%;" nzAddOnBefore="zk://" [nzSuffix]="tplConn">
             <input style="width:100%;" type="text" nz-input placeholder="zookeeper address"
-              [(ngModel)]="zkConnectString" (ngModelChange)="zkChange()" (keydown.enter)="getInterfaces()">
+              [(ngModel)]="request.request.zkConnectString" (ngModelChange)="modelChange()"
+              (keydown.enter)="getInterfaces()">
             <ng-template #tplConn>
               <a (click)="getInterfaces()"><i nz-icon type="enter" theme="outline"></i></a>
             </ng-template>
@@ -56,7 +57,7 @@
             <input type="text" nz-input [(ngModel)]="interfaceSearchTxt" (ngModelChange)="filterInterfaces()">
           </nz-input-group>
           <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="path:">
-            <input type="text" nz-input [(ngModel)]="interfacesMsg.path" (ngModelChange)="zkPathChange()">
+            <input type="text" nz-input [(ngModel)]="request.request.path" (ngModelChange)="modelChange()">
           </nz-input-group>
           <nz-table style="margin-top:4px;" nzSize="small" #basicTable [nzFrontPagination]="false"
             [nzShowPagination]="false" [nzScroll]="tableScroll" [nzData]="interfaces">

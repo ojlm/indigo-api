@@ -440,8 +440,7 @@ export interface DubboRequestBody {
   address?: string
   port?: number
   version?: string
-  zkAddr?: string
-  zkPort?: number
+  zkConnectString?: string
   path?: string
 }
 

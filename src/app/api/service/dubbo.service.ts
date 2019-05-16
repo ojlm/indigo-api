@@ -105,14 +105,12 @@ export function dubboRequestSignature(item: DubboRequest) {
 }
 
 export interface GetInterfacesMessage {
-  zkAddr?: string
-  zkPort?: number
+  zkConnectString?: string
   path?: string
 }
 
 export interface GetProvidersMessage {
-  zkAddr?: string
-  zkPort?: number
+  zkConnectString?: string
   path?: string
   ref?: string
 }
@@ -135,14 +133,13 @@ export interface InterfaceMethodParams {
 }
 
 export interface DubboInterface {
-  zkAddr?: string
-  zkPort?: number
+  zkConnectString?: string
   path?: string
   ref?: string
 }
 
 export interface DubboProvider {
-  zkAddr?: string
+  zkConnectString?: string
   path?: string
   ref?: string
   address?: string
