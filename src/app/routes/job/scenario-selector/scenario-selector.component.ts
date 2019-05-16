@@ -45,7 +45,11 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
   set data(ids: string[]) {
     if (ids.length > 0 && this.addedItems.length === 0) {
       this.scenarioService.query({ ids: ids }).subscribe(res => {
-        this.addedItems = res.data.list
+        const tmp = {}
+        res.data.list.forEach(item => {
+          tmp[item._id] = item
+        })
+        this.addedItems = ids.map(id => tmp[id])
         this.addedItems.forEach(item => this.addedItemsMap[item._id] = true)
       })
     } else if (ids.length === 0 && this.addedItems.length !== 0) {
