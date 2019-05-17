@@ -169,6 +169,13 @@
       </div>
     </div>
   </nz-card>
+  <div *ngIf="request._creator" style="text-align:right;padding-right:10px;">
+    <span style="color:lightgray;font-size:small">{{request.createdAt}}</span>
+    <nz-divider nzType="vertical"></nz-divider>
+    <div style="display:inline-block;">
+      <app-profile-simple [data]="request._creator"></app-profile-simple>
+    </div>
+  </div>
 </div>
 <nz-drawer [nzClosable]="true" [nzVisible]="methodsDrawerVisible" nzPlacement="right" nzTitle="Parameter Types"
   (nzOnClose)="methodsDrawerVisible=false;" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'10px'}">

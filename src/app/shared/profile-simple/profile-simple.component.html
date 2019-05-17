@@ -1,10 +1,12 @@
-<div>
-  <div nz-row>
-    <span (click)="goUserDashboard()">
-      <a>{{profile.nickname}}</a>
-      <span style="color:lightgray;font-size:small;padding-left:8px;cursor:pointer;">{{profile.username}}</span>
-    </span>
-    <nz-divider nzType="vertical"></nz-divider>
-    <span>{{profile.email}}</span>
-  </div>
+<div nz-row>
+  <span>
+    <a>{{profile.nickname}}</a>
+    <span style="color:lightgray;font-size:small;padding-left:8px;cursor:pointer;">{{profile.username}}</span>
+  </span>
+  <nz-divider nzType="vertical"></nz-divider>
+  <span>{{profile.email}}</span>
+  <nz-divider nzType="vertical"></nz-divider>
+  <nz-avatar nz-popover style="cursor:pointer;" nzSize="small" [nzText]="(profile.nickname||profile.username||'')[0]"
+    [nzSrc]="profile.avatar||''">
+  </nz-avatar>
 </div>
