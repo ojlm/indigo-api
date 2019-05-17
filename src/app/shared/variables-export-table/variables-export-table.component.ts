@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
+import { SortablejsOptions } from 'angular-sortablejs'
 import { SelectModel } from 'app/model/common.model'
 import { VariablesExportItem } from 'app/model/es.model'
 
@@ -10,6 +11,12 @@ import { VariablesExportItem } from 'app/model/es.model'
 })
 export class VariablesExportTableComponent implements OnInit {
 
+  sortablejsOptions: SortablejsOptions = {
+    handle: '.anticon-bars',
+    onUpdate: function (event: any) {
+      this.dataChange.emit(this.data)
+    }.bind(this)
+  }
   scopes: SelectModel[] = [
     { label: this.i18nService.fanyi(I18nKey.ItemScopeGlobal), value: ScopeType.GLOBAL },
     { label: this.i18nService.fanyi(I18nKey.ItemScopeJob), value: ScopeType.JOB },

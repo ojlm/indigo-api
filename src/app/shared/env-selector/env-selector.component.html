@@ -11,7 +11,7 @@
   [nzBodyStyle]="drawerBodyStyle" (nzOnClose)="envModelDrawerVisible=false">
   <app-env-model *ngIf="envModelDrawerSwitch" [(data)]="_env" (dataChange)="modelChange()" [(name)]="envName" (onclear)="envModelDrawerVisible=false"></app-env-model>
 </nz-drawer>
-<nz-drawer [nzClosable]="true" [nzVisible]="envSelectorDrawerVisible" nzPlacement="right" [nzWidth]="drawerWidth"
+<nz-drawer [nzClosable]="false" [nzVisible]="envSelectorDrawerVisible" nzPlacement="right" [nzWidth]="drawerWidth"
   (nzOnClose)="envSelectorDrawerVisible=false">
   <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
     [nzPagination]="pagination" [nzLoading]="loading">
