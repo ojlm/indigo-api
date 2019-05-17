@@ -18,7 +18,7 @@
       </nz-input-group>
     </nz-row>
     <nz-row style="margin-bottom:4px;">
-      <app-label-list [(data)]="case.labels" (dataChange)="modelChange()"></app-label-list>
+      <app-label-list [(data)]="case.labels" (dataChange)="modelChange()" [type]="'case'"></app-label-list>
     </nz-row>
     <!-- url row start -->
     <nz-affix [nzOffsetTop]="54" (nzChange)="onAffixChange($event)">
