@@ -34,6 +34,7 @@ import { Subject } from 'rxjs'
 })
 export class DubboPlaygroundComponent implements OnInit {
 
+  lbTips = 'Load balance algorithm, default `random`'
   @Input() isInDrawer = false
   @Input() group = ''
   @Input() project = ''
@@ -62,7 +63,8 @@ export class DubboPlaygroundComponent implements OnInit {
   parameterTypes: ParameterType[] = [{ type: '' }]
   request: DubboRequest = {
     request: {
-      path: '/dubbo'
+      path: '/dubbo',
+      lbAlgorithm: 'random'
     },
     exports: []
   }

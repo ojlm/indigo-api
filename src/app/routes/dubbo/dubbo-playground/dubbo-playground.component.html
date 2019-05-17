@@ -56,9 +56,22 @@
           <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="ref:">
             <input type="text" nz-input [(ngModel)]="interfaceSearchTxt" (ngModelChange)="filterInterfaces()">
           </nz-input-group>
-          <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="path:">
-            <input type="text" nz-input [(ngModel)]="request.request.path" (ngModelChange)="modelChange()">
-          </nz-input-group>
+          <div nz-row nzGutter="4">
+            <div nz-col nzSpan="16">
+              <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="path:">
+                <input type="text" nz-input [(ngModel)]="request.request.path" (ngModelChange)="modelChange()">
+              </nz-input-group>
+            </div>
+            <div nz-col nzSpan="8">
+              <label style="line-height:32px;" nz-checkbox [(ngModel)]="request.request.enableLb"
+                (ngModelChange)="modelChange()">
+                <span>LB</span>
+                <i style="margin-left:4px;color:lightslategray;" nz-icon nzType="question-circle" nzTheme="outline"
+                  nz-tooltip [nzTitle]="lbTips">
+                </i>
+              </label>
+            </div>
+          </div>
           <nz-table style="margin-top:4px;" nzSize="small" #basicTable [nzFrontPagination]="false"
             [nzShowPagination]="false" [nzScroll]="tableScroll" [nzData]="interfaces">
             <tbody>
@@ -74,39 +87,47 @@
           </nz-table>
         </div>
         <div class="col-panel" nz-col nzSpan="18">
-          <nz-input-group style="width:100%;" [nzAddOnBefore]="'dubbo://'" [nzAddOnAfter]="nzAddOnAfterDubbo">
-            <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
-              [nzPlaceHolder]="'provider'" nzAllowClear nzShowSearch [(ngModel)]="selectedProvider"
-              (ngModelChange)="providerChange()" [nzServerSearch]="true" (nzOnSearch)="searchProvider($event)">
-              <nz-option *ngFor="let item of providers" [nzLabel]="dubboAddress(item)" [nzValue]="item" nzCustomContent>
-                <span>
-                  <span>{{dubboAddress(item)}}</span>
-                </span>
-              </nz-option>
-            </nz-select>
-            <ng-template #nzAddOnAfterDubbo>
-              <span style="cursor:pointer;color:lightblue;" (click)="telnet()">
-                <i nz-icon type="code" theme="outline" class="click-icon"></i>
-              </span>
-            </ng-template>
-          </nz-input-group>
-          <nz-input-group style="margin-top:4px;width:100%;" [nzAddOnBefore]="'method:'"
-            [nzAddOnAfter]="nzAddOnAfterMethod">
-            <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
-              nzAllowClear nzShowSearch [(ngModel)]="request.request.method" (ngModelChange)="methodChange()"
-              [nzServerSearch]="true" (nzOnSearch)="searchMethod($event)">
-              <nz-option *ngFor="let item of methods" [nzLabel]="item" [nzValue]="item" nzCustomContent>
-                <span>
-                  <span>{{item}}</span>
-                </span>
-              </nz-option>
-            </nz-select>
-            <ng-template #nzAddOnAfterMethod>
-              <span style="cursor:pointer;color:lightblue;" (click)="viewMethods()">
-                <i nz-icon type="eye" theme="outline" class="click-icon"></i>
-              </span>
-            </ng-template>
-          </nz-input-group>
+          <div nz-row nzGutter="4">
+            <div nz-col nzSpan="12">
+              <nz-input-group style="width:100%;" [nzAddOnBefore]="'dubbo://'" [nzAddOnAfter]="nzAddOnAfterDubbo">
+                <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false"
+                  [nzSize]="'default'" [nzPlaceHolder]="'provider'" nzAllowClear nzShowSearch
+                  [(ngModel)]="selectedProvider" (ngModelChange)="providerChange()" [nzServerSearch]="true"
+                  (nzOnSearch)="searchProvider($event)">
+                  <nz-option *ngFor="let item of providers" [nzLabel]="dubboAddress(item)" [nzValue]="item"
+                    nzCustomContent>
+                    <span>
+                      <span>{{dubboAddress(item)}}</span>
+                    </span>
+                  </nz-option>
+                </nz-select>
+                <ng-template #nzAddOnAfterDubbo>
+                  <span style="cursor:pointer;color:lightblue;" (click)="telnet()">
+                    <i nz-icon type="code" theme="outline" class="click-icon"></i>
+                  </span>
+                </ng-template>
+              </nz-input-group>
+            </div>
+            <div nz-col nzSpan="12">
+              <nz-input-group style="width:100%;" [nzAddOnBefore]="'method:'" [nzAddOnAfter]="nzAddOnAfterMethod">
+                <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false"
+                  [nzSize]="'default'" nzAllowClear nzShowSearch [(ngModel)]="request.request.method"
+                  (ngModelChange)="methodChange()" [nzServerSearch]="true" (nzOnSearch)="searchMethod($event)">
+                  <nz-option *ngFor="let item of methods" [nzLabel]="item" [nzValue]="item" nzCustomContent>
+                    <span>
+                      <span>{{item}}</span>
+                    </span>
+                  </nz-option>
+                </nz-select>
+                <ng-template #nzAddOnAfterMethod>
+                  <span style="cursor:pointer;color:lightblue;" (click)="viewMethods()">
+                    <i nz-icon type="eye" theme="outline" class="click-icon"></i>
+                  </span>
+                </ng-template>
+              </nz-input-group>
+            </div>
+          </div>
+          <!-- tabs -->
           <div style="margin-top:4px;" [style.height]="subHeight">
             <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false"
               [nzTabBarStyle]="tabBarStyle">

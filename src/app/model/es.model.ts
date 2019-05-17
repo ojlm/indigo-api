@@ -442,6 +442,8 @@ export interface DubboRequestBody {
   version?: string
   zkConnectString?: string
   path?: string
+  enableLb?: boolean
+  lbAlgorithm?: string
 }
 
 export interface DubboRequest extends BaseDoc {
