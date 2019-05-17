@@ -15,6 +15,7 @@ import {
   CaseReportItemMetrics,
   CaseResult,
   CaseStatis,
+  ContentTypes,
   ContextOptions,
   KeyValueObject,
 } from '../../../model/es.model'
@@ -123,7 +124,17 @@ export class ResultAssertComponent implements OnInit {
     }
     this.caseContext = formatJson(val.context)
     this.modifiedModel = { code: this.caseContext || '', language: 'json' }
-    this.caseRequest = formatJson(val.request)
+    if (val.request && val.request.headers && ContentTypes.JSON === val.request.headers['Content-Type']) {
+      try {
+        const tmp = { ...val.request }
+        tmp.body = JSON.parse(tmp.body)
+        this.caseRequest = formatJson(tmp)
+      } catch (error) {
+        this.caseRequest = formatJson(val.request)
+      }
+    } else {
+      this.caseRequest = formatJson(val.request)
+    }
     this.caseAssertResult = formatJson(val.result)
     this.metrics = val.metrics || {}
     this.statis = val.statis || {}
