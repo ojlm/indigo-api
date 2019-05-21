@@ -154,10 +154,10 @@ export class DubboPlaygroundComponent implements OnInit {
           this.dubboService.index(newReq).subscribe(res => {
             this.request._id = res.data.id
             this.isSaved = true
-            if (this.newStep) {
-              this.newStep(this.request)
-            }
             this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+            if (this.newStep) {
+              this.newStep(JSON.parse(JSON.stringify(this.request)))
+            }
           })
         }
       }

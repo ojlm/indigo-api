@@ -342,6 +342,24 @@ export class StepsSelectorComponent implements OnInit {
         ctxOptions: this._ctxOptions,
         result: stepResult,
         isInDrawer: true,
+        newStep: (stepData: any) => {
+          if (ScenarioStepType.CASE === step.type) {
+            this.onSelectSubject.next({ step: caseToScenarioStep(stepData), stepData: stepData })
+          } else if (ScenarioStepType.DUBBO === step.type) {
+            this.onSelectSubject.next({ step: dubboRequestToScenarioStep(stepData), stepData: stepData })
+          } else if (ScenarioStepType.SQL === step.type) {
+            this.onSelectSubject.next({ step: sqlRequestToScenarioStep(stepData), stepData: stepData })
+          }
+        },
+        updateStep: (stepData: any) => {
+          if (ScenarioStepType.CASE === step.type) {
+            this.onUpdateSubject.next({ step: caseToScenarioStep(stepData), stepData: stepData })
+          } else if (ScenarioStepType.DUBBO === step.type) {
+            this.onUpdateSubject.next({ step: dubboRequestToScenarioStep(stepData), stepData: stepData })
+          } else if (ScenarioStepType.SQL === step.type) {
+            this.onUpdateSubject.next({ step: sqlRequestToScenarioStep(stepData), stepData: stepData })
+          }
+        },
       },
       nzBodyStyle: {
         padding: '4px'

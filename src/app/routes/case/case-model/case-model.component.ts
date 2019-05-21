@@ -237,10 +237,10 @@ export class CaseModelComponent implements OnInit {
           this.case._id = res.data.id
           this.updateCaseRoute()
           this.isSaved = true
-          if (this.newStep) {
-            this.newStep(this.case)
-          }
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+          if (this.newStep) {
+            this.newStep(JSON.parse(JSON.stringify(this.case)))
+          }
         })
       }
     } else {
