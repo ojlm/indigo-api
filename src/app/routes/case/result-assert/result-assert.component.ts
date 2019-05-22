@@ -162,7 +162,7 @@ export class ResultAssertComponent implements OnInit {
       this.originalModel = { code: formatJson(val) || '', language: 'json' }
     } catch (error) { console.error(error) }
   }
-  _initCtx = '// used in scenario'
+  _initCtx = ''
   @Input()
   set ctxOptions(options: ContextOptions) {
     if (options && options.initCtx) {

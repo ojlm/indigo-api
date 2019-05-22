@@ -14,7 +14,7 @@ import {
   ParameterType,
 } from 'app/api/service/dubbo.service'
 import { ActorEvent, ActorEventType } from 'app/model/api.model'
-import { Assertion, CaseReportItemMetrics, CaseStatis, DubboRequest } from 'app/model/es.model'
+import { Assertion, CaseReportItemMetrics, CaseStatis, ContextOptions, DubboRequest } from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -82,6 +82,15 @@ export class DubboPlaygroundComponent implements OnInit {
   resultStr = ''
   testWs: WebSocket
   paramsCache: InterfaceMethodParamsCache = {}
+  _ctxOptions: ContextOptions = {}
+  _initCtx = ''
+  @Input()
+  set ctxOptions(options: ContextOptions) {
+    if (options) {
+      this._ctxOptions = options
+      this._initCtx = formatJson(options.initCtx)
+    }
+  }
   @Input() newStep: Function
   @Input() updateStep: Function
   @Input()
@@ -92,7 +101,7 @@ export class DubboPlaygroundComponent implements OnInit {
   @Input()
   set result(result: DubboResult) {
     if (result) {
-      this.tabIndex = 6
+      this.tabIndex = 7
       this.dealResult(result)
     }
   }
@@ -122,9 +131,9 @@ export class DubboPlaygroundComponent implements OnInit {
     const newReq = this.preHandleRequest(this.request)
     if (null != newReq) {
       this.isSending = true
-      this.dubboService.test({ id: this.request._id, request: newReq }).subscribe(res => {
+      this.dubboService.test({ id: this.request._id, request: newReq, options: this._ctxOptions }).subscribe(res => {
         this.dealResult(res.data)
-        this.tabIndex = 6
+        this.tabIndex = 7
         this.isSending = false
       }, err => this.isSending = false)
     }
@@ -132,7 +141,9 @@ export class DubboPlaygroundComponent implements OnInit {
 
   dealResult(result: DubboResult) {
     this.renderedRequestStr = formatJson(result.request, 2)
-    this.responseStr = formatJson(result.response.body, 2)
+    if (result.response) {
+      this.responseStr = formatJson(result.response.body, 2)
+    }
     this.resultStr = formatJson(result.result, 2)
     this.statis = result.statis || {}
     this.metrics = result.metrics || {}

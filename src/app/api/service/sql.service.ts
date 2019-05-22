@@ -3,7 +3,7 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
 import { ApiRes, QueryPage } from 'app/model/api.model'
-import { IndexDocResponse, SqlRequest, UpdateDocResponse } from 'app/model/es.model'
+import { ContextOptions, IndexDocResponse, SqlRequest, UpdateDocResponse } from 'app/model/es.model'
 import { AbstractResult } from 'app/model/job.model'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Observable, Subject } from 'rxjs'
@@ -44,7 +44,7 @@ export class SqlService extends BaseService {
     return this.http.get<ApiRes<SqlRequest>>(`${API_SQL}/${id}`)
   }
 
-  test(msg: { id: string, request: SqlRequest }) {
+  test(msg: { id: string, request: SqlRequest, options: ContextOptions }) {
     return this.http.post<ApiRes<SqlResult>>(`${API_SQL}/test`, msg)
   }
 

@@ -79,6 +79,10 @@
                 [(ngModel)]="request.request.sql" (ngModelChange)="modelChange()">
               </ngx-monaco-editor>
             </nz-tab>
+            <nz-tab [nzTitle]="'item-initial-context'|translate">
+              <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="_initCtx">
+              </ngx-monaco-editor>
+            </nz-tab>
             <nz-tab [nzTitle]="'item-response-body'|translate">
               <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="responseStr">
               </ngx-monaco-editor>

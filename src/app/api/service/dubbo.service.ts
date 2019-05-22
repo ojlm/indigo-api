@@ -4,7 +4,7 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
 import { ApiRes, QueryPage } from 'app/model/api.model'
-import { DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
+import { ContextOptions, DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
 import { AbstractResult } from 'app/model/job.model'
 import { newWS } from 'app/util/ws'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -58,7 +58,7 @@ export class DubboService extends BaseService {
     return this.http.post<ApiRes<InterfaceMethodParams>>(`${API_DUBBO}/params`, msg)
   }
 
-  test(msg: { id: string, request: DubboRequest }) {
+  test(msg: { id: string, request: DubboRequest, options: ContextOptions }) {
     return this.http.post<ApiRes<DubboResult>>(`${API_DUBBO}/test`, msg)
   }
 

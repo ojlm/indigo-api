@@ -5,7 +5,7 @@ import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { CaseService } from 'app/api/service/case.service'
 import { SqlResult, SqlService } from 'app/api/service/sql.service'
-import { Assertion, CaseReportItemMetrics, CaseStatis, SqlRequest } from 'app/model/es.model'
+import { Assertion, CaseReportItemMetrics, CaseStatis, ContextOptions, SqlRequest } from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -39,6 +39,15 @@ export class SqlPlaygroundComponent implements OnInit {
   assertions: Assertion[] = []
   tabIndex = 0
   isSending = false
+  _ctxOptions: ContextOptions = {}
+  _initCtx = ''
+  @Input()
+  set ctxOptions(options: ContextOptions) {
+    if (options) {
+      this._ctxOptions = options
+      this._initCtx = formatJson(options.initCtx)
+    }
+  }
   @Input() newStep: Function
   @Input() updateStep: Function
   @Input() isInDrawer = false
@@ -68,7 +77,7 @@ export class SqlPlaygroundComponent implements OnInit {
   @Input()
   set result(result: SqlResult) {
     if (result) {
-      this.tabIndex = 6
+      this.tabIndex = 7
       this.dealResult(result)
     }
   }
@@ -98,9 +107,9 @@ export class SqlPlaygroundComponent implements OnInit {
     this.isSending = true
     const newReq = this.preHandleRequest(this.request)
     if (newReq) {
-      this.sqlService.test({ id: this.request._id, request: newReq }).subscribe(res => {
+      this.sqlService.test({ id: this.request._id, request: newReq, options: this._ctxOptions }).subscribe(res => {
         this.dealResult(res.data)
-        this.tabIndex = 6
+        this.tabIndex = 7
         this.isSending = false
       }, err => this.isSending = false)
     }
@@ -108,7 +117,9 @@ export class SqlPlaygroundComponent implements OnInit {
 
   dealResult(result: SqlResult) {
     this.renderedRequestStr = formatJson(result.request, 2)
-    this.responseStr = formatJson(result.response.body, 2)
+    if (result.response) {
+      this.responseStr = formatJson(result.response.body, 2)
+    }
     this.resultStr = formatJson(result.result, 2)
     this.statis = result.statis || {}
     this.metrics = result.metrics || {}
