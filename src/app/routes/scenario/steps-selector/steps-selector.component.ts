@@ -262,6 +262,18 @@ export class StepsSelectorComponent implements OnInit {
     this.modelChange()
   }
 
+  getHttpRequestUrl(step: ScenarioStep) {
+    const stepData = this.getStepData(step) as Case
+    if (stepData) {
+      if (stepData.request.port === 0) {
+        return `${stepData.request.host}${stepData.request.urlPath}`
+      } else {
+        return `${stepData.request.host}:${stepData.request.port}${stepData.request.urlPath}`
+      }
+    } else {
+      return ''
+    }
+  }
   getDubboRequestSignature(step: ScenarioStep) {
     const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)] as DubboRequest
     if (stepData) {

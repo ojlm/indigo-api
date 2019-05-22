@@ -34,7 +34,7 @@
               <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"
                 [(ngModel)]="item.stored"></label>
               <nz-tag [nzColor]="methodTagColor(item)">{{getStepData(item).request.method}}</nz-tag>
-              <span class="small-text">{{getStepData(item).request.urlPath}}</span>
+              <span class="small-text">{{getHttpRequestUrl(item)}}</span>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="'dubbo'">
