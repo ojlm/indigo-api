@@ -17,6 +17,7 @@ import {
   ScenarioResponse,
   ScenarioStepType,
   sqlRequestToScenarioStep,
+  StepStatusData,
 } from '../../../api/service/scenario.service'
 import { ActorEvent } from '../../../model/api.model'
 import { Case, ContextOptions, DubboRequest, ReportItemEvent, ScenarioStep, SqlRequest } from '../../../model/es.model'
@@ -428,9 +429,4 @@ export class StepsSelectorComponent implements OnInit {
       this.onStepUpdate(event)
     })
   }
-}
-
-interface StepStatusData {
-  report?: ReportItemEvent
-  status?: string
 }

@@ -10,15 +10,17 @@ import { SqlModule } from '../sql/sql.module'
 import { ScenarioModelComponent } from './scenario-model/scenario-model.component'
 import { ScenarioRoutingModule } from './scenario-routing.module'
 import { SelectStepComponent } from './select-step/select-step.component'
+import { StepsRuntimeComponent } from './steps-runtime/steps-runtime.component'
 import { StepsSelectorComponent } from './steps-selector/steps-selector.component'
 
 const COMPONENT = [
   ScenarioModelComponent,
   StepsSelectorComponent,
   SelectStepComponent,
+  StepsRuntimeComponent,
 ]
 
-const COMPONENT_NOROUNT = []
+const COMPONENT_NOROUNT = [StepsRuntimeComponent]
 
 @NgModule({
   imports: [

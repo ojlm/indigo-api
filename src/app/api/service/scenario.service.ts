@@ -13,6 +13,7 @@ import {
   DeleteResData,
   DubboRequest,
   IndexDocResponse,
+  ReportItemEvent,
   Scenario,
   ScenarioStep,
   SqlRequest,
@@ -126,4 +127,9 @@ export function dubboRequestToScenarioStep(doc: DubboRequest): ScenarioStep {
 
 export function getScenarioStepCacheKey(step: ScenarioStep) {
   return `${step.type}:${step.id}`
+}
+
+export interface StepStatusData {
+  report?: ReportItemEvent
+  status?: string
 }
