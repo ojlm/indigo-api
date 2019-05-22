@@ -19,7 +19,7 @@
                 <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
               </a>
               <span> {{i+1}}. </span>
-              <span class="step-title" (click)="viewStep(item)">
+              <span class="step-title" (click)="viewStep(i, item)">
                 <span class="small-text">{{getStepData(item).summary}}</span>
                 <span class="tail-text">{{getStepData(item).group}}/{{getStepData(item).project}}</span>
                 <span class="tail-labels">
@@ -30,7 +30,7 @@
               </span>
             </div>
             <div>
-              <nz-badge [nzStatus]="getStepStatus(item).status"></nz-badge>
+              <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
               <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"
                 [(ngModel)]="item.stored"></label>
               <nz-tag [nzColor]="methodTagColor(item)">{{getStepData(item).request.method}}</nz-tag>
@@ -44,7 +44,7 @@
                 <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
               </a>
               <span> {{i+1}}. </span>
-              <span class="step-title" (click)="viewStep(item)">
+              <span class="step-title" (click)="viewStep(i, item)">
                 <span class="small-text">{{getStepData(item).summary}}</span>
                 <span class="tail-text">{{getStepData(item).group}}/{{getStepData(item).project}}</span>
                 <span class="tail-labels">
@@ -55,7 +55,7 @@
               </span>
             </div>
             <div>
-              <nz-badge [nzStatus]="getStepStatus(item).status"></nz-badge>
+              <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
               <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"
                 [(ngModel)]="item.stored"></label>
               <nz-tag [nzColor]="'gold'">
@@ -72,7 +72,7 @@
                 <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
               </a>
               <span> {{i+1}}. </span>
-              <span class="step-title" (click)="viewStep(item)">
+              <span class="step-title" (click)="viewStep(i, item)">
                 <span class="small-text">{{getStepData(item).summary}}</span>
                 <span class="tail-text">{{getStepData(item).group}}/{{getStepData(item).project}}</span>
                 <span class="tail-labels">
@@ -83,7 +83,7 @@
               </span>
             </div>
             <div>
-              <nz-badge [nzStatus]="getStepStatus(item).status"></nz-badge>
+              <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
               <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"
                 [(ngModel)]="item.stored"></label>
               <nz-tag [nzColor]="'geekblue'">

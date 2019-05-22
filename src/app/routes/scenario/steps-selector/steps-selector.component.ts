@@ -84,7 +84,7 @@ export class StepsSelectorComponent implements OnInit {
   stepListDrawerVisible = false
   steps: ScenarioStep[] = []
   stepsDataCache: { [k: string]: ScenarioStepData } = {}
-  stepsStatusCache: { [k: string]: StepStatusData } = {}
+  stepsStatusCache: { [k: number]: StepStatusData } = {}
   stepCurrent = 0
   onSelectSubject: Subject<StepEvent> = new Subject()
   onUpdateSubject: Subject<StepEvent> = new Subject()
@@ -258,7 +258,6 @@ export class StepsSelectorComponent implements OnInit {
     if (count === 1) {
       const stepCacheKey = getScenarioStepCacheKey(step)
       delete this.stepsDataCache[stepCacheKey]
-      delete this.stepsStatusCache[stepCacheKey]
     }
     this.modelChange()
   }
@@ -299,8 +298,8 @@ export class StepsSelectorComponent implements OnInit {
     }
   }
 
-  viewStep(step: ScenarioStep) {
-    const item = this.stepsStatusCache[getScenarioStepCacheKey(step)]
+  viewStep(idx: number, step: ScenarioStep) {
+    const item = this.stepsStatusCache[idx]
     let stepResult: any
     if (item && item.report) {
       if (item.report.result) {
@@ -372,15 +371,14 @@ export class StepsSelectorComponent implements OnInit {
     return this.stepsDataCache[getScenarioStepCacheKey(step)] || {}
   }
 
-  getStepStatus(step: ScenarioStep) {
-    return this.stepsStatusCache[getScenarioStepCacheKey(step)] || {}
+  getStepStatus(idx: number, step: ScenarioStep) {
+    return this.stepsStatusCache[idx] || {}
   }
 
   clearStatus() {
-    this.steps.forEach(step => {
-      const cacheKey = getScenarioStepCacheKey(step)
-      this.stepsStatusCache[cacheKey] = {}
-    })
+    for (let i = 0; i < this.steps.length; ++i) {
+      this.stepsStatusCache[i] = {}
+    }
   }
 
   ngOnInit(): void {
@@ -408,9 +406,7 @@ export class StepsSelectorComponent implements OnInit {
         } else {
           statusData.status = 'default'
         }
-        const step = this.steps[reportItem.index]
-        const cacheKey = getScenarioStepCacheKey(step)
-        this.stepsStatusCache[cacheKey] = statusData
+        this.stepsStatusCache[reportItem.index] = statusData
       })
     }
     this.onSelectSubject.subscribe(event => {
