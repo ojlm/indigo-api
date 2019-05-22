@@ -350,7 +350,7 @@ export interface ReportItemEvent {
   index?: number
   status?: string
   errMsg?: string
-  result?: CaseResult
+  result?: AbstractResult
 }
 
 export interface ContextOptions {
