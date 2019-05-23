@@ -110,6 +110,11 @@
           <li nz-menu-item (click)="addNewSqlStep()">sql</li>
         </ul>
       </nz-dropdown-button>
+      <button style="margin-left:4px;color:purple;" nz-button nzSize="small" nzType="dashed"
+        (click)="showRuntimeContext()">
+        <i nz-icon nzType="scan" nzTheme="outline"></i>
+        <span>{{'btn-show-runtime-context'|translate}}</span>
+      </button>
     </div>
   </div>
 </div>
@@ -119,4 +124,11 @@
   <app-select-step *ngIf="stepListDrawerSwitch" [group]="group" [project]="project" [onSelectSubject]="onSelectSubject"
     [onUpdateSubject]="onUpdateSubject" [ctxOptions]="_ctxOptions">
   </app-select-step>
+</nz-drawer>
+<!-- select steps drawer -->
+<nz-drawer [nzVisible]="runtimeDrawerVisible" [nzWidth]="runtimeDrawerWidth" [nzBodyStyle]="{'padding':'4px'}"
+  [nzClosable]="false" (nzOnClose)="runtimeDrawerVisible=false">
+  <app-steps-runtime [steps]="steps" [stepsDataCache]="stepsDataCache" [stepsStatusCache]="stepsStatusCache"
+    [subject]="subject" [view]="viewIdx">
+  </app-steps-runtime>
 </nz-drawer>

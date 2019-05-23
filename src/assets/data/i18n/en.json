@@ -267,6 +267,7 @@
   "btn-preview": "Preview",
   "btn-stress": "Stress Test",
   "btn-add-default-suffixes": "Add default suffixes",
+  "btn-show-runtime-context": "Runtime Context",
   "item-path-variable": "Path Variable",
   "item-params": "Params",
   "item-headers": "Headers",

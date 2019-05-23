@@ -41,7 +41,9 @@
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false" [nzSize]="'small'">
       <nz-tab [nzTitle]="'field-steps'|translate">
         <app-steps-selector [group]="group" [project]="project" [scenarioResponse]="scenarioResponse"
-          [(data)]="scenario.steps" [eventSubject]="eventSubject" [ctxOptions]="_ctxOptions"></app-steps-selector>
+          [(data)]="scenario.steps" [eventSubject]="eventSubject" [ctxOptions]="_ctxOptions"
+          [runtimeDrawerVisible]="consoleDrawerVisible">
+        </app-steps-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'item-imports'|translate">
         <app-variables-import-table [(data)]="scenario.imports" [defaultScope]="'_s'">

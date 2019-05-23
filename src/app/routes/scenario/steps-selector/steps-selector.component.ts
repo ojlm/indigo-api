@@ -1,6 +1,5 @@
-import { Location } from '@angular/common'
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { SortablejsOptions } from 'angular-sortablejs'
 import { dubboRequestSignature } from 'app/api/service/dubbo.service'
 import { sqlRequestSignature } from 'app/api/service/sql.service'
@@ -80,6 +79,10 @@ export class StepsSelectorComponent implements OnInit {
       this.modelChange()
     }.bind(this)
   }
+  // use for update step runtime context
+  subject: Subject<any> = new Subject()
+  @Input() runtimeDrawerVisible = false
+  @Input() runtimeDrawerWidth = calcDrawerWidth(0.6)
   stepListDrawerWidth = calcDrawerWidth(0.7)
   stepListDrawerSwitch = false
   stepListDrawerVisible = false
@@ -132,15 +135,23 @@ export class StepsSelectorComponent implements OnInit {
   @HostListener('window:resize')
   resize() {
     this.stepListDrawerWidth = calcDrawerWidth(0.7)
+    this.runtimeDrawerWidth = calcDrawerWidth(0.6)
   }
 
   constructor(
     private drawerService: NzDrawerService,
     private msgService: NzMessageService,
-    private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
   ) {
+    this.viewIdx = this.viewIdx.bind(this)
+  }
+
+  showRuntimeContext() {
+    this.runtimeDrawerVisible = true
+  }
+
+  updateStepRuntimeData() {
+    this.subject.next()
   }
 
   selectStep() {
@@ -275,6 +286,7 @@ export class StepsSelectorComponent implements OnInit {
       return ''
     }
   }
+
   getDubboRequestSignature(step: ScenarioStep) {
     const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)] as DubboRequest
     if (stepData) {
@@ -309,6 +321,11 @@ export class StepsSelectorComponent implements OnInit {
           return 'purple'
       }
     }
+  }
+
+  viewIdx(idx: number) {
+    this.runtimeDrawerVisible = false
+    this.viewStep(idx, this.steps[idx])
   }
 
   viewStep(idx: number, step: ScenarioStep) {
@@ -392,6 +409,7 @@ export class StepsSelectorComponent implements OnInit {
     for (let i = 0; i < this.steps.length; ++i) {
       this.stepsStatusCache[i] = {}
     }
+    this.updateStepRuntimeData()
   }
 
   ngOnInit(): void {
@@ -420,6 +438,7 @@ export class StepsSelectorComponent implements OnInit {
           statusData.status = 'default'
         }
         this.stepsStatusCache[reportItem.index] = statusData
+        this.updateStepRuntimeData()
       })
     }
     this.onSelectSubject.subscribe(event => {

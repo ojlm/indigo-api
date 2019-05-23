@@ -17,6 +17,7 @@ import {
   Scenario,
   ScenarioStep,
   SqlRequest,
+  VariablesExportItem,
 } from '../../model/es.model'
 import { newWS } from '../../util/ws'
 import { API_SCENARIO, API_SCENARIO_QUERY, API_WS_SCENARIO_TEST } from '../path'
@@ -127,6 +128,14 @@ export function dubboRequestToScenarioStep(doc: DubboRequest): ScenarioStep {
 
 export function getScenarioStepCacheKey(step: ScenarioStep) {
   return `${step.type}:${step.id}`
+}
+
+export function isExportItemValid(item: VariablesExportItem) {
+  if (item.srcPath && item.dstName && item.enabled) {
+    return true
+  } else {
+    return false
+  }
 }
 
 export interface StepStatusData {
