@@ -17,6 +17,7 @@ import { SettingsService } from '@delon/theme'
       <div nz-menu-item (click)="goProfile()"><i nz-icon type="profile" theme="outline" class="mr-sm"></i>{{'menu-profile'|translate}}</div>
       <div nz-menu-item (click)="goUserDashboard()"><i nz-icon type="dashboard" theme="outline" class="mr-sm"></i>{{'menu-user-dashboard'|translate}}</div>
       <li nz-menu-divider></li>
+      <div nz-menu-item (click)="goFund()"><i nz-icon nzType="fund" nzTheme="outline" class="mr-sm"></i>{{'title-fund'|translate}}</div>
       <div nz-menu-item (click)="goTrend()"><i nz-icon type="dot-chart" theme="outline" class="mr-sm"></i>{{'menu-sys-trend'|translate}}</div>
       <div nz-menu-item (click)="goSystem()"><i nz-icon type="setting" theme="outline" class="mr-sm"></i>{{'menu-sys-settings'|translate}}</div>
       <li nz-menu-divider></li>
@@ -51,6 +52,10 @@ export class HeaderUserComponent {
 
   goTrend() {
     this.router.navigateByUrl('/dashboard/trend')
+  }
+
+  goFund() {
+    this.router.navigateByUrl('/dashboard/fund')
   }
 
   logout() {

@@ -11,6 +11,7 @@ import { DomainOnlineConfigComponent } from './domain-online-config/domain-onlin
 import { GroupUserTrendComponent } from './group-user-trend/group-user-trend.component'
 import { GroupsComponent } from './groups/groups.component'
 import { ProjectsComponent } from './projects/projects.component'
+import { RequestsFundComponent } from './requests-fund/requests-fund.component'
 import { UserAggregationComponent } from './user-aggregation/user-aggregation.component'
 import { UserProfileComponent } from './user-profile/user-profile.component'
 
@@ -24,6 +25,7 @@ const COMPONENT = [
   DomainOnlineConfigComponent,
   DomainApiItemComponent,
   ApiMetricsTrendComponent,
+  RequestsFundComponent,
 ]
 
 const COMPONENT_NOROUNT = [
