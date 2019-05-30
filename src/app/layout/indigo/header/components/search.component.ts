@@ -15,49 +15,67 @@ import { ApiRes } from '../../../../model/api.model'
     <nz-autocomplete [nzDefaultActiveFirstOption]="false" #auto>
       <nz-auto-option *ngFor="let item of items" [nzValue]="q" [ngSwitch]="item._type">
         <div *ngSwitchCase="'group'" (click)="goItem(item)">
-          <nz-tag [nzColor]="'lime'">{{'field-group'|translate}}</nz-tag>
+          <span class="item-t">{{'field-group'|translate}}</span>
           <span>{{item.summary}}</span>
         </div>
         <div *ngSwitchCase="'project'" (click)="goItem(item)">
-          <nz-tag [nzColor]="'lime'">{{'field-project'|translate}}</nz-tag>
+          <span class="item-t">{{'field-project'|translate}}</span>
           <span>{{item.summary}}</span>
         </div>
         <div *ngSwitchCase="'rest'" (click)="goItem(item)">
-          <nz-tag [nzColor]="'lime'">{{'field-api'|translate}}</nz-tag>
+          <span class="item-t">{{'field-api'|translate}}</span>
           <span class="item-g-p">{{item.group}} / {{item.project}}</span>
           <div class="item-s">{{item.summary}}</div>
         </div>
         <div *ngSwitchCase="'case'" (click)="goItem(item)">
-          <nz-tag [nzColor]="'lime'">{{'field-case'|translate}}</nz-tag>
+          <span class="item-t">{{'field-case'|translate}}</span>
+          <span class="item-g-p">{{item.group}} / {{item.project}}</span>
+          <div class="item-s">{{item.summary}}</div>
+        </div>
+        <div *ngSwitchCase="'dubbo'" (click)="goItem(item)">
+          <span class="item-t">{{'field-dubbo'|translate}}</span>
+          <span class="item-g-p">{{item.group}} / {{item.project}}</span>
+          <div class="item-s">{{item.summary}}</div>
+        </div>
+        <div *ngSwitchCase="'sql'" (click)="goItem(item)">
+          <span class="item-t">{{'field-sql'|translate}}</span>
           <span class="item-g-p">{{item.group}} / {{item.project}}</span>
           <div class="item-s">{{item.summary}}</div>
         </div>
         <div *ngSwitchCase="'env'" (click)="goItem(item)">
-          <nz-tag [nzColor]="'lime'">{{'field-env'|translate}}</nz-tag>
+          <span class="item-t">{{'field-env'|translate}}</span>
           <span class="item-g-p">{{item.group}} / {{item.project}}</span>
           <div class="item-s">{{item.summary}}</div>
         </div>
         <div *ngSwitchCase="'scenario'" (click)="goItem(item)">
-          <nz-tag [nzColor]="'lime'">{{'field-scenario'|translate}}</nz-tag>
+          <span class="item-t">{{'field-scenario'|translate}}</span>
           <span class="item-g-p">{{item.group}} / {{item.project}}</span>
           <div class="item-s">{{item.summary}}</div>
         </div>
         <div *ngSwitchCase="'job'" (click)="goItem(item)">
-          <nz-tag [nzColor]="'lime'">{{'field-job'|translate}}</nz-tag>
+          <span class="item-t">{{'field-job'|translate}}</span>
           <span class="item-g-p">{{item.group}} / {{item.project}}</span>
+          <div class="item-s">{{item.summary}}</div>
+        </div>
+        <div *ngSwitchDefault>
           <div class="item-s">{{item.summary}}</div>
         </div>
       </nz-auto-option>
     </nz-autocomplete>
   `,
   styles: [`
+    .item-t {
+      box-shadow: 0px 0px 3px lightgrey;
+      padding:4px;
+      background-color: wheat;
+      margin-right: 8px;
+    }
     .item-g-p {
       color: lightgray;
-      margin-right: 3px;
     }
     .item-s {
       white-space:normal;
-      padding-left:3px;
+      padding-left:4px;
     }
   `]
 })
@@ -91,15 +109,17 @@ export class HeaderSearchComponent implements AfterViewInit {
   ) {
     const response = new Subject<ApiRes<HomeDoc[]>>()
     response.subscribe(res => {
-      this.items = res.data
+      if (res.data.length === 0) {
+        this.items = [{ summary: 'No data available' }]
+      } else {
+        this.items = res.data
+      }
     })
     this.querySubject = homeService.newQuerySubject(response)
   }
 
   onSearch() {
-    if (this.q) {
-      this.querySubject.next({ text: this.q })
-    }
+    this.querySubject.next({ text: this.q })
   }
 
   goItem(item: HomeDoc) {
@@ -115,6 +135,12 @@ export class HeaderSearchComponent implements AfterViewInit {
         break
       case 'case':
         this.router.navigateByUrl(`/case/${item.group}/${item.project}/${item._id}`)
+        break
+      case 'dubbo':
+        this.router.navigateByUrl(`/dubbo/${item.group}/${item.project}/${item._id}`)
+        break
+      case 'sql':
+        this.router.navigateByUrl(`/sql/${item.group}/${item.project}/${item._id}`)
         break
       case 'env':
         this.router.navigateByUrl(`/env/${item.group}/${item.project}/${item._id}`)

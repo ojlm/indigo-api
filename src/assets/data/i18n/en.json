@@ -106,6 +106,8 @@
   "field-alias": "Alias",
   "field-coverage": "Coveraged",
   "field-ex-suffixes": "Suffixes",
+  "field-dubbo": "Dubbo",
+  "field-sql": "Sql",
   "new-group": "New group",
   "new-job": "New job",
   "new-project": "New project",
