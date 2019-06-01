@@ -27,4 +27,30 @@ export class ActivityService extends BaseService {
     })
     return querySubject
   }
+
+  recentSubject(response: Subject<ApiRes<RecommendProjects>>) {
+    const querySubject = new Subject<string>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(wd => {
+      this.http.get<ApiRes<RecommendProjects>>(`${API_ACTIVITY}/recent${wd ? '?wd=' + wd : ''}`).subscribe(
+        res => response.next(res),
+        err => response.error(err))
+    })
+    return querySubject
+  }
+
+  recentWithOthers() {
+    return this.http.get<ApiRes<RecommendProjects>>(`${API_ACTIVITY}/recent?discover=true`)
+  }
+}
+
+export interface RecommendProject {
+  group?: string
+  project?: string
+  count?: number
+  summary?: string
+}
+
+export interface RecommendProjects {
+  my?: RecommendProject[]
+  others?: RecommendProject[]
 }

@@ -230,6 +230,7 @@
   "tips-input-password": "password",
   "tips-select-proxy-server": "Select a proxy server",
   "tips-step-checkbox": "Does save response to scenario context?",
+  "tips-find-project": "Find a project",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",
