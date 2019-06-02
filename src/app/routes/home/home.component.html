@@ -9,7 +9,7 @@
       <i nz-icon type="search"></i>
     </ng-template>
     <div *ngFor="let item of my" class="my-item">
-      <i nz-icon nzType="project" nzTheme="outline"></i>
+      <i nz-icon nzType="book" nzTheme="outline"></i>
       <a (click)="goProject(item)" nz-popover [nzContent]="item.summary">{{item.group}}/{{item.project}}</a>
     </div>
   </div>
