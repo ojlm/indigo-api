@@ -1,0 +1,9 @@
+<nz-list [nzDataSource]="items" [nzBordered]="false" [nzRenderItem]="item">
+  <ng-template #item let-item>
+    <nz-list-item [nzContent]="feedItemContent">
+      <ng-template #feedItemContent>
+        {{item|json}}
+      </ng-template>
+    </nz-list-item>
+  </ng-template>
+</nz-list>

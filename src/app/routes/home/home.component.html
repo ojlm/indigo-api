@@ -16,15 +16,7 @@
   <div [style.height]="height" class="feed indigo-scroll-bar" infiniteScroll [infiniteScrollDistance]="2"
     [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
     <div class="feed-list">
-      <nz-list [nzDataSource]="items" [nzBordered]="false" [nzRenderItem]="item">
-        <ng-template #item let-item>
-          <nz-list-item [nzContent]="feedItemContent">
-            <ng-template #feedItemContent>
-              {{item|json}}
-            </ng-template>
-          </nz-list-item>
-        </ng-template>
-      </nz-list>
+      <app-feed-list [data]="items"></app-feed-list>
     </div>
     <div *ngIf="others.length>0" class="discover">
       <nz-list [nzDataSource]="others" [nzBordered]="false" [nzRenderItem]="myItem">
