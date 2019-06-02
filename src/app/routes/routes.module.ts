@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
 import { NgxChartsModule } from '@swimlane/ngx-charts'
+import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 
 import { CallbackComponent } from './callback/callback.component'
 import { Exception403Component } from './exception/403.component'
@@ -53,7 +54,7 @@ const COMPONENTS = [
 const COMPONENTS_NOROUNT = []
 
 @NgModule({
-  imports: [SharedModule, RouteRoutingModule, NgxChartsModule],
+  imports: [SharedModule, RouteRoutingModule, NgxChartsModule, InfiniteScrollModule],
   declarations: [
     ...COMPONENTS,
     ...COMPONENTS_NOROUNT

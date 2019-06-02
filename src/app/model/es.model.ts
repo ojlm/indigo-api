@@ -508,3 +508,13 @@ export interface VariablesImportItem {
   enabled?: boolean
   function?: string
 }
+
+export interface Activity {
+  group?: string
+  project?: string
+  user?: string
+  type?: string
+  targetId?: string
+  timestamp?: string
+  data?: any
+}
