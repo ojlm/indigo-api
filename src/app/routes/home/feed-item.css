@@ -1,0 +1,24 @@
+.feed-item-title {
+  color: darkgray;
+}
+
+.feed-item-title:hover {
+  cursor: pointer;
+  color: #0366d6;
+}
+
+.small-text {
+  color: darkgray;
+}
+
+.tail-labels {
+  float: right;
+  transform: scale(0.8);
+}
+
+.feed-content {
+  margin-left: 32px;
+  background-color: white;
+  padding: 4px 8px;
+  border: solid 1px lightgrey;
+}

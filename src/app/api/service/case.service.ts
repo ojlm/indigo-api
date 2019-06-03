@@ -151,3 +151,15 @@ export interface BatchTransfer {
   project?: string
   ids?: string[]
 }
+
+export function httpRequestSignature(cs: Case) {
+  if (cs && cs.request) {
+    if (cs.request.port) {
+      return `${cs.request.host}:${cs.request.port}${cs.request.urlPath}`
+    } else {
+      return `${cs.request.host}${cs.request.urlPath}`
+    }
+  } else {
+    return ''
+  }
+}

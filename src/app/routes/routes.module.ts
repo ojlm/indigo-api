@@ -9,7 +9,16 @@ import { Exception404Component } from './exception/404.component'
 import { Exception500Component } from './exception/500.component'
 import { GroupModelComponent } from './group/group-model/group-model.component'
 import { GroupProjectsComponent } from './group/group-projects/group-projects.component'
+import { FeedDubboComponent } from './home/feed-dubbo/feed-dubbo.component'
+import { FeedGroupComponent } from './home/feed-group/feed-group.component'
+import { FeedHttpComponent } from './home/feed-http/feed-http.component'
+import { FeedItemTitleComponent } from './home/feed-item-title/feed-item-title.component'
+import { FeedJobComponent } from './home/feed-job/feed-job.component'
 import { FeedListComponent } from './home/feed-list/feed-list.component'
+import { FeedProjectComponent } from './home/feed-project/feed-project.component'
+import { FeedScenarioComponent } from './home/feed-scenario/feed-scenario.component'
+import { FeedSqlComponent } from './home/feed-sql/feed-sql.component'
+import { FeedUserComponent } from './home/feed-user/feed-user.component'
 import { HomeComponent } from './home/home.component'
 import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
@@ -52,6 +61,15 @@ const COMPONENTS = [
   ProjectDubboListComponent,
   ProjectSqlListComponent,
   FeedListComponent,
+  FeedItemTitleComponent,
+  FeedUserComponent,
+  FeedGroupComponent,
+  FeedProjectComponent,
+  FeedJobComponent,
+  FeedScenarioComponent,
+  FeedHttpComponent,
+  FeedDubboComponent,
+  FeedSqlComponent,
 ]
 const COMPONENTS_NOROUNT = []
 

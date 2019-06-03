@@ -70,7 +70,7 @@ export class SqlService extends BaseService {
 }
 
 export function sqlRequestSignature(item: SqlRequest) {
-  if (item.request) {
+  if (item && item.request) {
     return `${item.request.host}:${item.request.port}/${item.request.database}/${item.request.table}`
   } else {
     return ''

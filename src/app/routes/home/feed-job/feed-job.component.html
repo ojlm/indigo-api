@@ -1,0 +1,11 @@
+<div nz-row>
+  <app-feed-item-title [action]="action" [user]="item.user" [activity]="item.activity"></app-feed-item-title>
+</div>
+<div nz-row class="feed-content">
+  <div>
+    <span class="feed-item-title" (click)="go()">{{job.summary}}</span>
+  </div>
+  <div>
+    <span class="small-text">{{job.description}}</span>
+  </div>
+</div>

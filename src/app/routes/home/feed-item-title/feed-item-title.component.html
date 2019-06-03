@@ -1,0 +1,10 @@
+<div nz-row class="t">
+  <nz-avatar style="cursor:pointer;margin-right:8px;" nzShape="circle" nzSize="small"
+    [nzText]="(_user.nickname||_user.username||'')[0]" [nzSrc]="_user.avatar||''">
+  </nz-avatar>
+  <span class="p">{{_user.nickname||_user.username}}</span>
+  <span class="a">{{action}} @</span>
+  <span *ngIf="_activity.group" class="p"
+    (click)="go()">{{_activity.group}}{{_activity.project?'/'+_activity.project:''}}</span>
+  <span class="s">{{_activity.timestamp}}</span>
+</div>

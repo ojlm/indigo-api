@@ -1,0 +1,16 @@
+<div nz-row>
+  <app-feed-item-title [action]="action" [user]="item.user" [activity]="item.activity"></app-feed-item-title>
+</div>
+<div nz-row class="feed-content">
+  <div>
+    <span class="feed-item-title" (click)="go()">{{scenario.summary}}</span>
+    <span class="tail-labels">
+      <ng-container *ngIf="scenario.labels">
+        <nz-tag *ngFor="let label of scenario.labels">{{label.name}}</nz-tag>
+      </ng-container>
+    </span>
+  </div>
+  <div>
+    <span class="small-text">{{scenario.description}}</span>
+  </div>
+</div>

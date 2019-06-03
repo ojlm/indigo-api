@@ -1,6 +1,7 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { SortablejsOptions } from 'angular-sortablejs'
+import { httpRequestSignature } from 'app/api/service/case.service'
 import { dubboRequestSignature } from 'app/api/service/dubbo.service'
 import { sqlRequestSignature } from 'app/api/service/sql.service'
 import { CaseModelComponent } from 'app/routes/case/case-model/case-model.component'
@@ -276,33 +277,17 @@ export class StepsSelectorComponent implements OnInit {
 
   getHttpRequestUrl(step: ScenarioStep) {
     const stepData = this.getStepData(step) as Case
-    if (stepData) {
-      if (stepData.request.port === 0) {
-        return `${stepData.request.host}${stepData.request.urlPath}`
-      } else {
-        return `${stepData.request.host}:${stepData.request.port}${stepData.request.urlPath}`
-      }
-    } else {
-      return ''
-    }
+    return httpRequestSignature(stepData)
   }
 
   getDubboRequestSignature(step: ScenarioStep) {
     const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)] as DubboRequest
-    if (stepData) {
-      return dubboRequestSignature(stepData)
-    } else {
-      return ''
-    }
+    return dubboRequestSignature(stepData)
   }
 
   getSqlRequestSignature(step: ScenarioStep) {
     const stepData = this.stepsDataCache[getScenarioStepCacheKey(step)] as SqlRequest
-    if (stepData) {
-      return sqlRequestSignature(stepData)
-    } else {
-      return ''
-    }
+    return sqlRequestSignature(stepData)
   }
 
   methodTagColor(step: ScenarioStep) {

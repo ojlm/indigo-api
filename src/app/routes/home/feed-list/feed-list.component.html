@@ -1,9 +1,31 @@
-<nz-list [nzDataSource]="items" [nzBordered]="false" [nzRenderItem]="item">
-  <ng-template #item let-item>
-    <nz-list-item [nzContent]="feedItemContent">
-      <ng-template #feedItemContent>
-        {{item|json}}
-      </ng-template>
-    </nz-list-item>
-  </ng-template>
-</nz-list>
+<nz-skeleton [nzActive]="true" [nzAvatar]="true" [nzLoading]="loading" [nzParagraph]="{ rows: 8 }">
+  <nz-list [nzDataSource]="items" [nzBordered]="false" [nzRenderItem]="item" nzNoResult="">
+    <ng-template #item let-item>
+      <nz-list-item [nzContent]="feedItemContent">
+        <ng-template #feedItemContent>
+          <app-feed-user class="feed-item" *ngIf="item.activity.type==='new-user'" [data]="item">
+          </app-feed-user>
+          <app-feed-group class="feed-item" *ngIf="item.activity.type==='new-group'" [data]="item">
+          </app-feed-group>
+          <app-feed-project class="feed-item" *ngIf="item.activity.type==='new-project'" [data]="item">
+          </app-feed-project>
+          <app-feed-http class="feed-item" *ngIf="item.activity.type==='new-case'||item.activity.type==='test-case'"
+            [data]="item">
+          </app-feed-http>
+          <app-feed-dubbo class="feed-item" *ngIf="item.activity.type==='new-dubbo'||item.activity.type==='test-dubbo'"
+            [data]="item">
+          </app-feed-dubbo>
+          <app-feed-sql class="feed-item" *ngIf="item.activity.type==='new-sql'||item.activity.type==='test-sql'"
+            [data]="item">
+          </app-feed-sql>
+          <app-feed-scenario class="feed-item"
+            *ngIf="item.activity.type==='new-scenario'||item.activity.type==='test-scenario'" [data]="item">
+          </app-feed-scenario>
+          <app-feed-job class="feed-item" *ngIf="item.activity.type==='new-job'||item.activity.type==='test-job'"
+            [data]="item">
+          </app-feed-job>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+</nz-skeleton>

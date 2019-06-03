@@ -1,0 +1,20 @@
+<div nz-row>
+  <app-feed-item-title [action]="action" [user]="item.user" [activity]="item.activity"></app-feed-item-title>
+</div>
+<div nz-row class="feed-content">
+  <div>
+    <span class="feed-item-title" (click)="go()">{{request.summary}}</span>
+    <span class="tail-labels">
+      <ng-container *ngIf="request.labels">
+        <nz-tag *ngFor="let label of request.labels">{{label.name}}</nz-tag>
+      </ng-container>
+    </span>
+  </div>
+  <div>
+    <nz-tag [nzColor]="'gold'">
+      <i nz-icon nzType="alibaba" nzTheme="outline"></i>
+      <span> dubbo</span>
+    </nz-tag>
+    <span class="small-text">{{signature}}</span>
+  </div>
+</div>
