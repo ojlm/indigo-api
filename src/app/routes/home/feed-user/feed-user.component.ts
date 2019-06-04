@@ -6,6 +6,7 @@ import { UserProfile } from 'app/model/user.model'
 @Component({
   selector: 'app-feed-user',
   templateUrl: './feed-user.component.html',
+  styleUrls: ['../feed-item.css']
 })
 export class FeedUserComponent {
 
