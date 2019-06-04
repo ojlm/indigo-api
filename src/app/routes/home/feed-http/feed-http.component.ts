@@ -42,7 +42,7 @@ export class FeedHttpComponent {
   }
 
   methodTagColor() {
-    if (this.request) {
+    if (this.request && this.request.request) {
       switch (this.request.request.method) {
         case 'GET':
           return 'green'
@@ -55,6 +55,8 @@ export class FeedHttpComponent {
         default:
           return 'purple'
       }
+    } else {
+      return ''
     }
   }
 }
