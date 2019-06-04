@@ -134,6 +134,21 @@ export function feedResponseToFeedItems(response: FeedResponse) {
       default:
         break
     }
+    if (type === ActivityType.TYPE_NEW_USER) {
+      items.push({
+        activity: activity,
+        user: response.users[activity.user],
+      })
+    } else {
+      if (data) {
+        // data must be there
+        items.push({
+          activity: activity,
+          user: response.users[activity.user],
+          data: data
+        })
+      }
+    }
     items.push({
       activity: activity,
       user: response.users[activity.user],
