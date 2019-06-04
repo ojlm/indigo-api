@@ -1,6 +1,19 @@
 <div nz-row class="t">
   <nz-avatar style="cursor:pointer;margin-right:8px;" nzShape="circle" nzSize="small"
-    [nzText]="(_user.nickname||_user.username||'')[0]" [nzSrc]="_user.avatar||''">
+    [nzText]="(_user.nickname||_user.username||'')[0]" [nzSrc]="_user.avatar||''" nz-popover nzPlacement="bottomLeft"
+    [nzContent]="nzContent">
+    <ng-template #nzContent>
+      <div style="display: flex;">
+        <div style="width:48px;height:48px;cursor:pointer;">
+          <nz-avatar [nzShape]="'square'" [nzSize]="48" [nzText]="(_user.nickname||_user.username||'')[0]"
+            [nzSrc]="_user.avatar"></nz-avatar>
+        </div>
+        <div style="margin-left:8px;">
+          <div class="p">{{_user.nickname}}</div>
+          <div class="a">{{_user.description}}</div>
+        </div>
+      </div>
+    </ng-template>
   </nz-avatar>
   <span class="p">{{_user.nickname||_user.username}}</span>
   <span class="a">{{action}} @</span>
