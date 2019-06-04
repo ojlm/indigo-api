@@ -13,7 +13,7 @@ export class FeedHttpComponent {
 
   action = ''
   item: FeedItem = {}
-  request: Case = {}
+  request: Case = { request: {} }
   signature = ''
   @Input()
   set data(item: FeedItem) {
