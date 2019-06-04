@@ -22,7 +22,14 @@ export class VariablesExportTableComponent implements OnInit {
     { label: this.i18nService.fanyi(I18nKey.ItemScopeJob), value: ScopeType.JOB },
     { label: this.i18nService.fanyi(I18nKey.ItemScopeScenario), value: ScopeType.SCENARIO }
   ]
-  values: VariablesExportItem[] = [this.initNewItem()]
+  _defaultScope: string
+  @Input()
+  set defaultScope(val: string) {
+    if (val) {
+      this._defaultScope = val
+    }
+  }
+  values: VariablesExportItem[]
   @Input()
   get data() {
     return this.values
@@ -34,6 +41,8 @@ export class VariablesExportTableComponent implements OnInit {
       } else {
         this.values = [...val, this.initNewItem()]
       }
+    } else {
+      this.values = [this.initNewItem()]
     }
   }
   @Output()
@@ -53,7 +62,7 @@ export class VariablesExportTableComponent implements OnInit {
 
   initNewItem() {
     const item: VariablesExportItem = {
-      scope: ScopeType.GLOBAL,
+      scope: this._defaultScope || ScopeType.GLOBAL,
     }
     return item
   }

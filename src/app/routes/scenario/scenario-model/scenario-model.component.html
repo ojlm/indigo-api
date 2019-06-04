@@ -46,11 +46,11 @@
         </app-steps-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'item-imports'|translate">
-        <app-variables-import-table [(data)]="scenario.imports" [defaultScope]="'_s'">
+        <app-variables-import-table [defaultScope]="'_s'" [(data)]="scenario.imports">
         </app-variables-import-table>
       </nz-tab>
       <nz-tab [nzTitle]="'item-exports'|translate">
-        <app-variables-export-table [(data)]="scenario.exports"></app-variables-export-table>
+        <app-variables-export-table [defaultScope]="'_j'" [(data)]="scenario.exports"></app-variables-export-table>
       </nz-tab>
     </nz-tabset>
   </nz-card>
