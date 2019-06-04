@@ -1,15 +1,21 @@
-import { Location } from '@angular/common'
 import { Component, HostListener, Input, OnInit } from '@angular/core'
-import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
+import { ConfigService } from 'app/api/service/config.service'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { CaseService } from '../../../api/service/case.service'
-import { GroupService } from '../../../api/service/group.service'
-import { Assertion, Case, CaseResult, ContextOptions, KeyValueObject, METHODS } from '../../../model/es.model'
+import {
+  Assertion,
+  Case,
+  CaseResult,
+  ContextOptions,
+  KeyValueObject,
+  METHODS,
+  TransformFunction,
+} from '../../../model/es.model'
 import { HttpContentTypes } from '../../../model/http.model'
 import { hashToObj, searchToObj } from '../../../util/urlutils'
 
@@ -70,18 +76,17 @@ export class CaseModelComponent implements OnInit {
   isSaved = true
   historyVisible = false
   assertions: Assertion[] = []
+  transforms: TransformFunction[] = []
   @HostListener('window:resize')
   resizeBy() {
     this.drawerWidth = calcDrawerWidth(0.3)
   }
 
   constructor(
-    private fb: FormBuilder,
-    private groupService: GroupService,
+    private configService: ConfigService,
     private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
     private i18nService: I18NService,
     private caseService: CaseService,
   ) {
@@ -364,8 +369,9 @@ export class CaseModelComponent implements OnInit {
       })
     }
     if (this.assertions && this.assertions.length === 0) {
-      this.caseService.getAllAssertions().subscribe(res => {
-        this.assertions = res.data
+      this.configService.getBasics().subscribe(res => {
+        this.assertions = res.data.assertions
+        this.transforms = res.data.transforms
       })
     }
   }

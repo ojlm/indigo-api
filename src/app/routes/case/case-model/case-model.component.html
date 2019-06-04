@@ -97,7 +97,8 @@
         </app-case-generator>
       </nz-tab>
       <nz-tab [nzTitle]="'item-exports'|translate">
-        <app-variables-export-table [defaultScope]="'_s'" [(data)]="case.exports" (dataChange)="modelChange()">
+        <app-variables-export-table [transforms]="transforms" [defaultScope]="'_s'" [(data)]="case.exports"
+          (dataChange)="modelChange()">
         </app-variables-export-table>
       </nz-tab>
     </nz-tabset>

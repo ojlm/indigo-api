@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
-import { CaseService } from 'app/api/service/case.service'
+import { ConfigService } from 'app/api/service/config.service'
 import {
   DubboInterface,
   DubboProvider,
@@ -14,7 +14,14 @@ import {
   ParameterType,
 } from 'app/api/service/dubbo.service'
 import { ActorEvent, ActorEventType } from 'app/model/api.model'
-import { Assertion, CaseReportItemMetrics, CaseStatis, ContextOptions, DubboRequest } from 'app/model/es.model'
+import {
+  Assertion,
+  CaseReportItemMetrics,
+  CaseStatis,
+  ContextOptions,
+  DubboRequest,
+  TransformFunction,
+} from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -46,6 +53,7 @@ export class DubboPlaygroundComponent implements OnInit {
   isSending = false
   isSaved = true
   assertions: Assertion[] = []
+  transforms: TransformFunction[] = []
   tabIndex = 0
   logSubject = new Subject<ActorEvent<string>>()
   echoSubject = new Subject<string>()
@@ -114,7 +122,7 @@ export class DubboPlaygroundComponent implements OnInit {
 
   constructor(
     private dubboService: DubboService,
-    private caseService: CaseService,
+    private configService: ConfigService,
     private monocoService: MonacoService,
     private msgService: NzMessageService,
     private route: ActivatedRoute,
@@ -441,8 +449,9 @@ export class DubboPlaygroundComponent implements OnInit {
       })
     }
     if (this.assertions && this.assertions.length === 0) {
-      this.caseService.getAllAssertions().subscribe(res => {
-        this.assertions = res.data
+      this.configService.getBasics().subscribe(res => {
+        this.assertions = res.data.assertions
+        this.transforms = res.data.transforms
       })
     }
   }

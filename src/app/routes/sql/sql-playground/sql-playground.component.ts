@@ -3,9 +3,16 @@ import { ActivatedRoute } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
-import { CaseService } from 'app/api/service/case.service'
+import { ConfigService } from 'app/api/service/config.service'
 import { SqlResult, SqlService } from 'app/api/service/sql.service'
-import { Assertion, CaseReportItemMetrics, CaseStatis, ContextOptions, SqlRequest } from 'app/model/es.model'
+import {
+  Assertion,
+  CaseReportItemMetrics,
+  CaseStatis,
+  ContextOptions,
+  SqlRequest,
+  TransformFunction,
+} from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -37,6 +44,7 @@ export class SqlPlaygroundComponent implements OnInit {
     'height': '40px'
   }
   assertions: Assertion[] = []
+  transforms: TransformFunction[] = []
   tabIndex = 0
   isSending = false
   _ctxOptions: ContextOptions = {}
@@ -89,7 +97,7 @@ export class SqlPlaygroundComponent implements OnInit {
   }
 
   constructor(
-    private caseService: CaseService,
+    private configService: ConfigService,
     private sqlService: SqlService,
     private monocoService: MonacoService,
     private msgService: NzMessageService,
@@ -229,8 +237,9 @@ export class SqlPlaygroundComponent implements OnInit {
       })
     }
     if (this.assertions && this.assertions.length === 0) {
-      this.caseService.getAllAssertions().subscribe(res => {
-        this.assertions = res.data
+      this.configService.getBasics().subscribe(res => {
+        this.assertions = res.data.assertions
+        this.transforms = res.data.transforms
       })
     }
   }

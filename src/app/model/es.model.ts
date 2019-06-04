@@ -335,6 +335,11 @@ export interface Assertion {
   description?: string
 }
 
+export interface TransformFunction {
+  name?: string
+  description?: string
+}
+
 export interface CaseGeneratorListItem {
   map?: KeyValueObject[]
   assert?: any

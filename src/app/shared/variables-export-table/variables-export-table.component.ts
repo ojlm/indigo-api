@@ -3,7 +3,7 @@ import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { SortablejsOptions } from 'angular-sortablejs'
 import { SelectModel } from 'app/model/common.model'
-import { VariablesExportItem } from 'app/model/es.model'
+import { TransformFunction, VariablesExportItem } from 'app/model/es.model'
 
 @Component({
   selector: 'app-variables-export-table',
@@ -22,6 +22,7 @@ export class VariablesExportTableComponent implements OnInit {
     { label: this.i18nService.fanyi(I18nKey.ItemScopeJob), value: ScopeType.JOB },
     { label: this.i18nService.fanyi(I18nKey.ItemScopeScenario), value: ScopeType.SCENARIO }
   ]
+  @Input() transforms: TransformFunction[] = []
   _defaultScope: string
   @Input()
   set defaultScope(val: string) {

@@ -159,7 +159,7 @@
                 </ngx-monaco-editor>
               </nz-tab>
               <nz-tab [nzTitle]="'item-exports'|translate">
-                <app-variables-export-table [defaultScope]="'_s'" [(data)]="request.exports"
+                <app-variables-export-table [transforms]="transforms" [defaultScope]="'_s'" [(data)]="request.exports"
                   (dataChange)="modelChange()">
                 </app-variables-export-table>
               </nz-tab>

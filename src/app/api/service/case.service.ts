@@ -5,7 +5,6 @@ import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
 import {
-  Assertion,
   Case,
   CaseResult,
   ContextOptions,
@@ -56,10 +55,6 @@ export class CaseService extends BaseService {
         err => response.next(null))
     })
     return querySubject
-  }
-
-  getAllAssertions() {
-    return this.http.get<ApiRes<Assertion[]>>(`${API_CASE}/assertion/all`)
   }
 
   searchAfterSubject(response: Subject<ApiRes<CaseWithSort[]>>) {
