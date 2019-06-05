@@ -3,12 +3,30 @@ import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { SortablejsOptions } from 'angular-sortablejs'
 import { SelectModel } from 'app/model/common.model'
-import { VariablesImportItem } from 'app/model/es.model'
+import { TransformFunction, VariablesImportItem } from 'app/model/es.model'
 import { intputNumFormat, numToInputValue } from 'app/util/number'
 
 @Component({
   selector: 'app-variables-import-table',
   templateUrl: './variables-import-table.component.html',
+  styles: [`
+    .func-option {
+    }
+    .option-title {
+      border-bottom: 1px solid lightgrey;
+    }
+    .func-option:hover .option-title {
+      font-weight: 600;
+    }
+    .option-content {
+      max-height: 120px;
+      overflow: auto;
+      color: lightgrey;
+      white-space: normal;
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+  `]
 })
 export class VariablesImportTableComponent implements OnInit {
 
@@ -24,6 +42,7 @@ export class VariablesImportTableComponent implements OnInit {
     { label: this.i18nService.fanyi(I18nKey.ItemScopeScenario), value: ScopeType.SCENARIO },
   ]
   values: VariablesImportItem[]
+  @Input() transforms: TransformFunction[] = []
   _defaultScope: string
   inited = false
   @Input()

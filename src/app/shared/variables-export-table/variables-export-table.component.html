@@ -11,7 +11,7 @@
       <th style="padding:3px;">
         <span>{{'item-var-name'|translate}}</span>
       </th>
-      <th style="padding:3px;">
+      <th style="padding:3px;min-width:100px;">
         <span>{{'item-trans-function'|translate}}</span>
       </th>
       <th style="padding:3px;">
@@ -37,9 +37,18 @@
       <td style="padding:2px;">
         <input nz-input [(ngModel)]="item.dstName" (ngModelChange)="modelChange(item,i)">
       </td>
-      <td style="padding:2px;width:100px;">
-        <nz-select style="width: 100%;" [(ngModel)]="item.function" (ngModelChange)="modelChange(item,i)">
-          <nz-option *ngFor="let item of transforms" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
+      <td style="padding:2px;">
+        <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="item.function"
+          (ngModelChange)="modelChange(item,i)">
+          <nz-option *ngFor="let item of transforms" nzCustomContent [nzValue]="item.name" [nzLabel]="item.name">
+            <div class="func-option">
+              <div class="option-title">
+                <i style="color:darkcyan;" nz-icon nzType="double-right" nzTheme="outline"></i>
+                <span>{{item.name}}</span>
+              </div>
+              <div class="option-content indigo-scroll-bar"> {{item.description}}</div>
+            </div>
+          </nz-option>
         </nz-select>
       </td>
       <td style="padding:2px;">

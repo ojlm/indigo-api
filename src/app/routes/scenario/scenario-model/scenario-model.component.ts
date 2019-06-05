@@ -4,12 +4,13 @@ import { ActivatedRoute } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
+import { ConfigService } from 'app/api/service/config.service'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { ScenarioResponse, ScenarioService } from '../../../api/service/scenario.service'
 import { ActorEvent, ActorEventType } from '../../../model/api.model'
-import { ContextOptions, JobExecDesc, ReportItemEvent, Scenario } from '../../../model/es.model'
+import { ContextOptions, JobExecDesc, ReportItemEvent, Scenario, TransformFunction } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
 @Component({
@@ -37,6 +38,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
   eventSubject = new Subject<ActorEvent<ReportItemEvent>>()
   consoleDrawerVisible = false
+  transforms: TransformFunction[] = []
   @Input()
   set id(id: string) {
     if (id) {
@@ -54,6 +56,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   }
 
   constructor(
+    private configService: ConfigService,
     private scenarioService: ScenarioService,
     private msgService: NzMessageService,
     private route: ActivatedRoute,
@@ -162,6 +165,11 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
           this.scenarioId = scenarioId
           this.loadDataById()
         }
+      })
+    }
+    if (this.transforms && this.transforms.length === 0) {
+      this.configService.getAllTransforms().subscribe(res => {
+        this.transforms = res.data
       })
     }
   }

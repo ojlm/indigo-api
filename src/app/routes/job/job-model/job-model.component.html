@@ -57,7 +57,8 @@
         <app-job-subscribers *ngIf="jobSubscribersSwitch" [(data)]="subscribers"></app-job-subscribers>
       </nz-tab>
       <nz-tab [nzTitle]="'item-imports'|translate">
-        <app-variables-import-table [(data)]="imports" [defaultScope]="'_j'" [disableScopes]="['_s']">
+        <app-variables-import-table [transforms]="transforms" [(data)]="imports" [defaultScope]="'_j'"
+          [disableScopes]="['_s']">
         </app-variables-import-table>
       </nz-tab>
     </nz-tabset>

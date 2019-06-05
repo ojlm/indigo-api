@@ -8,6 +8,24 @@ import { TransformFunction, VariablesExportItem } from 'app/model/es.model'
 @Component({
   selector: 'app-variables-export-table',
   templateUrl: './variables-export-table.component.html',
+  styles: [`
+    .func-option {
+    }
+    .option-title {
+      border-bottom: 1px solid lightgrey;
+    }
+    .func-option:hover .option-title {
+      font-weight: 600;
+    }
+    .option-content {
+      max-height: 120px;
+      overflow: auto;
+      color: lightgrey;
+      white-space: normal;
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+  `]
 })
 export class VariablesExportTableComponent implements OnInit {
 

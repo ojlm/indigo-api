@@ -11,6 +11,9 @@
       <th style="padding:3px;">
         <span>{{'field-value'|translate}}</span>
       </th>
+      <th style="padding:3px;min-width:100px;">
+        <span>{{'item-trans-function'|translate}}</span>
+      </th>
       <th style="padding:3px;">
         <span>{{'field-description'|translate}}</span>
       </th>
@@ -33,6 +36,20 @@
       </td>
       <td style="padding:2px;">
         <input nz-input [(ngModel)]="item.value" (ngModelChange)="modelChange(item,i)">
+      </td>
+      <td style="padding:2px;">
+        <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="item.function"
+          (ngModelChange)="modelChange(item,i)">
+          <nz-option *ngFor="let item of transforms" nzCustomContent [nzValue]="item.name" [nzLabel]="item.name">
+            <div class="func-option">
+              <div class="option-title">
+                <i style="color:darkcyan;" nz-icon nzType="double-right" nzTheme="outline"></i>
+                <span>{{item.name}}</span>
+              </div>
+              <div class="option-content indigo-scroll-bar"> {{item.description}}</div>
+            </div>
+          </nz-option>
+        </nz-select>
       </td>
       <td style="padding:2px;">
         <input nz-input [(ngModel)]="item.description" (ngModelChange)="modelChange(item,i)">
