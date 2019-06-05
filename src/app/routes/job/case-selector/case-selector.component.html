@@ -81,7 +81,7 @@
           <nz-tag [nzColor]="methodTagColor(item)">{{item.request.method}}</nz-tag>
           <span>{{item.request.urlPath}}</span>
           <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);"
-            (click)="viewCase(item)">{{item.summary}}</a>
+            (click)="viewCase(item, true)">{{item.summary}}</a>
           <span class="title-tail">
             <span class="tail-text">{{item.group}}/{{item.project}}</span>
             <ng-container *ngIf="item.labels">
@@ -133,9 +133,4 @@
       <div *ngIf="items.length<=0">{{'tips-no-data'|translate}}</div>
     </div>
   </ng-template>
-</nz-drawer>
-<!-- case draw -->
-<nz-drawer [nzVisible]="caseDrawerVisible" [nzWidth]="drawerWidth" [nzClosable]="false"
-  (nzOnClose)="caseDrawerVisible=false">
-  <app-case-model *ngIf="caseModelDrawerSwitch" [id]="editCaseId" [ctxOptions]="_ctxOptions"></app-case-model>
 </nz-drawer>

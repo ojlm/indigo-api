@@ -2,7 +2,8 @@ import { Location } from '@angular/common'
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { JobDataExt } from 'app/model/job.model'
-import { NzMessageService } from 'ng-zorro-antd'
+import { CaseModelComponent } from 'app/routes/case/case-model/case-model.component'
+import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { CaseService, QueryCase } from '../../../api/service/case.service'
@@ -50,17 +51,14 @@ import { calcDrawerWidth } from '../../../util/drawer'
 })
 export class CaseSelectorComponent extends PageSingleModel implements OnInit {
 
-  caseModelDrawerSwitch = false
   caseListDrawerVisible = false
-  caseDrawerVisible = false
-  drawerWidth = calcDrawerWidth()
   caseListDrawerWidth = calcDrawerWidth(0.7)
+  subDrawerWidth = calcDrawerWidth(0.6)
   pageSize = 20
   group: string
   project: string
   items: Case[] = []
   searchCase: Subject<QueryCase>
-  editCaseId: string
   searchCaseModel: QueryCase = {}
   addedItemsMap = {}
   addedItems: Case[] = []
@@ -100,12 +98,13 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
   }
   @HostListener('window:resize')
   resize() {
-    this.drawerWidth = calcDrawerWidth()
     this.caseListDrawerWidth = calcDrawerWidth(0.7)
+    this.subDrawerWidth = calcDrawerWidth(0.6)
   }
 
   constructor(
     private caseService: CaseService,
+    private drawerService: NzDrawerService,
     private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
@@ -184,10 +183,22 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
     }
   }
 
-  viewCase(item: Case) {
-    this.caseModelDrawerSwitch = true
-    this.editCaseId = item._id
-    this.caseDrawerVisible = true
+  viewCase(item: Case, isInDrawer = false) {
+    this.drawerService.create({
+      nzWidth: isInDrawer ? this.subDrawerWidth : this.caseListDrawerWidth,
+      nzContent: CaseModelComponent,
+      nzContentParams: {
+        group: this.group,
+        project: this.project,
+        id: item._id,
+        ctxOptions: this._ctxOptions,
+        isInDrawer: true,
+      },
+      nzBodyStyle: {
+        padding: '4px'
+      },
+      nzClosable: false,
+    })
   }
 
   search() {
