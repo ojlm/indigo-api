@@ -43,7 +43,7 @@
   "menu-other-options": "其他选项",
   "menu-job-report-data-indices": "报告数据索引",
   "menu-system-jobs": "系统任务",
-  "menu-online-api": "线上接口",
+  "menu-online-api": "接口性能",
   "menu-dubbo-test": "Dubbo 请求",
   "menu-sql-test": "Sql 请求",
   "field-id": "标识",
