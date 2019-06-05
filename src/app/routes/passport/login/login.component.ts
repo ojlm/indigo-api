@@ -59,7 +59,7 @@ export class UserLoginComponent implements OnDestroy {
     this.password.markAsDirty()
     this.password.updateValueAndValidity()
     if (this.userName.invalid || this.password.invalid) return
-    this.loading = false
+    this.loading = true
     const auth = `${this.userName.value}:${this.password.value}`
     const headers = new HttpHeaders({ 'Authorization': `Basic ${btoa(auth)}` })
     this.http.get<ApiRes<UserProfile>>(API_USER_LOGIN, null, { headers: headers } as any)
@@ -67,7 +67,7 @@ export class UserLoginComponent implements OnDestroy {
         this.tokenService.set({
           token: res.data.token
         })
-        this.loading = true
+        this.loading = false
         this.startupSrv.load(res.data).then(() => {
           const referrer = this.tokenService.referrer
           if (referrer && referrer.url) {
