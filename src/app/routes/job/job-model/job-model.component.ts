@@ -5,12 +5,22 @@ import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { ConfigService } from 'app/api/service/config.service'
+import { FavoriteService } from 'app/api/service/favorite.service'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { JobService, NewJob } from '../../../api/service/job.service'
 import { ActorEvent, ActorEventType } from '../../../model/api.model'
-import { ContextOptions, JobExecDesc, JobNotify, TransformFunction, VariablesImportItem } from '../../../model/es.model'
+import {
+  ContextOptions,
+  Favorite,
+  FavoriteTargetType,
+  FavoriteType,
+  JobExecDesc,
+  JobNotify,
+  TransformFunction,
+  VariablesImportItem,
+} from '../../../model/es.model'
 import { JobDataExt, JobMeta, TriggerMeta } from '../../../model/job.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -47,9 +57,12 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   reportId = ''
   imports: VariablesImportItem[] = []
   transforms: TransformFunction[] = []
+  toptopChecked = false
+  toptopId = ''
   constructor(
     private configService: ConfigService,
     private jobService: JobService,
+    private favoriteService: FavoriteService,
     private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
@@ -105,6 +118,36 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         }, err => this.submitting = false)
       }
     }
+  }
+
+  toptopChange(checked: boolean) {
+    if (!this.jobMeta.summary && checked) {
+      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorEmptySummary))
+      return
+    } else {
+      if (checked) {
+        this.favoriteService.index(this.buildFavoriteDoc()).subscribe(res => {
+          this.toptopId = res.data.id
+        }, err => this.toptopChecked = false)
+      } else {
+        if (this.toptopId) {
+          this.favoriteService.delete(this.toptopId).subscribe(res => {
+          }, err => this.toptopChecked = true)
+        }
+      }
+    }
+  }
+
+  buildFavoriteDoc() {
+    const doc: Favorite = {
+      group: this.group,
+      project: this.project,
+      summary: this.jobMeta.summary,
+      type: FavoriteType.TYPE_TOP_TOP,
+      targetType: FavoriteTargetType.TARGET_TYPE_JOB,
+      targetId: this.jobId,
+    }
+    return doc
   }
 
   envChange() {
@@ -215,6 +258,10 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
           if (job.jobData && job.jobData.ext) {
             this.jobDataExt = job.jobData.ext
           }
+          this.favoriteService.exist(this.buildFavoriteDoc()).subscribe(favRes => {
+            this.toptopId = favRes.data
+            if (this.toptopId) this.toptopChecked = true
+          })
         })
       }
     })

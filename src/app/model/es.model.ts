@@ -523,3 +523,27 @@ export interface Activity {
   timestamp?: string
   data?: any
 }
+
+export interface Favorite {
+  group: string
+  project: string
+  summary?: string
+  user?: string
+  type: string
+  targetType: string
+  targetId: string
+  timestamp?: string
+  data?: any
+}
+
+export const FavoriteType = {
+  TYPE_TOP_TOP: 'toptop',
+  TYPE_WATCH: 'watch',
+  TYPE_STAR: 'star',
+  TYPE_FOLLOW: 'follow'
+}
+
+export const FavoriteTargetType = {
+  TARGET_TYPE_SCENARIO: 'scenario',
+  TARGET_TYPE_JOB: 'job',
+}

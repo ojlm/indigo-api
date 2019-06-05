@@ -5,12 +5,22 @@ import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { ConfigService } from 'app/api/service/config.service'
+import { FavoriteService } from 'app/api/service/favorite.service'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { ScenarioResponse, ScenarioService } from '../../../api/service/scenario.service'
 import { ActorEvent, ActorEventType } from '../../../model/api.model'
-import { ContextOptions, JobExecDesc, ReportItemEvent, Scenario, TransformFunction } from '../../../model/es.model'
+import {
+  ContextOptions,
+  Favorite,
+  FavoriteTargetType,
+  FavoriteType,
+  JobExecDesc,
+  ReportItemEvent,
+  Scenario,
+  TransformFunction,
+} from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
 @Component({
@@ -39,6 +49,8 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   eventSubject = new Subject<ActorEvent<ReportItemEvent>>()
   consoleDrawerVisible = false
   transforms: TransformFunction[] = []
+  toptopChecked = false
+  toptopId = ''
   @Input()
   set id(id: string) {
     if (id) {
@@ -58,6 +70,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   constructor(
     private configService: ConfigService,
     private scenarioService: ScenarioService,
+    private favoriteService: FavoriteService,
     private msgService: NzMessageService,
     private route: ActivatedRoute,
     private location: Location,
@@ -117,6 +130,36 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     }
   }
 
+  toptopChange(checked: boolean) {
+    if (!this.scenario.summary && checked) {
+      this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorEmptySummary))
+      return
+    } else {
+      if (checked) {
+        this.favoriteService.index(this.buildFavoriteDoc()).subscribe(res => {
+          this.toptopId = res.data.id
+        }, err => this.toptopChecked = false)
+      } else {
+        if (this.toptopId) {
+          this.favoriteService.delete(this.toptopId).subscribe(res => {
+          }, err => this.toptopChecked = true)
+        }
+      }
+    }
+  }
+
+  buildFavoriteDoc() {
+    const doc: Favorite = {
+      group: this.group,
+      project: this.project,
+      summary: this.scenario.summary,
+      type: FavoriteType.TYPE_TOP_TOP,
+      targetType: FavoriteTargetType.TARGET_TYPE_SCENARIO,
+      targetId: this.scenarioId,
+    }
+    return doc
+  }
+
   envChange() {
     this._ctxOptions.scenarioEnv = this.scenario.env
   }
@@ -147,6 +190,10 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
         this.project = this.scenario.project
         this._ctxOptions.scenarioEnv = this.scenario.env
         if (!this.scenario.steps) { this.scenario.steps = [] }
+        this.favoriteService.exist(this.buildFavoriteDoc()).subscribe(favRes => {
+          this.toptopId = favRes.data
+          if (this.toptopId) this.toptopChecked = true
+        })
       })
     }
   }

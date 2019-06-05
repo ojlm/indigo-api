@@ -2,9 +2,13 @@
   <div class="alain-default__content-title">
     <h1 style="padding-left: 10px;">{{'content-title-job'|translate}}</h1>
     <span>
-      <span [style.color]="'lightseagreen'">{{jobMeta.summary}}</span>
-      <span *ngIf="jobId">
-        <a style="color:lightgray;padding-left:5px;font-size:smaller;"
+      <nz-tag *ngIf="jobId" style="margin-right:16px;" nzMode="checkable" [(nzChecked)]="toptopChecked"
+        [nzColor]="toptopChecked?'#108ee9':'lightblue'" (nzCheckedChange)="toptopChange($event)">
+        {{'title-top-top'|translate}}
+      </nz-tag>
+      <span>
+        <span [style.color]="'lightseagreen'">{{jobMeta.summary}}</span>
+        <a *ngIf="jobId" style="color:lightgray;padding-left:5px;font-size:smaller;"
           [routerLink]="['/job', jobMeta.group, jobMeta.project, jobId]">({{jobId}})</a>
       </span>
       <app-env-selector [group]="group" [project]="project" [(env)]="jobMeta.env" (envChange)="envChange()">

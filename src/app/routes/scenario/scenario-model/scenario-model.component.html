@@ -2,6 +2,10 @@
   <div *ngIf="!fromSelector" class="alain-default__content-title">
     <h1 style="padding-left: 10px;">{{'content-title-scenario'|translate}}</h1>
     <span>
+      <nz-tag *ngIf="scenarioId" style="margin-right:16px;" nzMode="checkable" [(nzChecked)]="toptopChecked"
+        [nzColor]="toptopChecked?'#108ee9':'lightblue'" (nzCheckedChange)="toptopChange($event)">
+        {{'title-top-top'|translate}}
+      </nz-tag>
       <span>
         <span [style.color]="'lightseagreen'">{{scenario.summary}}</span>
         <a *ngIf="scenarioId" style="color:lightgray;padding-left:5px;font-size:smaller;"
