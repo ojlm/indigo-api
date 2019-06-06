@@ -30,7 +30,6 @@ import { ProjectJobsComponent } from './project/project-jobs/project-jobs.compon
 import { ProjectModelComponent } from './project/project-model/project-model.component'
 import { ProjectScenariosComponent } from './project/project-scenarios/project-scenarios.component'
 import { ProjectSqlListComponent } from './project/project-sql-list/project-sql-list.component'
-import { TopTopComponent } from './top/top-top/top-top.component'
 
 const routes: Routes = [
   {
@@ -39,7 +38,7 @@ const routes: Routes = [
     canActivateChild: [JWTGuard],
     children: [
       { path: '', component: HomeComponent, data: { titleI18n: 'title-home' } },
-      { path: 'toptop', component: TopTopComponent, data: { titleI18n: 'title-top-top' } },
+      { path: 'toptop', loadChildren: './top/top.module#TopModule' },
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
       { path: 'groups/new', component: GroupModelComponent, data: { titleI18n: 'title-group-new' } },
       { path: 'projects/new', component: ProjectModelComponent, data: { titleI18n: 'title-project-new' } }

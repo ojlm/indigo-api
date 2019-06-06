@@ -19,7 +19,7 @@ export class FavoriteService extends BaseService {
   }
 
   query(query: QueryFavorite) {
-    return this.http.post<ApiRes<Favorite[]>>(`${API_FAVORITE}/query`, query)
+    return this.http.post<ApiRes<ToptopGroupResponse[]>>(`${API_FAVORITE}/query`, query)
   }
 
   index(doc: Favorite) {
@@ -39,4 +39,14 @@ export interface QueryFavorite extends QueryPage {
   targetType?: string
   targetId?: string
   text?: string
+}
+
+export interface ToptopGroupResponse {
+  group?: string
+  summary?: string
+  items?: Favorite[]
+}
+
+export interface ExToptopGroupResponse extends ToptopGroupResponse {
+  active?: boolean
 }

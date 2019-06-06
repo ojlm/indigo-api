@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+}
+
+.sidebar {
+  width: 360px;
+  overflow: auto;
+  background-color: white;
+}
+
+.sidebar .list {
+  margin-left: 8px;
+}
+
+.sidebar .list .item {
+  padding: 12px 8px;
+  width: 100%;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.sidebar .list .active {
+  background-color: aliceblue;
+  box-shadow: 0 0 1px darkblue;
+}
+
+.sidebar .list .item:hover {
+  cursor: pointer;
+  background-color: lightcyan;
+  box-shadow: 0 0 1px cyan;
+}
+
+.sidebar .pagination {
+  height: 40px;
+  padding: 2px;
+  text-align: right;
+}
+
+.content {
+  overflow: auto;
+  width: 100%;
+  padding: 16px;
+}

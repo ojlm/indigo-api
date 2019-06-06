@@ -34,7 +34,6 @@ import { ProjectModelComponent } from './project/project-model/project-model.com
 import { ProjectScenariosComponent } from './project/project-scenarios/project-scenarios.component'
 import { ProjectSqlListComponent } from './project/project-sql-list/project-sql-list.component'
 import { RouteRoutingModule } from './routes-routing.module'
-import { TopTopComponent } from './top/top-top/top-top.component'
 
 const COMPONENTS = [
   HomeComponent,
@@ -71,7 +70,6 @@ const COMPONENTS = [
   FeedHttpComponent,
   FeedDubboComponent,
   FeedSqlComponent,
-  TopTopComponent,
 ]
 const COMPONENTS_NOROUNT = []
 

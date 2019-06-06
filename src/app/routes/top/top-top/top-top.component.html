@@ -1,6 +1,24 @@
-<div class="alain-default__content-title" style="margin-bottom:12px">
+<div class="alain-default__content-title" style="margin-bottom:0px;height:48px;">
   <h1 style="padding-left: 10px;">{{'title-top-top'|translate}}</h1>
 </div>
-<div>
-  TOP-TOP
+<div class="container">
+  <div class="sidebar indigo-scroll-bar" [style.height]="height">
+    <nz-collapse [nzBordered]="false" [nzAccordion]="true">
+      <nz-collapse-panel *ngFor="let item of items" [nzHeader]="nzHeader" [nzShowArrow]="true">
+        <div class="list">
+          <div *ngFor="let subItem of item.items" class="item" [class.active]="subItem._id===_item._id"
+            (click)="clickItem(subItem)">
+            {{subItem.summary}}
+          </div>
+        </div>
+        <ng-template #nzHeader>
+          <div>
+            <span>{{item.summary}}</span>
+          </div>
+        </ng-template>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+  <div class="content indigo-scroll-bar" [style.height]="height">
+  </div>
 </div>
