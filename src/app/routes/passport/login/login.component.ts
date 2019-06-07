@@ -65,10 +65,10 @@ export class UserLoginComponent implements OnDestroy {
     this.http.get<ApiRes<UserProfile>>(API_USER_LOGIN, null, { headers: headers } as any)
       .subscribe(res => {
         this.tokenService.set({
-          token: res.data.token
+          token: res['data'].token
         })
         this.loading = false
-        this.startupSrv.load(res.data).then(() => {
+        this.startupSrv.load(res['data']).then(() => {
           const referrer = this.tokenService.referrer
           if (referrer && referrer.url) {
             this.router.navigateByUrl(referrer.url)
