@@ -3,7 +3,7 @@ dist: trusty
 language: node_js
 
 node_js:
-  - '10.11.0'
+  - '10.16.0'
 
 git:
   depth: 1
