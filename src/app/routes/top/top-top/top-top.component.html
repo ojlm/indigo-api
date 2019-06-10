@@ -1,18 +1,20 @@
-<div class="alain-default__content-title" style="margin-bottom:0px;height:48px;">
-  <h1 style="padding-left: 10px;">{{'title-top-top'|translate}}</h1>
-</div>
 <div class="container">
   <div class="sidebar indigo-scroll-bar" [style.height]="height">
-    <nz-collapse [nzBordered]="false" [nzAccordion]="true">
-      <nz-collapse-panel *ngFor="let item of items" [nzHeader]="nzHeader" [nzShowArrow]="true">
+    <nz-collapse [nzBordered]="false" [nzAccordion]="false">
+      <nz-collapse-panel *ngFor="let item of items" [nzExpandedIcon]="nzExpandedIcon" [nzHeader]="nzHeader"
+        [nzShowArrow]="true" [(nzActive)]="item.active" (nzActiveChange)="activeChange(item)">
         <div class="list">
-          <div *ngFor="let subItem of item.items" class="item" [class.active]="subItem._id===_item._id"
-            (click)="clickItem(subItem)">
-            {{subItem.summary}}
+          <div *ngFor="let subItem of item.sub" [routerLink]="['/toptop', subItem.group, subItem.project, subItem._id]"
+            routerLinkActive="active" class="item">
+            <a>{{subItem.summary}}</a>
           </div>
         </div>
+        <ng-template #nzExpandedIcon>
+          <i style="color:lightcoral;" nz-icon type="double-right" class="ant-collapse-arrow"
+            [nzRotate]="item.active? 90 : 0"></i>
+        </ng-template>
         <ng-template #nzHeader>
-          <div>
+          <div class="header">
             <span>{{item.summary}}</span>
           </div>
         </ng-template>
@@ -20,5 +22,6 @@
     </nz-collapse>
   </div>
   <div class="content indigo-scroll-bar" [style.height]="height">
+    <router-outlet></router-outlet>
   </div>
 </div>

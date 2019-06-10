@@ -16,17 +16,21 @@
   padding: 12px 8px;
   width: 100%;
   border-bottom: 1px solid #e8e8e8;
+  outline: none;
 }
 
 .sidebar .list .active {
   background-color: aliceblue;
-  box-shadow: 0 0 1px darkblue;
 }
 
 .sidebar .list .item:hover {
   cursor: pointer;
   background-color: lightcyan;
   box-shadow: 0 0 1px cyan;
+}
+
+.header {
+  font-weight: 500;
 }
 
 .sidebar .pagination {

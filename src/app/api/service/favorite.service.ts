@@ -5,7 +5,7 @@ import { Observable } from 'rxjs'
 import { ApiRes, QueryPage } from '../../model/api.model'
 import { Favorite, IndexDocResponse } from '../../model/es.model'
 import { API_FAVORITE } from '../path'
-import { BaseService } from './base.service'
+import { AggsItem, BaseService } from './base.service'
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,10 @@ export class FavoriteService extends BaseService {
   delete(id: string) {
     return this.http.delete(`${API_FAVORITE}/${id}`) as Observable<ApiRes<any>>
   }
+
+  groupAggs() {
+    return this.http.get<ApiRes<AggsItem[]>>(`${API_FAVORITE}/groups`)
+  }
 }
 
 export interface QueryFavorite extends QueryPage {
@@ -47,6 +51,6 @@ export interface ToptopGroupResponse {
   items?: Favorite[]
 }
 
-export interface ExToptopGroupResponse extends ToptopGroupResponse {
+export interface ExToptopGroupResponse extends AggsItem {
   active?: boolean
 }

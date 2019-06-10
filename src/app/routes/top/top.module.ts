@@ -4,11 +4,15 @@ import { SharedModule } from '@shared/shared.module'
 import { SortablejsModule } from 'angular-sortablejs'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { TopContentComponent } from './top-content/top-content.component'
+import { TopHomeComponent } from './top-home/top-home.component'
 import { TopRoutingModule } from './top-routing.module'
 import { TopTopComponent } from './top-top/top-top.component'
 
 const COMPONENT = [
   TopTopComponent,
+  TopHomeComponent,
+  TopContentComponent,
 ]
 
 const COMPONENT_NOROUNT = []
