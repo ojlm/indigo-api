@@ -1,3 +1,16 @@
 <div>
-  TOP Content
+  <nz-card style="width:100;" [nzTitle]="stepsTitle" [nzExtra]="stepsExtra">
+    // TODO
+  </nz-card>
+  <ng-template #stepsTitle>
+    <div>
+      <a>{{type}}</a>
+      <a>{{title}}</a>
+    </div>
+  </ng-template>
+  <ng-template #stepsExtra>
+    <button nz-button [nzSize]="'small'" nzType="dashed" (click)="goExport()">{{'btn-export'|translate}}</button>
+  </ng-template>
+  <div>{{from | json}}</div>
+  <div>{{imports | json}}</div>
 </div>

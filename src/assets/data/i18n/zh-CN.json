@@ -274,6 +274,7 @@
   "btn-stress": "压测",
   "btn-add-default-suffixes": "添加通用Web过滤后缀",
   "btn-show-runtime-context": "运行时变量",
+  "btn-export": "专家模式",
   "item-path-variable": "路径变量",
   "item-params": "Params",
   "item-headers": "Headers",
