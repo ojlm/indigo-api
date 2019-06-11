@@ -126,19 +126,20 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
       return
     } else {
       if (checked) {
-        this.favoriteService.index(this.buildFavoriteDoc()).subscribe(res => {
-          this.toptopId = res.data.id
-        }, err => this.toptopChecked = false)
+        this.favoriteService
+          .checkToptop(this.buildFavoriteDoc(checked))
+          .subscribe(res => this.toptopId = res.data, _ => this.toptopChecked = false)
       } else {
         if (this.toptopId) {
-          this.favoriteService.delete(this.toptopId).subscribe(res => {
-          }, err => this.toptopChecked = true)
+          this.favoriteService
+            .uncheckToptop(this.group, this.project, this.toptopId)
+            .subscribe(_ => { }, _ => this.toptopChecked = true)
         }
       }
     }
   }
 
-  buildFavoriteDoc() {
+  buildFavoriteDoc(checked: boolean) {
     const doc: Favorite = {
       group: this.group,
       project: this.project,
@@ -146,6 +147,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
       type: FavoriteType.TYPE_TOP_TOP,
       targetType: FavoriteTargetType.TARGET_TYPE_JOB,
       targetId: this.jobId,
+      checked: checked,
     }
     return doc
   }
@@ -258,9 +260,9 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
           if (job.jobData && job.jobData.ext) {
             this.jobDataExt = job.jobData.ext
           }
-          this.favoriteService.exist(this.buildFavoriteDoc()).subscribe(favRes => {
-            this.toptopId = favRes.data
-            if (this.toptopId) this.toptopChecked = true
+          this.favoriteService.exist(this.buildFavoriteDoc(false)).subscribe(favRes => {
+            this.toptopId = favRes.data._id
+            if (this.toptopId && favRes.data.checked) this.toptopChecked = true
           })
         })
       }

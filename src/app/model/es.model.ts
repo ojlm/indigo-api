@@ -524,7 +524,7 @@ export interface Activity {
   data?: any
 }
 
-export interface Favorite {
+export interface Favorite extends BaseDoc {
   group: string
   project: string
   summary?: string
@@ -533,6 +533,7 @@ export interface Favorite {
   targetType: string
   targetId: string
   timestamp?: string
+  checked?: boolean
   data?: any
 }
 

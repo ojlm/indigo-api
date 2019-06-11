@@ -136,19 +136,20 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
       return
     } else {
       if (checked) {
-        this.favoriteService.index(this.buildFavoriteDoc()).subscribe(res => {
-          this.toptopId = res.data.id
-        }, err => this.toptopChecked = false)
+        this.favoriteService
+          .checkToptop(this.buildFavoriteDoc(checked))
+          .subscribe(res => this.toptopId = res.data, _ => this.toptopChecked = false)
       } else {
         if (this.toptopId) {
-          this.favoriteService.delete(this.toptopId).subscribe(res => {
-          }, err => this.toptopChecked = true)
+          this.favoriteService
+            .uncheckToptop(this.group, this.project, this.toptopId)
+            .subscribe(_ => { }, _ => this.toptopChecked = true)
         }
       }
     }
   }
 
-  buildFavoriteDoc() {
+  buildFavoriteDoc(checked: boolean) {
     const doc: Favorite = {
       group: this.group,
       project: this.project,
@@ -156,6 +157,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
       type: FavoriteType.TYPE_TOP_TOP,
       targetType: FavoriteTargetType.TARGET_TYPE_SCENARIO,
       targetId: this.scenarioId,
+      checked: checked,
     }
     return doc
   }
@@ -190,9 +192,9 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
         this.project = this.scenario.project
         this._ctxOptions.scenarioEnv = this.scenario.env
         if (!this.scenario.steps) { this.scenario.steps = [] }
-        this.favoriteService.exist(this.buildFavoriteDoc()).subscribe(favRes => {
-          this.toptopId = favRes.data
-          if (this.toptopId) this.toptopChecked = true
+        this.favoriteService.exist(this.buildFavoriteDoc(false)).subscribe(favRes => {
+          this.toptopId = favRes.data._id
+          if (this.toptopId && favRes.data.checked) this.toptopChecked = true
         })
       })
     }

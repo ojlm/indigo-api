@@ -11,7 +11,7 @@ const routes: Routes = [
     component: TopTopComponent,
     children: [
       { path: '', component: TopHomeComponent, data: { titleI18n: 'title-top-top' } },
-      { path: ':topGroup/:topProject:/:topId', component: TopContentComponent, data: { titleI18n: 'title-top-top' } },
+      { path: ':topGroup/:topProject/:topId', component: TopContentComponent, data: { titleI18n: 'title-top-top' } },
     ]
   }
 ]

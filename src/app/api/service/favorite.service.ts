@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
-import { Observable } from 'rxjs'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
-import { Favorite, IndexDocResponse } from '../../model/es.model'
+import { Favorite, Job, Scenario } from '../../model/es.model'
 import { API_FAVORITE } from '../path'
 import { AggsItem, BaseService } from './base.service'
+import { ScenarioResponse } from './scenario.service'
 
 @Injectable({
   providedIn: 'root'
@@ -15,23 +15,27 @@ export class FavoriteService extends BaseService {
   constructor(private http: _HttpClient) { super() }
 
   exist(doc: Favorite) {
-    return this.http.post<ApiRes<string>>(`${API_FAVORITE}/exist`, doc)
+    return this.http.post<ApiRes<Favorite>>(`${API_FAVORITE}/exist`, doc)
   }
 
   query(query: QueryFavorite) {
     return this.http.post<ApiRes<ToptopGroupResponse[]>>(`${API_FAVORITE}/query`, query)
   }
 
-  index(doc: Favorite) {
-    return this.http.put<ApiRes<IndexDocResponse>>(API_FAVORITE, doc)
+  checkToptop(doc: Favorite) {
+    return this.http.put<ApiRes<string>>(`${API_FAVORITE}/toptop/check`, doc)
   }
 
-  delete(id: string) {
-    return this.http.delete(`${API_FAVORITE}/${id}`) as Observable<ApiRes<any>>
+  uncheckToptop(group: string, project: string, id: string) {
+    return this.http.get(`${API_FAVORITE}/toptop/uncheck/${group}/${project}/${id}`)
   }
 
   groupAggs() {
     return this.http.get<ApiRes<AggsItem[]>>(`${API_FAVORITE}/groups`)
+  }
+
+  getToptop(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<ToptopResponse>>(`${API_FAVORITE}/toptop/${group}/${project}/${id}`)
   }
 }
 
@@ -53,4 +57,9 @@ export interface ToptopGroupResponse {
 
 export interface ExToptopGroupResponse extends AggsItem {
   active?: boolean
+}
+
+export interface ToptopResponse extends ScenarioResponse {
+  job?: Job
+  scenarios?: { [k: string]: Scenario }
 }
