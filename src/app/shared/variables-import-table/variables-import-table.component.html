@@ -17,6 +17,9 @@
       <th style="padding:3px;">
         <span>{{'field-description'|translate}}</span>
       </th>
+      <th style="padding:3px;width:84px;">
+        <span>{{'item-value-type'|translate}}</span>
+      </th>
       <th style="padding:3px;width:24px;"></th>
     </tr>
   </thead>
@@ -35,7 +38,19 @@
         </nz-select>
       </td>
       <td style="padding:2px;">
-        <input nz-input [(ngModel)]="item.value" (ngModelChange)="modelChange(item,i)">
+        <input *ngIf="item.type!=='enum'" nz-input [(ngModel)]="item.value" (ngModelChange)="modelChange(item,i)">
+        <nz-select *ngIf="item.type==='enum'" style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="item.value"
+          (ngModelChange)="modelChange(item,i)">
+          <nz-option *ngFor="let kv of item.extra.options" nzCustomContent [nzValue]="kv.key" [nzLabel]="kv.key">
+            <div class="func-option">
+              <div class="option-title">
+                <i style="color:darkcyan;" nz-icon nzType="double-right" nzTheme="outline"></i>
+                <span>{{kv.key}}</span>
+              </div>
+              <div class="option-content indigo-scroll-bar"> {{kv.value}}</div>
+            </div>
+          </nz-option>
+        </nz-select>
       </td>
       <td style="padding:2px;">
         <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="item.function"
@@ -53,6 +68,12 @@
       </td>
       <td style="padding:2px;">
         <input nz-input [(ngModel)]="item.description" (ngModelChange)="modelChange(item,i)">
+      </td>
+      <td style="padding:2px;">
+        <nz-tag style="margin-right: 2px;" [nzColor]="item.type==='enum'?'lightseagreen':'lightgrey'" nzMode="checkable"
+          [nzChecked]="item.type==='enum'" (nzCheckedChange)="typeChange(item)">{{'item-enum'|translate}}</nz-tag>
+        <i *ngIf="item.type==='enum'" style="color:lightseagreen;" nz-icon nzType="setting" nzTheme="outline"
+          class="click-icon" (click)="showExtra(item)"></i>
       </td>
       <td style="padding:2px;">
         <i *ngIf="i<values.length-1" nz-icon type="close" theme="outline" class="click-icon" (click)="remove(i)"></i>

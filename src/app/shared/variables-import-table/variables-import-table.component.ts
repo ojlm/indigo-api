@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
+import { VariablesOptionsComponent } from '@shared/variables-options/variables-options.component'
 import { SortablejsOptions } from 'angular-sortablejs'
 import { SelectModel } from 'app/model/common.model'
-import { TransformFunction, VariablesImportItem } from 'app/model/es.model'
+import { ImportItemType, TransformFunction, VariablesImportItem } from 'app/model/es.model'
+import { calcDrawerWidth } from 'app/util/drawer'
 import { intputNumFormat, numToInputValue } from 'app/util/number'
+import { NzDrawerService } from 'ng-zorro-antd'
 
 @Component({
   selector: 'app-variables-import-table',
@@ -83,6 +86,7 @@ export class VariablesImportTableComponent implements OnInit {
   dataChange = new EventEmitter<VariablesImportItem[]>()
 
   constructor(
+    private drawerService: NzDrawerService,
     private i18nService: I18NService
   ) { }
 
@@ -122,6 +126,29 @@ export class VariablesImportTableComponent implements OnInit {
       this.values = []
       this.dataChange.emit(this.data)
     }
+  }
+
+  typeChange(item: VariablesImportItem) {
+    if (item.type) {
+      item.type = undefined
+    } else {
+      item.type = ImportItemType.ENUM
+      if (!item.extra || !item.extra.options || item.extra.options.length === 0) this.showExtra(item)
+    }
+  }
+
+  showExtra(item: VariablesImportItem) {
+    this.drawerService.create({
+      nzWidth: calcDrawerWidth(0.6),
+      nzContent: VariablesOptionsComponent,
+      nzContentParams: {
+        data: item,
+      },
+      nzBodyStyle: {
+        padding: '16px'
+      },
+      nzClosable: false,
+    })
   }
 
   ngOnInit(): void {

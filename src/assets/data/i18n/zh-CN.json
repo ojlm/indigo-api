@@ -368,6 +368,8 @@
   "item-scope-global": "全局",
   "item-scope-job": "任务",
   "item-scope-scenario": "场景",
+  "item-value-type": "类型",
+  "item-enum": "下拉选项",
   "error-empty-summary": "名称不能为空",
   "error-empty-group": "业务线不能为空",
   "error-empty-project": "项目不能为空",

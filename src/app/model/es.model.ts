@@ -505,10 +505,16 @@ export interface VariablesExportItem {
   function?: string
 }
 
+export interface ExtraData {
+  options?: KeyValueObject[]
+}
+
 export interface VariablesImportItem {
   name?: string
   scope?: string
   value?: any
+  type?: string
+  extra?: ExtraData
   description?: string
   enabled?: boolean
   function?: string
@@ -547,4 +553,8 @@ export const FavoriteType = {
 export const FavoriteTargetType = {
   TARGET_TYPE_SCENARIO: 'scenario',
   TARGET_TYPE_JOB: 'job',
+}
+
+export const ImportItemType = {
+  ENUM: 'enum'
 }

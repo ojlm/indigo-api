@@ -1,0 +1,26 @@
+<nz-tabset nzType="card" nzSize="small" [nzTabBarExtraContent]="extraTemplate">
+  <nz-tab *ngFor="let item of _data.extra.options;let i = index" [nzTitle]="titleTemplate">
+    <ng-template #titleTemplate>
+      <div>
+        {{ item.key }}
+        <i nz-icon type="close" (click)="closeTab(i)" class="ant-tabs-close-x"></i>
+      </div>
+    </ng-template>
+    <div nz-row>
+      <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-key'|translate">
+        <input style="width:100%;" type="text" nz-input [(ngModel)]="item.key" (ngModelChange)="modelChange()" />
+      </nz-input-group>
+    </div>
+    <div nz-row style="margin-top:8px;">
+      <textarea style="width:100%;" [nzAutosize]="{minRows:6}" nz-input [(ngModel)]="item.value"
+        (ngModelChange)="modelChange()">
+      </textarea>
+    </div>
+  </nz-tab>
+</nz-tabset>
+<ng-template #extraTemplate>
+  <button nz-button nzSize="small" nzType="primary" (click)="newTab()">
+    <span><i nz-icon type="plus"></i></span>
+    <span style="margin-left:2px;">{{'btn-add'|translate}}</span>
+  </button>
+</ng-template>

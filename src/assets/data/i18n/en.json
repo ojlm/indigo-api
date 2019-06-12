@@ -368,6 +368,8 @@
   "item-scope-global": "Global",
   "item-scope-job": "Job",
   "item-scope-scenario": "Scenario",
+  "item-value-type": "Type",
+  "item-enum": "Enum",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",

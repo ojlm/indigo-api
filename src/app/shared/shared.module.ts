@@ -31,6 +31,7 @@ import { RestModelComponent } from './rest-model/rest-model.component'
 import { SqlSearchPanelComponent } from './sql-search-panel/sql-search-panel.component'
 import { VariablesExportTableComponent } from './variables-export-table/variables-export-table.component'
 import { VariablesImportTableComponent } from './variables-import-table/variables-import-table.component'
+import { VariablesOptionsComponent } from './variables-options/variables-options.component'
 
 // delon
 // i18n
@@ -63,6 +64,7 @@ const COMPONENTS = [
   PlaygroundReportTabComponent,
   VariablesExportTableComponent,
   VariablesImportTableComponent,
+  VariablesOptionsComponent,
 ]
 const DIRECTIVES = []
 // endregion
@@ -88,7 +90,8 @@ const DIRECTIVES = []
     ...DIRECTIVES
   ],
   entryComponents: [
-    DeleteItemComponent
+    DeleteItemComponent,
+    VariablesOptionsComponent,
   ],
   exports: [
     CommonModule,
