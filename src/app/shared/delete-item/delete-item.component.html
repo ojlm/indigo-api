@@ -11,7 +11,7 @@
       <a (click)="goCase(item)">{{item.summary}}</a>
     </div>
   </div>
-  <div *ngIf="'env'===item.type||'case'===item.type">
+  <div *ngIf="'env'===item.type||'case'===item.type||'sql'===item.type||'dubbo'===item.type">
     <nz-divider [nzText]="scenarioText" nzOrientation="left">
       <ng-template #scenarioText>
         <span class="divider-text">
@@ -23,7 +23,7 @@
       <a (click)="goScenario(item)">{{item.summary}}</a>
     </div>
   </div>
-  <div>
+  <div *ngIf="'sql'!==item.type&&'dubbo'!==item.type">
     <nz-divider [nzText]="jobText" nzOrientation="left">
       <ng-template #jobText>
         <span class="divider-text">

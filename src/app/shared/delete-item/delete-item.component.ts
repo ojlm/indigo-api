@@ -3,9 +3,11 @@ import { Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18NService } from '@core/i18n/i18n.service'
 import { CaseService } from 'app/api/service/case.service'
+import { DubboService } from 'app/api/service/dubbo.service'
 import { EnvService } from 'app/api/service/env.service'
 import { ScenarioService } from 'app/api/service/scenario.service'
-import { Case, Environment, Job, Scenario } from 'app/model/es.model'
+import { SqlService } from 'app/api/service/sql.service'
+import { Case, DubboRequest, Environment, Job, Scenario, SqlRequest } from 'app/model/es.model'
 import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd'
 
 @Component({
@@ -26,6 +28,8 @@ export class DeleteItemComponent implements OnInit {
   env: Environment = {}
   cs: Case = {}
   scenario: Scenario = {}
+  sql: SqlRequest = {}
+  dubbo: DubboRequest = {}
   cases: Case[] = []
   casesTotal = 0
   scenarios: Scenario[] = []
@@ -61,6 +65,18 @@ export class DeleteItemComponent implements OnInit {
           this.scenarios = res.data.scenario.list
           this.scenariosTotal = res.data.scenario.total
         })
+      } else if ('dubbo' === this.item.type) {
+        this.dubbo = val.value
+        this.dubboService.delete(this.dubbo._id, true).subscribe(res => {
+          this.scenarios = res.data.scenario.list
+          this.scenariosTotal = res.data.scenario.total
+        })
+      } else if ('sql' === this.item.type) {
+        this.sql = val.value
+        this.sqlService.delete(this.sql._id, true).subscribe(res => {
+          this.scenarios = res.data.scenario.list
+          this.scenariosTotal = res.data.scenario.total
+        })
       }
     }
   }
@@ -68,6 +84,8 @@ export class DeleteItemComponent implements OnInit {
   constructor(
     private envService: EnvService,
     private caseService: CaseService,
+    private dubboService: DubboService,
+    private sqlService: SqlService,
     private scenarioService: ScenarioService,
     private drawerRef: NzDrawerRef<any>,
     private msgService: NzMessageService,
@@ -88,6 +106,14 @@ export class DeleteItemComponent implements OnInit {
       })
     } else if ('env' === this.item.type) {
       this.envService.delete(this.env._id, false).subscribe(res => {
+        this.drawerRef.close(res)
+      })
+    } else if ('sql' === this.item.type) {
+      this.sqlService.delete(this.sql._id, false).subscribe(res => {
+        this.drawerRef.close(res)
+      })
+    } else if ('dubbo' === this.item.type) {
+      this.dubboService.delete(this.dubbo._id, false).subscribe(res => {
         this.drawerRef.close(res)
       })
     }

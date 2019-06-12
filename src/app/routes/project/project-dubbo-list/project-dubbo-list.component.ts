@@ -1,9 +1,11 @@
 import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { DeleteItemComponent } from '@shared/delete-item/delete-item.component'
 import { dubboRequestSignature, DubboService, QueryDubboRequest } from 'app/api/service/dubbo.service'
 import { ApiRes } from 'app/model/api.model'
 import { DubboRequest } from 'app/model/es.model'
+import { calcDrawerWidth } from 'app/util/drawer'
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
@@ -64,7 +66,25 @@ export class ProjectDubboListComponent extends PageSingleModel implements OnInit
   }
 
   deleteItem(item: DubboRequest) {
-    this.msgService.info('TBD')
+    const drawerRef = this.drawerService.create({
+      nzTitle: item.summary,
+      nzContent: DeleteItemComponent,
+      nzContentParams: {
+        data: {
+          type: 'dubbo',
+          value: item
+        }
+      },
+      nzBodyStyle: {
+        'padding': '8px'
+      },
+      nzWidth: calcDrawerWidth(0.33)
+    })
+    drawerRef.afterClose.subscribe(data => {
+      if (data) {
+        this.loadData()
+      }
+    })
   }
 
   pageChange() {

@@ -4,7 +4,7 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
 import { ApiRes, QueryPage } from 'app/model/api.model'
-import { ContextOptions, DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
+import { ContextOptions, DeleteResData, DubboRequest, IndexDocResponse, UpdateDocResponse } from 'app/model/es.model'
 import { AbstractResult } from 'app/model/job.model'
 import { newWS } from 'app/util/ws'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -34,8 +34,8 @@ export class DubboService extends BaseService {
     return this.http.put(API_DUBBO, doc) as Observable<ApiRes<IndexDocResponse>>
   }
 
-  delete(id: string) {
-    return this.http.delete(`${API_DUBBO}/${id}`) as Observable<ApiRes<any>>
+  delete(id: string, preview: boolean = null) {
+    return this.http.delete(`${API_DUBBO}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
   update(id: string, doc: DubboRequest) {

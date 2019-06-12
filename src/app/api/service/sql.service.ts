@@ -3,7 +3,7 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
 import { ApiRes, QueryPage } from 'app/model/api.model'
-import { ContextOptions, IndexDocResponse, SqlRequest, UpdateDocResponse } from 'app/model/es.model'
+import { ContextOptions, DeleteResData, IndexDocResponse, SqlRequest, UpdateDocResponse } from 'app/model/es.model'
 import { AbstractResult } from 'app/model/job.model'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Observable, Subject } from 'rxjs'
@@ -32,8 +32,8 @@ export class SqlService extends BaseService {
     return this.http.put(API_SQL, doc) as Observable<ApiRes<IndexDocResponse>>
   }
 
-  delete(id: string) {
-    return this.http.delete(`${API_SQL}/${id}`) as Observable<ApiRes<any>>
+  delete(id: string, preview: boolean = null) {
+    return this.http.delete(`${API_SQL}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
   update(id: string, doc: SqlRequest) {
