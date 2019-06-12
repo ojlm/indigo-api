@@ -1,4 +1,4 @@
-<nz-tabset nzType="card" nzSize="small" [nzTabBarExtraContent]="extraTemplate">
+<nz-tabset nzType="card" nzSize="small" [nzTabBarExtraContent]="extraTemplate" [nzSelectedIndex]="tabIndex">
   <nz-tab *ngFor="let item of _data.extra.options;let i = index" [nzTitle]="titleTemplate">
     <ng-template #titleTemplate>
       <div>

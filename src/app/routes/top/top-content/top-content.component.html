@@ -1,16 +1,69 @@
 <div>
-  <nz-card style="width:100;" [nzTitle]="stepsTitle" [nzExtra]="stepsExtra">
-    // TODO
-  </nz-card>
-  <ng-template #stepsTitle>
-    <div>
-      <a>{{type}}</a>
-      <a>{{title}}</a>
+  <nz-card style="width:100;" [style.height]="importsCardHeight" [nzTitle]="importsTitle" [nzExtra]="importsExtra"
+    [nzBodyStyle]="cardBodyStyle">
+    <div nz-row nzGutter="4" style="overflow:auto;" [style.height]="importsHeight" class="indigo-scroll-bar">
+      <div *ngFor="let item of imports" nz-col nzSpan="8">
+        <ng-container *ngIf="item.name">
+          <nz-input-group style="width:100%;margin-top:4px;" [nzAddOnBefore]="item.description||item.name">
+            <input *ngIf="item.type!=='enum'" style="width:100%;" nz-input [placeholder]="item.name"
+              [(ngModel)]="item.value">
+            <nz-select *ngIf="item.type==='enum'" style="width:100%;" nzShowSearch nzAllowClear
+              [nzPlaceHolder]="item.name" [(ngModel)]="item.value">
+              <nz-option *ngFor="let kv of item.extra.options" nzCustomContent [nzValue]="kv.key" [nzLabel]="kv.key">
+                <div class="item-option">
+                  <div class="option-title">
+                    <i style="color:darkcyan;" nz-icon nzType="double-right" nzTheme="outline"></i>
+                    <span>{{kv.key}}</span>
+                  </div>
+                  <div class="option-content indigo-scroll-bar"> {{kv.value}}</div>
+                </div>
+              </nz-option>
+            </nz-select>
+          </nz-input-group>
+        </ng-container>
+      </div>
     </div>
+  </nz-card>
+  <ng-template #importsTitle>
+    <div><a>{{title}}</a></div>
   </ng-template>
-  <ng-template #stepsExtra>
-    <button nz-button [nzSize]="'small'" nzType="dashed" (click)="goExport()">{{'btn-export'|translate}}</button>
+  <ng-template #importsExtra>
+    <button style="font-size:small;" nz-button [nzSize]="'small'" nzType="dashed"
+      (click)="goExport()">{{'btn-export'|translate}}</button>
   </ng-template>
-  <div>{{from | json}}</div>
-  <div>{{imports | json}}</div>
+</div>
+<div>
+  <nz-card style="width:100;" [style.height]="toolHeight" [nzBodyStyle]="cardBodyStyle">
+    <div nz-row nzGutter="4" nzType="flex" nzJustify="end">
+      <div nz-col nzSpan="8">
+        <nz-input-group [nzAddOnBefore]="'item-from'|translate">
+          <nz-select style="width:100%;" nzShowSearch [(ngModel)]="fromValue" (ngModelChange)="fromChange()">
+            <nz-option *ngFor="let item of from;" nzCustomContent [nzValue]="item.value" [nzLabel]="item.name">
+              <div>
+                <span style="margin-right:4px;color:lightseagreen;">{{item.value+1}}.</span>
+                <span>{{item.name}}</span>
+              </div>
+            </nz-option>
+          </nz-select>
+        </nz-input-group>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-input-group [nzAddOnBefore]="'item-to'|translate">
+          <nz-select style="width:100%;" nzShowSearch [(ngModel)]="toValue">
+            <nz-option *ngFor="let item of from;" nzCustomContent [nzDisabled]="fromValue>item.value"
+              [nzValue]="item.value" [nzLabel]="item.name">
+              <div>
+                <span style="margin-right:4px;color:lightseagreen;">{{item.value+1}}.</span>
+                <span>{{item.name}}</span>
+              </div>
+            </nz-option>
+          </nz-select>
+        </nz-input-group>
+      </div>
+      <div style="margin:0 24px;">
+        <button nz-button [nzSize]="'default'" nzType="primary" (click)="run()">{{'btn-generate'|translate}}</button>
+      </div>
+    </div>
+    <div class="xterm" [ngStyle]="xtermStyle"></div>
+  </nz-card>
 </div>

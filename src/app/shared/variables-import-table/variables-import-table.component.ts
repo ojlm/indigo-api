@@ -132,8 +132,11 @@ export class VariablesImportTableComponent implements OnInit {
     if (item.type) {
       item.type = undefined
     } else {
+      if (!item.extra || !item.extra.options) {
+        item.extra = { options: [] }
+        if (item.extra.options.length === 0) this.showExtra(item)
+      }
       item.type = ImportItemType.ENUM
-      if (!item.extra || !item.extra.options || item.extra.options.length === 0) this.showExtra(item)
     }
   }
 

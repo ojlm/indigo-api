@@ -8,6 +8,7 @@ import { VariablesImportItem } from 'app/model/es.model'
 })
 export class VariablesOptionsComponent implements OnInit {
 
+  tabIndex = 0
   _data: VariablesImportItem = { extra: { options: [] } }
   @Input()
   set data(val: VariablesImportItem) {
@@ -27,6 +28,7 @@ export class VariablesOptionsComponent implements OnInit {
 
   newTab() {
     this._data.extra.options.push({ key: 'key', enabled: true })
+    this.tabIndex = this._data.extra.options.length - 1
     this.modelChange()
   }
 
