@@ -149,10 +149,15 @@ export interface BatchTransfer {
 
 export function httpRequestSignature(cs: Case) {
   if (cs && cs.request) {
+    const schema = cs.request.protocol ? cs.request.protocol + '://' : ''
     if (cs.request.port) {
-      return `${cs.request.host}:${cs.request.port}${cs.request.urlPath}`
+      let portStr = `:${cs.request.port}`
+      if (('http' === cs.request.protocol && cs.request.port === 80) || ('https' === cs.request.protocol && cs.request.port === 443)) {
+        portStr = ''
+      }
+      return decodeURIComponent(`${schema}${cs.request.host}${portStr}${cs.request.urlPath}`)
     } else {
-      return `${cs.request.host}${cs.request.urlPath}`
+      return decodeURIComponent(`${schema}${cs.request.host}${cs.request.urlPath}`)
     }
   } else {
     return ''
