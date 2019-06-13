@@ -517,6 +517,7 @@ export interface VariablesImportItem {
   extra?: ExtraData
   description?: string
   enabled?: boolean
+  exposed?: boolean
   function?: string
 }
 

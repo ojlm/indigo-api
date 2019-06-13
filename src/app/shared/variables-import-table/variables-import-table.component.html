@@ -1,7 +1,10 @@
 <nz-table #nzTable [nzSize]="'default'" [nzData]="values" [nzShowPagination]="false" [nzFrontPagination]="false">
   <thead>
     <tr>
-      <th style="padding:3px;width:24px;"></th>
+      <th style="padding:3px;width:48px;padding-left:20px;">
+        <i style="cursor:pointer;" nz-icon nzType="check-square" nzTheme="outline" nz-tooltip
+          [nzTitle]="'item-is-enabled'|translate"></i>
+      </th>
       <th style="padding:3px;">
         <span>{{'item-var-name'|translate}}</span>
       </th>
@@ -20,12 +23,16 @@
       <th style="padding:3px;width:84px;">
         <span>{{'item-value-type'|translate}}</span>
       </th>
+      <th style="padding:3px;width:24px;">
+        <i style="color:lightseagreen;cursor:pointer;" nz-icon nzType="to-top" nzTheme="outline" nz-tooltip
+          [nzTitle]="'item-exposed'|translate"></i>
+      </th>
       <th style="padding:3px;width:24px;"></th>
     </tr>
   </thead>
   <tbody [sortablejs]="values" [sortablejsOptions]="sortablejsOptions">
     <tr *ngFor="let item of values; let i = index">
-      <td style="padding:2px;width:48px;">
+      <td style="padding:2px;">
         <i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab;margin-right:4px;"></i>
         <label style="margin:0px;" nz-checkbox [(ngModel)]="item.enabled" (ngModelChange)="modelChange(item,i)"></label>
       </td>
@@ -74,6 +81,9 @@
           [nzChecked]="item.type==='enum'" (nzCheckedChange)="typeChange(item)">{{'item-enum'|translate}}</nz-tag>
         <i *ngIf="item.type==='enum'" style="color:lightseagreen;" nz-icon nzType="setting" nzTheme="outline"
           class="click-icon" (click)="showExtra(item)"></i>
+      </td>
+      <td style="padding:2px;">
+        <label style="margin:0px;" nz-checkbox [(ngModel)]="item.exposed"></label>
       </td>
       <td style="padding:2px;">
         <i *ngIf="i<values.length-1" nz-icon type="close" theme="outline" class="click-icon" (click)="remove(i)"></i>

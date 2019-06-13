@@ -31,8 +31,8 @@
             </div>
             <div>
               <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
-              <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"
-                [(ngModel)]="item.stored"></label>
+              <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
+                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
               <nz-tag [nzColor]="methodTagColor(item)">{{getStepData(item).request.method}}</nz-tag>
               <span class="small-text">{{getHttpRequestUrl(item)}}</span>
             </div>
@@ -56,8 +56,8 @@
             </div>
             <div>
               <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
-              <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"
-                [(ngModel)]="item.stored"></label>
+              <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
+                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
               <nz-tag [nzColor]="'gold'">
                 <i nz-icon nzType="alibaba" nzTheme="outline"></i>
                 <span> dubbo</span>
@@ -84,8 +84,8 @@
             </div>
             <div>
               <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
-              <label class="check" nz-checkbox nz-tooltip [nzTitle]="'tips-step-checkbox'|translate"
-                [(ngModel)]="item.stored"></label>
+              <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
+                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
               <nz-tag [nzColor]="'geekblue'">
                 <i nz-icon nzType="database" nzTheme="outline"></i>
                 <span> sql</span>

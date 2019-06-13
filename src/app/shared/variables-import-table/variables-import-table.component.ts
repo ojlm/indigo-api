@@ -101,6 +101,7 @@ export class VariablesImportTableComponent implements OnInit {
   initNewItem() {
     const item: VariablesImportItem = {
       scope: this._defaultScope || ScopeType.GLOBAL,
+      exposed: true,
     }
     return item
   }
