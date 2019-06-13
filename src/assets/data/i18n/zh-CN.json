@@ -391,6 +391,7 @@
   "content-repeat-forever": "无限循环",
   "content-repeat-interval": "执行间隔:",
   "content-seconds": "秒",
+  "key-environment": "环境",
   "$eq": "等于",
   "$ne": "不等于",
   "$gt": "大于",

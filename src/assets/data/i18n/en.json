@@ -391,6 +391,7 @@
   "content-repeat-forever": "Repeat forever",
   "content-repeat-interval": "Interval:",
   "content-seconds": "Seconds",
+  "key-environment": "Environment",
   "$eq": "Equal",
   "$ne": "Not equal",
   "$gt": "Greater than",

@@ -1,10 +1,22 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { I18NService } from '@core'
+import { I18nKey } from '@core/i18n/i18n.message'
+import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { FavoriteService } from 'app/api/service/favorite.service'
-import { ScenarioStepType } from 'app/api/service/scenario.service'
+import { JobService } from 'app/api/service/job.service'
+import { ScenarioService, ScenarioStepType } from 'app/api/service/scenario.service'
 import { ActorEvent, ActorEventType } from 'app/model/api.model'
 import { NameValue } from 'app/model/common.model'
-import { FavoriteTargetType, VariablesImportItem } from 'app/model/es.model'
+import {
+  FavoriteTargetType,
+  Job,
+  JobTestMessage,
+  Scenario,
+  ScenarioTestWebMessage,
+  VariablesImportItem,
+} from 'app/model/es.model'
+import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 import { ITerminalOptions, ITheme, Terminal } from 'xterm'
 import { fit } from 'xterm/lib/addons/fit/fit'
@@ -34,11 +46,17 @@ import { webLinksInit } from 'xterm/lib/addons/webLinks/webLinks'
 })
 export class TopContentComponent implements OnInit, AfterViewInit {
 
+  group = ''
+  project = ''
+  KEY_ENVIRONMENT = 'Environment'
   type = ''
+  _scenaro: Scenario
+  _job: Job
   title = ''
   from: NameValue[] = []
   fromValue = 0
   toValue = 0
+  envImport: VariablesImportItem
   imports: VariablesImportItem[] = []
   url = ''
   cardBodyStyle = {
@@ -62,6 +80,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
   }
   xterm = new Terminal(this.option)
   xtermStyle = {}
+  testWs: WebSocket
   log: Subject<ActorEvent<string>> = new Subject()
   @HostListener('window:resize')
   resize() {
@@ -74,18 +93,89 @@ export class TopContentComponent implements OnInit, AfterViewInit {
 
   constructor(
     private favoriteService: FavoriteService,
+    private scenarioService: ScenarioService,
+    private jobService: JobService,
+    private msgService: NzMessageService,
     private route: ActivatedRoute,
     private router: Router,
     private el: ElementRef<HTMLDivElement>,
+    private i18nService: I18NService,
   ) {
     this.initXtermStyle()
+    this.KEY_ENVIRONMENT = this.i18nService.fanyi(I18nKey.KeyEnvironment)
+  }
+
+  buildTestMessage() {
+    if (FavoriteTargetType.TARGET_TYPE_SCENARIO === this.type) {
+      const msg: ScenarioTestWebMessage = {
+        summary: this._scenaro.summary,
+        steps: this._scenaro.steps,
+        imports: formatImportsToSave(this._scenaro.imports),
+        controller: {
+          from: this.fromValue,
+          to: this.toValue,
+          enableLog: true,
+          enableReport: false
+        }
+      }
+      return msg
+    } else if (FavoriteTargetType.TARGET_TYPE_JOB === this.type) {
+      const msg: JobTestMessage = {
+        jobId: this._job._id,
+        jobMeta: {
+          group: this._job.group,
+          project: this._job.project,
+          summary: this._job.summary,
+          env: this._job.env,
+          description: this._job.description,
+          scheduler: this._job.scheduler,
+          classAlias: this._job.classAlias
+        },
+        jobData: this._job.jobData,
+        imports: formatImportsToSave(this._job.imports),
+        controller: {
+          from: this.fromValue,
+          to: this.toValue,
+          enableLog: true,
+          enableReport: false
+        }
+      }
+      return msg
+    }
   }
 
   run() {
     this.xterm.clear()
-    this.printlnOkMsg(`from: ${this.fromValue}`)
-    this.printlnOkMsg(`to: ${this.toValue}`)
-    this.printlnOkMsg(`imports: ${JSON.stringify(this.imports)}`)
+    this.printlnOkMsg('')
+    if (this.testWs) {
+      this.testWs.close()
+      this.testWs = null
+    }
+    if (FavoriteTargetType.TARGET_TYPE_SCENARIO === this.type) {
+      this.testWs = this.scenarioService.newTestWs(this.group, this.project, this._scenaro._id)
+    } else if (FavoriteTargetType.TARGET_TYPE_JOB === this.type) {
+      this.testWs = this.jobService.newTestWs(this.group, this.project, this._job._id)
+    }
+    if (this.testWs) {
+      this.testWs.onopen = (event) => {
+        this.testWs.send(JSON.stringify(this.buildTestMessage()))
+      }
+      this.testWs.onmessage = (event) => {
+        if (event.data) {
+          try {
+            const res = JSON.parse(event.data) as ActorEvent<string>
+            if (ActorEventType.ITEM === res.type) {
+            } else if (ActorEventType.OVER === res.type) {
+            } else {
+              this.log.next(res)
+            }
+          } catch (error) {
+            this.msgService.error(error)
+            this.testWs.close()
+          }
+        }
+      }
+    }
   }
 
   initXtermStyle() {
@@ -101,19 +191,36 @@ export class TopContentComponent implements OnInit, AfterViewInit {
     }
   }
 
+  toChange() {
+    if (this.fromValue > this.toValue) {
+      this.fromValue = 0
+    }
+  }
+
   goExport() {
     this.router.navigateByUrl(this.url)
   }
 
+  reset() {
+    this.xterm.clear()
+    this.title = ''
+    this.envImport = undefined
+    this.imports = []
+    this.fromValue = 0
+    this.toValue = 0
+  }
+
   loadById(group: string, project: string, id: string) {
+    this.reset()
     this.favoriteService.getToptop(group, project, id).subscribe(res => {
       const response = res.data
       const tmp: NameValue[] = []
       if (response.scenario) {
         this.type = FavoriteTargetType.TARGET_TYPE_SCENARIO
         this.title = response.scenario.summary
+        this._scenaro = response.scenario
         this.url = `/scenario/${response.scenario.group}/${response.scenario.project}/${response.scenario._id}`
-        this.imports = response.scenario.imports || []
+        this.imports = this.filterImports(response.scenario.imports)
         response.scenario.steps.forEach((step, i) => {
           switch (step.type) {
             case ScenarioStepType.CASE:
@@ -132,8 +239,10 @@ export class TopContentComponent implements OnInit, AfterViewInit {
       } else if (response.job) {
         this.type = FavoriteTargetType.TARGET_TYPE_JOB
         this.title = response.job.summary
-        this.url = `/job/${response.job.group}/${response.job.project}/${response.job._id}`
-        this.imports = response.job.imports || []
+        this._job = response.job
+        this._job._id = response.jobId
+        this.url = `/job/${response.job.group}/${response.job.project}/${response.jobId}`
+        this.imports = this.filterImports(response.job.imports)
         response.job.jobData.scenario.forEach((step, i) => {
           tmp.push({ name: response.scenarios[step.id].summary, value: i })
         })
@@ -142,6 +251,21 @@ export class TopContentComponent implements OnInit, AfterViewInit {
       this.fromValue = 0
       this.toValue = this.from.length - 1
     })
+  }
+
+  filterImports(imports: VariablesImportItem[]) {
+    if (imports) {
+      return imports.filter(item => {
+        if (this.KEY_ENVIRONMENT === item.description && !this.envImport) {
+          this.envImport = item
+          return false
+        } else {
+          return item.exposed
+        }
+      })
+    } else {
+      return []
+    }
   }
 
   printlnOkMsg(msg: string) {
@@ -168,10 +292,10 @@ export class TopContentComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const topGroup = params['topGroup']
-      const topProject = params['topProject']
+      this.group = params['topGroup']
+      this.project = params['topProject']
       const topId = params['topId']
-      if (topGroup && topProject && topId) { this.loadById(topGroup, topProject, topId) }
+      if (this.group && this.project && topId) { this.loadById(this.group, this.project, topId) }
     })
   }
 }

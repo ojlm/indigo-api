@@ -1,7 +1,7 @@
 import { ParameterType } from 'app/api/service/dubbo.service'
 
 import { DataBody } from './api.model'
-import { AbstractResult, JobData } from './job.model'
+import { AbstractResult, JobData, JobMeta } from './job.model'
 import { UserProfile } from './user.model'
 
 interface BaseDoc {
@@ -542,6 +542,30 @@ export interface Favorite extends BaseDoc {
   timestamp?: string
   checked?: boolean
   data?: any
+}
+
+export interface ControllerOptions {
+  from?: number
+  to?: number
+  enableLog?: boolean
+  enableReport?: boolean
+}
+
+export interface ScenarioTestWebMessage {
+  summary: string
+  steps: ScenarioStep[]
+  options?: ContextOptions
+  imports?: VariablesImportItem[]
+  exports?: VariablesExportItem[]
+  controller?: ControllerOptions
+}
+
+export interface JobTestMessage {
+  jobId: string
+  jobMeta: JobMeta
+  jobData: JobData,
+  imports?: VariablesImportItem[]
+  controller?: ControllerOptions
 }
 
 export const FavoriteType = {

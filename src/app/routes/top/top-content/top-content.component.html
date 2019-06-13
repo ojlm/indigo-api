@@ -22,14 +22,29 @@
           </nz-input-group>
         </ng-container>
       </div>
+      <div *ngIf="imports.length===0">{{'tips-no-data'|translate}}</div>
     </div>
   </nz-card>
   <ng-template #importsTitle>
     <div><a>{{title}}</a></div>
   </ng-template>
   <ng-template #importsExtra>
-    <button style="font-size:small;" nz-button [nzSize]="'small'" nzType="dashed"
-      (click)="goExport()">{{'btn-export'|translate}}</button>
+    <nz-input-group *ngIf="envImport" [nzAddOnBefore]="envBefore">
+      <ng-template #envBefore>
+        <span style="color:lightseagreen;">{{envImport.description||envImport.name}}</span>
+      </ng-template>
+      <nz-select style="min-width:240px;" nzShowSearch [nzPlaceHolder]="envImport.name" [(ngModel)]="envImport.value">
+        <nz-option *ngFor="let kv of envImport.extra.options" nzCustomContent [nzValue]="kv.key" [nzLabel]="kv.key">
+          <div class="item-option">
+            <div class="option-title">
+              <i style="color:darkcyan;" nz-icon nzType="double-right" nzTheme="outline"></i>
+              <span>{{kv.key}}</span>
+            </div>
+            <div class="option-content indigo-scroll-bar"> {{kv.value}}</div>
+          </div>
+        </nz-option>
+      </nz-select>
+    </nz-input-group>
   </ng-template>
 </div>
 <div>
@@ -38,7 +53,8 @@
       <div nz-col nzSpan="8">
         <nz-input-group [nzAddOnBefore]="'item-from'|translate">
           <nz-select style="width:100%;" nzShowSearch [(ngModel)]="fromValue" (ngModelChange)="fromChange()">
-            <nz-option *ngFor="let item of from;" nzCustomContent [nzValue]="item.value" [nzLabel]="item.name">
+            <nz-option *ngFor="let item of from;" nzCustomContent [nzValue]="item.value" [nzLabel]="item.name"
+              [nzDisabled]="item.value>toValue">
               <div>
                 <span style="margin-right:4px;color:lightseagreen;">{{item.value+1}}.</span>
                 <span>{{item.name}}</span>
@@ -49,7 +65,7 @@
       </div>
       <div nz-col nzSpan="8">
         <nz-input-group [nzAddOnBefore]="'item-to'|translate">
-          <nz-select style="width:100%;" nzShowSearch [(ngModel)]="toValue">
+          <nz-select style="width:100%;" nzShowSearch [(ngModel)]="toValue" (ngModelChange)="toChange()">
             <nz-option *ngFor="let item of from;" nzCustomContent [nzDisabled]="fromValue>item.value"
               [nzValue]="item.value" [nzLabel]="item.name">
               <div>
@@ -62,6 +78,7 @@
       </div>
       <div style="margin:0 24px;">
         <button nz-button [nzSize]="'default'" nzType="primary" (click)="run()">{{'btn-generate'|translate}}</button>
+        <button nz-button [nzSize]="'default'" nzType="dashed" (click)="goExport()">{{'btn-export'|translate}}</button>
       </div>
     </div>
     <div class="xterm" [ngStyle]="xtermStyle"></div>

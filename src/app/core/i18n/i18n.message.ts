@@ -38,5 +38,6 @@ export const I18nKey = {
   BtnOk: 'btn-ok',
   BtnCancel: 'btn-cancel',
   TipsConfirmDelete: 'tips-confirm-delete',
-  TipsConfirmDeleteContent: 'tips-confirm-delete-content'
+  TipsConfirmDeleteContent: 'tips-confirm-delete-content',
+  KeyEnvironment: 'key-environment',
 }

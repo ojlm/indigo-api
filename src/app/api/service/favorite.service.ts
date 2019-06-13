@@ -62,4 +62,5 @@ export interface ExToptopGroupResponse extends AggsItem {
 export interface ToptopResponse extends ScenarioResponse {
   job?: Job
   scenarios?: { [k: string]: Scenario }
+  jobId?: string
 }
