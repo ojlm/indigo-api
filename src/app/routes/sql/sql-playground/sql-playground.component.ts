@@ -13,6 +13,7 @@ import {
   SqlRequest,
   TransformFunction,
 } from 'app/model/es.model'
+import { AutocompleteContext } from 'app/model/indigo.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -36,6 +37,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 })
 export class SqlPlaygroundComponent implements OnInit {
 
+  autocompleteContext = new AutocompleteContext()
   @Input() group = ''
   @Input() project = ''
   tabBarStyle = {
@@ -87,6 +89,7 @@ export class SqlPlaygroundComponent implements OnInit {
     if (result) {
       this.tabIndex = 7
       this.dealResult(result)
+      this.autocompleteContext.refeshFromSqlResult(result)
     }
   }
   @HostListener('window:resize')
@@ -119,6 +122,7 @@ export class SqlPlaygroundComponent implements OnInit {
         this.dealResult(res.data)
         this.tabIndex = 7
         this.isSending = false
+        this.autocompleteContext.refeshFromSqlResult(res.data)
       }, err => this.isSending = false)
     }
   }

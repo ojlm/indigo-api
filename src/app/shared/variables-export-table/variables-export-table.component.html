@@ -30,7 +30,9 @@
         <label style="margin:0px;" nz-checkbox [(ngModel)]="item.enabled" (ngModelChange)="modelChange(item,i)"></label>
       </td>
       <td style="padding:2px;">
-        <input nz-input [(ngModel)]="item.srcPath" (ngModelChange)="modelChange(item,i)">
+        <app-export-auto-complete [autocompleteContext]="autocompleteContext" [(item)]="item"
+          (itemChange)="modelChange(item,i)">
+        </app-export-auto-complete>
       </td>
       <td style="padding:2px;">
         <nz-select style="width: 100%;" [(ngModel)]="item.scope" (ngModelChange)="modelChange(item,i)">

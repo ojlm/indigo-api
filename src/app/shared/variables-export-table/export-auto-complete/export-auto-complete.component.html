@@ -1,0 +1,15 @@
+<div style="width:100%;position:relative;" class="indigo-scroll-bar" appExportAutocomplete
+  (keydown)="onKeyDown($event)">
+  <input #pathInput nz-input [nzSize]="'default'" (focus)="onFocus()" [placeholder]="'tips-input-json-path'|translate"
+    [(ngModel)]="item.srcPath" (ngModelChange)="onExpChange()">
+  <ul class="jsonpath-options">
+    <li *ngFor="let option of options;let idx = index" [nzTitle]="auto" nzPlacement="rightTop" nz-tooltip
+      (click)="onOptionClick(option)" (mouseenter)='onMouseEnter(idx)'
+      [ngClass]="{'jsonpath-list-bar':optionIndex==idx}">
+      <span>{{option}}</span>
+    </li>
+    <ng-template #auto>
+      <pre class="indigo-scroll-bar" [ngStyle]="preStyles">{{tipsContent}}</pre>
+    </ng-template>
+  </ul>
+</div>

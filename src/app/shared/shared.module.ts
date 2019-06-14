@@ -29,6 +29,8 @@ import { PlaygroundReportTabComponent } from './playground-report-tab/playground
 import { PofileSimpleComponent } from './profile-simple/profile-simple.component'
 import { RestModelComponent } from './rest-model/rest-model.component'
 import { SqlSearchPanelComponent } from './sql-search-panel/sql-search-panel.component'
+import { ExportAutoCompleteComponent } from './variables-export-table/export-auto-complete/export-auto-complete.component'
+import { ExportAutoCompleteDirective } from './variables-export-table/export-auto-complete/export-auto-complete.directive'
 import { VariablesExportTableComponent } from './variables-export-table/variables-export-table.component'
 import { VariablesImportTableComponent } from './variables-import-table/variables-import-table.component'
 import { VariablesOptionsComponent } from './variables-options/variables-options.component'
@@ -65,6 +67,8 @@ const COMPONENTS = [
   VariablesExportTableComponent,
   VariablesImportTableComponent,
   VariablesOptionsComponent,
+  ExportAutoCompleteDirective,
+  ExportAutoCompleteComponent,
 ]
 const DIRECTIVES = []
 // endregion

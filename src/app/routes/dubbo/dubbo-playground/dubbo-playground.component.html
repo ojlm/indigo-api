@@ -160,7 +160,7 @@
               </nz-tab>
               <nz-tab [nzTitle]="'item-exports'|translate">
                 <app-variables-export-table [transforms]="transforms" [defaultScope]="'_s'" [(data)]="request.exports"
-                  (dataChange)="modelChange()">
+                  (dataChange)="modelChange()" [autocompleteContext]="autocompleteContext">
                 </app-variables-export-table>
               </nz-tab>
               <nz-tab [nzTitle]="'item-assert-report'|translate">

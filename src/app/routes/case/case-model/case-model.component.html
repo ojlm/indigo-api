@@ -89,7 +89,8 @@
       </nz-tab>
       <nz-tab [nzTitle]="'item-result-assert'|translate">
         <app-result-assert [assertions]="assertions" [(index)]="assertResultTabIndex" [result]="testResult"
-          [(assert)]="case.assert" [lastResult]="lastResult" [ctxOptions]="_ctxOptions" (assertChange)="modelChange()">
+          [autocompleteContext]="autocompleteContext" [(assert)]="case.assert" [lastResult]="lastResult"
+          [ctxOptions]="_ctxOptions" (assertChange)="modelChange()">
         </app-result-assert>
       </nz-tab>
       <nz-tab [nzTitle]="'item-generator'|translate">
@@ -98,7 +99,7 @@
       </nz-tab>
       <nz-tab [nzTitle]="'item-exports'|translate">
         <app-variables-export-table [transforms]="transforms" [defaultScope]="'_s'" [(data)]="case.exports"
-          (dataChange)="modelChange()">
+          (dataChange)="modelChange()" [autocompleteContext]="autocompleteContext">
         </app-variables-export-table>
       </nz-tab>
     </nz-tabset>

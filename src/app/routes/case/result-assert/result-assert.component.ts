@@ -29,7 +29,7 @@ import { AssertionItem, AssertionItems } from '../assertion-list/assertion-list.
 })
 export class ResultAssertComponent implements OnInit {
 
-  autocompleteContext = new AutocompleteContext()
+  @Input() autocompleteContext = new AutocompleteContext()
   tabBarStyle = {
     'background-color': 'snow',
     'margin': '0px',
@@ -75,8 +75,6 @@ export class ResultAssertComponent implements OnInit {
     if (val.response && val.response.statusCode && val.response.headers) {
       this.response.status = val.response.statusCode.toString()
       this.response.headers = val.response.headers
-      this.autocompleteContext.dataSource.status = val.response.statusCode
-      this.autocompleteContext.dataSource.headers = val.response.headers
       this.responseHeaders = []
       for (const k of Object.keys(val.response.headers)) {
         this.responseHeaders.push({ key: k, value: this.response.headers[k] })
@@ -96,21 +94,17 @@ export class ResultAssertComponent implements OnInit {
         } else if (val.response.contentType.startsWith('application/javascript')) {
           this.responseEditorOptons = this.monocoService.getJavascriptOption(true)
           this.response.entity = val.response.body
-          this.autocompleteContext.dataSource.entity = val.response.body
           this.entityEmbed = false
         } else if (val.response.contentType.startsWith('text/html')) {
           this.responseEditorOptons = this.monocoService.getHtmlOption(true)
           this.response.entity = val.response.body
-          this.autocompleteContext.dataSource.entity = val.response.body
           this.entityEmbed = false
         } else {
           // application/json
           if (typeof val.response.body === 'string') {
             const bodyJson = JSON.parse(val.response.body)
-            this.autocompleteContext.dataSource.entity = bodyJson
             this.response.entity = JSON.stringify(bodyJson, null, '    ')
           } else {
-            this.autocompleteContext.dataSource.entity = val.response.body
             this.response.entity = JSON.stringify(val.response.body, null, '    ')
           }
           this.entityEmbed = false
@@ -118,7 +112,6 @@ export class ResultAssertComponent implements OnInit {
       } catch (error) {
         this.responseEditorOptons = this.monocoService.getHtmlOption(true)
         this.response.entity = val.response.body
-        this.autocompleteContext.dataSource.entity = val.response.body
         this.entityEmbed = false
       }
     }

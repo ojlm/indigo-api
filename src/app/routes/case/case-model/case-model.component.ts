@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { ConfigService } from 'app/api/service/config.service'
+import { AutocompleteContext } from 'app/model/indigo.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { NzMessageService } from 'ng-zorro-antd'
 
@@ -26,6 +27,7 @@ import { hashToObj, searchToObj } from '../../../util/urlutils'
 })
 export class CaseModelComponent implements OnInit {
 
+  autocompleteContext = new AutocompleteContext()
   drawerWidth = calcDrawerWidth(0.3)
   @Input()
   set id(caseId: string) {
@@ -48,6 +50,7 @@ export class CaseModelComponent implements OnInit {
       this.lastResult = {}
       this.tabIndex = 5
       this.assertResultTabIndex = 5
+      this.autocompleteContext.refeshFromHttpResult(result)
     }
   }
   _ctxOptions: ContextOptions = {}
@@ -201,6 +204,7 @@ export class CaseModelComponent implements OnInit {
         } else {
           this.assertResultTabIndex = 0
         }
+        this.autocompleteContext.refeshFromHttpResult(this.testResult)
       }, err => this.isSending = false)
     }
   }

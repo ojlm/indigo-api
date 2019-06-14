@@ -22,6 +22,7 @@ import {
   DubboRequest,
   TransformFunction,
 } from 'app/model/es.model'
+import { AutocompleteContext } from 'app/model/indigo.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { formatJson } from 'app/util/json'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -41,6 +42,7 @@ import { Subject } from 'rxjs'
 })
 export class DubboPlaygroundComponent implements OnInit {
 
+  autocompleteContext = new AutocompleteContext()
   lbTips = 'Load balance algorithm, default `random`'
   @Input() isInDrawer = false
   @Input() group = ''
@@ -111,6 +113,7 @@ export class DubboPlaygroundComponent implements OnInit {
     if (result) {
       this.tabIndex = 7
       this.dealResult(result)
+      this.autocompleteContext.refeshFromDubboResult(result)
     }
   }
   @HostListener('window:resize')
@@ -143,6 +146,7 @@ export class DubboPlaygroundComponent implements OnInit {
         this.dealResult(res.data)
         this.tabIndex = 7
         this.isSending = false
+        this.autocompleteContext.refeshFromDubboResult(res.data)
       }, err => this.isSending = false)
     }
   }

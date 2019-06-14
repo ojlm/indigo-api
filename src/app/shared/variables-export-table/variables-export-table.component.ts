@@ -4,6 +4,7 @@ import { I18nKey } from '@core/i18n/i18n.message'
 import { SortablejsOptions } from 'angular-sortablejs'
 import { SelectModel } from 'app/model/common.model'
 import { TransformFunction, VariablesExportItem } from 'app/model/es.model'
+import { AutocompleteContext } from 'app/model/indigo.model'
 
 @Component({
   selector: 'app-variables-export-table',
@@ -40,6 +41,7 @@ export class VariablesExportTableComponent implements OnInit {
     { label: this.i18nService.fanyi(I18nKey.ItemScopeJob), value: ScopeType.JOB },
     { label: this.i18nService.fanyi(I18nKey.ItemScopeScenario), value: ScopeType.SCENARIO }
   ]
+  @Input() autocompleteContext = new AutocompleteContext()
   @Input() transforms: TransformFunction[] = []
   _defaultScope: string
   @Input()
