@@ -1,4 +1,4 @@
-import { CaseReportItemMetrics, CaseStatis, Job } from './es.model'
+import { CaseReportItemMetrics, CaseStatis, Job, ScenarioStep } from './es.model'
 
 export interface JobMeta {
   group?: string
@@ -35,7 +35,7 @@ export interface JobDataExt {
 
 export interface JobData {
   cs?: DocRef[]
-  scenario?: DocRef[]
+  scenario?: ScenarioStep[]
   ext?: JobDataExt
 }
 

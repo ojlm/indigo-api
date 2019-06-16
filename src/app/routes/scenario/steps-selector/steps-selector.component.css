@@ -1,0 +1,48 @@
+.hover-red {
+  font-weight: bold;
+  font-style: oblique;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+.step-title-wrapper {
+  display: flex;
+  margin-right: 12px;
+}
+
+.step-title {
+  width: 100%;
+}
+
+.step-title:hover {
+  cursor: pointer;
+}
+
+.step:hover .hover-red {
+  display: inline-block;
+}
+
+.step:hover .hover-red:hover {
+  color: red;
+  transform: rotate(180deg);
+}
+
+.step .small-text {
+  padding-left: 4px;
+  color: darkgray;
+}
+
+.step .check {
+  padding-right: 4px;
+}
+
+.step .tail-labels {
+  float: right;
+  transform: scale(0.8);
+}
+
+.step .tail-text {
+  float: right;
+  color: lightslategrey;
+  font-size: small;
+}

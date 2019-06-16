@@ -312,5 +312,5 @@ export type ScenarioStepData = Case | SqlRequest | DubboRequest
 
 export interface StepEvent {
   step: ScenarioStep
-  stepData: ScenarioStepData
+  stepData?: ScenarioStepData
 }

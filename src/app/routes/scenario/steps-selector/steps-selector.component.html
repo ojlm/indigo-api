@@ -93,12 +93,59 @@
               <span class="small-text">{{getSqlRequestSignature(item)}}</span>
             </div>
           </ng-container>
+          <ng-container *ngSwitchCase="'delay'">
+            <div class="step-title-wrapper">
+              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <a style="padding-left:4px;" (click)="removeStep(item, i)">
+                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+              </a>
+              <span> {{i+1}}. </span>
+              <span class="step-title">
+                <span class="small-text">{{'tips-delay-step'|translate}}</span>
+              </span>
+            </div>
+            <div>
+              <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
+              <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
+                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
+              <nz-input-number style="margin-left:4px;" [(ngModel)]="item.data.delay.value" [nzSize]="'small'"
+                [nzMin]="1" [nzStep]="1">
+              </nz-input-number>
+              <nz-select style="margin-left:4px;min-width:100px;" [nzSize]="'small'"
+                [(ngModel)]="item.data.delay.timeUnit">
+                <nz-option nzValue="milli" [nzLabel]="'item-milli'|translate"></nz-option>
+                <nz-option nzValue="second" [nzLabel]="'item-second'|translate"></nz-option>
+                <nz-option nzValue="minute" [nzLabel]="'item-minute'|translate"></nz-option>
+              </nz-select>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'jump'">
+            <div class="step-title-wrapper">
+              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <a style="padding-left:4px;" (click)="removeStep(item, i)">
+                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+              </a>
+              <span> {{i+1}}. </span>
+              <span class="step-title" (click)="viewStep(i, item)">
+                <span class="small-text">{{'tips-jump-step'|translate}}</span>
+              </span>
+            </div>
+            <div>
+              <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
+              <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
+                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
+              <span *ngFor="let item of item.data.jump.conditions">
+                <i nz-icon nzType="swap-right" nzTheme="outline"></i>
+                <span>{{item.to}}</span>
+              </span>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
     <div nz-row style="padding:16px;">
       <button nz-button nzSize="small" nzType="dashed" (click)="selectStep()">
-        <span style="margin-left:2px;">{{'btn-add-req'|translate}}</span>
+        <span>{{'btn-add-req'|translate}}</span>
       </button>
       <nz-dropdown-button style="margin-left:4px;" nzSize="small" nzType="dashed" (nzClick)="addNewHttpStep()">
         <span>
@@ -110,6 +157,12 @@
           <li nz-menu-item (click)="addNewSqlStep()">sql</li>
         </ul>
       </nz-dropdown-button>
+      <button style="margin-left:2px;" nz-button nzSize="small" nzType="dashed" (click)="addDelayStep()">
+        <span>{{'btn-delay-step'|translate}}</span>
+      </button>
+      <button style="margin-left:2px;" nz-button nzSize="small" nzType="dashed" (click)="addJumpStep()">
+        <span>{{'btn-jump-step'|translate}}</span>
+      </button>
       <button style="margin-left:4px;color:purple;" nz-button nzSize="small" nzType="dashed"
         (click)="showRuntimeContext()">
         <i nz-icon nzType="scan" nzTheme="outline"></i>

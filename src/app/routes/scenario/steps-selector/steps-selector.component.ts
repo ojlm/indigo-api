@@ -20,54 +20,22 @@ import {
   StepStatusData,
 } from '../../../api/service/scenario.service'
 import { ActorEvent } from '../../../model/api.model'
-import { Case, ContextOptions, DubboRequest, ReportItemEvent, ScenarioStep, SqlRequest } from '../../../model/es.model'
+import {
+  Case,
+  ContextOptions,
+  DubboRequest,
+  ReportItemEvent,
+  ScenarioStep,
+  SqlRequest,
+  TimeUnit,
+} from '../../../model/es.model'
 import { calcDrawerWidth } from '../../../util/drawer'
 import { ScenarioStepData, StepEvent } from '../select-step/select-step.component'
 
 @Component({
   selector: 'app-steps-selector',
-  styles: [`
-    .hover-red {
-      font-weight: bold;
-      font-style: oblique;
-      display: none;
-      transition: all 0.3s ease;
-    }
-    .step-title-wrapper {
-      display: flex;
-      margin-right: 12px;
-    }
-    .step-title {
-      width: 100%;
-    }
-    .step-title:hover {
-      cursor: pointer;
-    }
-    .step:hover .hover-red {
-      display: inline-block;
-    }
-    .step:hover .hover-red:hover {
-      color: red;
-      transform: rotate(180deg);
-    }
-    .step .small-text {
-      padding-left: 4px;
-      color: darkgray;
-    }
-    .step .check {
-      padding-right: 4px;
-    }
-    .step .tail-labels {
-      float: right;
-      transform: scale(0.8);
-    }
-    .step .tail-text {
-      float: right;
-      color: lightslategrey;
-      font-size: small;
-    }
-  `],
   templateUrl: './steps-selector.component.html',
+  styleUrls: ['./steps-selector.component.css']
 })
 export class StepsSelectorComponent implements OnInit {
 
@@ -160,6 +128,26 @@ export class StepsSelectorComponent implements OnInit {
     this.stepListDrawerVisible = true
   }
 
+  addDelayStep() {
+    const step: ScenarioStep = {
+      type: ScenarioStepType.DELAY,
+      stored: false,
+      enabled: true,
+      data: { delay: { value: 1, timeUnit: TimeUnit.SECOND } }
+    }
+    this.onStepAdded({ step: step })
+  }
+
+  addJumpStep() {
+    const step: ScenarioStep = {
+      type: ScenarioStepType.JUMP,
+      stored: false,
+      enabled: true,
+      data: { jump: { conditions: [] } }
+    }
+    this.onStepAdded({ step: step })
+  }
+
   addNewHttpStep() {
     this.drawerService.create({
       nzWidth: this.stepListDrawerWidth,
@@ -233,7 +221,9 @@ export class StepsSelectorComponent implements OnInit {
     this.clearStatus()
     const step = event.step
     const stepData = event.stepData
-    this.stepsDataCache[getScenarioStepCacheKey(step)] = stepData
+    if (stepData) { // only request type of step have stepData
+      this.stepsDataCache[getScenarioStepCacheKey(step)] = stepData
+    }
     this.steps.push(step)
     this.steps = [...this.steps]
     this.modelChange()
@@ -262,17 +252,23 @@ export class StepsSelectorComponent implements OnInit {
   removeStep(step: ScenarioStep, i: number) {
     this.clearStatus()
     this.steps.splice(i, 1)
-    let count = 1
-    this.steps.forEach(item => {
-      if (item.id === step.id) {
-        count++
+    if (!this.isFunctionalStep(step)) {
+      let count = 1
+      this.steps.forEach(item => {
+        if (item.id === step.id) {
+          count++
+        }
+      })
+      if (count === 1) {
+        const stepCacheKey = getScenarioStepCacheKey(step)
+        delete this.stepsDataCache[stepCacheKey]
       }
-    })
-    if (count === 1) {
-      const stepCacheKey = getScenarioStepCacheKey(step)
-      delete this.stepsDataCache[stepCacheKey]
     }
     this.modelChange()
+  }
+
+  isFunctionalStep(step: ScenarioStep) {
+    return ScenarioStepType.DELAY === step.type || ScenarioStepType.JUMP === step.type
   }
 
   getHttpRequestUrl(step: ScenarioStep) {

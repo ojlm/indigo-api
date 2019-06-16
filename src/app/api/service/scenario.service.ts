@@ -97,6 +97,9 @@ export const ScenarioStepType = {
   CASE: 'case',
   SQL: 'sql',
   DUBBO: 'dubbo',
+  SCENARIO: 'scenario',
+  DELAY: 'delay',
+  JUMP: 'jump',
 }
 
 export function caseToScenarioStep(doc: Case): ScenarioStep {

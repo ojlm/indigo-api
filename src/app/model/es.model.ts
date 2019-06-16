@@ -71,12 +71,31 @@ export interface Case extends BaseDoc {
   exports?: VariablesExportItem[]
 }
 
+export interface DelayCondition {
+  value?: number
+  timeUnit?: string
+}
+
+export interface JumpCondition {
+  assert?: object
+  to?: number
+}
+
+export interface JumpConditions {
+  conditions?: JumpCondition[]
+}
+
+export interface StepData {
+  delay?: DelayCondition
+  jump?: JumpConditions
+}
+
 export interface ScenarioStep {
   id?: string
   type?: string
   stored?: boolean
   enabled?: boolean
-  data?: any
+  data?: StepData
 }
 
 export interface Scenario extends BaseDoc {
@@ -582,4 +601,10 @@ export const FavoriteTargetType = {
 
 export const ImportItemType = {
   ENUM: 'enum'
+}
+
+export const TimeUnit = {
+  MILLI: 'milli',
+  SECOND: 'second',
+  MINUTE: 'minute',
 }
