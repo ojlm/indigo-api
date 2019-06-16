@@ -42,7 +42,7 @@
         <div nz-col nzSpan="12">
           <app-assertion-list *ngIf="assertSimpleEditorMode" [editorHeight]="assertionEditorHeight"
             [assertions]="assertions" [(data)]="assertionItems" (dataChange)="assertionItemsChange()"
-            [autoCompleteContext]="autocompleteContext"></app-assertion-list>
+            [autocompleteContext]="autocompleteContext"></app-assertion-list>
           <ngx-monaco-editor *ngIf="!assertSimpleEditorMode" [style.height]="editorFullHeight"
             [options]="jsonEditorOption" [(ngModel)]="_assert" (ngModelChange)="modelChange()">
           </ngx-monaco-editor>

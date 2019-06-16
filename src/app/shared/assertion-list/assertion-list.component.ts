@@ -9,26 +9,10 @@ import { Assertion } from '../../model/es.model'
 @Component({
   selector: 'app-assertion-list',
   templateUrl: './assertion-list.component.html',
-  styles: [`
-    .assertion-list {
-      overflow: auto;
-    }
-    .assertion-list::-webkit-scrollbar {
-      width: 5px;
-    }
-    .assertion-list::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-      border-radius: 1px;
-    }
-    .assertion-list::-webkit-scrollbar-thumb {
-      border-radius: 1px;
-      -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.7);
-    }
-  `]
 })
 export class AssertionListComponent implements OnInit {
 
-  @Input() autoCompleteContext = new AutocompleteContext()
+  @Input() autocompleteContext = new AutocompleteContext()
   @Input() editorHeight = ''
   items: AssertionItems = { logic: 'and', items: [] }
   @Input() assertions: Assertion[] = []
@@ -92,4 +76,78 @@ export interface AssertionItem {
 export interface AssertionItems {
   logic?: string
   items?: AssertionItem[]
+}
+
+// AssertionItem => {"$.a":{"$eq":""}}
+export function assertItemToSingleObject(item: AssertionItem): object {
+  const pathObj = {}
+  const path = item.path
+  const operator = item.operator
+  let value = null
+  if (item.value) {
+    const num = Number(item.value)
+    if (isNaN(num)) {
+      if ('true' === item.value) {
+        value = true
+      } else if ('false' === item.value) {
+        value = false
+      } else {
+        value = item.value
+      }
+    } else {
+      value = num
+    }
+  }
+  const assertionObj = {}
+  assertionObj[operator] = value
+  pathObj[path] = assertionObj
+  return pathObj
+}
+
+export function assertionItemsAdaptAssertObject(assert: object, items: AssertionItems) {
+  const list = items.items.map(item => assertItemToSingleObject(item))
+  if ('or' === items.logic) {
+    assert['$list-or'] = list
+    delete assert['$list-and']
+  } else {
+    assert['$list-and'] = list
+    delete assert['$list-or']
+  }
+  return assert
+}
+
+export function assertObjectToAssertionItems(assertObj: object): AssertionItems {
+  try {
+    let itemsArray = null
+    let loginOp = 'and'
+    if (assertObj['$list-or']) {
+      itemsArray = assertObj['$list-or']
+      loginOp = 'or'
+    } else {
+      itemsArray = assertObj['$list-and']
+    }
+    if (itemsArray) {
+      const assertionItems: AssertionItem[] = []
+      for (const item of itemsArray) {
+        const paths = Object.keys(item)
+        if (paths && paths.length === 1) {
+          const path = paths[0]
+          const assertionObj = item[path]
+          if (assertionObj) {
+            const ops = Object.keys(assertionObj)
+            if (ops && ops.length === 1) {
+              assertionItems.push({
+                path: path,
+                operator: ops[0],
+                value: assertionObj[ops[0]]
+              })
+            }
+          }
+        }
+      }
+      return { logic: loginOp, items: assertionItems }
+    } else {
+      return { logic: loginOp, items: [] }
+    }
+  } catch (error) { return null }
 }

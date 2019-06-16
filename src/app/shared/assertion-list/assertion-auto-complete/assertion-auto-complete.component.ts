@@ -27,7 +27,7 @@ export class AssertionAutoCompleteComponent implements OnInit, AfterViewInit {
   optionIndex = 0
   tipsContent = ''
   @Input()
-  set autoCompleteContext(val: AutocompleteContext) {
+  set autocompleteContext(val: AutocompleteContext) {
     if (val) {
       this.prefix = val.prefix || '$'
       if (val.dataSource) {

@@ -1,11 +1,11 @@
-<div [style.height]="editorHeight" class="assertion-list">
+<div style="overflow:auto;" [style.height]="editorHeight" class="indigo-scroll-bar">
   <nz-list [nzDataSource]="items.items" nzBordered nzSize="small" [nzFooter]="nzFooter" [nzRenderItem]="item">
     <ng-template #item let-item let-i="index">
       <nz-list-item [nzContent]="nzContent" [nzActions]="[nzAction]">
         <ng-template #nzContent>
           <div nz-row nzGutter="3" style="width:100%;">
             <div nz-col nzSpan="9">
-              <app-assertion-auto-complete [autoCompleteContext]="autoCompleteContext" [(assertionItem)]="item"
+              <app-assertion-auto-complete [autocompleteContext]="autocompleteContext" [(assertionItem)]="item"
                 (assertionItemChange)="modelChange()">
               </app-assertion-auto-complete>
             </div>

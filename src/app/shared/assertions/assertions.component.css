@@ -1,0 +1,15 @@
+.full-doc {
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.tool-bar {
+  text-align: right;
+  padding: 2px;
+  height: 32px;
+}
