@@ -19,6 +19,9 @@ import { CountdownModule } from 'ngx-countdown'
 import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { AssertionAutoCompleteComponent } from './assertion-list/assertion-auto-complete/assertion-auto-complete.component'
+import { AssertionAutoCompleteDirective } from './assertion-list/assertion-auto-complete/assertion-auto-complete.directive'
+import { AssertionListComponent } from './assertion-list/assertion-list.component'
 import { CaseSearchPanelComponent } from './case-search-panel/case-search-panel.component'
 import { DeleteItemComponent } from './delete-item/delete-item.component'
 import { DubboSearchPanelComponent } from './dubbo-search-panel/dubbo-search-panel.component'
@@ -69,6 +72,9 @@ const COMPONENTS = [
   VariablesOptionsComponent,
   ExportAutoCompleteDirective,
   ExportAutoCompleteComponent,
+  AssertionAutoCompleteDirective,
+  AssertionAutoCompleteComponent,
+  AssertionListComponent,
 ]
 const DIRECTIVES = []
 // endregion

@@ -3,13 +3,13 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@ang
 import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
+import { AssertionItem, AssertionItems } from '@shared/assertion-list/assertion-list.component'
 import { NzMessageService } from 'ng-zorro-antd'
 import * as screenfull from 'screenfull'
 
 import { CaseService } from '../../../api/service/case.service'
 import { Assertion, CaseGenerator, CaseGeneratorListItem } from '../../../model/es.model'
 import { formatJson } from '../../../util/json'
-import { AssertionItem, AssertionItems } from '../assertion-list/assertion-list.component'
 
 @Component({
   selector: 'app-case-generator',

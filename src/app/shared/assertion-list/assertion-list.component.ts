@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { AutocompleteContext } from 'app/model/indigo.model'
 import { NzMessageService } from 'ng-zorro-antd'
 
-import { Assertion } from '../../../model/es.model'
+import { Assertion } from '../../model/es.model'
 
 @Component({
   selector: 'app-assertion-list',

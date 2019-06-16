@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
+import { AssertionItem, AssertionItems } from '@shared/assertion-list/assertion-list.component'
 import { AutocompleteContext } from 'app/model/indigo.model'
 import { NzMessageService } from 'ng-zorro-antd'
 import { DiffEditorModel } from 'ngx-monaco-editor'
@@ -20,7 +21,6 @@ import {
   KeyValueObject,
 } from '../../../model/es.model'
 import { formatJson } from '../../../util/json'
-import { AssertionItem, AssertionItems } from '../assertion-list/assertion-list.component'
 
 @Component({
   selector: 'app-result-assert',
