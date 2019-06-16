@@ -7,7 +7,7 @@ import { sqlRequestSignature } from 'app/api/service/sql.service'
 import { CaseModelComponent } from 'app/routes/case/case-model/case-model.component'
 import { DubboPlaygroundComponent } from 'app/routes/dubbo/dubbo-playground/dubbo-playground.component'
 import { SqlPlaygroundComponent } from 'app/routes/sql/sql-playground/sql-playground.component'
-import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
+import { NzDrawerService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import {
@@ -31,6 +31,7 @@ import {
 } from '../../../model/es.model'
 import { calcDrawerWidth } from '../../../util/drawer'
 import { ScenarioStepData, StepEvent } from '../select-step/select-step.component'
+import { StepJumpComponent } from '../step-jump/step-jump.component'
 
 @Component({
   selector: 'app-steps-selector',
@@ -109,7 +110,6 @@ export class StepsSelectorComponent implements OnInit {
 
   constructor(
     private drawerService: NzDrawerService,
-    private msgService: NzMessageService,
     private route: ActivatedRoute,
   ) {
     this.viewIdx = this.viewIdx.bind(this)
@@ -143,9 +143,24 @@ export class StepsSelectorComponent implements OnInit {
       type: ScenarioStepType.JUMP,
       stored: false,
       enabled: true,
-      data: { jump: { conditions: [] } }
+      data: { jump: { type: 0, script: '', conditions: [] } }
     }
     this.onStepAdded({ step: step })
+    this.openJumpModelDrawer(this.steps.length - 1, step)
+  }
+
+  openJumpModelDrawer(idx: number, step: ScenarioStep) {
+    this.drawerService.create({
+      nzWidth: this.stepListDrawerWidth,
+      nzContent: StepJumpComponent,
+      nzContentParams: {
+        data: { index: idx, step: step },
+      },
+      nzBodyStyle: {
+        padding: '4px'
+      },
+      nzClosable: false,
+    })
   }
 
   addNewHttpStep() {

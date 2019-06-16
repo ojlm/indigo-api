@@ -76,13 +76,15 @@ export interface DelayCondition {
   timeUnit?: string
 }
 
-export interface JumpCondition {
+export interface AssertJumpCondition {
   assert?: object
   to?: number
 }
 
 export interface JumpConditions {
-  conditions?: JumpCondition[]
+  type?: 0 | 1
+  conditions?: AssertJumpCondition[]
+  script?: string
 }
 
 export interface StepData {

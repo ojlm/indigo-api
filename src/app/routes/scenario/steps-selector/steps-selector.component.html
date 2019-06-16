@@ -126,7 +126,7 @@
                 <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
               </a>
               <span> {{i+1}}. </span>
-              <span class="step-title" (click)="viewStep(i, item)">
+              <span class="step-title" (click)="openJumpModelDrawer(i, item)">
                 <span class="small-text">{{'tips-jump-step'|translate}}</span>
               </span>
             </div>
@@ -136,7 +136,7 @@
                 [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
               <span *ngFor="let item of item.data.jump.conditions">
                 <i nz-icon nzType="swap-right" nzTheme="outline"></i>
-                <span>{{item.to}}</span>
+                <span>{{item.to + 1}}</span>
               </span>
             </div>
           </ng-container>

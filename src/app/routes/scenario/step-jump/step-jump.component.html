@@ -1,0 +1,43 @@
+<div>
+  <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="data.step.data.jump.type" [nzAnimated]="false"
+    [nzTabBarExtraContent]="extraTemplate" [nzTabBarStyle]="tabBarStyle">
+    <nz-tab [nzTitle]="'item-list'|translate">
+      <div class="custom-scollbar" style="overflow:auto;" [style.height]="generatorListHeight">
+        <nz-list [nzDataSource]="data.step.data.jump.conditions" [nzRenderItem]="item" [nzFooter]="nzFooter">
+          <ng-template #item let-item let-i="index">
+            <nz-list-item>
+              <nz-list-item-meta [nzDescription]="nzDescription">
+                <ng-template #nzDescription>
+                  <div style="display:flex;">
+                    <a (click)="remove(i)" style="padding-left:4px;">
+                      <i nz-icon type="delete" theme="outline" class="click-icon"></i>
+                    </a>
+                    <nz-input-group style="margin-left:8px;" nzSize="small" nzAddOnBefore="Jump To:">
+                      <nz-input-number nzSize="small" [(ngModel)]="item.to" [nzFormatter]="stepFormatter" [nzMin]="0"
+                        [nzStep]="1">
+                      </nz-input-number>
+                    </nz-input-group>
+                  </div>
+                  <app-assertions [autocompleteContext]="autocompleteContext" [height]="itemHeight"
+                    [data]="item.assert">
+                  </app-assertions>
+                </ng-template>
+              </nz-list-item-meta>
+            </nz-list-item>
+          </ng-template>
+          <ng-template #nzFooter>
+            <button nz-button nzSize="small" nzType="dashed" (click)="addItem()">
+              <span><i nz-icon type="plus" theme="outline"></i></span>
+              <span style="margin-left:2px;">{{'btn-add'|translate}}</span>
+            </button>
+          </ng-template>
+        </nz-list>
+      </div>
+    </nz-tab>
+    <nz-tab [nzTitle]="'item-script'|translate">
+      <ngx-monaco-editor [style.height]="scriptEditorHeight" [options]="javascriptEditorOption"
+        [(ngModel)]="data.step.data.jump.script">
+      </ngx-monaco-editor>
+    </nz-tab>
+  </nz-tabset>
+</div>
