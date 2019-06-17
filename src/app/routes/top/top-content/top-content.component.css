@@ -1,0 +1,18 @@
+.item-option {}
+
+.option-title {
+  border-bottom: 1px solid lightgrey;
+}
+
+.item-option:hover .option-title {
+  font-weight: 600;
+}
+
+.option-content {
+  max-height: 120px;
+  overflow: auto;
+  color: lightgrey;
+  white-space: normal;
+  word-break: break-all;
+  word-wrap: break-word;
+}

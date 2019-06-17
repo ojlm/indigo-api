@@ -25,24 +25,7 @@ import { webLinksInit } from 'xterm/lib/addons/webLinks/webLinks'
 @Component({
   selector: 'app-top-content',
   templateUrl: './top-content.component.html',
-  styles: [`
-    .item-option {
-    }
-    .option-title {
-      border-bottom: 1px solid lightgrey;
-    }
-    .item-option:hover .option-title {
-      font-weight: 600;
-    }
-    .option-content {
-      max-height: 120px;
-      overflow: auto;
-      color: lightgrey;
-      white-space: normal;
-      word-break: break-all;
-      word-wrap: break-word;
-    }
-  `]
+  styleUrls: ['./top-content.component.css'],
 })
 export class TopContentComponent implements OnInit, AfterViewInit {
 
@@ -232,7 +215,28 @@ export class TopContentComponent implements OnInit, AfterViewInit {
             case ScenarioStepType.SQL:
               tmp.push({ name: response.sql[step.id].summary, value: i })
               break;
+            case ScenarioStepType.DELAY:
+              let dName = ''
+              if (step.data && step.data.delay) {
+                const d = step.data.delay
+                dName = `${this.i18nService.fanyi(I18nKey.TipsDelayStep)} ${d.value} ${d.timeUnit}`
+              }
+              tmp.push({ name: dName, value: i })
+              break;
+            case ScenarioStepType.JUMP:
+              let jName = ''
+              if (step.data && step.data.jump) {
+                const j = step.data.jump
+                if (0 === j.type) {
+                  jName = `${this.i18nService.fanyi(I18nKey.TipsJumpStep)} to: ${j.conditions.map(c => c.to).join(',')}`
+                } else {
+                  jName = `${this.i18nService.fanyi(I18nKey.TipsJumpStep)} by script`
+                }
+              }
+              tmp.push({ name: jName, value: i })
+              break;
             default:
+              tmp.push({ name: step.type, value: i })
               break;
           }
         })
