@@ -134,10 +134,17 @@
               <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
               <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
                 [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
-              <span *ngFor="let item of item.data.jump.conditions">
-                <i nz-icon nzType="swap-right" nzTheme="outline"></i>
-                <span>{{item.to + 1}}</span>
-              </span>
+              <ng-container *ngIf="item.data.jump.type===0">
+                <span *ngFor="let item of item.data.jump.conditions">
+                  <i class="jump-to" nz-icon nzType="swap-right" nzTheme="outline"></i>
+                  <span>{{item.to + 1}}</span>
+                </span>
+              </ng-container>
+              <ng-container *ngIf="item.data.jump.type===1">
+                <span>script</span>
+                <i class="jump-to" nz-icon nzType="swap-right" nzTheme="outline"></i>
+                <span> ?</span>
+              </ng-container>
             </div>
           </ng-container>
         </div>
