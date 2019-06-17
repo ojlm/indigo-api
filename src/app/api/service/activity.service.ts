@@ -149,11 +149,6 @@ export function feedResponseToFeedItems(response: FeedResponse) {
         })
       }
     }
-    items.push({
-      activity: activity,
-      user: response.users[activity.user],
-      data: data
-    })
   })
   return items
 }
