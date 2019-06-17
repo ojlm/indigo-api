@@ -1,8 +1,8 @@
 <div>
   <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="data.step.data.jump.type" [nzAnimated]="false"
-    [nzTabBarExtraContent]="extraTemplate" [nzTabBarStyle]="tabBarStyle">
+    [nzTabBarStyle]="tabBarStyle">
     <nz-tab [nzTitle]="'item-list'|translate">
-      <div class="custom-scollbar" style="overflow:auto;" [style.height]="generatorListHeight">
+      <div class="custom-scollbar" style="overflow:auto;">
         <nz-list [nzDataSource]="data.step.data.jump.conditions" [nzRenderItem]="item" [nzFooter]="nzFooter">
           <ng-template #item let-item let-i="index">
             <nz-list-item>
