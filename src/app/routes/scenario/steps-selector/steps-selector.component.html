@@ -21,6 +21,9 @@
               <span> {{i+1}}. </span>
               <span class="step-title" (click)="viewStep(i, item)">
                 <span class="small-text">{{getStepData(item).summary}}</span>
+                <span class="tail-text" style="padding-left:4px;">
+                  <i nz-icon class="click-icon" nzType="setting" nzTheme="outline" (click)="goItem(i, item)"></i>
+                </span>
                 <span class="tail-text">{{getStepData(item).group}}/{{getStepData(item).project}}</span>
                 <span class="tail-labels">
                   <ng-container *ngIf="getStepData(item).labels">
@@ -46,6 +49,9 @@
               <span> {{i+1}}. </span>
               <span class="step-title" (click)="viewStep(i, item)">
                 <span class="small-text">{{getStepData(item).summary}}</span>
+                <span class="tail-text" style="padding-left:4px;">
+                  <i nz-icon class="click-icon" nzType="setting" nzTheme="outline" (click)="goItem(i, item)"></i>
+                </span>
                 <span class="tail-text">{{getStepData(item).group}}/{{getStepData(item).project}}</span>
                 <span class="tail-labels">
                   <ng-container *ngIf="getStepData(item).labels">
@@ -74,6 +80,9 @@
               <span> {{i+1}}. </span>
               <span class="step-title" (click)="viewStep(i, item)">
                 <span class="small-text">{{getStepData(item).summary}}</span>
+                <span class="tail-text" style="padding-left:4px;">
+                  <i nz-icon class="click-icon" nzType="setting" nzTheme="outline" (click)="goItem(i, item)"></i>
+                </span>
                 <span class="tail-text">{{getStepData(item).group}}/{{getStepData(item).project}}</span>
                 <span class="tail-labels">
                   <ng-container *ngIf="getStepData(item).labels">

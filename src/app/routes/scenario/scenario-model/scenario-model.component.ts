@@ -1,12 +1,12 @@
 import { Location } from '@angular/common'
-import { Component, Input, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { Component, Input, OnInit, TemplateRef } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { ConfigService } from 'app/api/service/config.service'
 import { FavoriteService } from 'app/api/service/favorite.service'
-import { NzMessageService } from 'ng-zorro-antd'
+import { NzDropdownContextComponent, NzDropdownService, NzMenuItemDirective, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { ScenarioResponse, ScenarioService } from '../../../api/service/scenario.service'
@@ -51,6 +51,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   transforms: TransformFunction[] = []
   toptopChecked = false
   toptopId = ''
+  private dropdown: NzDropdownContextComponent
   @Input()
   set id(id: string) {
     if (id) {
@@ -72,6 +73,8 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     private scenarioService: ScenarioService,
     private favoriteService: FavoriteService,
     private msgService: NzMessageService,
+    private nzDropdownService: NzDropdownService,
+    private router: Router,
     private route: ActivatedRoute,
     private location: Location,
     private i18nService: I18NService,
@@ -198,6 +201,20 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
         })
       })
     }
+  }
+
+  goTopTop() {
+    if (this.toptopId && this.group && this.project) {
+      this.router.navigateByUrl(`/toptop/${this.group}/${this.project}/${this.toptopId}`)
+    }
+  }
+
+  contextMenu($event: MouseEvent, template: TemplateRef<void>): void {
+    this.dropdown = this.nzDropdownService.create($event, template)
+  }
+
+  closeContextMenu(e: NzMenuItemDirective): void {
+    this.dropdown.close()
   }
 
   ngOnInit(): void {

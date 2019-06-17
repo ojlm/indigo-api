@@ -3,8 +3,14 @@
     <h1 style="padding-left: 10px;">{{'content-title-job'|translate}}</h1>
     <span>
       <nz-tag *ngIf="jobId" style="margin-right:16px;" nzMode="checkable" [(nzChecked)]="toptopChecked"
-        [nzColor]="toptopChecked?'#108ee9':'lightblue'" (nzCheckedChange)="toptopChange($event)">
+        [nzColor]="toptopChecked?'#108ee9':'lightblue'" (nzCheckedChange)="toptopChange($event)"
+        (contextmenu)="contextMenu($event, cmTemplate)">
         {{'title-top-top'|translate}}
+        <ng-template #cmTemplate>
+          <ul nz-menu nzInDropDown (nzClick)="closeContextMenu($event)">
+            <li nz-menu-item (click)="goTopTop()">Go Toptop</li>
+          </ul>
+        </ng-template>
       </nz-tag>
       <span>
         <span [style.color]="'lightseagreen'">{{jobMeta.summary}}</span>
@@ -48,13 +54,13 @@
   <!-- job data -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
     <nz-tabset style="min-height:240px" [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false"
-      [nzSize]="'small'" (nzSelectedIndexChange)="tabIndexChange($event)">
+      [nzSize]="'small'" [(nzSelectedIndex)]="tabIndex" (nzSelectedIndexChange)="tabIndexChange($event)">
       <nz-tab [nzTitle]="'field-case'|translate">
-        <app-case-selector [(data)]="jobCaseIds" [(ext)]="jobDataExt" [ctxOptions]="ctxOptions"></app-case-selector>
+        <app-case-selector *ngIf="caseSelectorSwitch" [(data)]="jobCaseIds" [(ext)]="jobDataExt"
+          [ctxOptions]="ctxOptions"></app-case-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'field-scenario'|translate">
-        <app-scenario-selector *ngIf="scenarioSelectorSwitch" [group]="group" [project]="project"
-          [(data)]="jobScenarioIds" [ctxOptions]="ctxOptions">
+        <app-scenario-selector [group]="group" [project]="project" [(data)]="jobScenarioIds" [ctxOptions]="ctxOptions">
         </app-scenario-selector>
       </nz-tab>
       <nz-tab [nzTitle]="'item-subscribers'|translate">

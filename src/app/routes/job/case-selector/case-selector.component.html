@@ -38,6 +38,9 @@
               <a style="padding-left:10px;font-size:smaller;color:lightgray;" href="javascript:void(0);"
                 (click)="viewCase(item)">{{item.summary}}</a>
               <span class="title-tail">
+                <span class="tail-text" style="padding-left:4px;">
+                  <i nz-icon class="click-icon" nzType="setting" nzTheme="outline" (click)="goItem(item)"></i>
+                </span>
                 <span class="tail-text">{{item.group}}/{{item.project}}</span>
                 <ng-container *ngIf="item.labels">
                   <span class="tail-labels">

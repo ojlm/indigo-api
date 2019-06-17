@@ -1,8 +1,8 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { GroupProjectSelectorModel } from '@shared/group-project-selector/group-project-selector.component'
 import { ScenarioModelComponent } from 'app/routes/scenario/scenario-model/scenario-model.component'
-import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
+import { NzDrawerService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { QueryScenario, ScenarioService } from '../../../api/service/scenario.service'
@@ -13,20 +13,8 @@ import { calcDrawerWidth } from '../../../util/drawer'
 
 @Component({
   selector: 'app-scenario-selector',
-  styles: [`
-    .click-icon {
-      font-weight: bold;
-      font-style: oblique;
-    }
-    .hover-red {
-      transition: all 0.3s ease;
-    }
-    .hover-red:hover {
-      color:red;
-      transform: rotate(180deg);
-    }
-  `],
   templateUrl: './scenario-selector.component.html',
+  styleUrls: ['./scenario-selector.component.css'],
 })
 export class ScenarioSelectorComponent extends PageSingleModel implements OnInit {
 
@@ -76,7 +64,7 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
   constructor(
     private drawerService: NzDrawerService,
     private scenarioService: ScenarioService,
-    private msgService: NzMessageService,
+    private router: Router,
     private route: ActivatedRoute,
   ) {
     super()
@@ -118,6 +106,10 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
 
   search() {
     this.searchSubject.next({ ...this.searchGroupProject, text: this.searchText, ...this.toPageQuery() })
+  }
+
+  goItem(item: Scenario) {
+    this.router.navigateByUrl(`/scenario/${item.group}/${item.project}/${item._id}`)
   }
 
   ngOnInit(): void {

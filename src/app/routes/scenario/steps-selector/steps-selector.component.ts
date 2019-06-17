@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { SortablejsOptions } from 'angular-sortablejs'
 import { httpRequestSignature } from 'app/api/service/case.service'
 import { dubboRequestSignature } from 'app/api/service/dubbo.service'
@@ -111,6 +111,7 @@ export class StepsSelectorComponent implements OnInit {
   constructor(
     private drawerService: NzDrawerService,
     private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.viewIdx = this.viewIdx.bind(this)
   }
@@ -406,6 +407,25 @@ export class StepsSelectorComponent implements OnInit {
       this.stepsStatusCache[i] = {}
     }
     this.updateStepRuntimeData()
+  }
+
+  goItem(idx: number, step: ScenarioStep) {
+    const stepData = this.getStepData(step)
+    if (stepData && Object.keys(stepData).length > 0) {
+      switch (step.type) {
+        case ScenarioStepType.CASE:
+          this.router.navigateByUrl(`/case/${stepData.group}/${stepData.project}/${step.id}`)
+          break
+        case ScenarioStepType.DUBBO:
+          this.router.navigateByUrl(`/dubbo/${stepData.group}/${stepData.project}/${step.id}`)
+          break
+        case ScenarioStepType.SQL:
+          this.router.navigateByUrl(`/sql/${stepData.group}/${stepData.project}/${step.id}`)
+          break
+        default:
+          break
+      }
+    }
   }
 
   ngOnInit(): void {

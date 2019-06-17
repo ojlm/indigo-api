@@ -1,12 +1,12 @@
 import { Location } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, TemplateRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { ConfigService } from 'app/api/service/config.service'
 import { FavoriteService } from 'app/api/service/favorite.service'
-import { NzMessageService } from 'ng-zorro-antd'
+import { NzDropdownContextComponent, NzDropdownService, NzMenuItemDirective, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { JobService, NewJob } from '../../../api/service/job.service'
@@ -30,7 +30,8 @@ import { PageSingleModel } from '../../../model/page.model'
 })
 export class JobModelComponent extends PageSingleModel implements OnInit {
 
-  scenarioSelectorSwitch = false
+  tabIndex = 1
+  caseSelectorSwitch = false
   jobSubscribersSwitch = false
   card1BodyStyle = {
     'padding': '12px',
@@ -59,11 +60,13 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   transforms: TransformFunction[] = []
   toptopChecked = false
   toptopId = ''
+  private dropdown: NzDropdownContextComponent
   constructor(
     private configService: ConfigService,
     private jobService: JobService,
     private favoriteService: FavoriteService,
     private msgService: NzMessageService,
+    private nzDropdownService: NzDropdownService,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
@@ -157,8 +160,8 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   }
 
   tabIndexChange(index: number) {
-    if (1 === index) {
-      this.scenarioSelectorSwitch = true
+    if (0 === index) {
+      this.caseSelectorSwitch = true
     } else if (2 === index) {
       this.jobSubscribersSwitch = true
     }
@@ -219,6 +222,20 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
 
   goBack() {
     this.location.back()
+  }
+
+  goTopTop() {
+    if (this.toptopId && this.group && this.project) {
+      this.router.navigateByUrl(`/toptop/${this.group}/${this.project}/${this.toptopId}`)
+    }
+  }
+
+  contextMenu($event: MouseEvent, template: TemplateRef<void>): void {
+    this.dropdown = this.nzDropdownService.create($event, template)
+  }
+
+  closeContextMenu(e: NzMenuItemDirective): void {
+    this.dropdown.close()
   }
 
   ngOnInit(): void {

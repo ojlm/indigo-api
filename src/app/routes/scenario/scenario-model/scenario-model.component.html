@@ -3,8 +3,14 @@
     <h1 style="padding-left: 10px;">{{'content-title-scenario'|translate}}</h1>
     <span>
       <nz-tag *ngIf="scenarioId" style="margin-right:16px;" nzMode="checkable" [(nzChecked)]="toptopChecked"
-        [nzColor]="toptopChecked?'#108ee9':'lightblue'" (nzCheckedChange)="toptopChange($event)">
+        [nzColor]="toptopChecked?'#108ee9':'lightblue'" (nzCheckedChange)="toptopChange($event)"
+        (contextmenu)="contextMenu($event, cmTemplate)">
         {{'title-top-top'|translate}}
+        <ng-template #cmTemplate>
+          <ul nz-menu nzInDropDown (nzClick)="closeContextMenu($event)">
+            <li nz-menu-item (click)="goTopTop()">Go Toptop</li>
+          </ul>
+        </ng-template>
       </nz-tag>
       <span>
         <span [style.color]="'lightseagreen'">{{scenario.summary}}</span>

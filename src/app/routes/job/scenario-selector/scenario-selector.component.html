@@ -8,6 +8,9 @@
           <div style="padding-left:3px;width:100%;cursor:pointer;" (click)="viewScenario(item)">
             <span style="color:black;">{{item.summary}}</span>
             <span style="padding-left:5px;color:lightgray;">{{item.description}}</span>
+            <span class="tail-settings">
+              <i nz-icon class="click-icon" nzType="setting" nzTheme="outline" (click)="goItem(item)"></i>
+            </span>
             <span style="float:right;color:lightslategray;">{{item.group}}/{{item.project}}</span>
           </div>
         </ng-template>
@@ -48,6 +51,9 @@
           <div style="width:100%;cursor:pointer;" (click)="viewScenario(item)">
             <span style="margin-right: 4px;">{{i + 1}}.</span>
             <a>{{item.summary}}</a>
+            <span class="tail-settings">
+              <i nz-icon class="click-icon" nzType="setting" nzTheme="outline" (click)="goItem(item)"></i>
+            </span>
             <span style="float:right;color:lightslategray;">{{item.group}}/{{item.project}}</span>
           </div>
         </ng-template>

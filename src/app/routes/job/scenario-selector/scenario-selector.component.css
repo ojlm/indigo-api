@@ -1,0 +1,18 @@
+.hover-red {
+  transition: all 0.3s ease;
+}
+
+.hover-red:hover {
+  color: red;
+  transform: rotate(180deg);
+}
+
+.tail-settings {
+  float: right;
+  color: lightslategray;
+  padding-left: 4px;
+}
+
+.tail-settings i {
+  font-size: smaller;
+}

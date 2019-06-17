@@ -205,6 +205,10 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
     this.searchCase.next({ group: this.group, project: this.project, ...this.searchCaseModel, ...this.toPageQuery() })
   }
 
+  goItem(item: Case) {
+    this.router.navigateByUrl(`/case/${item.group}/${item.project}/${item._id}`)
+  }
+
   ngOnInit(): void {
     this.route.parent.parent.params.subscribe(params => {
       this.group = params['group']
