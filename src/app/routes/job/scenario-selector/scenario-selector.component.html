@@ -43,31 +43,28 @@
     </ng-template>
   </div>
   <div nz-col nzSpan="10">
-    <nz-list style="min-height:320px;" [nzDataSource]="addedItems" nzBordered nzSize="small" [nzHeader]="nzAddedHeader"
-      [nzRenderItem]="addedItemsTpl">
-      <ng-template #addedItemsTpl let-item let-i="index">
-        <nz-list-item [nzContent]="nzAddedContent" [nzActions]="[removeAction]"></nz-list-item>
-        <ng-template #nzAddedContent>
-          <div style="width:100%;cursor:pointer;" (click)="viewScenario(item)">
-            <span style="margin-right: 4px;">{{i + 1}}.</span>
-            <a>{{item.summary}}</a>
-            <span class="tail-settings">
-              <i nz-icon class="click-icon" nzType="setting" nzTheme="outline" (click)="goItem(item)"></i>
-            </span>
-            <span style="float:right;color:lightslategray;">{{item.group}}/{{item.project}}</span>
-          </div>
-        </ng-template>
-        <ng-template #removeAction>
-          <a (click)="removeItem(item, i)"><i nz-icon type="close" theme="outline" class="click-icon hover-red"></i></a>
-        </ng-template>
-      </ng-template>
-    </nz-list>
-    <ng-template #nzAddedHeader>
-      <div>
+    <div class="s-list">
+      <div class="s-header">
         <span>{{'tips-items-added-to-job'|translate}}</span>
         <nz-badge [nzShowZero]="true" [nzCount]="addedItems.length"
           [nzStyle]="{backgroundColor:'#52c41a','margin-left':'5px'}"></nz-badge>
       </div>
-    </ng-template>
+      <div style="min-height:320px;" [sortablejs]="addedItems" [sortablejsOptions]="sortablejsOptions">
+        <div *ngFor="let item of addedItems;let i = index;" class="s-item" (click)="viewScenario(item)">
+          <i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab;margin-right:4px;"></i>
+          <span style="margin-right: 4px;">{{i + 1}}.</span>
+          <a>{{item.summary}}</a>
+          <span class="tail-settings">
+            <a (click)="removeItem(item, i)">
+              <i nz-icon type="close" theme="outline" class="click-icon hover-red"></i>
+            </a>
+          </span>
+          <span class="tail-settings">
+            <i nz-icon class="click-icon" nzType="setting" nzTheme="outline" (click)="goItem(item)"></i>
+          </span>
+          <span class="tail-settings">{{item.group}}/{{item.project}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

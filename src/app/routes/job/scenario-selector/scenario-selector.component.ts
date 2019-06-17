@@ -10,6 +10,7 @@ import { ApiRes } from '../../../model/api.model'
 import { ContextOptions, Scenario } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 import { calcDrawerWidth } from '../../../util/drawer'
+import { SortablejsOptions } from 'angular-sortablejs';
 
 @Component({
   selector: 'app-scenario-selector',
@@ -18,6 +19,12 @@ import { calcDrawerWidth } from '../../../util/drawer'
 })
 export class ScenarioSelectorComponent extends PageSingleModel implements OnInit {
 
+  sortablejsOptions: SortablejsOptions = {
+    handle: '.anticon-bars',
+    onUpdate: function (event: any) {
+      this.dataChange.emit(this.data)
+    }.bind(this)
+  }
   drawerWidth = calcDrawerWidth(0.75)
   pageSize = 10
   @Input() group: string
