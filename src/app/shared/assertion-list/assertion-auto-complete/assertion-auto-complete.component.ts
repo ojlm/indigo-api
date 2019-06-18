@@ -48,7 +48,7 @@ export class AssertionAutoCompleteComponent implements OnInit, AfterViewInit {
   constructor() {
   }
 
-  emitAssertionItemChange() {
+  modelChange() {
     this.assertionItemChange.emit(this.assertionItem)
   }
 
@@ -59,6 +59,7 @@ export class AssertionAutoCompleteComponent implements OnInit, AfterViewInit {
     } else {
       this.nextLevelOptions(this.dataSource, this.prefix)
     }
+    this.modelChange()
   }
 
   nextLevelOptions(data: object, prefixExp: string) {
@@ -92,7 +93,6 @@ export class AssertionAutoCompleteComponent implements OnInit, AfterViewInit {
               }
             }
             this.assertionItem.value = assertionObjValue
-            this.emitAssertionItemChange()
           }
         }
       } else {
@@ -130,7 +130,7 @@ export class AssertionAutoCompleteComponent implements OnInit, AfterViewInit {
       (<HTMLElement>this.pathInput.nativeElement).focus({ preventScroll: true })
     }
     this.assertionItem.path = option
-    this.emitAssertionItemChange()
+    this.modelChange()
     this.currentLevelOptions(option)
   }
 

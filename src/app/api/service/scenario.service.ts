@@ -141,6 +141,16 @@ export function isExportItemValid(item: VariablesExportItem) {
   }
 }
 
+export function scenarioToScenarioStep(scenario: Scenario) {
+  const step: ScenarioStep = {
+    id: scenario._id,
+    type: ScenarioStepType.SCENARIO,
+    stored: false,
+    enabled: true,
+  }
+  return step
+}
+
 export interface StepStatusData {
   report?: ReportItemEvent
   status?: string

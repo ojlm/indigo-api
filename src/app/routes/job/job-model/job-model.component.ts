@@ -18,6 +18,7 @@ import {
   FavoriteType,
   JobExecDesc,
   JobNotify,
+  ScenarioStep,
   TransformFunction,
   VariablesImportItem,
 } from '../../../model/es.model'
@@ -49,7 +50,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   triggerMeta: TriggerMeta = {}
   jobCaseIds: string[] = []
   jobDataExt: JobDataExt = undefined
-  jobScenarioIds: string[] = []
+  scenarioSteps: ScenarioStep[] = []
   testWs: WebSocket
   logSubject = new Subject<ActorEvent<JobExecDesc>>()
   consoleDrawerVisible = false
@@ -170,7 +171,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   reset() {
     this.jobCaseIds = []
     this.jobDataExt = undefined
-    this.jobScenarioIds = []
+    this.scenarioSteps = []
     this.jobMeta = {
       group: this.group,
       project: this.project,
@@ -198,7 +199,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorEmptyProject))
       return
     }
-    if (this.jobCaseIds.length < 1 && this.jobScenarioIds.length < 1 && undefined === this.jobDataExt) {
+    if (this.jobCaseIds.length < 1 && this.scenarioSteps.length < 1 && undefined === this.jobDataExt) {
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorEmptyCaseScenarioCount))
       return
     }
@@ -209,9 +210,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         cs: this.jobCaseIds.map(id => {
           return { id: id }
         }),
-        scenario: this.jobScenarioIds.map(id => {
-          return { id: id }
-        }),
+        scenario: this.scenarioSteps,
         ext: this.jobDataExt
       },
       notifies: this.subscribers,
@@ -272,7 +271,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
             this.jobCaseIds = job.jobData.cs.map(item => item.id)
           }
           if (job.jobData && job.jobData.scenario) {
-            this.jobScenarioIds = job.jobData.scenario.map(item => item.id)
+            this.scenarioSteps = job.jobData.scenario || []
           }
           if (job.jobData && job.jobData.ext) {
             this.jobDataExt = job.jobData.ext
