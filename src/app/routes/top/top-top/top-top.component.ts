@@ -37,6 +37,7 @@ export class TopTopComponent extends PageSingleModel implements OnInit {
         group: group,
         type: FavoriteType.TYPE_TOP_TOP,
         size: 1000,
+        checked: 'true',
       }).subscribe(res => {
         this.items.filter(item => item.id === group).forEach(item => {
           item.sub = res.data.list

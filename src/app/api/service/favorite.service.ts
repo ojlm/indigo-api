@@ -47,6 +47,7 @@ export interface QueryFavorite extends QueryPage {
   targetType?: string
   targetId?: string
   text?: string
+  checked?: 'true' | 'false'
 }
 
 export interface ToptopGroupResponse {
