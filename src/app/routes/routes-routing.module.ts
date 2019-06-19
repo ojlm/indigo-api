@@ -37,7 +37,8 @@ const routes: Routes = [
     component: LayoutIndigoComponent,
     canActivateChild: [JWTGuard],
     children: [
-      { path: '', component: HomeComponent, data: { titleI18n: 'title-home' } },
+      { path: '', redirectTo: 'dashboard/groups', pathMatch: 'full', data: { titleI18n: 'title-home' } },
+      { path: 'home', component: HomeComponent, data: { titleI18n: 'title-home' } },
       { path: 'toptop', loadChildren: './top/top.module#TopModule' },
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
       { path: 'groups/new', component: GroupModelComponent, data: { titleI18n: 'title-group-new' } },
