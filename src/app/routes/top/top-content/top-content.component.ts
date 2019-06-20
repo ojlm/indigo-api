@@ -4,7 +4,7 @@ import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { FavoriteService } from 'app/api/service/favorite.service'
-import { JobService } from 'app/api/service/job.service'
+import { isJobScenarioStep, JobService } from 'app/api/service/job.service'
 import { ScenarioService, ScenarioStepType } from 'app/api/service/scenario.service'
 import { ActorEvent, ActorEventType } from 'app/model/api.model'
 import { NameValue } from 'app/model/common.model'
@@ -13,6 +13,7 @@ import {
   Job,
   JobTestMessage,
   Scenario,
+  ScenarioStep,
   ScenarioTestWebMessage,
   VariablesImportItem,
 } from 'app/model/es.model'
@@ -216,24 +217,10 @@ export class TopContentComponent implements OnInit, AfterViewInit {
               tmp.push({ name: response.sql[step.id].summary, value: i })
               break;
             case ScenarioStepType.DELAY:
-              let dName = ''
-              if (step.data && step.data.delay) {
-                const d = step.data.delay
-                dName = `${this.i18nService.fanyi(I18nKey.TipsDelayStep)} ${d.value} ${d.timeUnit}`
-              }
-              tmp.push({ name: dName, value: i })
+              tmp.push(this.toDelayOption(step, i))
               break;
             case ScenarioStepType.JUMP:
-              let jName = ''
-              if (step.data && step.data.jump) {
-                const j = step.data.jump
-                if (0 === j.type) {
-                  jName = `${this.i18nService.fanyi(I18nKey.TipsJumpStep)} to: ${j.conditions.map(c => c.to).join(',')}`
-                } else {
-                  jName = `${this.i18nService.fanyi(I18nKey.TipsJumpStep)} by script`
-                }
-              }
-              tmp.push({ name: jName, value: i })
+              tmp.push(this.toJumpOption(step, i))
               break;
             default:
               tmp.push({ name: step.type, value: i })
@@ -248,13 +235,47 @@ export class TopContentComponent implements OnInit, AfterViewInit {
         this.url = `/job/${response.job.group}/${response.job.project}/${response.jobId}`
         this.imports = this.filterImports(response.job.imports)
         response.job.jobData.scenario.forEach((step, i) => {
-          tmp.push({ name: response.scenarios[step.id].summary, value: i })
+          switch (step.type) {
+            case ScenarioStepType.DELAY:
+              tmp.push(this.toDelayOption(step, i))
+              break;
+            case ScenarioStepType.JUMP:
+              tmp.push(this.toJumpOption(step, i))
+              break;
+            default:
+              if (isJobScenarioStep(step)) {
+                tmp.push({ name: response.scenarios[step.id].summary, value: i })
+              }
+              break;
+          }
         })
       }
       this.from = [...tmp]
       this.fromValue = 0
       this.toValue = this.from.length - 1
     })
+  }
+
+  private toDelayOption(step: ScenarioStep, i: number): NameValue {
+    let dName = ''
+    if (step.data && step.data.delay) {
+      const d = step.data.delay
+      dName = `${this.i18nService.fanyi(I18nKey.TipsDelayStep)} ${d.value} ${d.timeUnit}`
+    }
+    return { name: dName, value: i }
+  }
+
+  private toJumpOption(step: ScenarioStep, i: number): NameValue {
+    let jName = ''
+    if (step.data && step.data.jump) {
+      const j = step.data.jump
+      if (0 === j.type) {
+        jName = `${this.i18nService.fanyi(I18nKey.TipsJumpStep)} to: ${j.conditions.map(c => c.to).join(',')}`
+      } else {
+        jName = `${this.i18nService.fanyi(I18nKey.TipsJumpStep)} by script`
+      }
+    }
+    return { name: jName, value: i }
   }
 
   filterImports(imports: VariablesImportItem[]) {
