@@ -120,28 +120,28 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
                 },
               ]
             },
-            {
-              text: '接口管理',
-              i18n: 'menu-apis',
-              icon: { type: 'icon', value: 'api', theme: 'outline' },
-              children: [
-                // {
-                //   'text': '接口列表',
-                //   'i18n': 'menu-api-list',
-                //   'link': `/rest/${group}/${project}`,
-                // },
-                // {
-                //   'text': '新建接口',
-                //   'i18n': 'menu-new-api',
-                //   'link': `/apis/${group}/${project}/new`,
-                // },
-                {
-                  text: 'OpenApi',
-                  i18n: 'menu-openapi',
-                  link: `/project/${group}/${project}/openapi`,
-                },
-              ]
-            },
+            // {
+            //   text: '接口管理',
+            //   i18n: 'menu-apis',
+            //   icon: { type: 'icon', value: 'api', theme: 'outline' },
+            //   children: [
+            //     // {
+            //     //   'text': '接口列表',
+            //     //   'i18n': 'menu-api-list',
+            //     //   'link': `/rest/${group}/${project}`,
+            //     // },
+            //     // {
+            //     //   'text': '新建接口',
+            //     //   'i18n': 'menu-new-api',
+            //     //   'link': `/apis/${group}/${project}/new`,
+            //     // },
+            //     {
+            //       text: 'OpenApi',
+            //       i18n: 'menu-openapi',
+            //       link: `/project/${group}/${project}/openapi`,
+            //     },
+            //   ]
+            // },
             {
               text: '场景管理',
               i18n: 'menu-scenarios',
