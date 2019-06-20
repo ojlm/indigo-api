@@ -12,7 +12,7 @@
             <nz-select style="width:100%;" nzShowSearch nzAllowClear [nzPlaceHolder]="'tips-trigger-type'|translate"
               [(ngModel)]="search.triggerType">
               <nz-option *ngFor="let type of types" nzCustomContent [nzLabel]="type" [nzValue]="type">
-                <nz-tag nzColor="cyan">{{type}}</nz-tag>
+                <span>{{type}}</span>
               </nz-option>
             </nz-select>
           </div>
@@ -40,39 +40,48 @@
               </div>
             </ng-template>
             <ng-template #nzDescription>
-              <div *ngIf="canResumeOrPause(item)" style="padding-left:10px;">
-                <nz-divider nzType="vertical"></nz-divider>
-                <span>{{'tips-job-state'|translate}}: </span>
-                <span>{{item.state}}</span>
-                <nz-divider nzType="vertical"></nz-divider>
+              <div>
+                <div *ngIf="canResumeOrPause(item)" style="padding-left:10px;">
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <span>{{'tips-job-state'|translate}}: </span>
+                  <span>{{item.state}}</span>
+                  <nz-divider nzType="vertical"></nz-divider>
+                </div>
+                <span style="float:right;padding-right:8px;" nz-tooltip nzTitle="Created time">{{item.createdAt}}</span>
               </div>
             </ng-template>
           </nz-list-item-meta>
           <ng-template #edit>
-            <button nz-button nzSize="small" nzType="default" (click)="showTrend(item)">
+            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTitle="Charts" (click)="showTrend(item)">
               <i nz-icon type="bar-chart" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
-            <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" (click)="resumeItem(item)">
+            <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" nz-tooltip
+              nzTitle="Resume" (click)="resumeItem(item)">
               <i nz-icon type="play-circle" theme="outline"></i>
             </button>
-            <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" (click)="pauseItem(item)">
+            <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" nz-tooltip
+              nzTitle="Pause" (click)="pauseItem(item)">
               <i nz-icon type="pause" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
-            <button nz-button nzSize="small" nzType="default" (click)="deleteItem(item)">
-              <i nz-icon type="delete" theme="outline"></i>
+            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTitle="Copy" (click)="copyItem(item)">
+              <i nz-icon type="copy" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
-            <button nz-button nzSize="small" nzType="default" (click)="editItem(item)">
+            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTitle="Edit" (click)="editItem(item)">
               <i nz-icon type="setting" theme="outline"></i>
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTitle="Delete" (click)="deleteItem(item)">
+              <i nz-icon type="delete" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>
       </ng-template>
       <ng-template #pagination>
-        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzShowTotal]="totalTemplate"
-          [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal"
+          [nzShowTotal]="totalTemplate" [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
           <ng-template #totalTemplate let-total>
             <span style="color:lightgray;">
               <span>{{'item-total'|translate}}</span>
@@ -85,11 +94,12 @@
     </nz-list>
   </nz-card>
 </div>
-<nz-drawer [nzClosable]="false" [nzVisible]="chartVisible" [nzWidth]="drawerWidth" nzPlacement="right" (nzOnClose)="chartVisible=false">
+<nz-drawer [nzClosable]="false" [nzVisible]="chartVisible" [nzWidth]="drawerWidth" nzPlacement="right"
+  (nzOnClose)="chartVisible=false">
   <div nz-row>
     <div nz-col nzSpan="24">
-      <ngx-charts-area-chart [view]="fullView" [scheme]="{'domain':['lightseagreen']}" [results]="okRates" [legend]="false"
-        [xAxis]="true" [yAxis]="true">
+      <ngx-charts-area-chart [view]="fullView" [scheme]="{'domain':['lightseagreen']}" [results]="okRates"
+        [legend]="false" [xAxis]="true" [yAxis]="true">
       </ngx-charts-area-chart>
     </div>
     <div nz-col nzSpan="24" style="margin-top:100px;">

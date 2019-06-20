@@ -49,6 +49,12 @@ export class ProjectScenariosComponent extends PageSingleModel implements OnInit
     this.router.navigateByUrl(this.getRouter(item))
   }
 
+  copyItem(item: Scenario) {
+    this.scenarioService.copyById(item._id).subscribe(res => {
+      this.loadData()
+    })
+  }
+
   deleteItem(item: Scenario) {
     const drawerRef = this.drawerService.create({
       nzTitle: item.summary,

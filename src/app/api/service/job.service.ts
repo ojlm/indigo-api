@@ -87,6 +87,10 @@ export class JobService extends BaseService {
     return this.http.get<ApiRes<Job>>(`${API_JOB}/${id}`)
   }
 
+  copyById(id: string) {
+    return this.http.get<ApiRes<IndexDocResponse>>(`${API_JOB}/copy/${id}`)
+  }
+
   newQuerySubject(response: Subject<ApiRes<Job[]>>) {
     const querySubject = new Subject<QueryJob>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {

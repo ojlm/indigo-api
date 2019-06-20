@@ -184,6 +184,12 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
     this.router.navigateByUrl(this.getRouter(item))
   }
 
+  copyItem(item: Job) {
+    this.jobService.copyById(item._id).subscribe(res => {
+      this.loadData()
+    })
+  }
+
   pageChange() {
     this.loadData()
   }

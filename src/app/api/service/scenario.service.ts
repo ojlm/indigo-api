@@ -55,6 +55,10 @@ export class ScenarioService extends BaseService {
     return this.http.get<ApiRes<ScenarioResponse>>(`${API_SCENARIO}/${id}`)
   }
 
+  copyById(id: string) {
+    return this.http.get<ApiRes<IndexDocResponse>>(`${API_SCENARIO}/copy/${id}`)
+  }
+
   newQuerySubject(response: Subject<ApiRes<Scenario[]>>) {
     const querySubject = new Subject<QueryScenario>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
