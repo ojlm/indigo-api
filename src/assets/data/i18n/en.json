@@ -235,6 +235,7 @@
   "tips-find-project": "Find a project",
   "tips-delay-step": "Wait For",
   "tips-jump-step": "Jump To",
+  "tips-jump-index": "Step begin from zero",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",

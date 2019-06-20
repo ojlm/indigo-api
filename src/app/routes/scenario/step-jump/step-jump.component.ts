@@ -1,5 +1,7 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core'
+import { I18NService } from '@core'
 import { MonacoService } from '@core/config/monaco.service'
+import { I18nKey } from '@core/i18n/i18n.message'
 import { AutocompleteContext } from 'app/model/indigo.model'
 
 import { ScenarioStep } from '../../../model/es.model'
@@ -11,6 +13,7 @@ import { ScenarioStep } from '../../../model/es.model'
 })
 export class StepJumpComponent implements OnInit {
 
+  tips = this.i18nService.fanyi(I18nKey.TipsJumpIndex)
   @Input() autocompleteContext = new AutocompleteContext()
   tabBarStyle = {
     'background-color': 'snow',
@@ -28,9 +31,8 @@ export class StepJumpComponent implements OnInit {
   }
   constructor(
     private monocoService: MonacoService,
+    private i18nService: I18NService,
   ) { }
-
-  stepFormatter = (idx: number) => idx + 1
 
   addItem() {
     this.data.step.data.jump.conditions.push({ assert: {}, to: this.data.index + 1 })

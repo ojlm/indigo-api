@@ -41,5 +41,6 @@ export const I18nKey = {
   TipsConfirmDeleteContent: 'tips-confirm-delete-content',
   TipsDelayStep: 'tips-delay-step',
   TipsJumpStep: 'tips-jump-step',
+  TipsJumpIndex: 'tips-jump-index',
   KeyEnvironment: 'key-environment',
 }

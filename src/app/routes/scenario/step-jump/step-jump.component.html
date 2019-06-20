@@ -1,4 +1,5 @@
 <div>
+  <nz-alert nzType="info" nzShowIcon nzCloseable nzBanner [nzMessage]="tips"></nz-alert>
   <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="data.step.data.jump.type" [nzAnimated]="false"
     [nzTabBarStyle]="tabBarStyle">
     <nz-tab [nzTitle]="'item-list'|translate">
@@ -13,8 +14,7 @@
                       <i nz-icon type="delete" theme="outline" class="click-icon"></i>
                     </a>
                     <nz-input-group style="margin-left:8px;" nzSize="small" nzAddOnBefore="Jump To:">
-                      <nz-input-number nzSize="small" [(ngModel)]="item.to" [nzFormatter]="stepFormatter" [nzMin]="0"
-                        [nzStep]="1">
+                      <nz-input-number nzSize="small" [(ngModel)]="item.to" [nzMin]="0" [nzStep]="1">
                       </nz-input-number>
                     </nz-input-group>
                   </div>

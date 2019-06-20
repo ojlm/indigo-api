@@ -235,6 +235,7 @@
   "tips-find-project": "搜索项目",
   "tips-delay-step": "等待时长",
   "tips-jump-step": "按条件跳转",
+  "tips-jump-index": "这里的步骤数从 0 开始, 及数组下标",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",
