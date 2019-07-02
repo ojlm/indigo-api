@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
 
 import { ClearReportDataIndicesJobComponent } from './clear-report-data-indices-job/clear-report-data-indices-job.component'
+import { GitlabSyncComponent } from './gitlab-sync/gitlab-sync.component'
 import { JobReportIndicesComponent } from './job-report-indices/job-report-indices.component'
 import { SyncDomainApiJobComponent } from './sync-domain-api-job/sync-domain-api-job.component'
 import { SystemJobsComponent } from './system-jobs/system-jobs.component'
@@ -15,6 +16,7 @@ const COMPONENT = [
   SystemJobsComponent,
   ClearReportDataIndicesJobComponent,
   SyncDomainApiJobComponent,
+  GitlabSyncComponent,
 ]
 
 const COMPONENT_NOROUNT = []
