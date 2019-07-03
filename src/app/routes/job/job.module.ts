@@ -9,6 +9,7 @@ import { ScenarioModule } from '../scenario/scenario.module'
 import { CaseSelectorComponent } from './case-selector/case-selector.component'
 import { JobModelComponent } from './job-model/job-model.component'
 import { JobRoutingModule } from './job-routing.module'
+import { JobRuntimeComponent } from './job-runtime/job-runtime.component'
 import { JobSubscribersComponent } from './job-subscribers/job-subscribers.component'
 import { JobTriggerComponent } from './job-trigger/job-trigger.component'
 import { ScenarioSelectorComponent } from './scenario-selector/scenario-selector.component'
@@ -19,9 +20,10 @@ const COMPONENT = [
   JobTriggerComponent,
   ScenarioSelectorComponent,
   JobSubscribersComponent,
+  JobRuntimeComponent,
 ]
 
-const COMPONENT_NOROUNT = []
+const COMPONENT_NOROUNT = [JobRuntimeComponent]
 
 @NgModule({
   imports: [

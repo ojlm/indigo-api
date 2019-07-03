@@ -6,7 +6,14 @@ import { I18NService } from '@core/i18n/i18n.service'
 import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { ConfigService } from 'app/api/service/config.service'
 import { FavoriteService } from 'app/api/service/favorite.service'
-import { NzDropdownContextComponent, NzDropdownService, NzMenuItemDirective, NzMessageService } from 'ng-zorro-antd'
+import { calcDrawerWidth } from 'app/util/drawer'
+import {
+  NzDrawerService,
+  NzDropdownContextComponent,
+  NzDropdownService,
+  NzMenuItemDirective,
+  NzMessageService,
+} from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { JobService, NewJob } from '../../../api/service/job.service'
@@ -24,6 +31,7 @@ import {
 } from '../../../model/es.model'
 import { JobDataExt, JobMeta, TriggerMeta } from '../../../model/job.model'
 import { PageSingleModel } from '../../../model/page.model'
+import { JobRuntimeComponent } from '../job-runtime/job-runtime.component'
 
 @Component({
   selector: 'app-job-model',
@@ -61,6 +69,9 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   transforms: TransformFunction[] = []
   toptopChecked = false
   toptopId = ''
+  runTimes = 1
+  runtimeInit = {}
+  runtimeContextSubject = new Subject<{}>()
   private dropdown: NzDropdownContextComponent
   constructor(
     private configService: ConfigService,
@@ -68,6 +79,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
     private favoriteService: FavoriteService,
     private msgService: NzMessageService,
     private nzDropdownService: NzDropdownService,
+    private drawerService: NzDrawerService,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
@@ -77,6 +89,11 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   }
 
   test() {
+    const times = parseInt(this.runTimes.toString(), 10)
+    if (times > 10) {
+      this.msgService.error('Times can not be bigger than 10')
+      return
+    }
     this.consoleDrawerVisible = true
     if (this.testWs) {
       this.testWs.close()
@@ -85,14 +102,23 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
     this.testWs = this.jobService.newTestWs(this.group, this.project, this.jobId)
     this.testWs.onopen = (event) => {
       const testMessage = this.validateAndBuildNewJob(true)
-      this.testWs.send(JSON.stringify({ ...testMessage, jobId: this.jobId }))
+      this.testWs.send(JSON.stringify({ ...testMessage, jobId: this.jobId, debug: { times: times } }))
+      this.openRuntimeDrawer()
     }
     this.testWs.onmessage = (event) => {
       if (event.data) {
         try {
           const res = JSON.parse(event.data) as ActorEvent<JobExecDesc>
           if (ActorEventType.ITEM === res.type) {
+            if (res.data && res.data['result'] && res.data['result']['context']) {
+              this.runtimeInit = res.data['result']['context']
+              this.runtimeContextSubject.next(this.runtimeInit)
+            }
           } else if (ActorEventType.OVER === res.type) {
+            if (res.data && res.data['context']) {
+              this.runtimeInit = res.data['context']
+              this.runtimeContextSubject.next(this.runtimeInit)
+            }
           } else {
             this.logSubject.next(res)
           }
@@ -102,6 +128,21 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
         }
       }
     }
+  }
+
+  openRuntimeDrawer() {
+    this.drawerService.create({
+      nzWidth: calcDrawerWidth(0.4),
+      nzContent: JobRuntimeComponent,
+      nzContentParams: {
+        init: this.runtimeInit,
+        subject: this.runtimeContextSubject,
+      },
+      nzBodyStyle: {
+        padding: '0px'
+      },
+      nzClosable: false,
+    })
   }
 
   submit() {

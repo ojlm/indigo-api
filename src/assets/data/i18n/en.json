@@ -383,6 +383,7 @@
   "item-milli": "Milliseconds",
   "item-second": "Seconds",
   "item-minute": "Minutes",
+  "item-run-times": "Times",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",

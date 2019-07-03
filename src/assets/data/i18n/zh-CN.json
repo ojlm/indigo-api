@@ -383,6 +383,7 @@
   "item-milli": "毫秒",
   "item-second": "秒",
   "item-minute": "分钟",
+  "item-run-times": "执行次数",
   "error-empty-summary": "名称不能为空",
   "error-empty-group": "项目组不能为空",
   "error-empty-project": "项目不能为空",

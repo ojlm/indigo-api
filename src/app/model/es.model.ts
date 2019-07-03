@@ -386,6 +386,10 @@ export interface ContextOptions {
   initCtx?: Object
 }
 
+export interface DebugOptions {
+  times?: number
+}
+
 export interface DeleteResData {
   case?: DataBody<Case[]>
   scenario?: DataBody<Scenario[]>

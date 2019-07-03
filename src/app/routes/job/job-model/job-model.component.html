@@ -73,7 +73,15 @@
       </nz-tab>
     </nz-tabset>
   </nz-card>
-  <div style="margin-top:7px;">
+  <div style="margin-top:8px;margin-bottom:24px;padding-right:16px;float:right;">
+    <button style="margin-right:8px;color:purple;" nz-button [nzSize]="'default'" nzType="dashed"
+      (click)="openRuntimeDrawer()">
+      <i nz-icon nzType="scan" nzTheme="outline"></i>
+      <span>{{'btn-show-runtime-context'|translate}}</span>
+    </button>
+    <nz-input-group style="width:180px;margin-right:8px;" [nzAddOnBefore]="'item-run-times'|translate">
+      <input type="number" nz-input [(ngModel)]="runTimes" />
+    </nz-input-group>
     <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="test()">
       <span>
         <i nz-icon type="scan" theme="outline"></i>
