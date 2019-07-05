@@ -130,8 +130,8 @@ export class AssertionAutoCompleteComponent implements OnInit, AfterViewInit {
       (<HTMLElement>this.pathInput.nativeElement).focus({ preventScroll: true })
     }
     this.assertionItem.path = option
-    this.modelChange()
     this.currentLevelOptions(option)
+    this.modelChange()
   }
 
   onFocus() {
