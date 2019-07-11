@@ -18,9 +18,8 @@ export class ExportAutoCompleteComponent implements OnInit, AfterViewInit {
     entity: {}
   }
   preStyles = {
-    'max-height': '200px',
     'overflow-y': 'auto',
-    'width': '200px'
+    'margin': '0px'
   }
   options: string[] = []
   optionIndex = 0

@@ -188,12 +188,12 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
               icon: { type: 'icon', value: 'environment', theme: 'outline' },
               children: [
                 {
-                  text: '环境列表',
+                  text: '配置列表',
                   i18n: 'menu-env-list',
                   link: `/env/${group}/${project}`,
                 },
                 {
-                  text: '新建环境',
+                  text: '新建配置',
                   i18n: 'menu-new-env',
                   link: `/envs/${group}/${project}/new`,
                 },
