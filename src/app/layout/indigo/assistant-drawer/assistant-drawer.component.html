@@ -1,0 +1,19 @@
+<nz-drawer [(nzVisible)]="collapse" [nzWidth]="360" (nzOnClose)="toggle()">
+  <h3>{{'title-assistant'|translate}} 🦉</h3>
+  <a (click)="showDoc()">{{'tips-docs'|translate}}</a>
+  <nz-divider style="margin:8px 0px;"></nz-divider>
+  <nz-list [nzDataSource]="assistantItems" nzBordered nzSize="small" [nzRenderItem]="item">
+    <ng-template #item let-item>
+      <nz-list-item [nzContent]="nzContent">
+        <ng-template #nzContent>
+          <a (click)="open(item)">{{item.title}}</a>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+  <nz-divider style="margin:8px 0px;"></nz-divider>
+</nz-drawer>
+<div class="assistant-handle" [ngClass]="{'assistant-handle-opened': collapse}" (click)="toggle()"
+  [title]="'title-assistant'|translate">
+  <i class="assistant-handle-icon click-icon" nz-icon [type]="!collapse ? 'robot' : 'close'" nzTheme="outline"></i>
+</div>

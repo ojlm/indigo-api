@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
 
 import { LayoutFullScreenComponent } from './fullscreen/fullscreen.component'
+import { AssistantDrawerComponent } from './indigo/assistant-drawer/assistant-drawer.component'
 import { HeaderFullScreenComponent } from './indigo/header/components/fullscreen.component'
 import { HeaderI18nComponent } from './indigo/header/components/i18n.component'
 import { HeaderNewComponent } from './indigo/header/components/new.component'
@@ -16,7 +17,11 @@ import { SettingDrawerItemComponent } from './indigo/setting-drawer/setting-draw
 import { SettingDrawerComponent } from './indigo/setting-drawer/setting-drawer.component'
 import { LayoutPassportComponent } from './passport/passport.component'
 
-const SETTINGDRAWER = [SettingDrawerComponent, SettingDrawerItemComponent]
+const SETTINGDRAWER = [
+  SettingDrawerComponent,
+  SettingDrawerItemComponent,
+  AssistantDrawerComponent,
+]
 
 const COMPONENTS = [
   HeaderComponent,

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { Router } from '@angular/router'
+import { AssistantService } from '@core/config/assistant.service'
 import { SettingsService } from '@delon/theme'
 
 @Component({
@@ -12,6 +13,7 @@ export class HeaderComponent {
 
   constructor(
     public settings: SettingsService,
+    private assistantService: AssistantService,
     private router: Router,
   ) { }
 
@@ -28,6 +30,6 @@ export class HeaderComponent {
   }
 
   goHelp() {
-    window.open('https://docs.asura.pro')
+    window.open(this.assistantService.docUrl)
   }
 }

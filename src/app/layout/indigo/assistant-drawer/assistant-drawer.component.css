@@ -1,0 +1,51 @@
+.assistant-handle {
+  position: fixed;
+  top: 180px;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 48px;
+  font-size: 16px;
+  text-align: center;
+  background: #001529;
+  border-radius: 4px 0 0 4px;
+  cursor: pointer;
+  transition: right 0.3s cubic-bezier(0.9, 0, 0.3, 0.7);
+  pointer-events: auto;
+}
+
+.assistant-handle-opened {
+  right: 360px;
+  z-index: 1001;
+}
+
+.assistant-handle-icon {
+  color: lightcoral;
+  font-size: 18px;
+}
+
+.handle-animation {
+  animation-name: handleAnimation;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes handleAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  30%,
+  80% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
