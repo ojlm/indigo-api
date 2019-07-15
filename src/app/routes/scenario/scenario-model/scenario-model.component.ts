@@ -40,7 +40,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   }
   @Input() group: string
   @Input() project: string
-  scenario: Scenario = { steps: [], imports: [], exports: [] }
+  scenario: Scenario = { steps: [], imports: [], exports: [], failFast: true }
   scenarioId: string
   scenarioResponse: ScenarioResponse = {}
   submitting = false

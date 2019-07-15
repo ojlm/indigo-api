@@ -386,6 +386,7 @@
   "item-second": "Seconds",
   "item-minute": "Minutes",
   "item-run-times": "Times",
+  "item-fail-fast": "Failfast",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",

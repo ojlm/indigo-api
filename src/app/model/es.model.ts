@@ -104,6 +104,7 @@ export interface Scenario extends BaseDoc {
   group?: string
   project?: string
   env?: string
+  failFast?: boolean
   steps?: ScenarioStep[]
   labels?: LabelRef[]
   imports?: VariablesImportItem[]
