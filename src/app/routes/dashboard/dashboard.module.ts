@@ -4,6 +4,7 @@ import { SharedModule } from '@shared/shared.module'
 import { NgxChartsModule } from '@swimlane/ngx-charts'
 
 import { ApiMetricsTrendComponent } from './api-metrics-trend/api-metrics-trend.component'
+import { CountComponent } from './count/count.component'
 import { DashboardRoutingModule } from './dashboard-routing.module'
 import { DomainApiItemComponent } from './domain-api-item/domain-api-item.component'
 import { DomainApiOnlineComponent } from './domain-api-online/domain-api-online.component'
@@ -26,6 +27,7 @@ const COMPONENT = [
   DomainApiItemComponent,
   ApiMetricsTrendComponent,
   RequestsFundComponent,
+  CountComponent,
 ]
 
 const COMPONENT_NOROUNT = [
