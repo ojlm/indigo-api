@@ -14,12 +14,12 @@ export class CountComponent implements OnInit {
       '#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963', '#8796c0', '#7ed3ed', '#50abcc', '#ad6886'
     ]
   }
-  chartHeight = `${Math.floor(window.innerHeight - 48)}px`
   results: NameValue[] = []
+  view = [window.innerWidth, window.innerHeight - 48]
 
   @HostListener('window:resize')
   resize() {
-    this.chartHeight = `${Math.floor(window.innerHeight - 48)}px`
+    this.view = [window.innerWidth, window.innerHeight - 48]
   }
   constructor(
     private countService: CountService,
