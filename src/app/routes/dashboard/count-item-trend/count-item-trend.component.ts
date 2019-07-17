@@ -5,7 +5,7 @@ import { AggsItem } from 'app/api/service/base.service'
 import { AllHistogramResponse } from 'app/api/service/count.service'
 import { NameValue } from 'app/model/common.model'
 
-import { CountI1nKeyMap } from '../dashboard.config'
+import { CountI18nKeyMap } from '../dashboard.config'
 
 @Component({
   selector: 'app-count-item-trend',
@@ -47,7 +47,7 @@ export class CountItemTrendComponent implements OnInit {
 
   getName() {
     if (this.item && this.item.extra) {
-      return this.i18nService.fanyi(CountI1nKeyMap[this.item.extra])
+      return this.i18nService.fanyi(CountI18nKeyMap[this.item.extra])
     } else {
       return ''
     }

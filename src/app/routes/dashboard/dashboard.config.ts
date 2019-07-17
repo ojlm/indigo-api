@@ -1,4 +1,4 @@
-export const CountI1nKeyMap = {
+export const CountI18nKeyMap = {
   http: 'count-http',
   dubbo: 'count-dubbo',
   sql: 'count-sql',
