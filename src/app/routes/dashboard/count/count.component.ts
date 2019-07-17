@@ -53,7 +53,7 @@ export class CountComponent implements OnInit {
       const count = res.data.count
       const tmp: NameValue[] = []
       if (count) {
-        for (let k of Object.keys(count)) {
+        for (let k of Object.keys(CountI1nKeyMap)) {
           tmp.push({ name: this.i18nService.fanyi(CountI1nKeyMap[k]), value: count[k], extra: k })
         }
       }
