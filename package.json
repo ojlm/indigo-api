@@ -48,7 +48,7 @@
     "@delon/util": "^7.0.0",
     "@ngx-translate/core": "^10.0.1",
     "@ngx-translate/http-loader": "^3.0.1",
-    "@swimlane/ngx-charts": "^10.1.0",
+    "@swimlane/ngx-charts": "^12.0.1",
     "ajv": "^6.6.2",
     "angular-sortablejs": "^2.6.0",
     "core-js": "^2.5.4",
