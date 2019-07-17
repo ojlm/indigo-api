@@ -1,3 +1,4 @@
 <div style="overflow:hidden;">
-  <ngx-charts-number-card [view]="view" [scheme]="coolColorScheme" [results]="results"></ngx-charts-number-card>
+  <ngx-charts-number-card [view]="view" [scheme]="coolColorScheme" [results]="results" (select)="onSelect($event)">
+  </ngx-charts-number-card>
 </div>

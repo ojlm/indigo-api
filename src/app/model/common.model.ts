@@ -13,5 +13,6 @@ export interface SelectResponse {
 export interface NameValue {
   name?: string
   value?: any
+  extra?: any
   series?: NameValue[]
 }

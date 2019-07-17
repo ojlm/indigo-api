@@ -3,7 +3,7 @@ import { _HttpClient } from '@delon/theme'
 
 import { ApiRes } from '../../model/api.model'
 import { COUNT_API } from '../path'
-import { BaseService } from './base.service'
+import { AggsItem, BaseService } from './base.service'
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,13 @@ export class CountService extends BaseService {
   constructor(private http: _HttpClient) { super() }
 
   all() {
-    return this.http.get<ApiRes<AllCountResponse>>(`${COUNT_API}/all`)
+    return this.http.get<ApiRes<AllResponse>>(`${COUNT_API}/all`)
   }
+}
+
+export interface AllResponse {
+  count: AllCountResponse
+  histogram: AllHistogramResponse
 }
 
 export interface AllCountResponse {
@@ -30,4 +35,19 @@ export interface AllCountResponse {
   'webJob': number
   'ciJob': number
   'quartzJob': number
+}
+
+export interface AllHistogramResponse {
+  'http': AggsItem[]
+  'dubbo': AggsItem[]
+  'sql': AggsItem[]
+  'scenario': AggsItem[]
+  'job': AggsItem[]
+  'webHttp': AggsItem[]
+  'webDubbo': AggsItem[]
+  'webSql': AggsItem[]
+  'webScenario': AggsItem[]
+  'webJob': AggsItem[]
+  'ciJob': AggsItem[]
+  'quartzJob': AggsItem[]
 }
