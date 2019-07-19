@@ -183,6 +183,23 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
               ]
             },
             {
+              text: 'CI / CD',
+              i18n: 'menu-ci-cd',
+              icon: { type: 'icon', value: 'thunderbolt', theme: 'outline' },
+              children: [
+                {
+                  text: 'CICD列表',
+                  i18n: 'menu-list',
+                  link: `/ci/${group}/${project}`,
+                },
+                {
+                  text: '新建',
+                  i18n: 'menu-new',
+                  link: `/cis/${group}/${project}/new`,
+                },
+              ]
+            },
+            {
               text: '环境管理',
               i18n: 'menu-envs',
               icon: { type: 'icon', value: 'environment', theme: 'outline' },

@@ -27,6 +27,7 @@ import { UserRegisterComponent } from './passport/register/register.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
+import { ProjectCiCdListComponent } from './project/project-cicd-list/project-cicd-list.component'
 import { ProjectDubboListComponent } from './project/project-dubbo-list/project-dubbo-list.component'
 import { ProjectEnvsComponent } from './project/project-envs/project-envs.component'
 import { ProjectJobsComponent } from './project/project-jobs/project-jobs.component'
@@ -60,6 +61,7 @@ const COMPONENTS = [
   ProjectScenariosComponent,
   ProjectDubboListComponent,
   ProjectSqlListComponent,
+  ProjectCiCdListComponent,
   FeedListComponent,
   FeedItemTitleComponent,
   FeedUserComponent,
