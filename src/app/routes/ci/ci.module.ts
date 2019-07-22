@@ -4,6 +4,7 @@ import { SharedModule } from '@shared/shared.module'
 import { SortablejsModule } from 'angular-sortablejs'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { ScenarioModule } from '../scenario/scenario.module'
 import { CiEventComponent } from './ci-event/ci-event.component'
 import { CiRoutingModule } from './ci-routing.module'
 
@@ -20,6 +21,7 @@ const COMPONENT_NOROUNT = []
     SortablejsModule,
     SharedModule,
     CiRoutingModule,
+    ScenarioModule,
   ],
   exports: [...COMPONENT],
   providers: [],

@@ -594,6 +594,26 @@ export interface JobTestMessage {
   controller?: ControllerOptions
 }
 
+export interface ReadinessCheck {
+  enabled?: boolean
+  targetType?: string
+  targetId?: string
+  delay?: number
+  interval?: number
+  timeout?: number
+  retries?: number
+}
+
+export interface CiTrigger extends BaseDoc {
+  group?: string
+  project?: string
+  targetType?: string
+  targetId?: string
+  env?: string
+  service?: string
+  readiness?: ReadinessCheck
+}
+
 export const FavoriteType = {
   TYPE_TOP_TOP: 'toptop',
   TYPE_WATCH: 'watch',

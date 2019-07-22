@@ -1,3 +1,89 @@
-<div>
-  CI EVENT
+<div style="padding:8px;margin-bottom:12px;" class="alain-default__content-title">
+  <h1 style="padding-left:10px;">CI / CD</h1>
+  <span>
+    <span [style.color]="isSaved?'black':'lightseagreen'">{{request.summary}}</span>
+    <span *ngIf="request._id">
+      <a style="color:lightgray;padding-left:4px;font-size:smaller;"
+        [routerLink]="['/ci', group, project, request._id]">({{request._id}})</a>
+    </span>
+  </span>
 </div>
+<nz-card [nzBordered]="true">
+  <div style="display:flex;">
+    <nz-input-group style="width:100%;" [nzSize]="'default'" [nzAddOnBefore]="'field-summary'|translate">
+      <input nz-input style="width:100%;" [placeholder]="'field-summary'|translate" [(ngModel)]="request.summary"
+        (ngModelChange)="modelChange()">
+    </nz-input-group>
+    <div style="display:flex;padding-left:10px;">
+      <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="save()">
+        <span>
+          <i nz-icon type="save" theme="outline"></i>
+          <span>{{'btn-save'|translate}}</span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <nz-divider style="margin:16px 0 8px 0;" [nzOrientation]="'left'" [nzText]="readiness">
+    <ng-template #readiness>
+      <label nz-checkbox [(ngModel)]="request.readiness.enabled">{{'tips-readiness'|translate}}</label>
+    </ng-template>
+  </nz-divider>
+  <div *ngIf="request.readiness.enabled">
+    <div nz-row nzGutter="2">
+      <div nz-col nzSpan="6">
+        <nz-input-group style="width:100%;" [nzAddOnBefore]="'tips-delay-seconds'|translate">
+          <input nz-input style="width:100%;" type="number" [placeholder]="'tips-delay-seconds'|translate"
+            [(ngModel)]="request.readiness.delay" (ngModelChange)="modelChange()">
+        </nz-input-group>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-input-group style="width:100%;" [nzAddOnBefore]="'tips-interval-seconds'|translate">
+          <input nz-input style="width:100%;" type="number" [placeholder]="'tips-interval-seconds'|translate"
+            [(ngModel)]="request.readiness.interval" (ngModelChange)="modelChange()">
+        </nz-input-group>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-input-group style="width:100%;" [nzAddOnBefore]="'tips-timeout-seconds'|translate">
+          <input nz-input style="width:100%;" type="number" [placeholder]="'tips-timeout-seconds'|translate"
+            [(ngModel)]="request.readiness.timeout" (ngModelChange)="modelChange()">
+        </nz-input-group>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-input-group style="width:100%;" [nzAddOnBefore]="'tips-check-times'|translate">
+          <input nz-input style="width:100%;" type="number" [placeholder]="'tips-check-times'|translate"
+            [(ngModel)]="request.readiness.retries" (ngModelChange)="modelChange()">
+        </nz-input-group>
+      </div>
+    </div>
+    <div style="margin-top:4px;">
+      <button nz-button [nzType]="'primary'" [nzSize]="'small'" (click)="select()">
+        <span>
+          <i nz-icon type="select" theme="outline"></i>
+          <span>{{'btn-select'|translate}}</span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <nz-divider style="margin:16px 0 8px 0;" [nzOrientation]="'left'" [nzText]="job">
+    <ng-template #job>{{'tips-trigger-job'|translate}}</ng-template>
+  </nz-divider>
+  <div nz-row nzGutter="2">
+    <div nz-col nzSpan="12">
+      <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-env'|translate">
+        <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
+          [nzPlaceHolder]="'field-env'|translate" nzAllowClear nzShowSearch [(ngModel)]="request.env"
+          (ngModelChange)="modelChange()">
+          <nz-option [nzLabel]="'dev'" [nzValue]="'dev'" nzCustomContent>
+            <span>dev</span>
+          </nz-option>
+        </nz-select>
+      </nz-input-group>
+    </div>
+    <div nz-col nzSpan="12">
+      <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-service'|translate">
+        <input nz-input style="width:100%;" [placeholder]="'field-service'|translate" [(ngModel)]="request.service"
+          (ngModelChange)="modelChange()">
+      </nz-input-group>
+    </div>
+  </div>
+</nz-card>
