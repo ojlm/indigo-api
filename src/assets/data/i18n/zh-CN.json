@@ -295,6 +295,8 @@
   "btn-delay-step": "延迟步骤",
   "btn-jump-step": "跳转步骤",
   "btn-select": "选择",
+  "btn-select-request": "选择请求",
+  "btn-select-job": "选择任务",
   "item-path-variable": "路径变量",
   "item-params": "Params",
   "item-headers": "Headers",

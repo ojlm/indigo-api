@@ -1,0 +1,36 @@
+<nz-tabset [nzAnimated]="false" [(nzSelectedIndex)]="tabIndex">
+  <nz-tab [nzTitle]="jobTemplate">
+    <ng-template #jobTemplate> <i nz-icon type="calendar"></i>Job</ng-template>
+    <div class="search-group-project">
+      <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
+      </app-group-project-selector>
+    </div>
+    <nz-list [nzDataSource]="jobItems" nzBordered nzSize="small" [nzFooter]="jobFooter" [nzRenderItem]="jobItem">
+      <ng-template #jobItem let-jobItem>
+        <nz-list-item [nzContent]="jobContent" [nzActions]="[jobActions]"></nz-list-item>
+        <ng-template #jobContent>
+          <div>
+            <span>{{jobItem.summary}}</span>
+            <span style="font-size:small;color:lightgray;margin-left:8px;">{{jobItem.description}}</span>
+          </div>
+        </ng-template>
+        <ng-template #jobActions>
+          <a (click)="select(jobItem)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
+        </ng-template>
+      </ng-template>
+    </nz-list>
+    <ng-template #jobFooter>
+      <nz-pagination *ngIf="jobItems.length>0" [nzSize]="'small'" [(nzPageIndex)]="jobItemsPage.pageIndex"
+        [nzShowTotal]="jobTotalTemplate" [nzTotal]="jobItemsPage.pageTotal" [nzPageSize]="jobItemsPage.pageSize"
+        (nzPageIndexChange)="searchjobSteps()">
+      </nz-pagination>
+      <ng-template #jobTotalTemplate let-jobTotal>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{jobTotal}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+    </ng-template>
+  </nz-tab>
+</nz-tabset>

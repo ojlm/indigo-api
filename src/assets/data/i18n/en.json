@@ -295,6 +295,8 @@
   "btn-delay-step": "Delay",
   "btn-jump-step": "Jump",
   "btn-select": "Select",
+  "btn-select-request": "Select Request",
+  "btn-select-job": "Select Job",
   "item-path-variable": "Path Variable",
   "item-params": "Params",
   "item-headers": "Headers",

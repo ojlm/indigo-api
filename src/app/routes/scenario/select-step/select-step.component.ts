@@ -311,6 +311,6 @@ export class SelectStepComponent implements OnInit {
 export type ScenarioStepData = Case | SqlRequest | DubboRequest
 
 export interface StepEvent {
-  step: ScenarioStep
+  step?: ScenarioStep
   stepData?: ScenarioStepData
 }

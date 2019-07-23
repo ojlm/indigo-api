@@ -13,6 +13,7 @@ import {
   DeleteResData,
   DubboRequest,
   IndexDocResponse,
+  Job,
   ReportItemEvent,
   Scenario,
   ScenarioStep,
@@ -102,6 +103,7 @@ export const ScenarioStepType = {
   SQL: 'sql',
   DUBBO: 'dubbo',
   SCENARIO: 'scenario',
+  JOB: 'job',
   DELAY: 'delay',
   JUMP: 'jump',
 }
@@ -128,6 +130,15 @@ export function dubboRequestToScenarioStep(doc: DubboRequest): ScenarioStep {
   return {
     id: doc._id,
     type: ScenarioStepType.DUBBO,
+    stored: false,
+    enabled: true,
+  }
+}
+
+export function jobToScenarioStep(doc: Job): ScenarioStep {
+  return {
+    id: doc._id,
+    type: ScenarioStepType.JOB,
     stored: false,
     enabled: true,
   }
