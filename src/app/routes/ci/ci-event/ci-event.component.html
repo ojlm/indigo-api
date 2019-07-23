@@ -55,11 +55,12 @@
         </nz-input-group>
       </div>
     </div>
-    <div style="margin-top:4px;">
+    <div style="margin-top:4px;padding-right:16px;float:right;">
+      <span style="margin-right:8px;color:blue;">{{readinessTargetTips()}}</span>
       <button nz-button [nzType]="'primary'" [nzSize]="'small'" (click)="select()">
         <span>
           <i nz-icon type="select" theme="outline"></i>
-          <span>{{'btn-select'|translate}}</span>
+          <span>{{'btn-select-request'|translate}}</span>
         </span>
       </button>
     </div>
@@ -67,23 +68,34 @@
   <nz-divider style="margin:16px 0 8px 0;" [nzOrientation]="'left'" [nzText]="job">
     <ng-template #job>{{'tips-trigger-job'|translate}}</ng-template>
   </nz-divider>
-  <div nz-row nzGutter="2">
-    <div nz-col nzSpan="12">
-      <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-env'|translate">
-        <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
-          [nzPlaceHolder]="'field-env'|translate" nzAllowClear nzShowSearch [(ngModel)]="request.env"
-          (ngModelChange)="modelChange()">
-          <nz-option [nzLabel]="'dev'" [nzValue]="'dev'" nzCustomContent>
-            <span>dev</span>
-          </nz-option>
-        </nz-select>
-      </nz-input-group>
+  <div>
+    <div nz-row nzGutter="2">
+      <div nz-col nzSpan="12">
+        <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-env'|translate">
+          <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
+            [nzPlaceHolder]="'field-env'|translate" nzAllowClear nzShowSearch [(ngModel)]="request.env"
+            (ngModelChange)="modelChange()">
+            <nz-option [nzLabel]="'dev'" [nzValue]="'dev'" nzCustomContent>
+              <span>dev</span>
+            </nz-option>
+          </nz-select>
+        </nz-input-group>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-service'|translate">
+          <input nz-input style="width:100%;" [placeholder]="'field-service'|translate" [(ngModel)]="request.service"
+            (ngModelChange)="modelChange()">
+        </nz-input-group>
+      </div>
     </div>
-    <div nz-col nzSpan="12">
-      <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-service'|translate">
-        <input nz-input style="width:100%;" [placeholder]="'field-service'|translate" [(ngModel)]="request.service"
-          (ngModelChange)="modelChange()">
-      </nz-input-group>
+    <div style="margin-top:4px;padding-right:16px;float:right;">
+      <span style="margin-right:8px;color:blue;">{{jobTips()}}</span>
+      <button nz-button [nzType]="'primary'" [nzSize]="'small'" (click)="selectJob()">
+        <span>
+          <i nz-icon type="select" theme="outline"></i>
+          <span>{{'btn-select-job'|translate}}</span>
+        </span>
+      </button>
     </div>
   </div>
 </nz-card>
