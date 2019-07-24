@@ -70,7 +70,13 @@
   </nz-divider>
   <div>
     <div nz-row nzGutter="2">
-      <div nz-col nzSpan="12">
+      <div nz-col nzSpan="6">
+        <nz-input-group style="width:100%;" [nzAddOnBefore]="'tips-debounce-time'|translate">
+          <input nz-input style="width:100%;" type="number" [placeholder]="'tips-debounce-time'|translate"
+            [(ngModel)]="request.debounce" (ngModelChange)="modelChange()">
+        </nz-input-group>
+      </div>
+      <div nz-col nzSpan="6">
         <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-env'|translate">
           <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
             [nzPlaceHolder]="'field-env'|translate" nzAllowClear nzShowSearch [(ngModel)]="request.env"

@@ -607,6 +607,7 @@ export interface ReadinessCheck {
 export interface CiTrigger extends BaseDoc {
   group?: string
   project?: string
+  debounce?: number
   targetType?: string
   targetId?: string
   env?: string

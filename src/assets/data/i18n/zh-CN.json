@@ -249,6 +249,7 @@
   "tips-interval-seconds": "频率(秒)",
   "tips-timeout-seconds": "超时(秒)",
   "tips-check-times": "检查次数",
+  "tips-debounce-time": "去抖动(毫秒)",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",

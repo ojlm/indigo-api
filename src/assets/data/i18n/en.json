@@ -249,6 +249,7 @@
   "tips-interval-seconds": "Interval(s)",
   "tips-timeout-seconds": "Timeout(s)",
   "tips-check-times": "Check times",
+  "tips-debounce-time": "Debounce time(ms)",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",

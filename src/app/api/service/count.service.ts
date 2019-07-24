@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
 
 import { ApiRes } from '../../model/api.model'
-import { COUNT_API } from '../path'
+import { API_COUNT } from '../path'
 import { AggsItem, BaseService } from './base.service'
 
 @Injectable({
@@ -13,7 +13,7 @@ export class CountService extends BaseService {
   constructor(private http: _HttpClient) { super() }
 
   all() {
-    return this.http.get<ApiRes<AllResponse>>(`${COUNT_API}/all`)
+    return this.http.get<ApiRes<AllResponse>>(`${API_COUNT}/all`)
   }
 }
 

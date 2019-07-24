@@ -3,4 +3,46 @@
     <h1 style="padding-left: 10px;">{{'title-cicd-list'|translate}}</h1>
     <app-project-breadcrumb></app-project-breadcrumb>
   </div>
+  <nz-card [nzBordered]="false">
+    <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
+      [nzLoading]="loading">
+      <ng-template #item let-item>
+        <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+          <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
+            <ng-template #nzTitle>
+              <a [routerLink]="[getRouter(item)]">{{item.summary}}</a>
+            </ng-template>
+          </nz-list-item-meta>
+          <ng-template #nzDescription>
+            <div style="font-size:small;">
+              <span>{{getSignature(item)}}</span>
+              <nz-divider nzType="vertical"></nz-divider>
+              <span>{{item.createdAt}}</span>
+            </div>
+          </ng-template>
+          <ng-template #edit>
+            <button nz-button nzSize="small" nzType="default" (click)="editItem(item)">
+              <i nz-icon type="setting" theme="outline"></i>
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzSize="small" nzType="default" (click)="deleteItem(item)">
+              <i nz-icon type="delete" theme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+      <ng-template #pagination>
+        <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzPageSize]="pageSize"
+          (nzPageIndexChange)="pageChange()" [nzShowTotal]="totalTemplate">
+          <ng-template #totalTemplate let-total>
+            <span style="color:lightgray;">
+              <span>{{'item-total'|translate}}</span>
+              <span> {{total}} </span>
+              <span>{{'item-item'|translate}}</span>
+            </span>
+          </ng-template>
+        </nz-pagination>
+      </ng-template>
+    </nz-list>
+  </nz-card>
 </div>

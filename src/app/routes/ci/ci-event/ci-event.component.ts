@@ -1,14 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { I18NService } from '@core'
+import { I18nKey } from '@core/i18n/i18n.message'
 import { httpRequestSignature } from 'app/api/service/case.service'
 import { dubboRequestSignature } from 'app/api/service/dubbo.service'
-import { ScenarioStepType } from 'app/api/service/scenario.service'
+import {
+  caseToScenarioStep,
+  dubboRequestToScenarioStep,
+  ScenarioStepType,
+  sqlRequestToScenarioStep,
+} from 'app/api/service/scenario.service'
 import { sqlRequestSignature } from 'app/api/service/sql.service'
+import { TriggerResponse, TriggerService } from 'app/api/service/trigger.service'
 import { Case, CiTrigger, DubboRequest, Job, SqlRequest } from 'app/model/es.model'
 import { SelectJobComponent } from 'app/routes/scenario/select-job/select-job.component'
 import { SelectStepComponent, StepEvent } from 'app/routes/scenario/select-step/select-step.component'
 import { calcDrawerWidth } from 'app/util/drawer'
-import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd'
+import { NzDrawerRef, NzDrawerService, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 @Component({
@@ -29,6 +37,7 @@ export class CiEventComponent implements OnInit {
   isSending = false
   isSaved = true
   request: CiTrigger = {
+    debounce: 1000,
     readiness: {
       enabled: false,
       delay: 30,
@@ -39,7 +48,10 @@ export class CiEventComponent implements OnInit {
   }
 
   constructor(
+    private triggerService: TriggerService,
     private drawerService: NzDrawerService,
+    private msgService: NzMessageService,
+    private i18nService: I18NService,
     private route: ActivatedRoute,
   ) {
     this.readinessSubject.subscribe(event => {
@@ -88,7 +100,16 @@ export class CiEventComponent implements OnInit {
   }
 
   save() {
-    console.log(this.request)
+    if (this.request._id) {
+      this.triggerService.update(this.request._id, this.request).subscribe(res => {
+        this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+      })
+    } else {
+      this.triggerService.index(this.request).subscribe(res => {
+        this.request._id = res.data.id
+        this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+      })
+    }
   }
 
   selectJob() {
@@ -129,16 +150,42 @@ export class CiEventComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.route.parent && this.route.parent.parent) {
-      // if it was created from NzDrawerService, this.route.parent will be null
       this.route.parent.parent.params.subscribe(params => {
         this.group = params['group']
         this.project = params['project']
+        this.request.group = this.group
+        this.request.project = this.project
       })
       this.route.parent.params.subscribe(params => {
         const docId = params['ciId']
         if (docId) {
+          this.triggerService.getById(docId).subscribe(res => {
+            this.request = res.data.trigger
+            this.request._id = docId
+            this.job = res.data.target || {}
+            this.readinessTarget = this.toReadiness(res.data)
+          })
         }
       })
+    }
+  }
+
+  private toReadiness(res: TriggerResponse) {
+    const readiness = res.trigger.readiness
+    const data = res.readiness
+    if (readiness && readiness.targetId) {
+      switch (readiness.targetType) {
+        case ScenarioStepType.CASE:
+          return { step: caseToScenarioStep(data as Case), stepData: data }
+        case ScenarioStepType.SQL:
+          return { step: sqlRequestToScenarioStep(data as SqlRequest), stepData: data }
+        case ScenarioStepType.DUBBO:
+          return { step: dubboRequestToScenarioStep(data as DubboRequest), stepData: data }
+        default:
+          return {}
+      }
+    } else {
+      return {}
     }
   }
 }
