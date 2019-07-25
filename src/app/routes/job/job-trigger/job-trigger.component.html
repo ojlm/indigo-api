@@ -64,21 +64,17 @@
           (ngModelChange)="cronInputChange()">
       </nz-input-group>
       <ng-template #suffixIconButton>
-        <button nz-button nzType="primary" (click)="checkCron()"><i nz-icon type="schedule"
-            theme="outline"></i></button>
+        <button nz-button nzType="primary" (click)="checkCron()">
+          <i nz-icon type="schedule" theme="outline"></i>
+        </button>
       </ng-template>
       <nz-alert *ngIf="cronErrorMsg" style="padding-top:5px;" nzType="error" [nzMessage]="cronErrorMsg" nzShowIcon>
       </nz-alert>
       <nz-alert *ngIf="cronDates.length>0" style="padding-top:5px;" nzType="info" [nzMessage]="nzMessage" nzShowIcon>
       </nz-alert>
       <ng-template #nzMessage>
-        <div *ngFor="let item of cronDates">
-          {{item}}
-        </div>
+        <div *ngFor="let item of cronDates">{{item}}</div>
       </ng-template>
-    </nz-tab>
-    <nz-tab [nzTitle]="'title-api'|translate">
-      <nz-alert nzType="info" [nzMessage]="'contact the maintainer'" nzShowIcon></nz-alert>
     </nz-tab>
   </nz-tabset>
 </div>

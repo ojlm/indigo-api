@@ -71,6 +71,21 @@
           [disableScopes]="['_s']">
         </app-variables-import-table>
       </nz-tab>
+      <nz-tab [nzTitle]="'title-api'|translate">
+        <nz-alert nzType="info" [nzDescription]="apiDesc" nzShowIcon>
+          <ng-template #apiDesc>
+            <nz-divider style="margin:0;" [nzText]="apiTxt" nzOrientation="left">
+              <ng-template #apiTxt><span class="dt">api</span></ng-template>
+            </nz-divider>
+            <div><a>{{getSseApi()}}</a></div>
+            <div><a>{{getWsApi()}}</a></div>
+            <nz-divider style="margin:0;" [nzText]="egTxt" nzOrientation="left">
+              <ng-template #egTxt><span class="dt">e.g</span></ng-template>
+            </nz-divider>
+            <div class="code">curl {{getSseApi()}}</div>
+          </ng-template>
+        </nz-alert>
+      </nz-tab>
     </nz-tabset>
   </nz-card>
   <div style="margin-top:8px;margin-bottom:24px;padding-right:16px;float:right;">

@@ -1,0 +1,12 @@
+.code {
+  background-color: whitesmoke;
+  border-radius: 8px;
+  padding: 4px;
+  color: darkorange;
+  font-weight: 500;
+}
+
+.dt {
+  color: lightgray;
+  font-size: small;
+}

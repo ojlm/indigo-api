@@ -36,6 +36,7 @@ import { JobRuntimeComponent } from '../job-runtime/job-runtime.component'
 @Component({
   selector: 'app-job-model',
   templateUrl: './job-model.component.html',
+  styleUrls: ['./job-model.component.css']
 })
 export class JobModelComponent extends PageSingleModel implements OnInit {
 
@@ -276,6 +277,26 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
 
   closeContextMenu(e: NzMenuItemDirective): void {
     this.dropdown.close()
+  }
+
+  getSseApi() {
+    return `${location.protocol}//${this.getApiUrl()}`
+  }
+
+  getWsApi() {
+    if (location.protocol.startsWith('https')) {
+      return `wss://${this.getApiUrl()}`
+    } else {
+      return `ws://${this.getApiUrl()}`
+    }
+  }
+
+  getApiUrl() {
+    if (this.jobId) {
+      return `${location.host}/api/ci/job/${this.jobId}`
+    } else {
+      return 'save first'
+    }
   }
 
   ngOnInit(): void {
