@@ -105,6 +105,12 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
   edit(item: JobNotify) {
     this.drawerVisible = true
     this.editItem = item
+    if (this.supports) {
+      const t = this.supports.find(s => s.type === this.editItem.type)
+      if (t) {
+        this.selected = t
+      }
+    }
   }
 
   delete(item: JobNotify, index: number) {
