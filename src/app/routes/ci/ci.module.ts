@@ -6,10 +6,12 @@ import { MonacoEditorModule } from 'ngx-monaco-editor'
 
 import { ScenarioModule } from '../scenario/scenario.module'
 import { CiEventComponent } from './ci-event/ci-event.component'
+import { CiEventsListListComponent } from './ci-events-list/ci-events-list.component'
 import { CiRoutingModule } from './ci-routing.module'
 
 const COMPONENT = [
   CiEventComponent,
+  CiEventsListListComponent,
 ]
 
 const COMPONENT_NOROUNT = []

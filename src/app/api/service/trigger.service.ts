@@ -13,6 +13,7 @@ import {
   Job,
   Scenario,
   SqlRequest,
+  TriggerEventLog,
 } from '../../model/es.model'
 import { API_TRIGGER } from '../path'
 import { BaseService } from './base.service'
@@ -28,6 +29,10 @@ export class TriggerService extends BaseService {
 
   query(query: QueryTrigger) {
     return this.http.post<ApiRes<CiTrigger[]>>(`${API_TRIGGER}/query`, query)
+  }
+
+  events(query: QueryCiEvents) {
+    return this.http.post<ApiRes<TriggerEventLog[]>>(`${API_TRIGGER}/events`, query)
   }
 
   index(doc: CiTrigger) {
@@ -61,6 +66,14 @@ export interface QueryTrigger extends QueryPage {
   group?: string
   project?: string
   text?: string
+}
+
+export interface QueryCiEvents extends QueryPage {
+  group?: string
+  project?: string
+  env?: string
+  type?: string
+  service?: string
 }
 
 export interface TriggerResponse {

@@ -183,7 +183,7 @@ const routes: Routes = [
   },
   {
     path: 'cis/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: 'new', loadChildren: './ci/ci.module#CiModule' }
+      { path: '', loadChildren: './ci/ci.module#CiModule' }
     ]
   },
   {

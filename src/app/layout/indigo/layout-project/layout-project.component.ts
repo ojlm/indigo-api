@@ -197,6 +197,11 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
                   i18n: 'menu-new',
                   link: `/cis/${group}/${project}/new`,
                 },
+                {
+                  text: '事件',
+                  i18n: 'menu-events',
+                  link: `/cis/${group}/${project}/events`,
+                },
               ]
             },
             {

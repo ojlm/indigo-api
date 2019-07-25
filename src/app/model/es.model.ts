@@ -615,6 +615,20 @@ export interface CiTrigger extends BaseDoc {
   readiness?: ReadinessCheck
 }
 
+export interface TriggerEventLog {
+  group?: string
+  project?: string
+  env?: string
+  author?: string
+  service?: string
+  type?: string
+  timestamp?: string
+  triggerId?: string
+  jobId?: string
+  reportId?: string
+  createdAt?: string
+}
+
 export const FavoriteType = {
   TYPE_TOP_TOP: 'toptop',
   TYPE_WATCH: 'watch',

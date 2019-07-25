@@ -48,6 +48,7 @@
   "menu-sql-test": "Sql 请求",
   "menu-top-top": "TopTop",
   "menu-ci-cd": "CI / CD 配置",
+  "menu-events": "事件",
   "field-id": "标识",
   "field-id-err": "唯一标识, 只允许[a-z][A-Z][0-9]-_.等字符",
   "field-summary": "名称",

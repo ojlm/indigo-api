@@ -1,0 +1,36 @@
+<div>
+  <div class="alain-default__content-title">
+    <h1 style="padding-left: 10px;">{{'title-cicd-list'|translate}}</h1>
+    <app-project-breadcrumb></app-project-breadcrumb>
+  </div>
+  <nz-card [nzBordered]="false">
+    <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
+      [nzLoading]="loading">
+      <ng-template #item let-item>
+        <nz-list-item [nzContent]="nzContent">
+          <nz-list-item-meta [nzDescription]="nzDescription">
+          </nz-list-item-meta>
+          <ng-template #nzDescription>
+            <div>
+              <span>{{getSignature(item)}}</span>
+              <nz-divider nzType="vertical"></nz-divider>
+              <span style="font-size:small;">{{item.timestamp}}</span>
+            </div>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+      <ng-template #pagination>
+        <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzPageSize]="pageSize"
+          (nzPageIndexChange)="loadData()" [nzShowTotal]="totalTemplate">
+          <ng-template #totalTemplate let-total>
+            <span style="color:lightgray;">
+              <span>{{'item-total'|translate}}</span>
+              <span> {{total}} </span>
+              <span>{{'item-item'|translate}}</span>
+            </span>
+          </ng-template>
+        </nz-pagination>
+      </ng-template>
+    </nz-list>
+  </nz-card>
+</div>
