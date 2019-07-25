@@ -63,13 +63,13 @@
         <app-scenario-selector [group]="group" [project]="project" [(data)]="scenarioSteps" [ctxOptions]="ctxOptions">
         </app-scenario-selector>
       </nz-tab>
-      <nz-tab [nzTitle]="'item-subscribers'|translate">
-        <app-job-subscribers *ngIf="jobSubscribersSwitch" [(data)]="subscribers"></app-job-subscribers>
-      </nz-tab>
       <nz-tab [nzTitle]="'item-imports'|translate">
         <app-variables-import-table [transforms]="transforms" [(data)]="imports" [defaultScope]="'_j'"
           [disableScopes]="['_s']">
         </app-variables-import-table>
+      </nz-tab>
+      <nz-tab [nzTitle]="'item-subscribers'|translate">
+        <app-job-subscribers *ngIf="jobSubscribersSwitch" [(data)]="subscribers"></app-job-subscribers>
       </nz-tab>
       <nz-tab [nzTitle]="'title-api'|translate">
         <nz-alert nzType="info" [nzDescription]="apiDesc" nzShowIcon>

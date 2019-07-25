@@ -205,7 +205,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   tabIndexChange(index: number) {
     if (0 === index) {
       this.caseSelectorSwitch = true
-    } else if (2 === index) {
+    } else if (3 === index) {
       this.jobSubscribersSwitch = true
     }
   }
