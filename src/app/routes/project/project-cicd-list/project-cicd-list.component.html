@@ -17,6 +17,9 @@
             <div style="font-size:small;">
               <span>{{getSignature(item)}}</span>
               <nz-divider nzType="vertical"></nz-divider>
+              <span>{{'item-enabled'|translate}}: </span>
+              <span [style.color]="item.enabled?'green':'red'">{{item.enabled}}</span>
+              <nz-divider nzType="vertical"></nz-divider>
               <span>{{item.createdAt}}</span>
             </div>
           </ng-template>

@@ -38,6 +38,7 @@ export class CiEventComponent implements OnInit {
   isSaved = true
   request: CiTrigger = {
     debounce: 1000,
+    enabled: true,
     readiness: {
       enabled: false,
       delay: 30,

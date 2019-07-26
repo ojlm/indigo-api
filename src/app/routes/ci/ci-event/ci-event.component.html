@@ -14,6 +14,8 @@
       <input nz-input style="width:100%;" [placeholder]="'field-summary'|translate" [(ngModel)]="request.summary"
         (ngModelChange)="modelChange()">
     </nz-input-group>
+    <label style="margin:0 4px;width:100px;text-align:center;" nz-checkbox
+      [(ngModel)]="request.enabled">{{'item-enabled'|translate}}</label>
     <div style="display:flex;padding-left:10px;">
       <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="save()">
         <span>

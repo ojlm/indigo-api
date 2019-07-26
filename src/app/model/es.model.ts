@@ -608,6 +608,7 @@ export interface CiTrigger extends BaseDoc {
   group?: string
   project?: string
   debounce?: number
+  enabled?: boolean
   targetType?: string
   targetId?: string
   env?: string
