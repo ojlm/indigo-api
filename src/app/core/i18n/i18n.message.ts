@@ -42,5 +42,6 @@ export const I18nKey = {
   TipsDelayStep: 'tips-delay-step',
   TipsJumpStep: 'tips-jump-step',
   TipsJumpIndex: 'tips-jump-index',
+  TipsMaxTrigger: 'tips-max-trigger',
   KeyEnvironment: 'key-environment',
 }

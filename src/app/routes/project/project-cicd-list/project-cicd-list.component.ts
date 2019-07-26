@@ -14,6 +14,7 @@ import { PageSingleModel } from '../../../model/page.model'
 })
 export class ProjectCiCdListComponent extends PageSingleModel implements OnInit {
 
+  tips = ''
   items: CiTrigger[] = []
   loading = false
   group: string
@@ -28,6 +29,7 @@ export class ProjectCiCdListComponent extends PageSingleModel implements OnInit 
     private route: ActivatedRoute,
   ) {
     super()
+    this.tips = this.i18nService.fanyi(I18nKey.TipsMaxTrigger)
   }
 
   getRouter(item: CiTrigger) {

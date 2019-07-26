@@ -251,6 +251,7 @@
   "tips-timeout-seconds": "Timeout(s)",
   "tips-check-times": "Check times",
   "tips-debounce-time": "Debounce time(ms)",
+  "tips-max-trigger": "No more than 100 events enabled can be triggered within the same env and service.",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",
