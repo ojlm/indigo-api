@@ -72,19 +72,17 @@
         <app-job-subscribers *ngIf="jobSubscribersSwitch" [(data)]="subscribers"></app-job-subscribers>
       </nz-tab>
       <nz-tab [nzTitle]="'title-api'|translate">
-        <nz-alert nzType="info" [nzDescription]="apiDesc" nzShowIcon>
-          <ng-template #apiDesc>
-            <nz-divider style="margin:0;" [nzText]="apiTxt" nzOrientation="left">
-              <ng-template #apiTxt><span class="dt">api</span></ng-template>
-            </nz-divider>
-            <div><a>{{getSseApi()}}</a></div>
-            <div><a>{{getWsApi()}}</a></div>
-            <nz-divider style="margin:0;" [nzText]="egTxt" nzOrientation="left">
-              <ng-template #egTxt><span class="dt">e.g</span></ng-template>
-            </nz-divider>
-            <div class="code">curl {{getSseApi()}}</div>
-          </ng-template>
-        </nz-alert>
+        <div class="code-container">
+          <nz-divider style="margin:0;" [nzText]="apiTxt" nzOrientation="left">
+            <ng-template #apiTxt><span class="dt">api</span></ng-template>
+          </nz-divider>
+          <div><a>{{getSseApi()}}</a></div>
+          <div><a>{{getWsApi()}}</a></div>
+          <nz-divider style="margin:0;" [nzText]="egTxt" nzOrientation="left">
+            <ng-template #egTxt><span class="dt">e.g</span></ng-template>
+          </nz-divider>
+          <div class="code">curl {{getSseApi()}}</div>
+        </div>
       </nz-tab>
     </nz-tabset>
   </nz-card>

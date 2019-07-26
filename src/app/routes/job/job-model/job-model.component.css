@@ -1,8 +1,12 @@
+.code-container {
+  padding: 10px
+}
+
 .code {
   background-color: whitesmoke;
   border-radius: 8px;
   padding: 4px;
-  color: darkorange;
+  color: tomato;
   font-weight: 500;
 }
 
