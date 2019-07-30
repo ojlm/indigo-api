@@ -625,7 +625,9 @@ export interface TriggerEventLog {
   type?: string
   timestamp?: string
   triggerId?: string
-  jobId?: string
+  targetType?: string
+  targetId?: string
+  result?: string
   reportId?: string
   createdAt?: string
 }
@@ -650,4 +652,14 @@ export const TimeUnit = {
   MILLI: 'milli',
   SECOND: 'second',
   MINUTE: 'minute',
+}
+
+export const TriggerEventLogType = {
+  miss: 'miss',
+  debounce: 'debounce',
+  ill: 'ill',
+  unknown: 'unknown',
+  error: 'error',
+  success: 'success',
+  fail: 'fail'
 }

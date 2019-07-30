@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { TriggerService } from 'app/api/service/trigger.service'
-import { TriggerEventLog } from 'app/model/es.model'
+import { TriggerEventLog, TriggerEventLogType } from 'app/model/es.model'
 
 import { PageSingleModel } from '../../../model/page.model'
 
 @Component({
   selector: 'app-ci-events-list',
   templateUrl: './ci-events-list.component.html',
+  styleUrls: ['./ci-events-list.component.css']
 })
 export class CiEventsListListComponent extends PageSingleModel implements OnInit {
 
@@ -23,8 +24,24 @@ export class CiEventsListListComponent extends PageSingleModel implements OnInit
     super()
   }
 
-  getSignature(item: TriggerEventLog) {
-    return `[${item.group}/${item.project}][${item.env}][T: ${item.type}][Author: ${item.author}] S:${item.service}`
+  viewReport(item: TriggerEventLog) {
+  }
+
+  resultColor(item: TriggerEventLog) {
+    let color = 'lightgray'
+    switch (item.result) {
+      case TriggerEventLogType.success:
+        color = 'green'
+        break;
+      case TriggerEventLogType.fail:
+        color = 'red'
+        break;
+      case TriggerEventLogType.debounce:
+        color = 'lightblue'
+      default:
+        break;
+    }
+    return color
   }
 
   loadData() {

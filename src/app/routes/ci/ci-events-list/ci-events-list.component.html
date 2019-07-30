@@ -7,15 +7,43 @@
     <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
       [nzLoading]="loading">
       <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent">
-          <nz-list-item-meta [nzDescription]="nzDescription">
-          </nz-list-item-meta>
-          <ng-template #nzDescription>
-            <div>
-              <span>{{getSignature(item)}}</span>
+        <nz-list-item [nzContent]="nzContent" [nzActions]="[actions]">
+          <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
+            <ng-template #nzTitle>
+              <span class="item-span">
+                <i nz-icon nzType="number" nzTheme="outline"></i>
+                <a>{{item.group}}/{{item.project}}</a>
+              </span>
+              <span class="item-span">
+                <i nz-icon nzType="environment" nzTheme="outline"></i>
+                <a>{{item.env}}</a>
+              </span>
+              <span class="item-span">
+                <i nz-icon nzType="cloud" nzTheme="outline"></i>
+                <a>{{item.service}}</a>
+              </span>
               <nz-divider nzType="vertical"></nz-divider>
-              <span style="font-size:small;">{{item.timestamp}}</span>
-            </div>
+              <span>{{item.type}}</span>
+              <nz-divider nzType="vertical"></nz-divider>
+              <span [style.color]="resultColor(item)">{{item.result}}</span>
+            </ng-template>
+            <ng-template #nzDescription>
+              <div>
+                <span *ngIf="item.author" class="item-span">
+                  <i nz-icon nzType="user" nzTheme="outline"></i>
+                  <span>{{item.author}}</span>
+                </span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <span class="sm-text">Event timestamp: {{item.timestamp}}</span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <span class="sm-text">Record created at: {{item.createdAt}}</span>
+              </div>
+            </ng-template>
+          </nz-list-item-meta>
+          <ng-template #actions>
+            <button nz-button nzSize="small" nzType="default" (click)="viewReport(item)">
+              <i nz-icon nzType="dashboard" nzTheme="outline"></i>
+            </button>
           </ng-template>
         </nz-list-item>
       </ng-template>
