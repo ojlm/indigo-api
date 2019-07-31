@@ -39,6 +39,7 @@ export class CiEventComponent implements OnInit {
   request: CiTrigger = {
     debounce: 1000,
     enabled: true,
+    env: 'dev',
     readiness: {
       enabled: false,
       delay: 30,
