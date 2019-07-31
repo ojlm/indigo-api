@@ -41,8 +41,12 @@
             </ng-template>
           </nz-list-item-meta>
           <ng-template #actions>
-            <button nz-button nzSize="small" nzType="default" (click)="viewReport(item)">
+            <button nz-button nzSize="small" nzType="default" [disabled]="!item.reportId" (click)="viewReport(item)">
               <i nz-icon nzType="dashboard" nzTheme="outline"></i>
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzSize="small" nzType="default" [disabled]="!item.targetId" (click)="editTrigger(item)">
+              <i nz-icon type="setting" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { TriggerService } from 'app/api/service/trigger.service'
 import { TriggerEventLog, TriggerEventLogType } from 'app/model/es.model'
 
@@ -19,12 +19,18 @@ export class CiEventsListListComponent extends PageSingleModel implements OnInit
 
   constructor(
     private triggerService: TriggerService,
+    private router: Router,
     private route: ActivatedRoute,
   ) {
     super()
   }
 
+  editTrigger(item: TriggerEventLog) {
+    this.router.navigateByUrl(`/ci/${item.group}/${item.project}/${item.triggerId}`)
+  }
+
   viewReport(item: TriggerEventLog) {
+    this.router.navigateByUrl(`/report/job/${item.targetGroup}/${item.targetProject}/${item.reportId}`)
   }
 
   resultColor(item: TriggerEventLog) {

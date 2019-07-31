@@ -626,6 +626,8 @@ export interface TriggerEventLog {
   timestamp?: string
   triggerId?: string
   targetType?: string
+  targetGroup?: string
+  targetProject?: string
   targetId?: string
   result?: string
   reportId?: string
