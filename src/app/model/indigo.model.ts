@@ -9,13 +9,15 @@ export class AutocompleteContext {
   dataSource: AutocompleteContextDataSource = {
     status: 200,
     headers: {},
-    entity: {}
+    entity: {},
+    time: {}
   }
 
   refeshFromHttpResult(val: CaseResult) {
     if (val.response && val.response.statusCode && val.response.headers) {
       this.dataSource.status = val.response.statusCode
       this.dataSource.headers = val.response.headers
+      this.dataSource.time = val.context.time
       try {
         if (val.response.contentType.startsWith('application/javascript') || val.response.contentType.startsWith('text/html')) {
           this.dataSource.entity = val.response.body
@@ -55,4 +57,7 @@ export interface AutocompleteContextDataSource {
   status?: number
   headers?: Object
   entity?: string | Object
+  time?: {
+    request?: number
+  }
 }
