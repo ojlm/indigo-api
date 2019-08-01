@@ -529,10 +529,12 @@ export interface VariablesExportItem {
   description?: string
   enabled?: boolean
   function?: string
+  extra?: ExtraData
 }
 
 export interface ExtraData {
   options?: KeyValueObject[]
+  script?: string
 }
 
 export interface VariablesImportItem {

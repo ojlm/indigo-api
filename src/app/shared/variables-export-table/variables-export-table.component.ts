@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
+import { MonacoEditorComponent } from '@shared/monaco-editor/monaco-editor.component'
 import { SortablejsOptions } from 'angular-sortablejs'
 import { SelectModel } from 'app/model/common.model'
 import { TransformFunction, VariablesExportItem } from 'app/model/es.model'
 import { AutocompleteContext } from 'app/model/indigo.model'
+import { calcDrawerWidth } from 'app/util/drawer'
+import { NzDrawerService } from 'ng-zorro-antd'
 
 @Component({
   selector: 'app-variables-export-table',
@@ -30,6 +33,7 @@ import { AutocompleteContext } from 'app/model/indigo.model'
 })
 export class VariablesExportTableComponent implements OnInit {
 
+  drawerWidth = calcDrawerWidth(0.6)
   sortablejsOptions: SortablejsOptions = {
     handle: '.anticon-bars',
     onUpdate: function (event: any) {
@@ -70,6 +74,7 @@ export class VariablesExportTableComponent implements OnInit {
   dataChange = new EventEmitter<VariablesExportItem[]>()
 
   constructor(
+    private drawerService: NzDrawerService,
     private i18nService: I18NService
   ) { }
 
@@ -97,6 +102,23 @@ export class VariablesExportTableComponent implements OnInit {
       this.values = [...this.values]
     }
     this.dataChange.emit(this.data)
+  }
+
+  editScript(item: VariablesExportItem) {
+    if (!item.extra) {
+      item.extra = { script: '' }
+    }
+    this.drawerService.create({
+      nzWidth: this.drawerWidth,
+      nzContent: MonacoEditorComponent,
+      nzContentParams: {
+        data: item.extra,
+      },
+      nzBodyStyle: {
+        padding: '4px'
+      },
+      nzClosable: false,
+    })
   }
 
   remove(index: number) {

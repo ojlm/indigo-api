@@ -42,7 +42,7 @@
       <td style="padding:2px;">
         <input nz-input [(ngModel)]="item.dstName" (ngModelChange)="modelChange(item,i)">
       </td>
-      <td style="padding:2px;">
+      <td style="padding:2px;display:flex;">
         <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="item.function"
           (ngModelChange)="modelChange(item,i)">
           <nz-option *ngFor="let item of transforms" nzCustomContent [nzValue]="item.name" [nzLabel]="item.name">
@@ -55,6 +55,10 @@
             </div>
           </nz-option>
         </nz-select>
+        <i *ngIf="item.function==='script'" class="click-icon"
+          style="width:32px;color:lightyellow;background-color:#00000087;" nz-icon nzType="code" nzTheme="outline"
+          (click)="editScript(item)">
+        </i>
       </td>
       <td style="padding:2px;">
         <input nz-input [(ngModel)]="item.description" (ngModelChange)="modelChange(item,i)">
