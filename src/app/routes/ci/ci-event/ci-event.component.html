@@ -83,8 +83,8 @@
           <nz-select style="width:100%;" nzMode="default" [nzDropdownMatchSelectWidth]="false" [nzSize]="'default'"
             [nzPlaceHolder]="'field-env'|translate" nzAllowClear nzShowSearch [(ngModel)]="request.env"
             (ngModelChange)="modelChange()">
-            <nz-option [nzLabel]="'dev'" [nzValue]="'dev'" nzCustomContent>
-              <span>dev</span>
+            <nz-option *ngFor="let item of envs" [nzLabel]="item.label" [nzValue]="item.value" nzCustomContent>
+              <span>{{item.label}}</span>
             </nz-option>
           </nz-select>
         </nz-input-group>

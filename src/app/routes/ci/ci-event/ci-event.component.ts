@@ -12,6 +12,7 @@ import {
 } from 'app/api/service/scenario.service'
 import { sqlRequestSignature } from 'app/api/service/sql.service'
 import { TriggerResponse, TriggerService } from 'app/api/service/trigger.service'
+import { SelectModel } from 'app/model/common.model'
 import { Case, CiTrigger, DubboRequest, Job, SqlRequest } from 'app/model/es.model'
 import { SelectJobComponent } from 'app/routes/scenario/select-job/select-job.component'
 import { SelectStepComponent, StepEvent } from 'app/routes/scenario/select-step/select-step.component'
@@ -26,6 +27,10 @@ import { Subject } from 'rxjs'
 })
 export class CiEventComponent implements OnInit {
 
+  envs: SelectModel[] = [
+    { label: 'dev', value: 'dev' },
+    { label: 'online', value: 'online' },
+  ]
   drawerRef: NzDrawerRef
   drawerWidth = calcDrawerWidth(0.75)
   readinessSubject = new Subject<StepEvent>()
