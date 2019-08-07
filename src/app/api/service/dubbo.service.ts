@@ -107,12 +107,16 @@ export function dubboRequestSignature(item: DubboRequest) {
 export interface GetInterfacesMessage {
   zkConnectString?: string
   path?: string
+  zkUsername?: string
+  zkPassword?: string
 }
 
 export interface GetProvidersMessage {
   zkConnectString?: string
   path?: string
   ref?: string
+  zkUsername?: string
+  zkPassword?: string
 }
 
 export interface GetInterfaceMethodParams {

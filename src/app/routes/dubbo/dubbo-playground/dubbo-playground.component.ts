@@ -281,7 +281,9 @@ export class DubboPlaygroundComponent implements OnInit {
   getInterfaces() {
     this.dubboService.getInterfaces({
       zkConnectString: this.request.request.zkConnectString,
-      path: this.request.request.path
+      path: this.request.request.path,
+      zkUsername: this.request.request.zkUsername,
+      zkPassword: this.request.request.zkPassword
     }).subscribe(res => {
       this.rawInterfaces = res.data
       this.interfaces = [...this.rawInterfaces]
@@ -290,10 +292,15 @@ export class DubboPlaygroundComponent implements OnInit {
 
   getProviders(item: DubboInterface) {
     if (item.zkConnectString && item.ref) {
+      this.interfaceSearchTxt = item.ref
       this.request.request.interface = item.ref
       this.selectedProvider = {}
       this.request.request.method = ''
-      this.dubboService.getProviders({ ...item }).subscribe(res => {
+      this.dubboService.getProviders({
+        ...item,
+        zkUsername: this.request.request.zkUsername,
+        zkPassword: this.request.request.zkPassword
+      }).subscribe(res => {
         this.rawProviders = res.data
         if (this.rawProviders.length > 0) {
           this.providers = [...this.rawProviders]

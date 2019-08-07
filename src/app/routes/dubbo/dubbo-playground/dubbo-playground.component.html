@@ -53,6 +53,12 @@
               <a (click)="getInterfaces()"><i nz-icon type="enter" theme="outline"></i></a>
             </ng-template>
           </nz-input-group>
+          <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="Username:">
+            <input type="text" nz-input [(ngModel)]="request.request.zkUsername" (ngModelChange)="modelChange()">
+          </nz-input-group>
+          <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="Password:">
+            <input type="text" nz-input [(ngModel)]="request.request.zkPassword" (ngModelChange)="modelChange()">
+          </nz-input-group>
           <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="ref:">
             <input type="text" nz-input [(ngModel)]="interfaceSearchTxt" (ngModelChange)="filterInterfaces()">
           </nz-input-group>
@@ -72,11 +78,17 @@
               </label>
             </div>
           </div>
+          <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="Group:">
+            <input type="text" nz-input [(ngModel)]="request.request.dubboGroup" (ngModelChange)="modelChange()">
+          </nz-input-group>
+          <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="Version:">
+            <input type="text" nz-input [(ngModel)]="request.request.version" (ngModelChange)="modelChange()">
+          </nz-input-group>
           <nz-table style="margin-top:4px;" nzSize="small" #basicTable [nzFrontPagination]="false"
             [nzShowPagination]="false" [nzScroll]="tableScroll" [nzData]="interfaces">
             <tbody>
               <tr *ngFor="let item of basicTable.data">
-                <td>{{item.ref}}</td>
+                <td (click)="getProviders(item)">{{item.ref}}</td>
                 <td style="width:48px;">
                   <button nz-button nzSize="small" nzType="default" (click)="getProviders(item)">
                     <i nz-icon type="login" theme="outline"></i>

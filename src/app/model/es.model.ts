@@ -472,6 +472,8 @@ export interface DubboRequestBody {
   port?: number
   version?: string
   zkConnectString?: string
+  zkUsername?: string
+  zkPassword?: string
   path?: string
   enableLb?: boolean
   lbAlgorithm?: string
