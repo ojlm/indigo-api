@@ -94,7 +94,8 @@
         </app-result-assert>
       </nz-tab>
       <nz-tab [nzTitle]="'item-generator'|translate">
-        <app-case-generator [assertions]="assertions" [(data)]="case.generator" (dataChange)="modelChange()">
+        <app-case-generator [assertions]="assertions" [(data)]="case.generator" (dataChange)="modelChange()"
+          [log]="generatorLog" [sendCall]="generatorCall" [logResult]="logResult">
         </app-case-generator>
       </nz-tab>
       <nz-tab [nzTitle]="'item-exports'|translate">

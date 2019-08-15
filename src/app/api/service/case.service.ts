@@ -1,5 +1,10 @@
-import { Injectable } from '@angular/core'
+import { Inject, Injectable } from '@angular/core'
+import { I18NService } from '@core'
+import { I18nKey } from '@core/i18n/i18n.message'
+import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
+import { newWS } from 'app/util/ws'
+import { NzMessageService } from 'ng-zorro-antd'
 import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
@@ -13,7 +18,7 @@ import {
   LabelRef,
   UpdateDocResponse,
 } from '../../model/es.model'
-import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE } from '../path'
+import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE, API_WS_HTTP_TEST } from '../path'
 import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
 
 @Injectable({
@@ -21,7 +26,12 @@ import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
 })
 export class CaseService extends BaseService {
 
-  constructor(private http: _HttpClient) { super() }
+  constructor(
+    private http: _HttpClient,
+    private msgService: NzMessageService,
+    private i18nService: I18NService,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+    ) { super() }
 
   query(query: QueryCase) {
     return this.http.post<ApiRes<Case[]>>(API_CASE_QUERY, query)
@@ -101,6 +111,19 @@ export class CaseService extends BaseService {
 
   batchTransfer(ops: BatchTransfer) {
     return this.http.post<ApiRes<any>>(`${API_CASE}/batch/transfer`, ops)
+  }
+
+  newTestWs(group: string, project: string, id: string) {
+    let idParam = ''
+    if (id) {
+      idParam = `&id=${id}`
+    }
+    const ws = newWS(`${API_WS_HTTP_TEST}/${group}/${project}?token=${this.tokenService.get()['token']}${idParam}`)
+    ws.onerror = (event) => {
+      console.error(event)
+      this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorWsOnError))
+    }
+    return ws
   }
 }
 

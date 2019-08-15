@@ -371,6 +371,7 @@ export interface CaseGenerator {
   script?: string
   list?: CaseGeneratorListItem[]
   count?: number
+  variables?: object[]
 }
 
 export interface ReportItemEvent {

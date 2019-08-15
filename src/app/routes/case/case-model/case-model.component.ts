@@ -1,11 +1,12 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { ConfigService } from 'app/api/service/config.service'
 import { AutocompleteContext } from 'app/model/indigo.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { NzMessageService } from 'ng-zorro-antd'
+import { Subject } from 'rxjs'
 
 import { CaseService } from '../../../api/service/case.service'
 import {
@@ -25,10 +26,14 @@ import { hashToObj, searchToObj } from '../../../util/urlutils'
   styles: ['.affixed {transform:scale(1.03);;background-color:white;box-shadow:0px 0px 10px wheat;}'],
   templateUrl: './case-model.component.html',
 })
-export class CaseModelComponent implements OnInit {
+export class CaseModelComponent implements OnInit, OnDestroy {
 
   autocompleteContext = new AutocompleteContext()
   drawerWidth = calcDrawerWidth(0.3)
+  generatorLog = new Subject<string>()
+  testWs: WebSocket
+  logResult = this.updateResult.bind(this)
+  generatorCall = () => { this.sendWs() }
   @Input()
   set id(caseId: string) {
     this.testResult = {}
@@ -46,11 +51,7 @@ export class CaseModelComponent implements OnInit {
   @Input()
   set result(result: CaseResult) {
     if (result) {
-      this.testResult = result
-      this.lastResult = {}
-      this.tabIndex = 5
-      this.assertResultTabIndex = 5
-      this.autocompleteContext.refeshFromHttpResult(result)
+      this.updateResult(result)
     }
   }
   _ctxOptions: ContextOptions = {}
@@ -88,12 +89,19 @@ export class CaseModelComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private msgService: NzMessageService,
-    private router: Router,
     private route: ActivatedRoute,
     private i18nService: I18NService,
     private caseService: CaseService,
   ) {
     initCaseField(this.case)
+  }
+
+  updateResult(result: CaseResult) {
+    this.testResult = result
+    this.lastResult = {}
+    this.tabIndex = 5
+    this.assertResultTabIndex = 5
+    this.autocompleteContext.refeshFromHttpResult(result)
   }
 
   methodChange() {
@@ -184,6 +192,27 @@ export class CaseModelComponent implements OnInit {
       }
     } catch (error) {
       console.error(error)
+    }
+  }
+
+  sendWs() {
+    const cs = this.preHandleRequest(this.case)
+    if (cs) {
+      if (this.testWs) {
+        this.testWs.close()
+        this.testWs = null
+      }
+      this.testWs = this.caseService.newTestWs(this.group, this.project, this.case._id)
+      this.testWs.onopen = (event) => {
+        const options = { ...this._ctxOptions }
+        options.initCtx = undefined
+        this.testWs.send(JSON.stringify({ id: this.case._id, cs: cs, options: options }))
+      }
+      this.testWs.onmessage = (event) => {
+        if (event.data && this.generatorLog) {
+          this.generatorLog.next(event.data)
+        }
+      }
     }
   }
 
@@ -377,6 +406,13 @@ export class CaseModelComponent implements OnInit {
         this.assertions = res.data.assertions
         this.transforms = res.data.transforms
       })
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.testWs) {
+      this.testWs.close()
+      this.testWs = null
     }
   }
 }

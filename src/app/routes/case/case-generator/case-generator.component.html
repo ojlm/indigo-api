@@ -1,6 +1,7 @@
 <div class="{{isFullDocument?'full-doc':''}}">
   <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false"
     [nzTabBarExtraContent]="extraTemplate" [nzTabBarStyle]="tabBarStyle">
+    <!--
     <nz-tab [nzTitle]="'item-list'|translate">
       <div class="custom-scollbar" style="overflow:auto;" [style.height]="generatorListHeight">
         <nz-list [nzDataSource]="generator.list" [nzRenderItem]="item" [nzFooter]="nzFooter">
@@ -10,18 +11,22 @@
                 <ng-template #nzDescription>
                   <div nz-row style="background-color:white;">
                     <div nz-col nzSpan="24" style="background-color:whitesmoke;">
-                      <a (click)="run(item, i)"><i nz-icon type="caret-right" theme="outline" class="click-icon"></i></a>
-                      <a (click)="remove(item, i)" style="float:right;padding-right:3px;"><i nz-icon type="delete" theme="outline"></i></a>
+                      <a (click)="run(item, i)"><i nz-icon type="caret-right" theme="outline"
+                          class="click-icon"></i></a>
+                      <a (click)="remove(item, i)" style="float:right;padding-right:3px;"><i nz-icon type="delete"
+                          theme="outline"></i></a>
                     </div>
                     <div nz-col nzSpan="12" class="custom-scollbar" style="height:240px;overflow:auto;">
                       <app-key-value [(data)]="item.map" (dataChange)="modelChange()"></app-key-value>
                     </div>
                     <div nz-col nzSpan="12">
-                      <app-assertion-list *ngIf="assertSimpleEditorMode" [editorHeight]="'240px'" [assertions]="assertions"
-                        [(data)]="item.assertionItems" (dataChange)="assertionItemsChange(item)">
+                      <app-assertion-list *ngIf="assertSimpleEditorMode" [editorHeight]="'240px'"
+                        [assertions]="assertions" [(data)]="item.assertionItems"
+                        (dataChange)="assertionItemsChange(item)">
                       </app-assertion-list>
-                      <ngx-monaco-editor *ngIf="!assertSimpleEditorMode" [style.height]="'240px'" [options]="jsonEditorOption"
-                        [(ngModel)]="item.assert" (ngModelChange)="syncToAssertionItems(item)">
+                      <ngx-monaco-editor *ngIf="!assertSimpleEditorMode" [style.height]="'240px'"
+                        [options]="jsonEditorOption" [(ngModel)]="item.assert"
+                        (ngModelChange)="syncToAssertionItems(item)">
                       </ngx-monaco-editor>
                     </div>
                   </div>
@@ -39,9 +44,35 @@
       </div>
     </nz-tab>
     <nz-tab [nzTitle]="'item-script'|translate">
-      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="javascriptEditorOption" [(ngModel)]="generator.script"
-        (ngModelChange)="scriptChange()">
+      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="javascriptEditorOption"
+        [(ngModel)]="generator.script" (ngModelChange)="scriptChange()">
       </ngx-monaco-editor>
+    </nz-tab>
+    -->
+    <nz-tab [nzTitle]="'item-generator'|translate">
+      <div nz-row>
+        <div nz-col nzSpan="14">
+          <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonEditorOption" [(ngModel)]="variables"
+            (ngModelChange)="variablesChange()">
+          </ngx-monaco-editor>
+        </div>
+        <div nz-col nzSpan="10">
+          <button style="width:100%;color:rebeccapurple;" nz-button [nzType]="'dashed'" [nzSize]="'default'"
+            (click)="send()">
+            <span>
+              <i nz-icon type="scan" theme="outline"></i>
+              <span>{{'btn-send'|translate}}</span>
+            </span>
+          </button>
+          <div style="padding:4px;cursor:pointer;" *ngFor="let item of results">
+            <app-playground-report-tab *ngIf="item.statis&&item.metrics" [statis]="item.statis" [metrics]="item.metrics"
+              (click)="showResult(item)">
+            </app-playground-report-tab>
+            <nz-alert *ngIf="item.errMsg" nzType="error" nzMessage="Exception" [nzDescription]="item.errMsg" nzShowIcon>
+            </nz-alert>
+          </div>
+        </div>
+      </div>
     </nz-tab>
   </nz-tabset>
   <ng-template #extraTemplate>
@@ -49,19 +80,20 @@
       nz-button (click)="assertEditorModeChange()">
       <i style="font-size:smaller;">{{(assertSimpleEditorMode?'btn-simple':'btn-full')|translate}}</i>
     </button>
-    <button [title]="'tips-word-wrap'|translate" style="margin-left:3px;" nzSize="small" [nzType]="wraped?'primary':'dashed'"
-      nz-button (click)="wrap()">
+    <button [title]="'tips-word-wrap'|translate" style="margin-left:3px;" nzSize="small"
+      [nzType]="wraped?'primary':'dashed'" nz-button (click)="wrap()">
       <i nz-icon type="bars" theme="outline"></i>
     </button>
-    <button [title]="'tips-format'|translate" style="margin-left:3px;" nzSize="small" nzType="dashed" nz-button (click)="formatAssert()">
+    <button [title]="'tips-format'|translate" style="margin-left:3px;" nzSize="small" nzType="dashed" nz-button
+      (click)="formatJson()">
       <i nz-icon type="layout" theme="outline"></i>
     </button>
-    <button [title]="'tips-full-window'|translate" style="margin-left:3px;" nzSize="small" [nzType]="isFullDocument?'primary':'dashed'"
-      nz-button (click)="fullWindowBtnClick()">
+    <button [title]="'tips-full-window'|translate" style="margin-left:3px;" nzSize="small"
+      [nzType]="isFullDocument?'primary':'dashed'" nz-button (click)="fullWindowBtnClick()">
       <i nz-icon type="windows" theme="outline"></i>
     </button>
-    <button [title]="'tips-fullscreen'|translate" style="margin-left:3px;margin-right:3px;" nzSize="small" [nzType]="isFullscreen?'primary':'dashed'"
-      nz-button (click)="fullScreenBtnClick()">
+    <button [title]="'tips-fullscreen'|translate" style="margin-left:3px;margin-right:3px;" nzSize="small"
+      [nzType]="isFullscreen?'primary':'dashed'" nz-button (click)="fullScreenBtnClick()">
       <i nz-icon [type]="isFullscreen?'shrink':'arrows-alt'" theme="outline"></i>
     </button>
   </ng-template>

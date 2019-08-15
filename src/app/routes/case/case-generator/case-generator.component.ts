@@ -1,14 +1,11 @@
-import { Location } from '@angular/common'
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder } from '@angular/forms'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { MonacoService } from '@core/config/monaco.service'
 import { AssertionItem, AssertionItems } from '@shared/assertion-list/assertion-list.component'
-import { NzMessageService } from 'ng-zorro-antd'
+import { ActorEvent, ActorEventType } from 'app/model/api.model'
+import { Subject } from 'rxjs'
 import * as screenfull from 'screenfull'
 
-import { CaseService } from '../../../api/service/case.service'
-import { Assertion, CaseGenerator, CaseGeneratorListItem } from '../../../model/es.model'
+import { Assertion, CaseGenerator, CaseGeneratorListItem, CaseResult } from '../../../model/es.model'
 import { formatJson } from '../../../util/json'
 
 @Component({
@@ -18,7 +15,7 @@ import { formatJson } from '../../../util/json'
 })
 export class CaseGeneratorComponent implements OnInit {
 
-  generator: CaseGeneratorExt = { script: '', list: [] }
+  generator: CaseGeneratorExt = { script: '', list: [], variables: [] }
   tabIndex = 0
   tabBarStyle = {
     'background-color': 'snow',
@@ -37,6 +34,26 @@ export class CaseGeneratorComponent implements OnInit {
   jsonEditorOption = this.monocoService.getJsonOption(false)
   /** for first modelChange event bug */
   originScript = ''
+  variables = ''
+  originVariables = ''
+  results: (CaseResult | { errMsg: string })[] = []
+  @Input()
+  set log(log: Subject<string>) {
+    log.subscribe(msg => {
+      try {
+        const event = JSON.parse(msg) as ActorEvent<{ idx: number, result: CaseResult, errMsg: string }>
+        if (ActorEventType.ITEM === event.type) {
+          if (event.data.result) {
+            this.results.push(event.data.result)
+          } else {
+            this.results.push({ errMsg: event.data.errMsg })
+          }
+        }
+      } catch (error) { }
+    })
+  }
+  @Input() sendCall: Function
+  @Input() logResult: Function
   @Input()
   set data(val: CaseGenerator) {
     if (val) {
@@ -51,6 +68,9 @@ export class CaseGeneratorComponent implements OnInit {
       } else {
         this.generator.list = []
       }
+      if (this.generator.variables) {
+        this.variables = formatJson(this.generator.variables)
+      }
     }
   }
   get data() {
@@ -60,15 +80,19 @@ export class CaseGeneratorComponent implements OnInit {
   dataChange = new EventEmitter<CaseGenerator>()
 
   constructor(
-    private fb: FormBuilder,
-    private caseService: CaseService,
-    private msgService: NzMessageService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location,
     private monocoService: MonacoService,
-    private el: ElementRef<HTMLDivElement>,
   ) { }
+
+  send() {
+    if (this.sendCall) {
+      this.results = []
+      this.sendCall()
+    }
+  }
+
+  showResult(item: CaseResult) {
+    if (this.logResult) this.logResult(item)
+  }
 
   addItem() {
     this.generator.list.push({ map: [], originAssert: '', assert: '', assertionItems: { logic: 'and', items: [] } })
@@ -176,18 +200,28 @@ export class CaseGeneratorComponent implements OnInit {
     this.tabIndex = 0
   }
 
-  formatAssert() {
+  formatJson() {
     try {
       this.generator.list.forEach(item => {
         item.assert = formatJson(item.assert, 2)
       })
       this.modelChange()
+      this.variables = formatJson(this.variables)
     } catch (error) { console.error(error) }
   }
 
   scriptChange() {
     if (this.originScript !== this.generator.script) {
       this.modelChange()
+    }
+  }
+
+  variablesChange() {
+    if (this.originVariables !== this.variables) {
+      try {
+        this.generator.variables = JSON.parse(this.variables)
+        this.modelChange()
+      } catch (error) { }
     }
   }
 
