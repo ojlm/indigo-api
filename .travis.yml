@@ -1,19 +1,16 @@
 sudo: required
 dist: trusty
 language: node_js
-
-node_js:
-  - '10.16.0'
-
+env:
+  - NODE_VERSION="12.8.1"
+before_install:
+  - nvm install $NODE_VERSION
 git:
   depth: 1
-
 install:
   - yarn
-
 script:
   - yarn run build
-
 cache:
   yarn: true
   directories:
