@@ -1,7 +1,7 @@
 {
   "name": "ngx-indigo",
-  "version": "0.3.0",
-  "description": "indigo is an api tool.",
+  "version": "0.6.0",
+  "description": "Indigo is an api test system.",
   "main": "main.ts",
   "repository": {
     "url": "https://github.com/asura-pro/indigo.git",
