@@ -15,7 +15,6 @@ import { KeyValueComponent } from '@shared/key-value/key-value.component'
 import { ProjectBreadcrumbComponent } from '@shared/project-breadcrumb/project-breadcrumb.component'
 import { SortablejsModule } from 'angular-sortablejs'
 import { NgZorroAntdModule } from 'ng-zorro-antd'
-import { CountdownModule } from 'ngx-countdown'
 import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
@@ -45,7 +44,6 @@ import { VariablesOptionsComponent } from './variables-options/variables-options
 // region: third libs
 const THIRDMODULES = [
   NgZorroAntdModule,
-  CountdownModule,
   TranslateModule,
   SortablejsModule,
 ]
@@ -93,7 +91,7 @@ const DIRECTIVES = []
     MarkdownModule.forChild(),
     MonacoEditorModule,
     DelonABCModule,
-    DelonACLModule,
+    DelonACLModule.forRoot(),
     DelonFormModule,
     // third libs
     ...THIRDMODULES

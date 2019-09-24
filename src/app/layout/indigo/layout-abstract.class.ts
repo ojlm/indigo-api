@@ -23,9 +23,9 @@ import { SettingDrawerComponent } from './setting-drawer/setting-drawer.componen
 
 export class LayoutAbstractClass implements OnInit, AfterViewInit, OnDestroy {
   private unsubscribe$ = new Subject<void>()
-  @ViewChild('settingHost', { read: ViewContainerRef })
+  @ViewChild('settingHost', { read: ViewContainerRef, static: true })
   private settingHost: ViewContainerRef
-  @ViewChild('assistant', { read: ViewContainerRef })
+  @ViewChild('assistant', { read: ViewContainerRef, static: true })
   private assistant: ViewContainerRef
   isFetching = false
 

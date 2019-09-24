@@ -1,5 +1,5 @@
+import { DOCUMENT } from '@angular/common'
 import { Component, ComponentFactoryResolver, ElementRef, Inject, Renderer2 } from '@angular/core'
-import { DOCUMENT } from '@angular/platform-browser'
 import { ActivatedRoute, NavigationEnd, NavigationError, RouteConfigLoadStart, Router } from '@angular/router'
 import { Menu, MenuService, ScrollService, SettingsService } from '@delon/theme'
 import { NzMessageService } from 'ng-zorro-antd'

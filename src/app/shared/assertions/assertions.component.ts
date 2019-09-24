@@ -22,7 +22,7 @@ export class AssertionsComponent implements OnInit {
   @Input() autocompleteContext = new AutocompleteContext()
   DEFAULT_HEIGHT = '360px'
   componentHeight = '100%'
-  isFullscreen = screenfull.isFullscreen
+  isFullscreen = this.sf.isFullscreen
   isFullDocument = false
   assertSimpleEditorMode = true
   wraped = false
@@ -57,6 +57,10 @@ export class AssertionsComponent implements OnInit {
     private monocoService: MonacoService,
   ) { }
 
+  private get sf(): screenfull.Screenfull {
+    return screenfull as screenfull.Screenfull;
+  }
+
   itemsChange() {
     try {
       assertionItemsAdaptAssertObject(this._data, this.items)
@@ -87,7 +91,7 @@ export class AssertionsComponent implements OnInit {
 
   fullScreenBtnClick() {
     this.isFullscreen = !this.isFullscreen
-    if (this.isFullscreen && screenfull.enabled) {
+    if (this.isFullscreen && this.sf.isEnabled) {
       this.isFullDocument = true
       this.componentHeight = `${screen.height}px`
       this.contentHeight = `${screen.height - 32}px`
@@ -100,8 +104,8 @@ export class AssertionsComponent implements OnInit {
         this.contentHeight = this.DEFAULT_HEIGHT
       }
     }
-    if (screenfull.enabled) {
-      screenfull.toggle()
+    if (this.sf.isEnabled) {
+      this.sf.toggle()
     }
   }
 

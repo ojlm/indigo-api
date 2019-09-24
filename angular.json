@@ -38,7 +38,7 @@
             ],
             "styles": [
               "src/styles.less",
-              "./node_modules/xterm/dist/xterm.css",
+              "./node_modules/xterm/css/xterm.css",
               "./node_modules/prismjs/themes/prism.css"
             ],
             "scripts": [

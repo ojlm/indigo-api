@@ -24,7 +24,7 @@ export class CaseGeneratorComponent implements OnInit {
   }
   generatorListHeight = ''
   editorFullHeight = '480px'
-  isFullscreen = screenfull.isFullscreen
+  isFullscreen = this.sf.isFullscreen
   isFullDocument = false
   assertSimpleEditorMode = true
   @Input() assertions: Assertion[] = []
@@ -170,7 +170,7 @@ export class CaseGeneratorComponent implements OnInit {
 
   fullScreenBtnClick() {
     this.isFullscreen = !this.isFullscreen
-    if (this.isFullscreen && screenfull.enabled) {
+    if (this.isFullscreen && this.sf.isEnabled) {
       this.isFullDocument = true
       this.editorFullHeight = `${screen.height}px`
       this.generatorListHeight = `${window.innerHeight - 40}px`
@@ -179,8 +179,8 @@ export class CaseGeneratorComponent implements OnInit {
       this.editorFullHeight = '480px'
       this.generatorListHeight = ''
     }
-    if (screenfull.enabled) {
-      screenfull.toggle()
+    if (this.sf.isEnabled) {
+      this.sf.toggle()
     }
   }
 
@@ -284,6 +284,10 @@ export class CaseGeneratorComponent implements OnInit {
         }
       }
     } catch (error) { }
+  }
+
+  private get sf(): screenfull.Screenfull {
+    return screenfull as screenfull.Screenfull;
   }
 
   ngOnInit(): void {

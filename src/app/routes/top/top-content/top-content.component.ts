@@ -20,8 +20,8 @@ import {
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 import { ITerminalOptions, ITheme, Terminal } from 'xterm'
-import { fit } from 'xterm/lib/addons/fit/fit'
-import { webLinksInit } from 'xterm/lib/addons/webLinks/webLinks'
+import { FitAddon } from 'xterm-addon-fit'
+import { WebLinksAddon } from 'xterm-addon-web-links'
 
 @Component({
   selector: 'app-top-content',
@@ -63,6 +63,8 @@ export class TopContentComponent implements OnInit, AfterViewInit {
     disableStdin: true,
   }
   xterm = new Terminal(this.option)
+  fitAddon = new FitAddon()
+  webAddon = new WebLinksAddon()
   xtermStyle = {}
   testWs: WebSocket
   log: Subject<ActorEvent<string>> = new Subject()
@@ -72,7 +74,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
     this.toolHeight = `${Math.floor((window.innerHeight - 112) * 0.4)}px`
     this.importsHeight = `${Math.floor((window.innerHeight - 112) * 0.6 - 72)}px`
     this.initXtermStyle()
-    fit(this.xterm)
+    this.fitAddon.fit()
   }
 
   constructor(
@@ -304,8 +306,9 @@ export class TopContentComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const xtermEl = this.el.nativeElement.getElementsByClassName('xterm')[0] as HTMLElement
     this.xterm.open(xtermEl)
-    fit(this.xterm)
-    webLinksInit(this.xterm)
+    this.xterm.loadAddon(this.fitAddon)
+    this.xterm.loadAddon(this.webAddon)
+    this.fitAddon.fit()
     this.log.subscribe(event => {
       if (ActorEventType.ERROR === event.type) {
         this.printlnErrMsg(event.msg)

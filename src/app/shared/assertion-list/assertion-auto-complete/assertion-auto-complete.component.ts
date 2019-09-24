@@ -42,7 +42,7 @@ export class AssertionAutoCompleteComponent implements OnInit, AfterViewInit {
   }
   @Input() assertionItem: AssertionItem = {}
   @Output() assertionItemChange = new EventEmitter<AssertionItem>()
-  @ViewChild('pathInput') pathInput: ElementRef
+  @ViewChild('pathInput', { static: true }) pathInput: ElementRef
 
   constructor() {
   }

@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 import { ITerminalOptions, ITheme, Terminal } from 'xterm'
-import { fit } from 'xterm/lib/addons/fit/fit'
-import { webLinksInit } from 'xterm/lib/addons/webLinks/webLinks'
+import { FitAddon } from 'xterm-addon-fit'
+import { WebLinksAddon } from 'xterm-addon-web-links'
 
 import { ActorEvent, ActorEventType } from '../../model/api.model'
 import { JobExecDesc } from '../../model/es.model'
@@ -45,6 +45,8 @@ export class ConsoleReportComponent implements AfterViewInit {
     disableStdin: true,
   }
   xterm = new Terminal(this.option)
+  fitAddon = new FitAddon()
+  webAddon = new WebLinksAddon()
   style = {}
   @Input() log: Subject<ActorEvent<JobExecDesc | string>>
   @Input() newline = true
@@ -54,7 +56,7 @@ export class ConsoleReportComponent implements AfterViewInit {
   @HostListener('window:resize')
   resize() {
     this.initStyle()
-    fit(this.xterm)
+    this.fitAddon.fit()
   }
 
   constructor(
@@ -80,8 +82,9 @@ export class ConsoleReportComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     const xtermEl = this.el.nativeElement.getElementsByClassName('xterm')[0] as HTMLElement
     this.xterm.open(xtermEl)
-    fit(this.xterm)
-    webLinksInit(this.xterm)
+    this.xterm.loadAddon(this.fitAddon)
+    this.xterm.loadAddon(this.webAddon)
+    this.fitAddon.fit()
     if (this.log) {
       this.log.subscribe(event => {
         if (ActorEventType.ERROR === event.type) {
@@ -94,27 +97,27 @@ export class ConsoleReportComponent implements AfterViewInit {
       this.xterm.writeln(`🤔 : no log subject injected`)
     }
     if (this.echo) {
-      this.xterm.on('key', (key, ev) => {
-        const printable = !ev.altKey && !ev['altGraphKey'] && !ev.ctrlKey && !ev.metaKey
-        if (ev.keyCode === 13) {
+      this.xterm.onKey(e => {
+        const printable = !e.domEvent.altKey && !e.domEvent['altGraphKey'] && !e.domEvent.ctrlKey && !e.domEvent.metaKey
+        if (e.domEvent.keyCode === 13) {
           this.xterm.write('\r\n')
           if (this.echoLog) {
             this.echoLog.next(this.line.join(''))
           }
           this.line = []
-        } else if (ev.keyCode === 8) {
+        } else if (e.domEvent.keyCode === 8) {
           this.line = this.line.slice(0, -1)
           this.xterm.write('\b \b')
         } else if (printable) {
-          this.line.push(key)
-          this.xterm.write(key)
+          this.line.push(e.key)
+          this.xterm.write(e.key)
         }
       })
-      this.xterm.on('paste', (data: string) => {
+      this.xterm.onData(data => {
         for (let i = 0; i < data.length; ++i) {
           this.line.push(data[i])
         }
-        this.xterm.write(data)
+        this.xterm.paste(data)
       })
     }
   }

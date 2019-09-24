@@ -37,7 +37,7 @@ export class ResultAssertComponent implements OnInit {
   }
   editorFullHeight = '480px'
   assertionEditorHeight = '470px'
-  isFullscreen = screenfull.isFullscreen
+  isFullscreen = this.sf.isFullscreen
   isFullDocument = false
   tabIndex = 0
   /** for first modelChange event bug */
@@ -254,7 +254,7 @@ export class ResultAssertComponent implements OnInit {
 
   fullScreenBtnClick() {
     this.isFullscreen = !this.isFullscreen
-    if (this.isFullscreen && screenfull.enabled) {
+    if (this.isFullscreen && this.sf.isEnabled) {
       this.isFullDocument = true
       this.editorFullHeight = `${screen.height}px`
       this.assertionEditorHeight = `${screen.height - 40}px`
@@ -263,8 +263,8 @@ export class ResultAssertComponent implements OnInit {
       this.editorFullHeight = '480px'
       this.assertionEditorHeight = '470px'
     }
-    if (screenfull.enabled) {
-      screenfull.toggle()
+    if (this.sf.isEnabled) {
+      this.sf.toggle()
     }
   }
 
@@ -301,6 +301,10 @@ export class ResultAssertComponent implements OnInit {
       this.assertChange.emit(this._assert)
       this.syncToAssertionList()
     }
+  }
+
+  private get sf(): screenfull.Screenfull {
+    return screenfull as screenfull.Screenfull;
   }
 
   syncToAssertionList() {

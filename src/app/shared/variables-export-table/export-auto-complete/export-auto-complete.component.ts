@@ -41,7 +41,7 @@ export class ExportAutoCompleteComponent implements OnInit, AfterViewInit {
   }
   @Input() item: VariablesExportItem = {}
   @Output() itemChange = new EventEmitter<VariablesExportItem>()
-  @ViewChild('pathInput') pathInput: ElementRef
+  @ViewChild('pathInput', { static: true }) pathInput: ElementRef
 
   constructor() {
   }
