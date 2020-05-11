@@ -7,27 +7,26 @@
       <nz-form-item>
         <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="group">{{'field-group'|translate}}</nz-form-label>
         <nz-form-control nzXs="24" nzSm="12" nzMd="10">
-          <nz-select formControlName="group" id="group" style="width: 100%;" nzMode="default" [nzPlaceHolder]="'field-group'|translate"
-            nzAllowClear nzShowSearch [nzServerSearch]="true" [nzNotFoundContent]="'tips-no-data'|translate"
-            (nzOnSearch)="searchGroup($event)">
+          <nz-select formControlName="group" id="group" style="width: 100%;" nzMode="default"
+            [nzPlaceHolder]="'field-group'|translate" nzAllowClear nzShowSearch [nzServerSearch]="true"
+            [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchGroup($event)">
             <ng-container *ngFor="let item of groups">
               <nz-option *ngIf="!isLoading" [nzValue]="item.id" [nzLabel]="item.id" nzCustomContent>
-                <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover [nzTitle]="item.summary"
-                  [nzContent]="item.description"></nz-avatar>
+                <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover
+                  [nzPopoverTitle]="item.summary" [nzPopoverContent]="item.description"></nz-avatar>
                 <span style="padding-left:10px;">{{item.id}}</span>
               </nz-option>
             </ng-container>
             <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-              <i nz-icon type="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
+              <i nz-icon nzType="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
             </nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="id">{{'field-id'|translate}}</nz-form-label>
-        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10" [nzErrorTip]="'field-id-err'|translate">
           <input nz-input formControlName="id" id="id" [placeholder]="'field-id-err'|translate">
-          <nz-form-explain *ngIf="form.get('id').dirty && form.get('id').errors">{{'field-id-err'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -38,28 +37,26 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzXs="24" nzSm="7" nzFor="summary">{{'field-summary'|translate}}</nz-form-label>
-        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10" [nzErrorTip]="'field-id-err'|translate">
           <input nz-input formControlName="summary" id="summary" [placeholder]="'field-summary'|translate">
-          <nz-form-explain *ngIf="form.get('summary').dirty && form.get('summary').errors">{{'field-id-err'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzXs="24" nzSm="7" nzFor="description">{{'field-description'|translate}}</nz-form-label>
-        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
-          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{minRows: 4}" [placeholder]="'field-description'|translate"></textarea>
-          <nz-form-explain *ngIf="form.get('description').dirty && form.get('description').errors">{{'field-description'|translate}}</nz-form-explain>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10" [nzErrorTip]="'field-description'|translate">
+          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{minRows: 4}"
+            [placeholder]="'field-description'|translate"></textarea>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control [nzOffset]="7" nzXs="24" nzSm="12" nzMd="10">
-          <nz-avatar nzSize="large" nzIcon="anticon anticon-user" [nzSrc]="form.get('avatar').value"></nz-avatar>
+          <nz-avatar nzSize="large" nzIcon="user" [nzSrc]="form.get('avatar').value"></nz-avatar>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzXs="24" nzSm="7" nzFor="avatar">{{'field-avatar'|translate}}</nz-form-label>
-        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10" [nzErrorTip]="'field-avatar'|translate">
           <input nz-input formControlName="avatar" id="avatar" [placeholder]="'field-avatar'|translate">
-          <nz-form-explain *ngIf="form.get('avatar').dirty && form.get('avatar').errors">{{'field-avatar'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>

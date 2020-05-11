@@ -2,7 +2,7 @@
   <h1 style="padding-left:10px;opacity:0.75;">{{title.join('') + ' Only http requests'}}</h1>
   <nz-breadcrumb style="padding-right:20px;" [nzSeparator]="nzSeparator">
     <nz-breadcrumb-item>
-      <i nz-icon type="home" theme="outline" class="click-icon" (click)="loadGroupData()"></i>
+      <i nz-icon nzType="home" theme="outline" class="click-icon" (click)="loadGroupData()"></i>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item *ngIf="group">
       <a>{{group}}</a>

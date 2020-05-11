@@ -2,19 +2,19 @@
 <layout-header class="alain-default__header"></layout-header>
 <div class="alain-default__aside">
   <div class="alain-default__aside-inner">
-    <nz-dropdown style="height:42px;" nzTrigger="click" class="alain-default__aside-user">
-      <div nz-dropdown class="user-block-dropdown">
-        <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="group.avatar" [nzText]="group.id?group.id[0].toUpperCase():''"></nz-avatar>
-        <div class="alain-default__aside-user-info">
-          <strong>{{group.id}}</strong>
-          <p class="text-truncate mb0" [title]="group.description||group.summary||''">{{group.summary}}</p>
-        </div>
+    <div class="alain-default__aside-user">
+      <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="group.avatar"
+        [nzText]="group.id?group.id[0].toUpperCase():''">
+      </nz-avatar>
+      <div class="alain-default__aside-user-info">
+        <strong>{{group.id}}</strong>
+        <p class="text-truncate mb0" [title]="group.description||group.summary||''">{{group.summary}}</p>
       </div>
-    </nz-dropdown>
+    </div>
     <sidebar-nav class="d-block py-lg indigo-sidebar-nav-padding"></sidebar-nav>
     <div>
       <button class="indigo-aside-fold-btn" nz-button nzType="dashed" (click)="toggleCollapsedSidebar()">
-        <i nz-icon type="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+        <i nz-icon nzType="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
       </button>
     </div>
   </div>

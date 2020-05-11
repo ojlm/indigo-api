@@ -10,7 +10,8 @@
         <div nz-row [nzGutter]="3" style="margin-bottom:4px;">
           <div nz-col nzSpan="8">
             <nz-select style="width: 100%;" nzMode="default" [(ngModel)]="search.jobId" nzPlaceHolder="Select a job"
-              nzAllowClear nzShowSearch [nzServerSearch]="true" [nzDropdownMatchSelectWidth]="false" (nzOnSearch)="searchJob($event)">
+              nzAllowClear nzShowSearch [nzServerSearch]="true" [nzDropdownMatchSelectWidth]="false"
+              (nzOnSearch)="searchJob($event)">
               <ng-container *ngFor="let item of jobs">
                 <nz-option [nzValue]="item._id" [nzLabel]="item.summary" nzCustomContent>
                   <span>
@@ -50,7 +51,7 @@
               <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text">
               <ng-template #suffixButton>
                 <button nz-button nzType="primary" (click)="doSearch()">
-                  <i nz-icon type="search" theme="outline"></i>
+                  <i nz-icon nzType="search" theme="outline"></i>
                   <span>{{'btn-search'|translate}}</span>
                 </button>
               </ng-template>
@@ -59,7 +60,7 @@
         </div>
       </ng-template>
       <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent" [nzActions]="[view,edit]">
+        <nz-list-item [nzActions]="[view,edit]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
               <span>
@@ -87,19 +88,19 @@
           </nz-list-item-meta>
           <ng-template #view>
             <button nz-button nzType="default" (click)="viewItem(item)">
-              <i nz-icon type="dashboard" theme="outline"></i>
+              <i nz-icon nzType="dashboard" theme="outline"></i>
             </button>
           </ng-template>
           <ng-template #edit>
             <button nz-button nzType="default" (click)="editItem(item)" [disabled]="!item.jobId">
-              <i nz-icon type="setting" theme="outline"></i>
+              <i nz-icon nzType="setting" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>
       </ng-template>
       <ng-template #pagination>
-        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
-          [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate"
+          [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
           <ng-template #totalTemplate let-total>
             <span style="color:lightgray;">
               <span>{{'item-total'|translate}}</span>

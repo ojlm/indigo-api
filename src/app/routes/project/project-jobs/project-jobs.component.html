@@ -21,7 +21,7 @@
               <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text">
               <ng-template #suffixButton>
                 <button nz-button nzType="primary" (click)="loadData()">
-                  <i nz-icon type="search" theme="outline"></i>
+                  <i nz-icon nzType="search" theme="outline"></i>
                   <span>{{'btn-search'|translate}}</span>
                 </button>
               </ng-template>
@@ -30,7 +30,7 @@
         </div>
       </ng-template>
       <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+        <nz-list-item [nzActions]="[edit]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
               <div style="padding-left:10px;">
@@ -47,34 +47,37 @@
                   <span>{{item.state}}</span>
                   <nz-divider nzType="vertical"></nz-divider>
                 </div>
-                <span style="float:right;padding-right:8px;" nz-tooltip nzTitle="Created time">{{item.createdAt}}</span>
+                <span style="float:right;padding-right:8px;" nz-tooltip
+                  nzTooltipTitle="Created time">{{item.createdAt}}</span>
               </div>
             </ng-template>
           </nz-list-item-meta>
           <ng-template #edit>
-            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTitle="Charts" (click)="showTrend(item)">
-              <i nz-icon type="bar-chart" theme="outline"></i>
+            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTooltipTitle="Charts"
+              (click)="showTrend(item)">
+              <i nz-icon nzType="bar-chart" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" nz-tooltip
               nzTitle="Resume" (click)="resumeItem(item)">
-              <i nz-icon type="play-circle" theme="outline"></i>
+              <i nz-icon nzType="play-circle" theme="outline"></i>
             </button>
             <button nz-button [disabled]="!canResumeOrPause(item)" nzSize="small" nzType="default" nz-tooltip
               nzTitle="Pause" (click)="pauseItem(item)">
-              <i nz-icon type="pause" theme="outline"></i>
+              <i nz-icon nzType="pause" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
-            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTitle="Copy" (click)="copyItem(item)">
-              <i nz-icon type="copy" theme="outline"></i>
+            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTooltipTitle="Copy" (click)="copyItem(item)">
+              <i nz-icon nzType="copy" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
-            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTitle="Edit" (click)="editItem(item)">
-              <i nz-icon type="setting" theme="outline"></i>
+            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTooltipTitle="Edit" (click)="editItem(item)">
+              <i nz-icon nzType="setting" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
-            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTitle="Delete" (click)="deleteItem(item)">
-              <i nz-icon type="delete" theme="outline"></i>
+            <button nz-button nzSize="small" nzType="default" nz-tooltip nzTooltipTitle="Delete"
+              (click)="deleteItem(item)">
+              <i nz-icon nzType="delete" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>

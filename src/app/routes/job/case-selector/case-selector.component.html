@@ -51,7 +51,7 @@
             </div>
           </ng-template>
           <ng-template #removeAction>
-            <a style="padding-right:8px;transform: scale(1.2);" (click)="removeItem(item, i)"><i nz-icon type="close"
+            <a style="padding-right:8px;transform: scale(1.2);" (click)="removeItem(item, i)"><i nz-icon nzType="close"
                 theme="outline" class="click-icon hover-red"></i></a>
           </ng-template>
         </ng-template>
@@ -96,9 +96,9 @@
         </div>
       </ng-template>
       <ng-template #addAction>
-        <a *ngIf="!addedItemsMap[item._id]" (click)="addItem(item)"><i nz-icon type="right" theme="outline"
+        <a *ngIf="!addedItemsMap[item._id]" (click)="addItem(item)"><i nz-icon nzType="right" theme="outline"
             class="click-icon"></i></a>
-        <a *ngIf="addedItemsMap[item._id]"><i style="color:yellowgreen;" nz-icon type="check-circle" theme="outline"
+        <a *ngIf="addedItemsMap[item._id]"><i style="color:yellowgreen;" nz-icon nzType="check-circle" theme="outline"
             class="click-icon"></i></a>
       </ng-template>
     </ng-template>

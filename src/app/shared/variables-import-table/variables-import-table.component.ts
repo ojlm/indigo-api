@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { VariablesOptionsComponent } from '@shared/variables-options/variables-options.component'
-import { SortablejsOptions } from 'angular-sortablejs'
 import { SelectModel } from 'app/model/common.model'
 import { ImportItemType, TransformFunction, VariablesImportItem } from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { intputNumFormat, numToInputValue } from 'app/util/number'
 import { NzDrawerService } from 'ng-zorro-antd'
+import { SortablejsOptions } from 'ngx-sortablejs'
 
 @Component({
   selector: 'app-variables-import-table',

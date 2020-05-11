@@ -14,9 +14,9 @@
         <div [ngSwitch]="item.type">
           <ng-container *ngSwitchCase="'case'">
             <div class="step-title-wrapper">
-              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <span><i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
               <a style="padding-left:4px;" (click)="removeStep(item, i)">
-                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+                <i nz-icon nzType="close-circle" theme="outline" class="click-icon hover-red"></i>
               </a>
               <span> {{i+1}}. </span>
               <span class="step-title" (click)="viewStep(i, item)">
@@ -35,16 +35,16 @@
             <div>
               <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
               <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
-                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
-              <nz-tag [nzColor]="methodTagColor(item)">{{getStepData(item).request.method}}</nz-tag>
+                [nzTooltipTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
+              <nz-tag [nzColor]="methodTagColor(item)">{{getStepData(item).request['method']}}</nz-tag>
               <span class="small-text">{{getHttpRequestUrl(item)}}</span>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="'dubbo'">
             <div class="step-title-wrapper">
-              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <span><i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
               <a style="padding-left:4px;" (click)="removeStep(item, i)">
-                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+                <i nz-icon nzType="close-circle" theme="outline" class="click-icon hover-red"></i>
               </a>
               <span> {{i+1}}. </span>
               <span class="step-title" (click)="viewStep(i, item)">
@@ -63,7 +63,7 @@
             <div>
               <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
               <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
-                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
+                [nzTooltipTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
               <nz-tag [nzColor]="'gold'">
                 <i nz-icon nzType="alibaba" nzTheme="outline"></i>
                 <span> dubbo</span>
@@ -73,9 +73,9 @@
           </ng-container>
           <ng-container *ngSwitchCase="'sql'">
             <div class="step-title-wrapper">
-              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <span><i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
               <a style="padding-left:4px;" (click)="removeStep(item, i)">
-                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+                <i nz-icon nzType="close-circle" theme="outline" class="click-icon hover-red"></i>
               </a>
               <span> {{i+1}}. </span>
               <span class="step-title" (click)="viewStep(i, item)">
@@ -94,7 +94,7 @@
             <div>
               <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
               <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
-                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
+                [nzTooltipTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
               <nz-tag [nzColor]="'geekblue'">
                 <i nz-icon nzType="database" nzTheme="outline"></i>
                 <span> sql</span>
@@ -104,9 +104,9 @@
           </ng-container>
           <ng-container *ngSwitchCase="'delay'">
             <div class="step-title-wrapper">
-              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <span><i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
               <a style="padding-left:4px;" (click)="removeStep(item, i)">
-                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+                <i nz-icon nzType="close-circle" theme="outline" class="click-icon hover-red"></i>
               </a>
               <span> {{i+1}}. </span>
               <span class="step-title">
@@ -116,7 +116,7 @@
             <div>
               <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
               <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
-                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
+                [nzTooltipTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
               <nz-input-number style="margin-left:4px;" [(ngModel)]="item.data.delay.value" [nzSize]="'small'"
                 [nzMin]="1" [nzStep]="1">
               </nz-input-number>
@@ -130,9 +130,9 @@
           </ng-container>
           <ng-container *ngSwitchCase="'jump'">
             <div class="step-title-wrapper">
-              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <span><i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
               <a style="padding-left:4px;" (click)="removeStep(item, i)">
-                <i nz-icon type="close-circle" theme="outline" class="click-icon hover-red"></i>
+                <i nz-icon nzType="close-circle" theme="outline" class="click-icon hover-red"></i>
               </a>
               <span> {{i+1}}. </span>
               <span class="step-title" (click)="openJumpModelDrawer(i, item)">
@@ -142,7 +142,7 @@
             <div>
               <nz-badge [nzStatus]="getStepStatus(i, item).status"></nz-badge>
               <label class="check" nz-checkbox [nzIndeterminate]="item.enabled" nz-tooltip
-                [nzTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
+                [nzTooltipTitle]="'tips-step-checkbox'|translate" [(ngModel)]="item.enabled"></label>
               <ng-container *ngIf="item.data.jump.type===0">
                 <span *ngFor="let item of item.data.jump.conditions">
                   <i class="jump-to" nz-icon nzType="swap-right" nzTheme="outline"></i>
@@ -163,16 +163,19 @@
       <button nz-button nzSize="small" nzType="dashed" (click)="selectStep()">
         <span>{{'btn-add-req'|translate}}</span>
       </button>
-      <nz-dropdown-button style="margin-left:4px;" nzSize="small" nzType="dashed" (nzClick)="addNewHttpStep()">
+      <button nz-button style="margin-left:4px;" nzSize="small" nzType="dashed" (click)="addNewHttpStep()" nz-dropdown
+        [nzTrigger]="'hover'" [nzDropdownMenu]="addMenu" [nzPlacement]="'bottomRight'">
         <span>
-          <span><i nz-icon type="plus" theme="outline"></i></span>
+          <span><i nz-icon nzType="plus" theme="outline"></i></span>
           <span style="margin-left:2px;">{{'btn-add-new-req'|translate}}</span>
         </span>
+      </button>
+      <nz-dropdown-menu #addMenu="nzDropdownMenu">
         <ul nz-menu>
           <li nz-menu-item (click)="addNewDubboStep()">dubbo</li>
           <li nz-menu-item (click)="addNewSqlStep()">sql</li>
         </ul>
-      </nz-dropdown-button>
+      </nz-dropdown-menu>
       <button style="margin-left:2px;" nz-button nzSize="small" nzType="dashed" (click)="addDelayStep()">
         <span>{{'btn-delay-step'|translate}}</span>
       </button>

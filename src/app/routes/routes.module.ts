@@ -20,10 +20,7 @@ import { FeedScenarioComponent } from './home/feed-scenario/feed-scenario.compon
 import { FeedSqlComponent } from './home/feed-sql/feed-sql.component'
 import { FeedUserComponent } from './home/feed-user/feed-user.component'
 import { HomeComponent } from './home/home.component'
-import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
-import { UserRegisterComponent } from './passport/register/register.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
@@ -40,11 +37,8 @@ const COMPONENTS = [
   HomeComponent,
   // passport pages
   UserLoginComponent,
-  UserRegisterComponent,
-  UserRegisterResultComponent,
   // single pages
   CallbackComponent,
-  UserLockComponent,
   Exception403Component,
   Exception404Component,
   Exception500Component,

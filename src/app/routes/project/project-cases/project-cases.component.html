@@ -10,12 +10,13 @@
         <app-case-search-panel [(data)]="search" [subject]="panelSubject"></app-case-search-panel>
       </ng-template>
       <ng-template #item let-item let-i="index">
-        <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+        <nz-list-item [nzActions]="[edit]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
               <div>
                 <label *ngIf="selectable" style="padding-right:8px;" nz-checkbox [(ngModel)]="item._checked"
-                  (ngModelChange)="refreshSelectedItems($event, i)"></label>
+                  (ngModelChange)="refreshSelectedItems($event, i)">
+                </label>
                 <span style="cursor:pointer;" (click)="editOrCheckItem(item)">
                   <a>{{item.summary}}</a>
                   <span style="padding-left:8px;color:lightgray;">{{item.request.host}}</span>
@@ -33,8 +34,8 @@
               <span class="user-info">
                 <span style="font-size:small;">{{item.createdAt}}</span>
                 <nz-divider nzType="vertical"></nz-divider>
-                <nz-avatar nz-popover [nzContent]="popoverContent" style="cursor:pointer;" nzSize="small" [nzText]="userText(item)"
-                  [nzSrc]="userAvatar(item)">
+                <nz-avatar nz-popover [nzPopoverContent]="popoverContent" style="cursor:pointer;" nzSize="small"
+                  [nzText]="userText(item)" [nzSrc]="userAvatar(item)">
                   <ng-template #popoverContent>
                     <app-profile-simple [data]="users[item.creator]"></app-profile-simple>
                   </ng-template>
@@ -44,11 +45,11 @@
           </nz-list-item-meta>
           <ng-template #edit>
             <button nz-button nzSize="small" nzType="default" (click)="editOrCheckItem(item, true)">
-              <i nz-icon type="setting" theme="outline"></i>
+              <i nz-icon nzType="setting" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button nzSize="small" nzType="default" (click)="deleteItem(item)">
-              <i nz-icon type="delete" theme="outline"></i>
+              <i nz-icon nzType="delete" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>
@@ -61,14 +62,15 @@
           <button *ngIf="selectable" nz-button type="button" nzSize="small" nzType="primary" (click)="selectAll()">
             <span>{{'btn-select-all'|translate}}</span>
           </button>
-          <button *ngIf="selectable" nz-button type="button" nzSize="small" nzType="primary" (click)="batchOperationBtnClick()">
+          <button *ngIf="selectable" nz-button type="button" nzSize="small" nzType="primary"
+            (click)="batchOperationBtnClick()">
             <span>{{'btn-batch-operate'|translate}}</span>
           </button>
         </span>
         <span style="float:right;">
-          <nz-pagination [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal" [(nzPageSize)]="pageSize"
-            [nzShowSizeChanger]="true" [nzPageSizeOptions]="[20, 50, 100]" (nzPageSizeChange)="pageChange()"
-            (nzPageIndexChange)="pageChange()">
+          <nz-pagination [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
+            [(nzPageSize)]="pageSize" [nzShowSizeChanger]="true" [nzPageSizeOptions]="[20, 50, 100]"
+            (nzPageSizeChange)="pageChange()" (nzPageIndexChange)="pageChange()">
             <ng-template #totalTemplate let-total>
               <span style="color:lightgray;">
                 <span>{{'item-total'|translate}}</span>
@@ -82,13 +84,14 @@
     </nz-list>
   </nz-card>
 </div>
-<nz-drawer [nzClosable]="false" [nzVisible]="batchMode" nzPlacement="right" [nzBodyStyle]="{'padding':'0px'}" [nzWidth]="drawerWidth"
-  (nzOnClose)="batchMode=false">
+<nz-drawer [nzClosable]="false" [nzVisible]="batchMode" nzPlacement="right" [nzBodyStyle]="{'padding':'0px'}"
+  [nzWidth]="drawerWidth" (nzOnClose)="batchMode=false">
   <nz-card [nzTitle]="cardTitle" [nzBodyStyle]="{'padding':'8px'}">
     <ng-template #cardTitle>
       <div>
         <span>{{'tips-batch-mode'|translate}}</span>
-        <button style="margin-left:8px;" nz-button type="button" nzSize="small" nzType="primary" (click)="clearSelectedItems()">
+        <button style="margin-left:8px;" nz-button type="button" nzSize="small" nzType="primary"
+          (click)="clearSelectedItems()">
           <span>{{'btn-clear'|translate}}</span>
         </button>
       </div>
@@ -122,10 +125,11 @@
       <app-group-project-selector [(data)]="transferGroupProject"></app-group-project-selector>
       <div style="margin-top:8px;">
         <span style="padding-left:4px;color:lightcoral;font-size:smaller;">
-          <i nz-icon type="exclamation-circle" theme="outline"></i>
+          <i nz-icon nzType="exclamation-circle" theme="outline"></i>
           <span style="padding-left:4px">{{'tips-transfer-case'|translate}}</span>
         </span>
-        <button style="float:right;margin-right:8px;" nz-button nzType="primary" [nzSize]="'small'" (click)="batchTransfer()">{{'item-transfer'|translate}}</button>
+        <button style="float:right;margin-right:8px;" nz-button nzType="primary" [nzSize]="'small'"
+          (click)="batchTransfer()">{{'item-transfer'|translate}}</button>
       </div>
     </div>
     <!--selected items -->
@@ -138,7 +142,7 @@
     </nz-divider>
     <nz-list *ngIf="selectedItems.length>0" [nzDataSource]="selectedItems" nzSize="small" [nzRenderItem]="selectedItem">
       <ng-template #selectedItem let-item>
-        <nz-list-item [nzContent]="nzContent">
+        <nz-list-item>
           <a>{{item.summary}}</a>
         </nz-list-item>
       </ng-template>

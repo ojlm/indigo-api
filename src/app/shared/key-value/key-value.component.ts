@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { SortablejsOptions } from 'angular-sortablejs'
+import { Options } from 'sortablejs'
 
 import { KeyValueObject } from '../../model/es.model'
 
@@ -10,7 +10,7 @@ import { KeyValueObject } from '../../model/es.model'
 })
 export class KeyValueComponent implements OnInit {
 
-  sortablejsOptions: SortablejsOptions = {
+  sortablejsOptions: Options = {
     handle: '.anticon-bars',
     onUpdate: function (event: any) {
       this.dataChange.emit(this.data)

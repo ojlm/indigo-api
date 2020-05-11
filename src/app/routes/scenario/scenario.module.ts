@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
-import { SortablejsModule } from 'angular-sortablejs'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
+import { SortablejsModule } from 'ngx-sortablejs'
 
 import { CaseModule } from '../case/case.module'
 import { DubboModule } from '../dubbo/dubbo.module'

@@ -4,8 +4,8 @@
   </nz-input-group>
   <nz-card [nzTitle]="'field-exclusions'|translate" [nzBodyStyle]="{'padding':'8px'}">
     <nz-input-group>
-      <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="exMethods"
-        nzAllowClear nzShowSearch>
+      <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate"
+        [(ngModel)]="exMethods" nzAllowClear nzShowSearch>
         <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
       </nz-select>
     </nz-input-group>
@@ -14,15 +14,17 @@
       <tbody>
         <tr *ngFor="let item of nzExclusionTable.data; let i = index">
           <td style="padding:2px;width:120px;">
-            <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate" [(ngModel)]="item.type">
-              <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value"></nz-option>
+            <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate"
+              [(ngModel)]="item.type">
+              <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value">
+              </nz-option>
             </nz-select>
           </td>
           <td style="padding:2px;">
             <input nz-input [(ngModel)]="item.value">
           </td>
           <td style="padding:2px;width:32px;">
-            <i nz-icon type="close" theme="outline" class="click-icon" (click)="removeExclusion(i)"></i>
+            <i nz-icon nzType="close" theme="outline" class="click-icon" (click)="removeExclusion(i)"></i>
           </td>
         </tr>
       </tbody>
@@ -37,8 +39,10 @@
       <tbody>
         <tr *ngFor="let item of nzAggsTable.data; let i = index">
           <td style="padding:2px;width:120px;">
-            <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate" [(ngModel)]="item.type">
-              <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value"></nz-option>
+            <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate"
+              [(ngModel)]="item.type">
+              <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value">
+              </nz-option>
             </nz-select>
           </td>
           <td style="padding:2px;">
@@ -48,7 +52,7 @@
             <input nz-input [(ngModel)]="item.alias" [placeholder]="'field-alias'|translate">
           </td>
           <td style="padding:2px;width:32px;">
-            <i nz-icon type="close" theme="outline" class="click-icon" (click)="removeAggs(i)"></i>
+            <i nz-icon nzType="close" theme="outline" class="click-icon" (click)="removeAggs(i)"></i>
           </td>
         </tr>
       </tbody>
@@ -63,15 +67,17 @@
       <tbody>
         <tr *ngFor="let item of nzInclusionTable.data; let i = index">
           <td style="padding:2px;width:120px;">
-            <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate" [(ngModel)]="item.type">
-              <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value"></nz-option>
+            <nz-select style="width:100%;" nzMode="default" [nzPlaceHolder]="'field-type'|translate"
+              [(ngModel)]="item.type">
+              <nz-option *ngFor="let t of configFieldType" [nzLabel]="t.label|translate" [nzValue]="t.value">
+              </nz-option>
             </nz-select>
           </td>
           <td style="padding:2px;">
             <input nz-input [(ngModel)]="item.value">
           </td>
           <td style="padding:2px;width:32px;">
-            <i nz-icon type="close" theme="outline" class="click-icon" (click)="removeInclusion(i)"></i>
+            <i nz-icon nzType="close" theme="outline" class="click-icon" (click)="removeInclusion(i)"></i>
           </td>
         </tr>
       </tbody>
@@ -92,13 +98,14 @@
     </div>
   </nz-card>
   <div style="padding:8px;text-align:right;">
-    <button nz-button style="background-color:lightcoral;" nzType="primary" [nzLoading]="previewLoading" (click)="preview()">{{'btn-preview'|translate}}</button>
+    <button nz-button style="background-color:lightcoral;" nzType="primary" [nzLoading]="previewLoading"
+      (click)="preview()">{{'btn-preview'|translate}}</button>
     <button nz-button nzType="primary" (click)="save()">{{'btn-save'|translate}}</button>
   </div>
   <nz-list [nzLoading]="previewLoading" [nzDataSource]="list" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
     [nzPagination]="pagination">
     <ng-template #item let-item>
-      <nz-list-item [nzContent]="nzContent">
+      <nz-list-item>
         <nz-list-item-meta [nzTitle]="nzTitle">
           <ng-template #nzTitle>
             <div style="padding-left:10px;">
@@ -109,7 +116,7 @@
               <nz-divider nzType="vertical"></nz-divider>
               <span>
                 <span>{{item.percentage/100 + '%'}}</span>
-                <i style="padding-left:4px;color:lightgray;" nz-icon type="pie-chart" theme="outline"></i>
+                <i style="padding-left:4px;color:lightgray;" nz-icon nzType="pie-chart" theme="outline"></i>
               </span>
               <nz-divider nzType="vertical"></nz-divider>
               <span *ngIf="item.belongs" style="float:right;">
@@ -124,9 +131,9 @@
       </nz-list-item>
     </ng-template>
     <ng-template #pagination>
-      <nz-pagination *ngIf="apiItems.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal" [nzShowTotal]="totalTemplate"
-        [nzShowSizeChanger]="true" [nzPageSizeOptions]="[20, 50, 100]" [(nzPageSize)]="pageSize" (nzPageSizeChange)="pageChange()"
-        (nzPageIndexChange)="pageChange()">
+      <nz-pagination *ngIf="apiItems.length>0" [(nzPageIndex)]="pageIndex" [nzTotal]="pageTotal"
+        [nzShowTotal]="totalTemplate" [nzShowSizeChanger]="true" [nzPageSizeOptions]="[20, 50, 100]"
+        [(nzPageSize)]="pageSize" (nzPageSizeChange)="pageChange()" (nzPageIndexChange)="pageChange()">
         <ng-template #totalTemplate let-total>
           <span style="color:lightgray;">
             <span>{{'item-total'|translate}}</span>

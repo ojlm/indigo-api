@@ -3,24 +3,25 @@
     <nz-tab [nzTitle]="'tips-login-by-useranme'|translate">
       <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
       <nz-form-item>
-        <nz-form-control>
-          <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-user">
+        <nz-form-control [nzErrorTip]="'tips-input-useranme'|translate">
+          <nz-input-group nzSize="large" [nzPrefix]="userPrefix">
+            <ng-template #userPrefix><i nz-icon nzType="user"></i></ng-template>
             <input nz-input formControlName="userName" placeholder="username">
           </nz-input-group>
-          <nz-form-explain *ngIf="userName.dirty && userName.errors">{{'tips-input-useranme'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-control>
-          <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-lock">
+        <nz-form-control [nzErrorTip]="'tips-input-password'|translate">
+          <nz-input-group nzSize="large" [nzPrefix]="lockPrefix">
+            <ng-template #lockPrefix><i nz-icon nzType="lock"></i></ng-template>
             <input nz-input type="password" formControlName="password" placeholder="password">
           </nz-input-group>
-          <nz-form-explain *ngIf="password.dirty && password.errors">{{'tips-input-password'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </nz-tab>
   </nz-tabset>
   <nz-form-item>
-    <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loading">{{'title-login'|translate}}</button>
+    <button nz-button type="submit" nzType="primary" nzSize="large"
+      [nzLoading]="loading">{{'title-login'|translate}}</button>
   </nz-form-item>
 </form>

@@ -60,7 +60,7 @@
           <input nz-input [(ngModel)]="item.port">
         </td>
         <td style="padding:2px;">
-          <i nz-icon type="close" theme="outline" class="click-icon" (click)="removeOwned(i)"></i>
+          <i nz-icon nzType="close" theme="outline" class="click-icon" (click)="removeOwned(i)"></i>
         </td>
       </tr>
       <ng-container *ngIf="!showOwned">

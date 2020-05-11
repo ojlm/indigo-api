@@ -4,20 +4,22 @@
       <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (ngModelChange)="modelChange()"
         (keyup.enter)="modelChange()">
       <ng-template #suffixButton>
-        <a class="click-icon" style="margin-right:10px;"><i nz-icon type="search" theme="outline" (click)="modelChange()"></i></a>
+        <a class="click-icon" style="margin-right:10px;"><i nz-icon nzType="search" theme="outline"
+            (click)="modelChange()"></i></a>
       </ng-template>
     </nz-input-group>
   </div>
   <div nz-col nzSpan="2">
-    <button style="width:100%;" nz-button [nzType]="showAll?'primary':'default'" [nzSize]="size" (click)="showAllChange()">
-      <i nz-icon [type]="showAll?'up':'down'" theme="outline"></i>
+    <button style="width:100%;" nz-button [nzType]="showAll?'primary':'default'" [nzSize]="size"
+      (click)="showAllChange()">
+      <i nz-icon [nzType]="showAll?'up':'down'" theme="outline"></i>
     </button>
   </div>
 </div>
 <div nz-row [nzGutter]="3">
   <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="8">
-    <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate" [(ngModel)]="search.methods"
-      nzAllowClear nzShowSearch (ngModelChange)="modelChange()">
+    <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate"
+      [(ngModel)]="search.methods" nzAllowClear nzShowSearch (ngModelChange)="modelChange()">
       <nz-option *ngFor="let m of methods" [nzLabel]="m" [nzValue]="m"></nz-option>
     </nz-select>
   </div>
@@ -41,13 +43,14 @@
         <ng-container *ngFor="let item of items">
           <nz-option *ngIf="!isLoading" [nzValue]="item.id" [nzLabel]="item.id" nzCustomContent>
             <span>
-              <nz-badge style="transform: scale(0.6);" [nzCount]="item.count" [nzStyle]="{backgroundColor:'#52c41a'}"></nz-badge>
+              <nz-badge style="transform: scale(0.6);" [nzCount]="item.count" [nzStyle]="{backgroundColor:'#52c41a'}">
+              </nz-badge>
               <span>{{item.id}}</span>
             </span>
           </nz-option>
         </ng-container>
         <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-          <i nz-icon type="loading"></i> Loading ...
+          <i nz-icon nzType="loading"></i> Loading ...
         </nz-option>
       </nz-select>
     </nz-input-group>

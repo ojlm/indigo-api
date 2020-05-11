@@ -2,15 +2,15 @@
   <div *ngIf="!fromSelector" class="alain-default__content-title">
     <h1 style="padding-left: 10px;">{{'content-title-scenario'|translate}}</h1>
     <span>
-      <nz-tag *ngIf="scenarioId" style="margin-right:16px;" nzMode="checkable" [(nzChecked)]="toptopChecked"
-        [nzColor]="toptopChecked?'#108ee9':'lightblue'" (nzCheckedChange)="toptopChange($event)"
-        (contextmenu)="contextMenu($event, cmTemplate)">
+      <nz-tag *ngIf="scenarioId" style="margin-right:16px;cursor:pointer;" nzMode="checkable"
+        [(nzChecked)]="toptopChecked" [nzColor]="toptopChecked?'#108ee9':'lightblue'"
+        (nzCheckedChange)="toptopChange($event)" (contextmenu)="contextMenu($event, cmTemplate)">
         {{'title-top-top'|translate}}
-        <ng-template #cmTemplate>
-          <ul nz-menu nzInDropDown (nzClick)="closeContextMenu($event)">
+        <nz-dropdown-menu #cmTemplate>
+          <ul nz-menu nzInDropDown (nzClick)="closeContextMenu()">
             <li nz-menu-item (click)="goTopTop()">Go Toptop</li>
           </ul>
-        </ng-template>
+        </nz-dropdown-menu>
       </nz-tag>
       <span>
         <span [style.color]="'lightseagreen'">{{scenario.summary}}</span>
@@ -72,7 +72,7 @@
     <span style="float:right;">
       <button nz-button [nzType]="'primary'" [nzSize]="'default'" (click)="test()">
         <span>
-          <i nz-icon type="scan" theme="outline"></i>
+          <i nz-icon nzType="scan" theme="outline"></i>
           <span>{{'btn-test'|translate}}</span>
         </span>
       </button>
@@ -88,8 +88,8 @@
   </div>
 </div>
 <!-- console draw -->
-<nz-drawer [nzMask]="true" [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}"
-  [nzBodyStyle]="{'padding':'0px'}" [nzVisible]="consoleDrawerVisible" [nzHeight]="0" [nzClosable]="false"
+<nz-drawer #consoleDrawer [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
+  [nzVisible]="consoleDrawerVisible" [nzHeight]="consoleHeight" [nzClosable]="false"
   (nzOnClose)="consoleDrawerVisible=false">
   <app-console-report [log]="logSubject" [style.visibility]="consoleDrawerVisible?'visible':'hidden'">
   </app-console-report>

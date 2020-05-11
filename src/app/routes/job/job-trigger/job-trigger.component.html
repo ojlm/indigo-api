@@ -16,16 +16,15 @@
             </label>
           </div>
           <div nz-col [nzSpan]="8">
-            <nz-date-picker style="width:80%;" [nzStyle]="{'width':'100%'}" [(ngModel)]="startDate" nzShowTime
-              [nzSize]="'small'" [nzFormat]="'yyyy-MM-dd HH:mm:ss'" nzAllowClear
-              (ngModelChange)="startDateChange($event)">
+            <nz-date-picker style="width:80%;" style="width:100%;" [(ngModel)]="startDate" nzShowTime [nzSize]="'small'"
+              [nzFormat]="'yyyy-MM-dd HH:mm:ss'" nzAllowClear (ngModelChange)="startDateChange($event)">
             </nz-date-picker>
           </div>
           <div nz-col [nzSpan]="2">
             <span>{{'content-end-time'|translate}}</span>
           </div>
           <div nz-col [nzSpan]="8">
-            <nz-date-picker style="width:80%;" [nzStyle]="{'width':'100%'}" [(ngModel)]="endDate" nzShowTime
+            <nz-date-picker style="width:80%;" style="width:100%;" [(ngModel)]="endDate" nzShowTime
               [nzFormat]="'yyyy-MM-dd HH:mm:ss'" [nzSize]="'small'" nzAllowClear
               (ngModelChange)="endDateChange($event)">
             </nz-date-picker>
@@ -65,7 +64,7 @@
       </nz-input-group>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary" (click)="checkCron()">
-          <i nz-icon type="schedule" theme="outline"></i>
+          <i nz-icon nzType="schedule" theme="outline"></i>
         </button>
       </ng-template>
       <nz-alert *ngIf="cronErrorMsg" style="padding-top:5px;" nzType="error" [nzMessage]="cronErrorMsg" nzShowIcon>

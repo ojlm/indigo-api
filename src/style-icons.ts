@@ -1,4 +1,11 @@
-import { BulbOutline, ExceptionOutline, InfoOutline, LinkOutline, ProfileOutline } from '@ant-design/icons-angular/icons'
+import {
+  BulbOutline,
+  ExceptionOutline,
+  InfoOutline,
+  LinkOutline,
+  ProfileOutline,
+  RobotOutline,
+} from '@ant-design/icons-angular/icons'
 
 export const ICONS = [
   InfoOutline,
@@ -6,4 +13,5 @@ export const ICONS = [
   ProfileOutline,
   ExceptionOutline,
   LinkOutline,
+  RobotOutline,
 ]

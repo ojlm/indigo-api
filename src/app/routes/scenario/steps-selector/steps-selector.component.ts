@@ -1,6 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { SortablejsOptions } from 'angular-sortablejs'
 import { httpRequestSignature } from 'app/api/service/case.service'
 import { dubboRequestSignature } from 'app/api/service/dubbo.service'
 import { sqlRequestSignature } from 'app/api/service/sql.service'
@@ -8,6 +7,7 @@ import { CaseModelComponent } from 'app/routes/case/case-model/case-model.compon
 import { DubboPlaygroundComponent } from 'app/routes/dubbo/dubbo-playground/dubbo-playground.component'
 import { SqlPlaygroundComponent } from 'app/routes/sql/sql-playground/sql-playground.component'
 import { NzDrawerService } from 'ng-zorro-antd'
+import { SortablejsOptions } from 'ngx-sortablejs'
 import { Subject } from 'rxjs'
 
 import {

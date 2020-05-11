@@ -1,4 +1,4 @@
-import { AfterContentInit, Directive, ElementRef, HostListener, Renderer } from '@angular/core'
+import { AfterContentInit, Directive, ElementRef, HostListener, Renderer2 } from '@angular/core'
 
 @Directive({
   selector: '[appAssertionAutocomplete]'
@@ -22,15 +22,15 @@ export class AssertionAutoCompleteDirective implements AfterContentInit {
     this.wasInside = false
   }
 
-  constructor(private eRef: ElementRef, private renderer: Renderer) {
+  constructor(private eRef: ElementRef, private renderer: Renderer2) {
   }
 
   displayOptionsList(isShow: boolean) {
     if (this.optionsNode) {
       if (isShow) {
-        this.renderer.setElementStyle(this.optionsNode, 'display', 'block')
+        this.renderer.setStyle(this.optionsNode, 'display', 'block')
       } else {
-        this.renderer.setElementStyle(this.optionsNode, 'display', 'none')
+        this.renderer.setStyle(this.optionsNode, 'display', 'none')
       }
     }
   }

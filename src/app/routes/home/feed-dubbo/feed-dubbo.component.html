@@ -1,7 +1,7 @@
-<div nz-row>
+<div>
   <app-feed-item-title [action]="action" [user]="item.user" [activity]="item.activity"></app-feed-item-title>
 </div>
-<div nz-row class="feed-content">
+<div class="feed-content">
   <div>
     <span class="feed-item-title" (click)="go()">{{request.summary}}</span>
     <span class="tail-labels">

@@ -7,26 +7,36 @@ import { InputBoolean } from '@delon/util'
 @Component({
   selector: 'header-i18n',
   template: `
-  <nz-dropdown nzPlacement="bottomRight">
-    <div *ngIf="showLangText" nz-dropdown>
-      <i nz-icon type="global"></i>
-      {{ 'language' | translate}}
-      <i nz-icon type="down"></i>
+    <div *ngIf="showLangText" nz-dropdown [nzDropdownMenu]="langMenu" nzPlacement="bottomRight">
+      <i nz-icon nzType="global"></i>
+      {{ 'language' | translate }}
+      <i nz-icon nzType="down"></i>
     </div>
-    <i *ngIf="!showLangText" nz-dropdown nz-icon type="global"></i>
-    <ul nz-menu>
-      <li nz-menu-item *ngFor="let item of langs" [nzSelected]="item.code === curLangCode"
-        (click)="change(item.code)">
-          <span role="img" [attr.aria-label]="item.text" class="pr-xs">{{item.abbr}}</span>
-          {{item.text}}
-      </li>
-    </ul>
-  </nz-dropdown>
+    <i
+      *ngIf="!showLangText"
+      nz-dropdown
+      [nzDropdownMenu]="langMenu"
+      nzPlacement="bottomRight"
+      nz-icon
+      nzType="global"
+    ></i>
+    <nz-dropdown-menu #langMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          *ngFor="let item of langs"
+          [nzSelected]="item.code === curLangCode"
+          (click)="change(item.code)"
+        >
+          <span role="img" [attr.aria-label]="item.text" class="pr-xs">{{ item.abbr }}</span>
+          {{ item.text }}
+        </li>
+      </ul>
+    </nz-dropdown-menu>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderI18nComponent {
-
   /** Whether to display language text */
   @Input() @InputBoolean() showLangText = true
 
@@ -42,8 +52,7 @@ export class HeaderI18nComponent {
     private settings: SettingsService,
     @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
     @Inject(DOCUMENT) private doc: any,
-  ) {
-  }
+  ) { }
 
   change(lang: string) {
     const spinEl = this.doc.createElement('div')

@@ -6,25 +6,27 @@ import { SettingsService } from '@delon/theme'
 @Component({
   selector: 'header-user',
   template: `
-  <nz-dropdown style="cursor:pointer;" nzPlacement="bottomRight">
+  <div style="cursor:pointer;" nz-dropdown [nzDropdownMenu]="userMenu" nzPlacement="bottomRight">
     <div class="item d-flex align-items-center px-sm" nz-dropdown>
       <nz-avatar [nzText]="(settings.user.nickname||settings.user.username)[0]"
         style="background-color:transparent;"[nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm">
       </nz-avatar>
       <span style="color:lightcoral;">{{settings.user.nickname||settings.user.username}}</span>
     </div>
-    <div nz-menu class="width-sm">
-      <div nz-menu-item (click)="goProfile()"><i nz-icon type="profile" theme="outline" class="mr-sm"></i>{{'menu-profile'|translate}}</div>
-      <div nz-menu-item (click)="goUserDashboard()"><i nz-icon type="dashboard" theme="outline" class="mr-sm"></i>{{'menu-user-dashboard'|translate}}</div>
-      <li nz-menu-divider></li>
-      <div nz-menu-item (click)="goCount()"><i nz-icon nzType="stock" nzTheme="outline" class="mr-sm"></i>{{'title-count'|translate}}</div>
-      <div nz-menu-item (click)="goFund()"><i nz-icon nzType="fund" nzTheme="outline" class="mr-sm"></i>{{'title-fund'|translate}}</div>
-      <div nz-menu-item (click)="goTrend()"><i nz-icon type="dot-chart" theme="outline" class="mr-sm"></i>{{'menu-sys-trend'|translate}}</div>
-      <div nz-menu-item (click)="goSystem()"><i nz-icon type="setting" theme="outline" class="mr-sm"></i>{{'menu-sys-settings'|translate}}</div>
-      <li nz-menu-divider></li>
-      <div nz-menu-item (click)="logout()"><i nz-icon type="logout" theme="outline" class="mr-sm"></i>{{'menu-logout'|translate}}</div>
-    </div>
-  </nz-dropdown>
+    <nz-dropdown-menu #userMenu="nzDropdownMenu">
+      <div nz-menu class="width-sm">
+        <div nz-menu-item (click)="goProfile()"><i nz-icon nzType="profile" theme="outline" class="mr-sm"></i>{{'menu-profile'|translate}}</div>
+        <div nz-menu-item (click)="goUserDashboard()"><i nz-icon nzType="dashboard" theme="outline" class="mr-sm"></i>{{'menu-user-dashboard'|translate}}</div>
+        <li nz-menu-divider></li>
+        <div nz-menu-item (click)="goCount()"><i nz-icon nzType="stock" nzTheme="outline" class="mr-sm"></i>{{'title-count'|translate}}</div>
+        <div nz-menu-item (click)="goFund()"><i nz-icon nzType="fund" nzTheme="outline" class="mr-sm"></i>{{'title-fund'|translate}}</div>
+        <div nz-menu-item (click)="goTrend()"><i nz-icon nzType="dot-chart" theme="outline" class="mr-sm"></i>{{'menu-sys-trend'|translate}}</div>
+        <div nz-menu-item (click)="goSystem()"><i nz-icon nzType="setting" theme="outline" class="mr-sm"></i>{{'menu-sys-settings'|translate}}</div>
+        <li nz-menu-divider></li>
+        <div nz-menu-item (click)="logout()"><i nz-icon nzType="logout" theme="outline" class="mr-sm"></i>{{'menu-logout'|translate}}</div>
+      </div>
+    </nz-dropdown-menu>
+  </div>
   `,
 })
 export class HeaderUserComponent {

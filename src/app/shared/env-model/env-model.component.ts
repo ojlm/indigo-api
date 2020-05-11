@@ -20,6 +20,7 @@ import { Authorization, Environment, KeyValueObject } from '../../model/es.model
 })
 export class EnvModelComponent implements OnInit {
 
+  isSaved = true
   fromSelector = false
   isIndexed = false
   envId: string

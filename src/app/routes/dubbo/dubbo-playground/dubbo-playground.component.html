@@ -16,18 +16,15 @@
           (ngModelChange)="modelChange()">
       </nz-input-group>
       <div style="display:flex;padding-left:10px;">
-        <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()">
-          <span>
-            <i nz-icon type="scan" theme="outline"></i>
-            <span>{{'btn-send'|translate}}</span>
-          </span>
-        </button>
-        <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'"
+        <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()"
+          style="padding-left:5px;" nz-dropdown [nzTrigger]="'hover'" [nzDropdownMenu]="saveMenu"
           [nzPlacement]="'bottomRight'">
           <span [style.color]="isSaved?'lightgray':'orangered'">
-            <i nz-icon type="save" theme="outline"></i>
+            <i nz-icon nzType="save" theme="outline"></i>
             <span>{{'btn-save'|translate}}</span>
           </span>
+        </button>
+        <nz-dropdown-menu #saveMenu="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item (click)="saveAs()">
               <a>{{'btn-save-as'|translate}}</a>
@@ -36,7 +33,7 @@
               <a>{{'btn-reset'|translate}}</a>
             </li>
           </ul>
-        </nz-dropdown-button>
+        </nz-dropdown-menu>
       </div>
     </div>
     <nz-row style="margin:4px;">
@@ -50,7 +47,7 @@
               [(ngModel)]="request.request.zkConnectString" (ngModelChange)="modelChange()"
               (keydown.enter)="getInterfaces()">
             <ng-template #tplConn>
-              <a (click)="getInterfaces()"><i nz-icon type="enter" theme="outline"></i></a>
+              <a (click)="getInterfaces()"><i nz-icon nzType="enter" theme="outline"></i></a>
             </ng-template>
           </nz-input-group>
           <nz-input-group style="width:100%;margin-top:4px;" nzAddOnBefore="Username:">
@@ -73,7 +70,7 @@
                 (ngModelChange)="modelChange()">
                 <span>LB</span>
                 <i style="margin-left:4px;color:lightslategray;" nz-icon nzType="question-circle" nzTheme="outline"
-                  nz-tooltip [nzTitle]="lbTips">
+                  nz-tooltip [nzTooltipTitle]="lbTips">
                 </i>
               </label>
             </div>
@@ -91,7 +88,7 @@
                 <td (click)="getProviders(item)">{{item.ref}}</td>
                 <td style="width:48px;">
                   <button nz-button nzSize="small" nzType="default" (click)="getProviders(item)">
-                    <i nz-icon type="login" theme="outline"></i>
+                    <i nz-icon nzType="login" theme="outline"></i>
                   </button>
                 </td>
               </tr>
@@ -115,7 +112,7 @@
                 </nz-select>
                 <ng-template #nzAddOnAfterDubbo>
                   <span style="cursor:pointer;color:lightblue;" (click)="telnet()">
-                    <i nz-icon type="code" theme="outline" class="click-icon"></i>
+                    <i nz-icon nzType="code" theme="outline" class="click-icon"></i>
                   </span>
                 </ng-template>
               </nz-input-group>
@@ -133,7 +130,7 @@
                 </nz-select>
                 <ng-template #nzAddOnAfterMethod>
                   <span style="cursor:pointer;color:lightblue;" (click)="viewMethods()">
-                    <i nz-icon type="eye" theme="outline" class="click-icon"></i>
+                    <i nz-icon nzType="eye" theme="outline" class="click-icon"></i>
                   </span>
                 </ng-template>
               </nz-input-group>
@@ -204,7 +201,7 @@
           <input nz-input [(ngModel)]="item.type">
         </td>
         <td style="padding:2px;">
-          <i nz-icon type="close" theme="outline" class="click-icon" (click)="removeParameterType(i)"></i>
+          <i nz-icon nzType="close" theme="outline" class="click-icon" (click)="removeParameterType(i)"></i>
         </td>
       </tr>
     </tbody>

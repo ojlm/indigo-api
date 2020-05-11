@@ -18,16 +18,18 @@
       <div style="display:flex;padding-left:10px;">
         <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()">
           <span>
-            <i nz-icon type="scan" theme="outline"></i>
+            <i nz-icon nzType="scan" theme="outline"></i>
             <span>{{'btn-send'|translate}}</span>
           </span>
         </button>
-        <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'"
-          [nzPlacement]="'bottomRight'">
+        <button nz-button style="padding-left:5px;" (click)="save()" nz-dropdown [nzTrigger]="'hover'"
+          [nzDropdownMenu]="saveMenu" [nzPlacement]="'bottomRight'">
           <span [style.color]="isSaved?'lightgray':'orangered'">
-            <i nz-icon type="save" theme="outline"></i>
+            <i nz-icon nzType="save" theme="outline"></i>
             <span>{{'btn-save'|translate}}</span>
           </span>
+        </button>
+        <nz-dropdown-menu #saveMenu="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item (click)="saveAs()">
               <a>{{'btn-save-as'|translate}}</a>
@@ -36,7 +38,7 @@
               <a>{{'btn-reset'|translate}}</a>
             </li>
           </ul>
-        </nz-dropdown-button>
+        </nz-dropdown-menu>
       </div>
     </div>
     <nz-row style="margin:4px;">

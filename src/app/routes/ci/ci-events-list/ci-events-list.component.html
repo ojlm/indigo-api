@@ -7,7 +7,7 @@
     <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
       [nzLoading]="loading">
       <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent" [nzActions]="[actions]">
+        <nz-list-item [nzActions]="[actions]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
               <span class="item-span">
@@ -46,7 +46,7 @@
             </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button nzSize="small" nzType="default" [disabled]="!item.targetId" (click)="editTrigger(item)">
-              <i nz-icon type="setting" theme="outline"></i>
+              <i nz-icon nzType="setting" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>

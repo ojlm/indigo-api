@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
-import { SortablejsModule } from 'angular-sortablejs'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
+import { SortablejsModule } from 'ngx-sortablejs'
 
 import { ClusterDashboardComponent } from './cluster-dashboard/cluster-dashboard.component'
 import { ClusterRoutingModule } from './cluster-routing.module'

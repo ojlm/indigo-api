@@ -1,6 +1,6 @@
 {
   "name": "ngx-indigo",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Indigo is an api test system.",
   "main": "main.ts",
   "repository": {
@@ -21,7 +21,7 @@
     "test-coverage": "ng test --code-coverage --watch=false",
     "color-less": "node scripts/color-less.js",
     "icon": "ng g ng-alain:plugin icon",
-    "lint:ts": "tslint -p src/tsconfig.app.json -c tslint.json 'src/**/*.ts'",
+    "lint:ts": "tslint -p tsconfig.app.json -c tslint.json 'src/**/*.ts'",
     "lint:style": "stylelint \"{src}/**/*.less\" --syntax less",
     "lint-staged": "lint-staged",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",

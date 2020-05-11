@@ -30,7 +30,7 @@
             </span>
             <nz-divider nzType="vertical"></nz-divider>
             <span>
-              <i nz-icon type="desktop" theme="outline"></i>
+              <i nz-icon nzType="desktop" theme="outline"></i>
               <span> {{report.node}}</span>
             </span>
             <nz-divider nzType="vertical"></nz-divider>
@@ -81,9 +81,9 @@
           </td>
           <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
           <td style="width:64px;">
-            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon type="dashboard" theme="outline"
+            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon nzType="dashboard" theme="outline"
               (click)="viewItem(item)"></i>
-            <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline"
+            <i style="padding-left:4px;" class="clickable" nz-icon nzType="setting" theme="outline"
               (click)="editItem(item)"></i>
           </td>
         </tr>
@@ -110,7 +110,7 @@
               <nz-tag [nzColor]="tagColor(data.status)">{{data.status}}</nz-tag>
             </td>
             <td style="width:64px;">
-              <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline"
+              <i style="padding-left:4px;" class="clickable" nz-icon nzType="setting" theme="outline"
                 (click)="editScenario(data)"></i>
             </td>
           </tr>
@@ -130,9 +130,9 @@
           </td>
           <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
           <td style="width:64px;">
-            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon type="dashboard" theme="outline"
+            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon nzType="dashboard" theme="outline"
               (click)="viewItem(item)"></i>
-            <i style="padding-left:4px;" class="clickable" nz-icon type="setting" theme="outline"
+            <i style="padding-left:4px;" class="clickable" nz-icon nzType="setting" theme="outline"
               (click)="editItem(item)"></i>
           </td>
         </tr>

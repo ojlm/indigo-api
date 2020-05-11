@@ -1,12 +1,12 @@
 import { Location } from '@angular/common'
-import { Component, Input, OnInit, TemplateRef } from '@angular/core'
+import { Component, HostListener, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { ConfigService } from 'app/api/service/config.service'
 import { FavoriteService } from 'app/api/service/favorite.service'
-import { NzDropdownContextComponent, NzDropdownService, NzMenuItemDirective, NzMessageService } from 'ng-zorro-antd'
+import { NzContextMenuService, NzDropdownMenuComponent, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { ScenarioResponse, ScenarioService } from '../../../api/service/scenario.service'
@@ -51,7 +51,8 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
   transforms: TransformFunction[] = []
   toptopChecked = false
   toptopId = ''
-  private dropdown: NzDropdownContextComponent
+  consoleHeight = Math.round(window.innerHeight * 0.5)
+
   @Input()
   set id(id: string) {
     if (id) {
@@ -67,13 +68,17 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
       this._ctxOptions = val
     }
   }
+  @HostListener('window:resize')
+  resize() {
+    this.consoleHeight = Math.round(window.innerHeight * 0.5)
+  }
 
   constructor(
     private configService: ConfigService,
     private scenarioService: ScenarioService,
     private favoriteService: FavoriteService,
     private msgService: NzMessageService,
-    private nzDropdownService: NzDropdownService,
+    private contextMenuService: NzContextMenuService,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
@@ -209,12 +214,12 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     }
   }
 
-  contextMenu($event: MouseEvent, template: TemplateRef<void>): void {
-    this.dropdown = this.nzDropdownService.create($event, template)
+  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent) {
+    this.contextMenuService.create($event, menu)
   }
 
-  closeContextMenu(e: NzMenuItemDirective): void {
-    this.dropdown.close()
+  closeContextMenu() {
+    this.contextMenuService.close()
   }
 
   ngOnInit(): void {

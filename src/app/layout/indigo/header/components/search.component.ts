@@ -85,10 +85,10 @@ export class HeaderSearchComponent implements AfterViewInit {
 
   qIpt: HTMLInputElement
 
-  @HostBinding('class.header-search__focus')
+  @HostBinding('class.alain-default__search-focus')
   focus = false
 
-  @HostBinding('class.header-search__toggled')
+  @HostBinding('class.alain-default__search-toggled')
   searchToggled = false
 
   @Input()

@@ -14,14 +14,14 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module'
 import { SharedModule } from '@shared/shared.module'
-import { SortablejsModule } from 'angular-sortablejs'
 import { NZ_I18N, zh_CN as zorroLang } from 'ng-zorro-antd'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
+import { SortablejsModule } from 'ngx-sortablejs'
 
 import { AppComponent } from './app.component'
-import { DelonModule } from './delon.module'
+import { GlobalConfigModule } from './global-config.module'
 import { LayoutModule } from './layout/layout.module'
 import { RoutesModule } from './routes/routes.module'
 
@@ -105,7 +105,7 @@ const APPINIT_PROVIDES = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    DelonModule.forRoot(),
+    GlobalConfigModule.forRoot(),
     CoreModule,
     SharedModule,
     LayoutModule,

@@ -3,7 +3,7 @@
     <ng-template #titleTemplate>
       <div>
         {{ item.key }}
-        <i nz-icon type="close" (click)="closeTab(i)" class="ant-tabs-close-x"></i>
+        <i nz-icon nzType="close" (click)="closeTab(i)" class="ant-tabs-close-x"></i>
       </div>
     </ng-template>
     <div nz-row>
@@ -20,7 +20,7 @@
 </nz-tabset>
 <ng-template #extraTemplate>
   <button nz-button nzSize="small" nzType="primary" (click)="newTab()">
-    <span><i nz-icon type="plus"></i></span>
+    <span><i nz-icon nzType="plus"></i></span>
     <span style="margin-left:2px;">{{'btn-add'|translate}}</span>
   </button>
 </ng-template>

@@ -9,12 +9,13 @@
         <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
           <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
           <ng-template #suffixButton>
-            <a class="click-icon" style="margin-right:10px;"><i nz-icon type="search" theme="outline" (click)="loadData()"></i></a>
+            <a class="click-icon" style="margin-right:10px;"><i nz-icon nzType="search" theme="outline"
+                (click)="loadData()"></i></a>
           </ng-template>
         </nz-input-group>
       </ng-template>
       <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent" [nzActions]="[actions]">
+        <nz-list-item [nzActions]="[actions]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
             <ng-template #nzAvatar>
               <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="item.summary?item.summary[0].toUpperCase():''"
@@ -32,8 +33,8 @@
         </nz-list-item>
       </ng-template>
       <ng-template #pagination>
-        <nz-pagination [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal" [nzPageSize]="pageSize"
-          (nzPageIndexChange)="pageChange()">
+        <nz-pagination [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
+          [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
           <ng-template #totalTemplate let-total>
             <span style="color:lightgray;">
               <span>{{'item-total'|translate}}</span>

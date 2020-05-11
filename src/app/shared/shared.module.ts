@@ -2,9 +2,7 @@ import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import { DelonABCModule } from '@delon/abc'
 import { DelonACLModule } from '@delon/acl'
-import { DelonFormModule } from '@delon/form'
 import { AlainThemeModule } from '@delon/theme'
 import { TranslateModule } from '@ngx-translate/core'
 import { AuthSelectorComponent } from '@shared/auth-selector/auth-selector.component'
@@ -13,10 +11,9 @@ import { EnvModelComponent } from '@shared/env-model/env-model.component'
 import { EnvSelectorComponent } from '@shared/env-selector/env-selector.component'
 import { KeyValueComponent } from '@shared/key-value/key-value.component'
 import { ProjectBreadcrumbComponent } from '@shared/project-breadcrumb/project-breadcrumb.component'
-import { SortablejsModule } from 'angular-sortablejs'
-import { NgZorroAntdModule } from 'ng-zorro-antd'
 import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
+import { SortablejsModule } from 'ngx-sortablejs'
 
 import { AssertionAutoCompleteComponent } from './assertion-list/assertion-auto-complete/assertion-auto-complete.component'
 import { AssertionAutoCompleteDirective } from './assertion-list/assertion-auto-complete/assertion-auto-complete.directive'
@@ -32,6 +29,8 @@ import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component'
 import { PlaygroundReportTabComponent } from './playground-report-tab/playground-report-tab.component'
 import { PofileSimpleComponent } from './profile-simple/profile-simple.component'
 import { RestModelComponent } from './rest-model/rest-model.component'
+import { SHARED_DELON_MODULES } from './shared-delon.module'
+import { SHARED_ZORRO_MODULES } from './shared-zorro.module'
 import { SqlSearchPanelComponent } from './sql-search-panel/sql-search-panel.component'
 import { ExportAutoCompleteComponent } from './variables-export-table/export-auto-complete/export-auto-complete.component'
 import { ExportAutoCompleteDirective } from './variables-export-table/export-auto-complete/export-auto-complete.directive'
@@ -43,7 +42,6 @@ import { VariablesOptionsComponent } from './variables-options/variables-options
 // i18n
 // region: third libs
 const THIRDMODULES = [
-  NgZorroAntdModule,
   TranslateModule,
   SortablejsModule,
 ]
@@ -90,9 +88,9 @@ const DIRECTIVES = []
     AlainThemeModule.forChild(),
     MarkdownModule.forChild(),
     MonacoEditorModule,
-    DelonABCModule,
     DelonACLModule.forRoot(),
-    DelonFormModule,
+    ...SHARED_DELON_MODULES,
+    ...SHARED_ZORRO_MODULES,
     // third libs
     ...THIRDMODULES
   ],
@@ -113,9 +111,9 @@ const DIRECTIVES = []
     ReactiveFormsModule,
     RouterModule,
     AlainThemeModule,
-    DelonABCModule,
     DelonACLModule,
-    DelonFormModule,
+    ...SHARED_DELON_MODULES,
+    ...SHARED_ZORRO_MODULES,
     // i18n
     TranslateModule,
     // third libs

@@ -51,7 +51,7 @@ export class StepsRuntimeComponent implements OnInit {
   _stepsStatusCache: { [k: number]: StepStatusData }
   @Input()
   set stepsStatusCache(val: { [k: number]: StepStatusData }) {
-    if (val) {
+    if (val && this._subject) {
       this._stepsStatusCache = val
       this._subject.next()
     }

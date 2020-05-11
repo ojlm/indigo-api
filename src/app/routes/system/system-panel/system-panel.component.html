@@ -3,19 +3,19 @@
     <ul style="background-color:transparent;display:flex;justify-content:space-evenly;" nz-menu [nzMode]="'horizontal'">
       <li nz-menu-item routerLinkActive="ant-menu-item-selected">
         <a [routerLink]="['/system/settings']">
-          <i style="margin-right:2px;" nz-icon type="database" theme="outline"></i>
+          <i style="margin-right:2px;" nz-icon nzType="database" theme="outline"></i>
           <span>{{'menu-job-report-data-indices' | translate}}</span>
         </a>
       </li>
       <li nz-menu-item routerLinkActive="ant-menu-item-selected">
         <a [routerLink]="['/system/jobs']">
-          <i style="margin-right:2px;" nz-icon type="schedule" theme="outline"></i>
+          <i style="margin-right:2px;" nz-icon nzType="schedule" theme="outline"></i>
           <span>{{'menu-system-jobs' | translate}}</span>
         </a>
       </li>
       <li nz-menu-item routerLinkActive="ant-menu-item-selected">
         <a [routerLink]="['/system/gitlab']">
-          <i style="margin-right:2px;" nz-icon type="gitlab" theme="outline"></i>
+          <i style="margin-right:2px;" nz-icon nzType="gitlab" theme="outline"></i>
           <span>Gitlab</span>
         </a>
       </li>

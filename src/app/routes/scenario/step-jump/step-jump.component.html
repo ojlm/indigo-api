@@ -11,7 +11,7 @@
                 <ng-template #nzDescription>
                   <div style="display:flex;">
                     <a (click)="remove(i)" style="padding-left:4px;">
-                      <i nz-icon type="delete" theme="outline" class="click-icon"></i>
+                      <i nz-icon nzType="delete" theme="outline" class="click-icon"></i>
                     </a>
                     <nz-input-group style="margin-left:8px;" nzSize="small" nzAddOnBefore="Jump To:">
                       <nz-input-number nzSize="small" [(ngModel)]="item.to" [nzMin]="0" [nzStep]="1">
@@ -27,7 +27,7 @@
           </ng-template>
           <ng-template #nzFooter>
             <button nz-button nzSize="small" nzType="dashed" (click)="addItem()">
-              <span><i nz-icon type="plus" theme="outline"></i></span>
+              <span><i nz-icon nzType="plus" theme="outline"></i></span>
               <span style="margin-left:2px;">{{'btn-add'|translate}}</span>
             </button>
           </ng-template>

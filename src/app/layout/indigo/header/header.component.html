@@ -1,18 +1,22 @@
 <div class="alain-default__header-logo">
   <a [routerLink]="['/home']" class="alain-default__header-logo-link">
-    <img class="alain-default__header-logo-expanded" src="./assets/logo.png" alt="{{settings.app.name}}" style="max-height:40px;" />
-    <img class="alain-default__header-logo-collapsed" src="./assets/logo.png" alt="{{settings.app.name}}" style="max-height:30px;" />
+    <img class="alain-default__header-logo-expanded" src="./assets/logo.png" alt="{{settings.app.name}}"
+      style="max-height:40px;" />
+    <img class="alain-default__header-logo-collapsed" src="./assets/logo.png" alt="{{settings.app.name}}"
+      style="max-height:30px;" />
   </a>
 </div>
 <div class="alain-default__nav-wrap">
   <ul class="alain-default__nav">
     <li>
-      <a class="alain-default__nav-item" [routerLink]="['/dashboard/groups']" routerLinkActive="indigo-header-item-btn-active">
+      <a class="alain-default__nav-item" [routerLink]="['/dashboard/groups']"
+        routerLinkActive="indigo-header-item-btn-active">
         <span class="indigo-header-item-btn">{{'menu-groups' | translate}}</span>
       </a>
     </li>
     <li>
-      <a class="alain-default__nav-item" [routerLink]="['/dashboard/projects']" routerLinkActive="indigo-header-item-btn-active">
+      <a class="alain-default__nav-item" [routerLink]="['/dashboard/projects']"
+        routerLinkActive="indigo-header-item-btn-active">
         <span class="indigo-header-item-btn">{{'menu-projects' | translate}}</span>
       </a>
     </li>
@@ -22,14 +26,15 @@
       </a>
     </li>
     <li>
-      <a class="alain-default__nav-item" [routerLink]="['/dashboard/online']" routerLinkActive="indigo-header-item-btn-active">
+      <a class="alain-default__nav-item" [routerLink]="['/dashboard/online']"
+        routerLinkActive="indigo-header-item-btn-active">
         <span class="indigo-header-item-btn">{{'menu-online-api' | translate}}</span>
       </a>
     </li>
     <!-- Search Button -->
     <li class="hidden-pc" (click)="searchToggleChange()">
       <div class="alain-default__nav-item">
-        <i nz-icon type="search"></i>
+        <i nz-icon nzType="search"></i>
       </div>
     </li>
   </ul>
@@ -37,18 +42,18 @@
   <ul class="alain-default__nav">
     <li class="hidden-mobile">
       <div class="alain-default__nav-item" (click)="goHelp()" [title]="'tips-help'|translate">
-        <i nz-icon type="question" theme="outline"></i>
+        <i nz-icon nzType="question" nzTheme="outline"></i>
       </div>
     </li>
     <li>
       <header-new></header-new>
     </li>
-    <!-- Settings -->
     <li class="hidden-mobile">
-      <nz-dropdown nzPlacement="bottomRight">
-        <div class="alain-default__nav-item" nz-dropdown>
-          <i nz-icon type="setting" theme="outline"></i>
-        </div>
+      <div class="alain-default__nav-item" nz-dropdown [nzDropdownMenu]="settingsMenu" nzTrigger="hover"
+        nzPlacement="bottomRight">
+        <i nz-icon nzType="setting" theme="outline"></i>
+      </div>
+      <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
         <div nz-menu style="width:200px;">
           <div nz-menu-item>
             <header-fullscreen style="display:inline-block;width:100%;"></header-fullscreen>
@@ -60,7 +65,7 @@
             <header-i18n style="display:inline-block;width:100%;"></header-i18n>
           </div>
         </div>
-      </nz-dropdown>
+      </nz-dropdown-menu>
     </li>
     <li class="hidden-mobile">
       <header-user></header-user>

@@ -3,11 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { GroupProjectSelectorModel } from '@shared/group-project-selector/group-project-selector.component'
-import { SortablejsOptions } from 'angular-sortablejs'
 import { isJobScenarioStep } from 'app/api/service/job.service'
 import { ScenarioModelComponent } from 'app/routes/scenario/scenario-model/scenario-model.component'
 import { StepJumpComponent } from 'app/routes/scenario/step-jump/step-jump.component'
 import { NzDrawerService } from 'ng-zorro-antd'
+import { SortablejsOptions } from 'ngx-sortablejs'
 import { Subject } from 'rxjs'
 
 import {

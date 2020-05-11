@@ -2,24 +2,25 @@
 <layout-header class="alain-default__header"></layout-header>
 <div class="alain-default__aside">
   <div class="alain-default__aside-inner">
-    <nz-dropdown style="height:42px;" nzTrigger="click" class="alain-default__aside-user">
-      <div nz-dropdown class="user-block-dropdown">
-        <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="project.avatar" [nzText]="project.id?project.id[0].toUpperCase():''"></nz-avatar>
-        <div class="alain-default__aside-user-info">
-          <strong>{{project.id}}</strong>
-          <p class="text-truncate mb0" [title]="project.description||project.summary||''">{{project.summary}}</p>
-        </div>
+    <div nz-dropdown [nzDropdownMenu]="projectMenu" nzTrigger="click" class="alain-default__aside-user">
+      <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="project.avatar"
+        [nzText]="project.id?project.id[0].toUpperCase():''"></nz-avatar>
+      <div class="alain-default__aside-user-info">
+        <strong>{{project.id}}</strong>
+        <p class="text-truncate mb0" [title]="project.description||project.summary||''">{{project.summary}}</p>
       </div>
+    </div>
+    <nz-dropdown-menu #projectMenu="nzDropdownMenu">
       <ul nz-menu>
         <li nz-menu-item>
           <a style="color:darkcyan;" [routerLink]="['/', project.group]">{{project.group}}</a>
         </li>
       </ul>
-    </nz-dropdown>
+    </nz-dropdown-menu>
     <sidebar-nav class="d-block py-lg indigo-sidebar-nav-padding"></sidebar-nav>
     <div>
       <button class="indigo-aside-fold-btn" nz-button nzType="dashed" (click)="toggleCollapsedSidebar()">
-        <i nz-icon type="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+        <i nz-icon nzType="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
       </button>
     </div>
   </div>

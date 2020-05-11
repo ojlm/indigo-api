@@ -33,7 +33,28 @@ export class CaseModelComponent implements OnInit, OnDestroy {
   generatorLog = new Subject<string>()
   testWs: WebSocket
   logResult = this.updateResult.bind(this)
-  generatorCall = () => { this.sendWs() }
+  isInNew = false
+  caseRoute = ''
+  isAffixed = false
+  case: Case = {}
+  methods = METHODS
+  tabIndex = 1
+  isSending = false
+  assertResultTabIndex = 0
+  testResult: CaseResult = {}
+  lastResult = {}
+  isSaved = true
+  historyVisible = false
+  assertions: Assertion[] = []
+  transforms: TransformFunction[] = []
+  _ctxOptions: ContextOptions = {}
+  // for step selector usage
+  @Input() newStep: Function
+  @Input() updateStep: Function
+  @Input() isInDrawer = false
+  @Input() group = ''
+  @Input() project = ''
+
   @Input()
   set id(caseId: string) {
     this.testResult = {}
@@ -54,37 +75,18 @@ export class CaseModelComponent implements OnInit, OnDestroy {
       this.updateResult(result)
     }
   }
-  _ctxOptions: ContextOptions = {}
   @Input()
   set ctxOptions(val: ContextOptions) {
     if (val) {
       this._ctxOptions = val
     }
   }
-  // for step selector usage
-  @Input() newStep: Function
-  @Input() updateStep: Function
-  @Input() isInDrawer = false
-  @Input() group = ''
-  @Input() project = ''
-  isInNew = false
-  caseRoute = ''
-  isAffixed = false
-  case: Case = {}
-  methods = METHODS
-  tabIndex = 1
-  isSending = false
-  assertResultTabIndex = 0
-  testResult: CaseResult = {}
-  lastResult = {}
-  isSaved = true
-  historyVisible = false
-  assertions: Assertion[] = []
-  transforms: TransformFunction[] = []
   @HostListener('window:resize')
   resizeBy() {
     this.drawerWidth = calcDrawerWidth(0.3)
   }
+
+  generatorCall = () => { this.sendWs() }
 
   constructor(
     private configService: ConfigService,

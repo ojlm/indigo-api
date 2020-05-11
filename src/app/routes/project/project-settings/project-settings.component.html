@@ -6,16 +6,16 @@
     <form nz-form [formGroup]="form" (ngSubmit)="submit()">
       <nz-form-item>
         <nz-form-label nzXs="24" nzSm="7" nzFor="summary">{{'field-summary'|translate}}</nz-form-label>
-        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10" [nzErrorTip]="'field-id-err'|translate">
           <input nz-input formControlName="summary" id="summary" [placeholder]="'field-summary'|translate">
-          <nz-form-explain *ngIf="form.get('summary').dirty && form.get('summary').errors">{{'field-id-err'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzXs="24" nzSm="7" nzFor="description">{{'field-description'|translate}}</nz-form-label>
-        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
-          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{minRows: 4}" [placeholder]="'field-description'|translate"></textarea>
-          <nz-form-explain *ngIf="form.get('description').dirty && form.get('description').errors">{{'field-description'|translate}}</nz-form-explain>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10" [nzErrorTip]="'field-description'|translate">
+          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{minRows: 4}"
+            [placeholder]="'field-description'|translate">
+          </textarea>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -25,9 +25,8 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzXs="24" nzSm="7" nzFor="avatar">{{'field-avatar'|translate}}</nz-form-label>
-        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10" [nzErrorTip]="'field-avatar'|translate">
           <input nz-input formControlName="avatar" id="avatar" [placeholder]="'field-avatar'|translate">
-          <nz-form-explain *ngIf="form.get('avatar').dirty && form.get('avatar').errors">{{'field-avatar'|translate}}</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>

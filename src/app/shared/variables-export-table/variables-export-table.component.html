@@ -3,7 +3,7 @@
     <tr>
       <th style="padding:3px;width:48px;padding-left:20px;">
         <i style="cursor:pointer;" nz-icon nzType="check-square" nzTheme="outline" nz-tooltip
-          [nzTitle]="'item-is-enabled'|translate"></i>
+          [nzTooltipTitle]="'item-is-enabled'|translate"></i>
       </th>
       <th style="padding:3px;">
         <span>{{'item-src-path'|translate}}</span>
@@ -26,11 +26,11 @@
   <tbody [sortablejs]="values" [sortablejsOptions]="sortablejsOptions">
     <tr *ngFor="let item of values; let i = index">
       <td style="padding:2px;">
-        <i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab;margin-right:4px;"></i>
+        <i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab;margin-right:4px;"></i>
         <label style="margin:0px;" nz-checkbox [(ngModel)]="item.enabled" (ngModelChange)="modelChange(item,i)"></label>
       </td>
       <td style="padding:2px;">
-        <app-export-auto-complete [autocompleteContext]="autocompleteContext" [(item)]="item"
+        <app-export-auto-complete [autocompleteContext]="autocompleteContext" [(item)]="values[i]"
           (itemChange)="modelChange(item,i)">
         </app-export-auto-complete>
       </td>
@@ -64,7 +64,7 @@
         <input nz-input [(ngModel)]="item.description" (ngModelChange)="modelChange(item,i)">
       </td>
       <td style="padding:2px;">
-        <i *ngIf="i<values.length-1" nz-icon type="close" theme="outline" class="click-icon" (click)="remove(i)"></i>
+        <i *ngIf="i<values.length-1" nz-icon nzType="close" theme="outline" class="click-icon" (click)="remove(i)"></i>
       </td>
     </tr>
   </tbody>

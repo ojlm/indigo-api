@@ -44,7 +44,7 @@ export class ResultAssertComponent implements OnInit {
   originAssert = ''
   _assert = ''
   responseTabType = 'entity'
-  response = { status: '', headers: {}, entity: '' }
+  response = { status: 200, headers: {}, entity: '' }
   responseHeaders: KeyValueObject[] = []
   caseContext = ''
   caseRequest = ''
@@ -73,7 +73,7 @@ export class ResultAssertComponent implements OnInit {
   @Input()
   set result(val: CaseResult) {
     if (val.response && val.response.statusCode && val.response.headers) {
-      this.response.status = val.response.statusCode.toString()
+      this.response.status = val.response.statusCode
       this.response.headers = val.response.headers
       this.responseHeaders = []
       for (const k of Object.keys(val.response.headers)) {

@@ -1,47 +1,47 @@
 <div style="overflow:auto;" [style.height]="editorHeight" class="indigo-scroll-bar">
-  <nz-list [nzDataSource]="items.items" nzBordered nzSize="small" [nzFooter]="nzFooter" [nzRenderItem]="item">
-    <ng-template #item let-item let-i="index">
-      <nz-list-item [nzContent]="nzContent" [nzActions]="[nzAction]">
-        <ng-template #nzContent>
-          <div nz-row nzGutter="3" style="width:100%;">
-            <div nz-col nzSpan="9">
-              <app-assertion-auto-complete [autocompleteContext]="autocompleteContext" [(assertionItem)]="item"
-                (assertionItemChange)="modelChange()">
-              </app-assertion-auto-complete>
-            </div>
-            <div nz-col nzSpan="6">
-              <nz-select style="width:100%;" [nzSize]="'small'" nzShowSearch [(ngModel)]="item.operator"
-                [nzDropdownMatchSelectWidth]="false" (ngModelChange)="modelChange()">
-                <nz-option *ngFor="let item of assertions" [nzCustomContent]="true" [nzLabel]="item.name|translate"
-                  [nzValue]="item.name">
-                  <div>
-                    <span>{{item.name|translate}}</span>
-                  </div>
-                </nz-option>
-              </nz-select>
-            </div>
-            <div nz-col nzSpan="9">
-              <input nz-input [nzSize]="'small'" [(ngModel)]="item.value" (ngModelChange)="modelChange()">
-            </div>
-          </div>
-        </ng-template>
-        <ng-template #nzAction>
-          <a style="color:lightslategray;" (click)="copy(item, i)"><i nz-icon type="copy" theme="outline"></i></a>
+  <nz-list nzBordered nzSize="small">
+    <nz-list-item *ngFor="let item of items.items;let i=index">
+      <div nz-row nzGutter="3" style="width:100%;">
+        <div nz-col nzSpan="9">
+          <app-assertion-auto-complete [autocompleteContext]="autocompleteContext" [(assertionItem)]="items.items[i]"
+            (assertionItemChange)="modelChange()">
+          </app-assertion-auto-complete>
+        </div>
+        <div nz-col nzSpan="6">
+          <nz-select style="width:100%;" [nzSize]="'small'" nzShowSearch [(ngModel)]="item.operator"
+            [nzDropdownMatchSelectWidth]="false" (ngModelChange)="modelChange()">
+            <nz-option *ngFor="let item of assertions" [nzCustomContent]="true" [nzLabel]="item.name|translate"
+              [nzValue]="item.name">
+              <div>
+                <span>{{item.name|translate}}</span>
+              </div>
+            </nz-option>
+          </nz-select>
+        </div>
+        <div nz-col nzSpan="9">
+          <input nz-input [nzSize]="'small'" [(ngModel)]="item.value" (ngModelChange)="modelChange()">
+        </div>
+      </div>
+      <ul nz-list-item-actions>
+        <nz-list-item-action>
+          <a style="color:lightslategray;" (click)="copy(item, i)"><i nz-icon nzType="copy" theme="outline"></i></a>
+        </nz-list-item-action>
+        <nz-list-item-action>
           <a style="color:lightcoral;padding-left:3px;" (click)="remove(item, i)">
-            <i nz-icon type="delete" theme="outline"></i>
+            <i nz-icon nzType="delete" theme="outline"></i>
           </a>
-        </ng-template>
-      </nz-list-item>
-    </ng-template>
+        </nz-list-item-action>
+      </ul>
+    </nz-list-item>
+    <nz-list-footer>
+      <button nz-button nzSize="small" nzType="dashed" (click)="addItem()">
+        <span><i nz-icon nzType="plus" theme="outline"></i></span>
+        <span style="margin-left:2px;">{{'btn-add-assertion'|translate}}</span>
+      </button>
+      <button [title]="'tips-assertion-and-or'|translate" nzSize="small"
+        [nzType]="'and'===items.logic?'primary':'danger'" nz-button (click)="btnLogicChange()">
+        <span style="font-size:smaller;">{{('and'===items.logic?'btn-logic-and':'btn-logic-or')|translate}}</span>
+      </button>
+    </nz-list-footer>
   </nz-list>
-  <ng-template #nzFooter>
-    <button nz-button nzSize="small" nzType="dashed" (click)="addItem()">
-      <span><i nz-icon type="plus" theme="outline"></i></span>
-      <span style="margin-left:2px;">{{'btn-add-assertion'|translate}}</span>
-    </button>
-    <button [title]="'tips-assertion-and-or'|translate" nzSize="small" [nzType]="'and'===items.logic?'primary':'danger'"
-      nz-button (click)="btnLogicChange()">
-      <i style="font-size:smaller;">{{('and'===items.logic?'btn-logic-and':'btn-logic-or')|translate}}</i>
-    </button>
-  </ng-template>
 </div>

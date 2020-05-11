@@ -22,12 +22,12 @@ export class FeedDubboComponent {
     switch (item.activity.type) {
       case ActivityType.TYPE_NEW_DUBBO:
         this.action = 'create dubbo request'
-        break;
+        break
       case ActivityType.TYPE_TEST_DUBBO:
         this.action = 'send dubbo request'
-        break;
+        break
       default:
-        break;
+        break
     }
     this.signature = dubboRequestSignature(this.request)
   }

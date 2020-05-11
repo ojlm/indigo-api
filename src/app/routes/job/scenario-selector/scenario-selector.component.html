@@ -16,10 +16,10 @@
         </ng-template>
         <ng-template #addAction>
           <a *ngIf="!stepsMap[item._id]" (click)="addItem(item)">
-            <i nz-icon type="right" theme="outline" class="click-icon"></i>
+            <i nz-icon nzType="right" theme="outline" class="click-icon"></i>
           </a>
           <a *ngIf="stepsMap[item._id]" (click)="addItem(item)">
-            <i style="color:yellowgreen;" nz-icon type="check-circle" theme="outline" class="click-icon"></i>
+            <i style="color:yellowgreen;" nz-icon nzType="check-circle" theme="outline" class="click-icon"></i>
           </a>
         </ng-template>
       </ng-template>
@@ -61,7 +61,7 @@
         <div *ngFor="let item of steps;let i = index;" class="s-item">
           <div [ngSwitch]="item.type">
             <ng-container *ngSwitchCase="'delay'">
-              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <span><i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
               <span> {{i+1}}. </span>
               <a>{{getStepTitle(item)}}</a>
               <nz-input-number style="margin-left:4px;" [(ngModel)]="item.data.delay.value" [nzSize]="'small'"
@@ -75,12 +75,12 @@
               </nz-select>
               <span class="tail-settings">
                 <a (click)="removeItem(item, i)">
-                  <i nz-icon type="close" theme="outline" class="click-icon hover-red"></i>
+                  <i nz-icon nzType="close" theme="outline" class="click-icon hover-red"></i>
                 </a>
               </span>
             </ng-container>
             <ng-container *ngSwitchCase="'jump'">
-              <span><i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
+              <span><i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab"></i></span>
               <span> {{i+1}}. </span>
               <a (click)="openJumpModelDrawer(i, item)" style="margin-right:4px;">{{getStepTitle(item)}}</a>
               <ng-container *ngIf="item.data.jump.type===0">
@@ -96,17 +96,17 @@
               </ng-container>
               <span class="tail-settings">
                 <a (click)="removeItem(item, i)">
-                  <i nz-icon type="close" theme="outline" class="click-icon hover-red"></i>
+                  <i nz-icon nzType="close" theme="outline" class="click-icon hover-red"></i>
                 </a>
               </span>
             </ng-container>
             <ng-container *ngSwitchDefault>
-              <i nz-icon type="bars" theme="outline" class="click-icon" style="cursor:grab;margin-right:4px;"></i>
+              <i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab;margin-right:4px;"></i>
               <span style="margin-right: 4px;">{{i + 1}}.</span>
               <a (click)="viewScenario(item)">{{getStepTitle(item)}}</a>
               <span class="tail-settings">
                 <a (click)="removeItem(item, i)">
-                  <i nz-icon type="close" theme="outline" class="click-icon hover-red"></i>
+                  <i nz-icon nzType="close" theme="outline" class="click-icon hover-red"></i>
                 </a>
               </span>
               <span class="tail-settings">

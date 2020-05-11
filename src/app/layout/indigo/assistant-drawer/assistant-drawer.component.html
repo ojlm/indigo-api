@@ -15,5 +15,5 @@
 </nz-drawer>
 <div class="assistant-handle" [ngClass]="{'assistant-handle-opened': collapse}" (click)="toggle()"
   [title]="'title-assistant'|translate">
-  <i class="assistant-handle-icon click-icon" nz-icon [type]="!collapse ? 'robot' : 'close'" nzTheme="outline"></i>
+  <i class="assistant-handle-icon click-icon" nz-icon [nzType]="!collapse ? 'robot' : 'close'" nzTheme="outline"></i>
 </div>

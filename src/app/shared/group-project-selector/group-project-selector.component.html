@@ -8,12 +8,12 @@
         <ng-container *ngFor="let item of groups">
           <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="item.id" nzCustomContent>
             <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover
-              [nzTitle]="item.summary" [nzContent]="item.description"></nz-avatar>
+              [nzPopoverTitle]="item.summary" [nzPopoverContent]="item.description"></nz-avatar>
             <span style="padding-left:10px;">{{item.id}}</span>
           </nz-option>
         </ng-container>
         <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-          <i nz-icon type="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
+          <i nz-icon nzType="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
         </nz-option>
       </nz-select>
     </nz-input-group>
@@ -29,12 +29,12 @@
         <ng-container *ngFor="let item of projects">
           <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="item.id" nzCustomContent>
             <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover
-              [nzTitle]="item.summary" [nzContent]="item.description"></nz-avatar>
+              [nzPopoverTitle]="item.summary" [nzPopoverContent]="item.description"></nz-avatar>
             <span style="padding-left:10px;">{{item.group}}/{{item.id}}</span>
           </nz-option>
         </ng-container>
         <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-          <i nz-icon type="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
+          <i nz-icon nzType="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
         </nz-option>
       </nz-select>
     </nz-input-group>

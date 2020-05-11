@@ -15,7 +15,8 @@
         <label nz-radio-button nzValue="6M">{{'item-last-half-year'|translate}}</label>
         <label nz-radio-button nzValue="1M">{{'item-last-month'|translate}}</label>
       </nz-radio-group>
-      <nz-radio-group style="padding-left:4px;" [(ngModel)]="aggsParams.interval" (ngModelChange)="loadData()" [nzSize]="'small'">
+      <nz-radio-group style="padding-left:4px;" [(ngModel)]="aggsParams.interval" (ngModelChange)="loadData()"
+        [nzSize]="'small'">
         <label nz-radio-button nzValue="1M">{{'item-month'|translate}}</label>
         <label nz-radio-button nzValue="1w">{{'item-week'|translate}}</label>
         <label nz-radio-button nzValue="1d">{{'item-day'|translate}}</label>
@@ -26,19 +27,21 @@
         <label nz-radio-button nzValue="project" [nzDisabled]="group?false:true">{{'field-project'|translate}}</label>
         <label nz-radio-button nzValue="creator">{{'field-creator'|translate}}</label>
       </nz-radio-group>
-      <nz-select style="padding-left:10px;width:150px;" nzMode="default" nzSize="small" [nzPlaceHolder]="'field-group'|translate"
-        nzAllowClear nzShowSearch [nzNotFoundContent]="'tips-no-data'|translate" [(ngModel)]="group" (ngModelChange)="groupChange()">
+      <nz-select style="padding-left:10px;width:150px;" nzMode="default" nzSize="small"
+        [nzPlaceHolder]="'field-group'|translate" nzAllowClear nzShowSearch
+        [nzNotFoundContent]="'tips-no-data'|translate" [(ngModel)]="group" (ngModelChange)="groupChange()">
         <ng-container *ngFor="let item of groups">
           <nz-option [nzValue]="item.id" [nzLabel]="item.id" nzCustomContent>
-            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover [nzTitle]="item.summary"
-              [nzContent]="item.description"></nz-avatar>
+            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover
+              [nzPopoverTitle]="item.summary" [nzPopoverContent]="item.description"></nz-avatar>
             <span style="padding-left:10px;">{{item.id}}</span>
           </nz-option>
         </ng-container>
       </nz-select>
-      <nz-select style="padding-left:5px;width:150px;" nzMode="default" [nzSize]="'small'" [nzPlaceHolder]="'field-creator'|translate"
-        nzAllowClear nzShowSearch [(ngModel)]="creator" (ngModelChange)="loadData()" [nzServerSearch]="true"
-        (nzOpenChange)="searchCreatorOpenChange()" (nzOnSearch)="searchCreator($event)">
+      <nz-select style="padding-left:5px;width:150px;" nzMode="default" [nzSize]="'small'"
+        [nzPlaceHolder]="'field-creator'|translate" nzAllowClear nzShowSearch [(ngModel)]="creator"
+        (ngModelChange)="loadData()" [nzServerSearch]="true" (nzOpenChange)="searchCreatorOpenChange()"
+        (nzOnSearch)="searchCreator($event)">
         <nz-option *ngFor="let item of creators" [nzLabel]="item.id" [nzValue]="item.id" nzCustomContent>
           <span>{{item.id}}</span>
         </nz-option>
@@ -46,7 +49,7 @@
     </div>
     <nz-breadcrumb style="padding-right:20px;">
       <nz-breadcrumb-item>
-        <i nz-icon type="home" theme="outline" class="click-icon" (click)="loadData()"></i>
+        <i nz-icon nzType="home" theme="outline" class="click-icon" (click)="loadData()"></i>
       </nz-breadcrumb-item>
     </nz-breadcrumb>
   </div>
@@ -63,14 +66,14 @@
     </div>
   </div>
   <div *ngIf="'case-aggregation'===type">
-    <ngx-charts-line-chart [view]="fitView" [scheme]="colorScheme" [results]="caseAggregation" [xAxis]="true" [yAxis]="true"
-      [legend]="true" [legendTitle]="'🐣 Legend'">
+    <ngx-charts-line-chart [view]="fitView" [scheme]="colorScheme" [results]="caseAggregation" [xAxis]="true"
+      [yAxis]="true" [legend]="true" [legendTitle]="'🐣 Legend'">
     </ngx-charts-line-chart>
   </div>
   <div *ngIf="'activity-growth'===type">
     <div style="overflow:hidden;margin-right:12px;">
-      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="activityResults" (select)="onSelect($event)"
-        [xAxis]="true" [yAxis]="true">
+      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="activityResults"
+        (select)="onSelect($event)" [xAxis]="true" [yAxis]="true">
       </ngx-charts-bar-vertical>
     </div>
     <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">
@@ -86,8 +89,8 @@
   </div>
   <div *ngIf="'job-aggregation'===type">
     <div style="overflow:hidden;margin-right:12px;">
-      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="jobReportResults" (select)="onSelect($event)"
-        [xAxis]="true" [yAxis]="true">
+      <ngx-charts-bar-vertical [view]="view1" [scheme]="colorScheme" [results]="jobReportResults"
+        (select)="onSelect($event)" [xAxis]="true" [yAxis]="true">
       </ngx-charts-bar-vertical>
     </div>
     <div *ngIf="showSubChart" style="overflow:hidden;margin-right:12px;">

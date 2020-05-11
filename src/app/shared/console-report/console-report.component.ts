@@ -1,7 +1,4 @@
-import { Location } from '@angular/common'
 import { AfterViewInit, Component, ElementRef, HostListener, Input } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 import { ITerminalOptions, ITheme, Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
@@ -33,7 +30,8 @@ export class ConsoleReportComponent implements AfterViewInit {
   line = []
   theme: ITheme = {
     foreground: 'white',
-    background: '#000000a9',
+    // background: '#000000a9',
+    background: '#000000',
     cursor: 'wheat',
   }
   option: ITerminalOptions = {
@@ -60,10 +58,6 @@ export class ConsoleReportComponent implements AfterViewInit {
   }
 
   constructor(
-    private msgService: NzMessageService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location,
     private el: ElementRef<HTMLDivElement>,
   ) {
     this.initStyle()
@@ -71,7 +65,7 @@ export class ConsoleReportComponent implements AfterViewInit {
 
   initStyle() {
     this.style = {
-      'position': 'relative',
+      'position': 'absolute',
       'width': `${window.innerWidth}px`,
       'height': `${Math.round(window.innerHeight * 0.5)}px`,
       'top': '0px',

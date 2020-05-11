@@ -10,7 +10,7 @@
         <app-dubbo-search-panel [(data)]="search" [subject]="searchPanelSubject"></app-dubbo-search-panel>
       </ng-template>
       <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+        <nz-list-item [nzActions]="[edit]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
               <a [routerLink]="[getRouter(item)]">{{item.summary}}</a>
@@ -26,11 +26,11 @@
           </ng-template>
           <ng-template #edit>
             <button nz-button nzSize="small" nzType="default" (click)="editItem(item)">
-              <i nz-icon type="setting" theme="outline"></i>
+              <i nz-icon nzType="setting" theme="outline"></i>
             </button>
             <nz-divider nzType="vertical"></nz-divider>
             <button nz-button nzSize="small" nzType="default" (click)="deleteItem(item)">
-              <i nz-icon type="delete" theme="outline"></i>
+              <i nz-icon nzType="delete" theme="outline"></i>
             </button>
           </ng-template>
         </nz-list-item>

@@ -11,9 +11,9 @@
                 <ng-template #nzDescription>
                   <div nz-row style="background-color:white;">
                     <div nz-col nzSpan="24" style="background-color:whitesmoke;">
-                      <a (click)="run(item, i)"><i nz-icon type="caret-right" theme="outline"
+                      <a (click)="run(item, i)"><i nz-icon nzType="caret-right" theme="outline"
                           class="click-icon"></i></a>
-                      <a (click)="remove(item, i)" style="float:right;padding-right:3px;"><i nz-icon type="delete"
+                      <a (click)="remove(item, i)" style="float:right;padding-right:3px;"><i nz-icon nzType="delete"
                           theme="outline"></i></a>
                     </div>
                     <div nz-col nzSpan="12" class="custom-scollbar" style="height:240px;overflow:auto;">
@@ -36,7 +36,7 @@
           </ng-template>
           <ng-template #nzFooter>
             <button nz-button nzSize="small" nzType="dashed" (click)="addItem()">
-              <span><i nz-icon type="plus" theme="outline"></i></span>
+              <span><i nz-icon nzType="plus" theme="outline"></i></span>
               <span style="margin-left:2px;">{{'btn-add'|translate}}</span>
             </button>
           </ng-template>
@@ -60,7 +60,7 @@
           <button style="width:100%;color:rebeccapurple;" nz-button [nzType]="'dashed'" [nzSize]="'default'"
             (click)="send()">
             <span>
-              <i nz-icon type="scan" theme="outline"></i>
+              <i nz-icon nzType="scan" theme="outline"></i>
               <span>{{'btn-send'|translate}}</span>
             </span>
           </button>
@@ -82,19 +82,19 @@
     </button>
     <button [title]="'tips-word-wrap'|translate" style="margin-left:3px;" nzSize="small"
       [nzType]="wraped?'primary':'dashed'" nz-button (click)="wrap()">
-      <i nz-icon type="bars" theme="outline"></i>
+      <i nz-icon nzType="bars" theme="outline"></i>
     </button>
     <button [title]="'tips-format'|translate" style="margin-left:3px;" nzSize="small" nzType="dashed" nz-button
       (click)="formatJson()">
-      <i nz-icon type="layout" theme="outline"></i>
+      <i nz-icon nzType="layout" theme="outline"></i>
     </button>
     <button [title]="'tips-full-window'|translate" style="margin-left:3px;" nzSize="small"
       [nzType]="isFullDocument?'primary':'dashed'" nz-button (click)="fullWindowBtnClick()">
-      <i nz-icon type="windows" theme="outline"></i>
+      <i nz-icon nzType="windows" theme="outline"></i>
     </button>
     <button [title]="'tips-fullscreen'|translate" style="margin-left:3px;margin-right:3px;" nzSize="small"
       [nzType]="isFullscreen?'primary':'dashed'" nz-button (click)="fullScreenBtnClick()">
-      <i nz-icon [type]="isFullscreen?'shrink':'arrows-alt'" theme="outline"></i>
+      <i nz-icon [nzType]="isFullscreen?'shrink':'arrows-alt'" theme="outline"></i>
     </button>
   </ng-template>
 </div>

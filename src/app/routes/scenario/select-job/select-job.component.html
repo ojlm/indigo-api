@@ -1,6 +1,6 @@
 <nz-tabset [nzAnimated]="false" [(nzSelectedIndex)]="tabIndex">
   <nz-tab [nzTitle]="jobTemplate">
-    <ng-template #jobTemplate> <i nz-icon type="calendar"></i>Job</ng-template>
+    <ng-template #jobTemplate> <i nz-icon nzType="calendar"></i>Job</ng-template>
     <div class="search-group-project">
       <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
       </app-group-project-selector>
@@ -15,14 +15,14 @@
           </div>
         </ng-template>
         <ng-template #jobActions>
-          <a (click)="select(jobItem)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
+          <a (click)="select(jobItem)"><i nz-icon nzType="plus-circle" theme="outline" class="click-icon"></i></a>
         </ng-template>
       </ng-template>
     </nz-list>
     <ng-template #jobFooter>
       <nz-pagination *ngIf="jobItems.length>0" [nzSize]="'small'" [(nzPageIndex)]="jobItemsPage.pageIndex"
         [nzShowTotal]="jobTotalTemplate" [nzTotal]="jobItemsPage.pageTotal" [nzPageSize]="jobItemsPage.pageSize"
-        (nzPageIndexChange)="searchjobSteps()">
+        (nzPageIndexChange)="searchJob()">
       </nz-pagination>
       <ng-template #jobTotalTemplate let-jobTotal>
         <span style="color:lightgray;">

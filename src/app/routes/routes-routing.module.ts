@@ -17,10 +17,7 @@ import { Exception500Component } from './exception/500.component'
 import { GroupModelComponent } from './group/group-model/group-model.component'
 import { GroupProjectsComponent } from './group/group-projects/group-projects.component'
 import { HomeComponent } from './home/home.component'
-import { UserLockComponent } from './passport/lock/lock.component'
 import { UserLoginComponent } from './passport/login/login.component'
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component'
-import { UserRegisterComponent } from './passport/register/register.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectApisComponent } from './project/project-apis/project-apis.component'
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
@@ -40,8 +37,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard/groups', pathMatch: 'full', data: { titleI18n: 'title-home' } },
       { path: 'home', component: HomeComponent, data: { titleI18n: 'title-home' } },
-      { path: 'toptop', loadChildren: './top/top.module#TopModule' },
-      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+      { path: 'toptop', loadChildren: () => import('./top/top.module').then(m => m.TopModule) },
+      { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'groups/new', component: GroupModelComponent, data: { titleI18n: 'title-group-new' } },
       { path: 'projects/new', component: ProjectModelComponent, data: { titleI18n: 'title-project-new' } }
     ]
@@ -51,7 +48,7 @@ const routes: Routes = [
     component: LayoutIndigoComponent,
     canActivateChild: [JWTGuard],
     children: [
-      { path: '', loadChildren: './cluster/cluster.module#ClusterModule' }
+      { path: '', loadChildren: () => import('./cluster/cluster.module').then(m => m.ClusterModule) }
     ]
   },
   {
@@ -59,7 +56,7 @@ const routes: Routes = [
     component: LayoutIndigoComponent,
     canActivateChild: [JWTGuard],
     children: [
-      { path: '', loadChildren: './dubbo/dubbo.module#DubboModule' }
+      { path: '', loadChildren: () => import('./dubbo/dubbo.module').then(m => m.DubboModule) }
     ]
   },
   {
@@ -67,7 +64,7 @@ const routes: Routes = [
     component: LayoutIndigoComponent,
     canActivateChild: [JWTGuard],
     children: [
-      { path: '', loadChildren: './system/system.module#SystemModule' }
+      { path: '', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) }
     ]
   },
   // 全屏布局
@@ -84,13 +81,10 @@ const routes: Routes = [
     component: LayoutPassportComponent,
     children: [
       { path: 'login', component: UserLoginComponent, data: { titleI18n: 'title-login' } },
-      { path: 'register', component: UserRegisterComponent, data: { titleI18n: 'title-register' } },
-      { path: 'register-result', component: UserRegisterResultComponent, data: { titleI18n: 'title-register-result' } }
     ]
   },
   // 单页不包裹Layout
   { path: 'callback/:type', component: CallbackComponent },
-  { path: 'lock', component: UserLockComponent, data: { titleI18n: 'title-lock' } },
   { path: '403', component: Exception403Component },
   { path: '404', component: Exception404Component },
   { path: '500', component: Exception500Component },
@@ -101,12 +95,12 @@ const routes: Routes = [
   },
   {
     path: 'cases/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: 'new', loadChildren: './case/case.module#CaseModule' }
+      { path: 'new', loadChildren: () => import('./case/case.module').then(m => m.CaseModule) }
     ]
   },
   {
     path: 'case/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: ':caseId', loadChildren: './case/case.module#CaseModule' }
+      { path: ':caseId', loadChildren: () => import('./case/case.module').then(m => m.CaseModule) }
     ]
   },
   {
@@ -134,56 +128,56 @@ const routes: Routes = [
   {
     path: 'job/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectJobsComponent, data: { titleI18n: 'title-job-list' } },
-      { path: ':jobId', loadChildren: './job/job.module#JobModule' }
+      { path: ':jobId', loadChildren: () => import('./job/job.module').then(m => m.JobModule) }
     ]
   },
   {
     path: 'jobs/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: 'new', loadChildren: './job/job.module#JobModule' }
+      { path: 'new', loadChildren: () => import('./job/job.module').then(m => m.JobModule) }
     ]
   },
   {
     path: 'scenario/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectScenariosComponent, data: { titleI18n: 'title-scenario-list' } },
-      { path: ':scenarioId', loadChildren: './scenario/scenario.module#ScenarioModule' }
+      { path: ':scenarioId', loadChildren: () => import('./scenario/scenario.module').then(m => m.ScenarioModule) }
     ]
   },
   {
     path: 'scenarios/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: 'new', loadChildren: './scenario/scenario.module#ScenarioModule' }
+      { path: 'new', loadChildren: () => import('./scenario/scenario.module').then(m => m.ScenarioModule) }
     ]
   },
   {
     path: 'dubbo/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectDubboListComponent, data: { titleI18n: 'title-dubbo-list' } },
-      { path: ':dubboId', loadChildren: './dubbo/dubbo.module#DubboModule' }
+      { path: ':dubboId', loadChildren: () => import('./dubbo/dubbo.module').then(m => m.DubboModule) }
     ]
   },
   {
     path: 'dubboes/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: 'new', loadChildren: './dubbo/dubbo.module#DubboModule' }
+      { path: 'new', loadChildren: () => import('./dubbo/dubbo.module').then(m => m.DubboModule) }
     ]
   },
   {
     path: 'sql/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectSqlListComponent, data: { titleI18n: 'title-sql-list' } },
-      { path: ':sqlId', loadChildren: './sql/sql.module#SqlModule' }
+      { path: ':sqlId', loadChildren: () => import('./sql/sql.module').then(m => m.SqlModule) }
     ]
   },
   {
     path: 'sqls/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: 'new', loadChildren: './sql/sql.module#SqlModule' }
+      { path: 'new', loadChildren: () => import('./sql/sql.module').then(m => m.SqlModule) }
     ]
   },
   {
     path: 'ci/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectCiCdListComponent, data: { titleI18n: 'title-cicd-list' } },
-      { path: ':ciId', loadChildren: './ci/ci.module#CiModule' }
+      { path: ':ciId', loadChildren: () => import('./ci/ci.module').then(m => m.CiModule) }
     ]
   },
   {
     path: 'cis/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', loadChildren: './ci/ci.module#CiModule' }
+      { path: '', loadChildren: () => import('./ci/ci.module').then(m => m.CiModule) }
     ]
   },
   {
@@ -193,17 +187,17 @@ const routes: Routes = [
   },
   {
     path: 'project/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', loadChildren: './project/project.module#ProjectModule' }
+      { path: '', loadChildren: () => import('./project/project.module').then(m => m.ProjectModule) }
     ]
   },
   {
     path: 'group/:group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', loadChildren: './group/group.module#GroupModule' },
+      { path: '', loadChildren: () => import('./project/project.module').then(m => m.ProjectModule) },
     ]
   },
   {
     path: 'report/job/:group/:project', component: LayoutFullScreenComponent, canActivateChild: [JWTGuard], children: [
-      { path: ':reportId', loadChildren: './report/report.module#ReportModule' },
+      { path: ':reportId', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
     ]
   },
   { path: '**', redirectTo: '' }

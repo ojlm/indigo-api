@@ -19,7 +19,7 @@
     <div style="display:flex;padding-left:10px;">
       <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="save()">
         <span>
-          <i nz-icon type="save" theme="outline"></i>
+          <i nz-icon nzType="save" theme="outline"></i>
           <span>{{'btn-save'|translate}}</span>
         </span>
       </button>
@@ -61,7 +61,7 @@
       <span style="margin-right:8px;color:blue;">{{readinessTargetTips()}}</span>
       <button nz-button [nzType]="'primary'" [nzSize]="'small'" (click)="select()">
         <span>
-          <i nz-icon type="select" theme="outline"></i>
+          <i nz-icon nzType="select" theme="outline"></i>
           <span>{{'btn-select-request'|translate}}</span>
         </span>
       </button>
@@ -100,7 +100,7 @@
       <span style="margin-right:8px;color:blue;">{{jobTips()}}</span>
       <button nz-button [nzType]="'primary'" [nzSize]="'small'" (click)="selectJob()">
         <span>
-          <i nz-icon type="select" theme="outline"></i>
+          <i nz-icon nzType="select" theme="outline"></i>
           <span>{{'btn-select-job'|translate}}</span>
         </span>
       </button>

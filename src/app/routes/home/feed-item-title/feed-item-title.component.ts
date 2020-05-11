@@ -7,6 +7,9 @@ import { UserProfile } from 'app/model/user.model'
   selector: 'app-feed-item-title',
   templateUrl: './feed-item-title.component.html',
   styles: [`
+    :host {
+      width: 100%;
+    }
     .p {
       color: #24292e;
       font-weight: 600;

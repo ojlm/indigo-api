@@ -1,22 +1,27 @@
-<nz-input-group style="width:180px;margin-left:12px;margin-right:16px;" nzSearch [nzSize]="'small'" [nzAddOnAfter]="suffixIconButton">
-  <input nz-input type="text" style="color:purple;" readonly [placeholder]="'tips-select-env'|translate" [(ngModel)]="envName">
+<nz-input-group style="width:180px;margin-left:12px;margin-right:16px;" nzSearch [nzSize]="'small'"
+  [nzAddOnAfter]="suffixIconButton">
+  <input nz-input type="text" style="color:purple;" readonly [placeholder]="'tips-select-env'|translate"
+    [(ngModel)]="envName">
 </nz-input-group>
 <ng-template #suffixIconButton>
   <nz-button-group>
-    <button nz-button [nzSize]="'small'" nzType="default" (click)="viewEnv()"><i nz-icon type="eye" theme="outline"></i></button>
-    <button nz-button [nzSize]="'small'" nzType="default" (click)="selectEnv()"><i nz-icon type="select" theme="outline"></i></button>
+    <button nz-button [nzSize]="'small'" nzType="default" (click)="viewEnv()"><i nz-icon nzType="eye"
+        theme="outline"></i></button>
+    <button nz-button [nzSize]="'small'" nzType="default" (click)="selectEnv()"><i nz-icon nzType="select"
+        theme="outline"></i></button>
   </nz-button-group>
 </ng-template>
 <nz-drawer [nzClosable]="true" [nzVisible]="envModelDrawerVisible" nzPlacement="right" [nzWidth]="drawerWidth"
   [nzBodyStyle]="drawerBodyStyle" (nzOnClose)="envModelDrawerVisible=false">
-  <app-env-model *ngIf="envModelDrawerSwitch" [(data)]="_env" (dataChange)="modelChange()" [(name)]="envName" (onclear)="envModelDrawerVisible=false"></app-env-model>
+  <app-env-model *ngIf="envModelDrawerSwitch" [(data)]="_env" (dataChange)="modelChange()" [(name)]="envName"
+    (onclear)="envModelDrawerVisible=false"></app-env-model>
 </nz-drawer>
 <nz-drawer [nzClosable]="false" [nzVisible]="envSelectorDrawerVisible" nzPlacement="right" [nzWidth]="drawerWidth"
   (nzOnClose)="envSelectorDrawerVisible=false">
   <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
     [nzPagination]="pagination" [nzLoading]="loading">
     <ng-template #item let-item>
-      <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+      <nz-list-item [nzActions]="[edit]">
         <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
           <ng-template #nzTitle>
             <span>{{item.summary}}</span>
@@ -27,14 +32,14 @@
         </nz-list-item-meta>
         <ng-template #edit>
           <button nz-button [nzType]="item._id===_env?'primary':'default'" nzShape="circle" (click)="clickItem(item)">
-            <i nz-icon type="check-square" theme="outline"></i>
+            <i nz-icon nzType="check-square" theme="outline"></i>
           </button>
         </ng-template>
       </nz-list-item>
     </ng-template>
     <ng-template #pagination>
-      <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
-        [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()"></nz-pagination>
+      <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate"
+        [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()"></nz-pagination>
       <ng-template #totalTemplate let-total>
         <span style="color:lightgray;">
           <span>{{'item-total'|translate}}</span>

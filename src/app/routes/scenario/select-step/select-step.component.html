@@ -1,6 +1,6 @@
 <nz-tabset [nzAnimated]="false" [(nzSelectedIndex)]="tabIndex" (nzSelectedIndexChange)="tabIndexChange()">
   <nz-tab [nzTitle]="httpTemplate">
-    <ng-template #httpTemplate> <i nz-icon type="book"></i>HTTP</ng-template>
+    <ng-template #httpTemplate> <i nz-icon nzType="book"></i>HTTP</ng-template>
     <div class="search-group-project">
       <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
       </app-group-project-selector>
@@ -25,7 +25,7 @@
           </div>
         </ng-template>
         <ng-template #httpActions>
-          <a (click)="addHttpStep(httpItem)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
+          <a (click)="addHttpStep(httpItem)"><i nz-icon nzType="plus-circle" theme="outline" class="click-icon"></i></a>
         </ng-template>
       </ng-template>
     </nz-list>
@@ -47,7 +47,7 @@
     </ng-template>
   </nz-tab>
   <nz-tab [nzTitle]="dubboTemplate">
-    <ng-template #dubboTemplate> <i nz-icon type="alibaba"></i>Dubbo</ng-template>
+    <ng-template #dubboTemplate> <i nz-icon nzType="alibaba"></i>Dubbo</ng-template>
     <div class="search-group-project">
       <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
       </app-group-project-selector>
@@ -77,7 +77,7 @@
           </div>
         </ng-template>
         <ng-template #dubboActions>
-          <a (click)="addDubboStep(dubboItem)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
+          <a (click)="addDubboStep(dubboItem)"><i nz-icon nzType="plus-circle" theme="outline" class="click-icon"></i></a>
         </ng-template>
       </ng-template>
     </nz-list>
@@ -100,7 +100,7 @@
     </ng-template>
   </nz-tab>
   <nz-tab [nzTitle]="sqlTemplate">
-    <ng-template #sqlTemplate> <i nz-icon type="database"></i>MySql</ng-template>
+    <ng-template #sqlTemplate> <i nz-icon nzType="database"></i>MySql</ng-template>
     <div class="search-group-project">
       <app-group-project-selector [(data)]="searchGroupProject" (dataChange)="groupProjectChange()">
       </app-group-project-selector>
@@ -130,7 +130,7 @@
           </div>
         </ng-template>
         <ng-template #sqlActions>
-          <a (click)="addSqlStep(sqlItem)"><i nz-icon type="plus-circle" theme="outline" class="click-icon"></i></a>
+          <a (click)="addSqlStep(sqlItem)"><i nz-icon nzType="plus-circle" theme="outline" class="click-icon"></i></a>
         </ng-template>
       </ng-template>
     </nz-list>
@@ -138,7 +138,7 @@
       <app-sql-search-panel [(data)]="searchSqlStepModel" (dataChange)="searchSqlSteps()"></app-sql-search-panel>
     </ng-template>
     <ng-template #sqlFooter>
-      <nz-pagination *ngIf="sqlItems.length>0" [nzSize]="'small'" [(nzPageIndex)]="sqlItems.pageIndex"
+      <nz-pagination *ngIf="sqlItems.length>0" [nzSize]="'small'" [(nzPageIndex)]="sqlItemsPage.pageIndex"
         [nzShowTotal]="sqlTotalTemplate" [nzTotal]="sqlItemsPage.pageTotal" [nzPageSize]="sqlItemsPage.pageSize"
         (nzPageIndexChange)="searchSqlSteps()">
       </nz-pagination>

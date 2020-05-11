@@ -1,9 +1,9 @@
 export class EventSourceSubscriber {
 
-  private es: IEventSourceStatic
+  private es: EventSource
   private onClose: () => void
 
-  constructor(eventSource: IEventSourceStatic, noRetry: boolean = true) {
+  constructor(eventSource: EventSource, noRetry: boolean = true) {
     this.es = eventSource
     if (noRetry) {
       this.es.onerror = (event: Event) => {
@@ -21,7 +21,7 @@ export class EventSourceSubscriber {
   /** type: log */
   subscribeLog(func: (data: string) => void): EventSourceSubscriber {
     if (func) {
-      this.es.addEventListener('log', (event) => func(event.data))
+      this.es.addEventListener('log', (event) => func(event['data']))
     }
     return this
   }
@@ -29,9 +29,9 @@ export class EventSourceSubscriber {
   subscribeJson<T>(func: (data: T) => void): EventSourceSubscriber {
     if (func) {
       this.es.addEventListener('json', (event) => {
-        if (event.data) {
+        if (event['data']) {
           try {
-            const obj = JSON.parse(event.data) as T
+            const obj = JSON.parse(event['data']) as T
             func(obj)
           } catch (error) {
             console.error(error)
@@ -63,59 +63,9 @@ export class EventSourceSubscriber {
  */
 export function newEventSource(url: string, noRetry: boolean = true): EventSourceSubscriber {
   if (window['EventSource']) {
-    const sse = (new window['EventSource'](url)) as IEventSourceStatic
+    const sse = new EventSource(url)
     return new EventSourceSubscriber(sse)
   } else {
     return null
   }
-}
-
-/**
- * 临时声明, https://github.com/Microsoft/TypeScript/issues/13666
- */
-/** The readyState attribute represents the state of the connection. */
-enum ReadyState {
-
-  /** The connection has not yet been established, or it was closed and the user agent is reconnecting. */
-  CONNECTING = 0,
-
-  /** The user agent has an open connection and is dispatching events as it receives them. */
-  OPEN = 1,
-
-  // tslint:disable-next-line:max-line-length
-  /** The connection is not open, and the user agent is not trying to reconnect. Either there was a fatal error or the close() method was invoked. */
-  CLOSED = 2
-}
-
-interface IEventSourceStatic {
-  // tslint:disable-next-line:no-misused-new
-  new(url: string, eventSourceInitDict?: IEventSourceInit): IEventSourceStatic
-  /** The serialisation of this EventSource object's url. */
-  url: string
-  withCredentials: boolean
-  /** Always 0 */
-  CONNECTING: ReadyState
-  /** Always 1 */
-  OPEN: ReadyState
-  /** Always 2 */
-  CLOSED: ReadyState
-  /** The ready state of the underlying connection. */
-  readyState: ReadyState
-  onopen: (event: Event) => any
-  onmessage: (event: IOnMessageEvent) => void
-  onerror: (event: Event) => any
-  // tslint:disable-next-line:max-line-length
-  /** The close() method must abort any instances of the fetch algorithm started for this EventSource object, and must set the readyState attribute to CLOSED. */
-  close: () => void
-  addEventListener: (type: string, h: (event: IOnMessageEvent) => void) => void
-  removeEventListener: (type: string, h: (event: IOnMessageEvent) => void) => void
-}
-
-interface IEventSourceInit {
-  /** Defines if request should set corsAttributeState to true.  */
-  withCredentials?: boolean
-}
-
-interface IOnMessageEvent {
-  data: string
 }

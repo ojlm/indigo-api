@@ -1,24 +1,26 @@
-<div nz-row>
+<div>
   <ng-container *ngIf="!isEditable">
     <div style="margin-bottom:6px;">
-      <nz-tag *ngFor="let item of values; let i = index;" [nzColor]="'cyan'" nzMode="closeable" (nzOnClose)="remove(item,i)">{{item}}</nz-tag>
+      <nz-tag *ngFor="let item of values; let i = index;" [nzColor]="'cyan'" nzMode="closeable"
+        (nzOnClose)="remove(item,i)">{{item}}</nz-tag>
       <a style="font-size:smaller;margin-left:3px;" (click)="isEditable=true">{{'btn-manage-label'|translate}}</a>
     </div>
   </ng-container>
   <ng-container *ngIf="isEditable">
     <div style="margin-bottom:10px;">
-      <nz-input-group style="width:100%;" nzSearch [nzAddOnAfter]="suffixButton">
-        <nz-select [nzSize]="'default'" nzMode="tags" style="width: 100%;" [(ngModel)]="values" (nzOpenChange)="labelSelectOpenChange()"
+      <nz-input-group style="width:100%;" [nzAddOnAfter]="suffixButton">
+        <nz-select style="width:100%;" nzMode="tags" [(ngModel)]="values" (nzOpenChange)="labelSelectOpenChange()"
           (ngModelChange)="modelChange()" [nzServerSearch]="true" (nzOnSearch)="searchLabel($event)">
           <nz-option *ngFor="let item of labels" [nzLabel]="item.id" [nzValue]="item.id" nzCustomContent>
             <span>
-              <nz-badge style="transform: scale(0.6);" [nzCount]="item.count" [nzStyle]="{backgroundColor:'#52c41a'}"></nz-badge>
+              <nz-badge style="transform: scale(0.6);" [nzCount]="item.count" [nzStyle]="{backgroundColor:'#52c41a'}">
+              </nz-badge>
               <span>{{item.id}}</span>
             </span>
           </nz-option>
         </nz-select>
         <ng-template #suffixButton>
-          <button [nzSize]="'default'" nz-button nzType="default" (click)="isEditable=false">
+          <button style="width:100%;" nz-button nzType="default" (click)="isEditable=false">
             <span>{{'btn-done'|translate}}</span>
           </button>
         </ng-template>

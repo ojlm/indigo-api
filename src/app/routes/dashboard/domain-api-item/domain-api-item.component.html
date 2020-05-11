@@ -1,10 +1,12 @@
-<nz-dropdown [nzPlacement]="'bottomRight'">
-  <button style="font-size:small;" nz-button nz-dropdown [nzSize]="'small'" [nzType]="isCoverd?'primary':'danger'">
-    <span>{{'field-coverage'|translate}}</span>
-    <i style="margin-left:4px;" nz-icon type="down" theme="outline"></i>
-  </button>
+<button style="font-size:small;" nz-button [nzSize]="'small'" [nzType]="isCoverd?'primary':'danger'" nz-dropdown
+  [nzDropdownMenu]="btnMenu" nzTrigger="click" nzPlacement="bottomRight">
+  <span>{{'field-coverage'|translate}}</span>
+  <i style="margin-left:4px;" nz-icon nzType="down" theme="outline"></i>
+</button>
+<nz-dropdown-menu #btnMenu="nzDropdownMenu">
   <ul nz-menu>
-    <li *ngIf="_item.belongs.length===0" nz-menu-item style="color:lightcoral;">{{'tips-online-domain-absent'|translate}}</li>
+    <li *ngIf="_item.belongs.length===0" nz-menu-item style="color:lightcoral;">
+      {{'tips-online-domain-absent'|translate}}</li>
     <ng-container *ngIf="_item.belongs.length>0">
       <li nz-submenu *ngFor="let item of _item.belongs">
         <span title [style.color]="item.covered?'#108ee9':'lightcoral'">
@@ -18,4 +20,4 @@
       </li>
     </ng-container>
   </ul>
-</nz-dropdown>
+</nz-dropdown-menu>

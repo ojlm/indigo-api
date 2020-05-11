@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, OnInit, TemplateRef } from '@angular/core'
+import { Component, HostListener, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
@@ -7,13 +7,7 @@ import { formatImportsToSave } from '@shared/variables-import-table/variables-im
 import { ConfigService } from 'app/api/service/config.service'
 import { FavoriteService } from 'app/api/service/favorite.service'
 import { calcDrawerWidth } from 'app/util/drawer'
-import {
-  NzDrawerService,
-  NzDropdownContextComponent,
-  NzDropdownService,
-  NzMenuItemDirective,
-  NzMessageService,
-} from 'ng-zorro-antd'
+import { NzContextMenuService, NzDrawerService, NzDropdownMenuComponent, NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { JobService, NewJob } from '../../../api/service/job.service'
@@ -73,13 +67,19 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
   runTimes = 1
   runtimeInit = {}
   runtimeContextSubject = new Subject<{}>()
-  private dropdown: NzDropdownContextComponent
+  consoleHeight = Math.round(window.innerHeight * 0.5)
+
+  @HostListener('window:resize')
+  resize() {
+    this.consoleHeight = Math.round(window.innerHeight * 0.5)
+  }
+
   constructor(
     private configService: ConfigService,
     private jobService: JobService,
     private favoriteService: FavoriteService,
     private msgService: NzMessageService,
-    private nzDropdownService: NzDropdownService,
+    private contextMenuService: NzContextMenuService,
     private drawerService: NzDrawerService,
     private router: Router,
     private route: ActivatedRoute,
@@ -271,12 +271,12 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
     }
   }
 
-  contextMenu($event: MouseEvent, template: TemplateRef<void>): void {
-    this.dropdown = this.nzDropdownService.create($event, template)
+  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent) {
+    this.contextMenuService.create($event, menu)
   }
 
-  closeContextMenu(e: NzMenuItemDirective): void {
-    this.dropdown.close()
+  closeContextMenu() {
+    this.contextMenuService.close()
   }
 
   getSseApi() {

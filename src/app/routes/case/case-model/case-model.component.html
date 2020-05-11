@@ -18,7 +18,8 @@
       </nz-input-group>
     </nz-row>
     <nz-row style="margin-bottom:4px;">
-      <app-label-list [(data)]="case.labels" (dataChange)="modelChange()" [type]="'case'"></app-label-list>
+      <app-label-list style="width: 100%;" [(data)]="case.labels" (dataChange)="modelChange()" [type]="'case'">
+      </app-label-list>
     </nz-row>
     <!-- url row start -->
     <nz-affix [nzOffsetTop]="54" (nzChange)="onAffixChange($event)">
@@ -37,16 +38,18 @@
         <div style="display:flex;padding-left:20px;">
           <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()">
             <span>
-              <i nz-icon type="scan" theme="outline"></i>
+              <i nz-icon nzType="scan" theme="outline"></i>
               <span>{{'btn-send'|translate}}</span>
             </span>
           </button>
-          <nz-dropdown-button (nzClick)="save()" style="padding-left:5px;" [nzTrigger]="'hover'"
-            [nzPlacement]="'bottomRight'">
+          <button nz-button (click)="save()" style="padding-left:5px;" nz-dropdown [nzTrigger]="'hover'"
+            [nzDropdownMenu]="saveMenu" [nzPlacement]="'bottomRight'">
             <span [style.color]="isSaved?'lightgray':'orangered'">
-              <i nz-icon type="save" theme="outline"></i>
+              <i nz-icon nzType="save" theme="outline"></i>
               <span>{{'btn-save'|translate}}</span>
             </span>
+          </button>
+          <nz-dropdown-menu #saveMenu="nzDropdownMenu">
             <ul nz-menu>
               <li nz-menu-item (click)="saveAs()">
                 <a>{{'btn-save-as'|translate}}</a>
@@ -55,11 +58,11 @@
                 <a>{{'btn-reset'|translate}}</a>
               </li>
             </ul>
-          </nz-dropdown-button>
+          </nz-dropdown-menu>
           <button *ngIf="!isInDrawer&&isInNew" nz-button [nzType]="'default'" [nzSize]="'default'"
             style="margin-left:5px;padding:0px 10px;" (click)="history()">
             <span>
-              <i nz-icon type="book" theme="outline"></i>
+              <i nz-icon nzType="book" theme="outline"></i>
               <span>{{'btn-history'|translate}}</span>
             </span>
           </button>

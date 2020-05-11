@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { MonacoEditorComponent } from '@shared/monaco-editor/monaco-editor.component'
-import { SortablejsOptions } from 'angular-sortablejs'
 import { SelectModel } from 'app/model/common.model'
 import { TransformFunction, VariablesExportItem } from 'app/model/es.model'
 import { AutocompleteContext } from 'app/model/indigo.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { NzDrawerService } from 'ng-zorro-antd'
+import { SortablejsOptions } from 'ngx-sortablejs'
 
 @Component({
   selector: 'app-variables-export-table',
