@@ -1,5 +1,5 @@
 import { Location } from '@angular/common'
-import { Component, HostListener, Input, OnInit } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
@@ -27,7 +27,7 @@ import { PageSingleModel } from '../../../model/page.model'
   selector: 'app-scenario-model',
   templateUrl: './scenario-model.component.html',
 })
-export class ScenarioModelComponent extends PageSingleModel implements OnInit {
+export class ScenarioModelComponent extends PageSingleModel implements OnInit, AfterViewInit {
 
   fromSelector = false
   card1BodyStyle = {
@@ -68,6 +68,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
       this._ctxOptions = val
     }
   }
+  @ViewChild('consoleDrawer') consoleDrawer: ElementRef
   @HostListener('window:resize')
   resize() {
     this.consoleHeight = Math.round(window.innerHeight * 0.5)
@@ -83,9 +84,7 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private i18nService: I18NService,
-  ) {
-    super()
-  }
+  ) { super() }
 
   test() {
     this.consoleDrawerVisible = true
@@ -243,5 +242,8 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit {
         this.transforms = res.data
       })
     }
+  }
+
+  ngAfterViewInit() {
   }
 }

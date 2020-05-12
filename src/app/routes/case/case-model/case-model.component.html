@@ -72,7 +72,7 @@
     <!-- url row end -->
     <div style="height:7px;"></div>
     <nz-tabset style="min-height:360px;" [nzSize]="'default'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex"
-      [nzAnimated]="false">
+      [nzAnimated]="false" (nzSelectedIndexChange)="tabIndexChange()">
       <nz-tab [nzTitle]="'item-path-variable'|translate">
         <app-key-value [(data)]="case.request.path" (dataChange)="modelChange()"></app-key-value>
       </nz-tab>
@@ -86,19 +86,19 @@
         <app-key-value [(data)]="case.request.cookie" (dataChange)="modelChange()"></app-key-value>
       </nz-tab>
       <nz-tab [nzTitle]="'item-body'|translate" [nzDisabled]="'GET'===case.request.method">
-        <app-media-object [(type)]="case.request.contentType" [(data)]="case.request.body" (typeChange)="modelChange()"
-          (dataChange)="modelChange()">
+        <app-media-object *ngIf="tabShow['4']" [(type)]="case.request.contentType" [(data)]="case.request.body"
+          (typeChange)="modelChange()" (dataChange)="modelChange()">
         </app-media-object>
       </nz-tab>
       <nz-tab [nzTitle]="'item-result-assert'|translate">
-        <app-result-assert [assertions]="assertions" [(index)]="assertResultTabIndex" [result]="testResult"
-          [autocompleteContext]="autocompleteContext" [(assert)]="case.assert" [lastResult]="lastResult"
-          [ctxOptions]="_ctxOptions" (assertChange)="modelChange()">
+        <app-result-assert *ngIf="tabShow['5']" [assertions]="assertions" [(index)]="assertResultTabIndex"
+          [result]="testResult" [autocompleteContext]="autocompleteContext" [(assert)]="case.assert"
+          [lastResult]="lastResult" [ctxOptions]="_ctxOptions" (assertChange)="modelChange()">
         </app-result-assert>
       </nz-tab>
       <nz-tab [nzTitle]="'item-generator'|translate">
-        <app-case-generator [assertions]="assertions" [(data)]="case.generator" (dataChange)="modelChange()"
-          [log]="generatorLog" [sendCall]="generatorCall" [logResult]="logResult">
+        <app-case-generator *ngIf="tabShow['6']" [assertions]="assertions" [(data)]="case.generator"
+          (dataChange)="modelChange()" [log]="generatorLog" [sendCall]="generatorCall" [logResult]="logResult">
         </app-case-generator>
       </nz-tab>
       <nz-tab [nzTitle]="'item-exports'|translate">

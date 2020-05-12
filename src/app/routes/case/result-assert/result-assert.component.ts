@@ -1,16 +1,11 @@
-import { Location } from '@angular/common'
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder } from '@angular/forms'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { AssertionItem, AssertionItems } from '@shared/assertion-list/assertion-list.component'
 import { AutocompleteContext } from 'app/model/indigo.model'
-import { NzMessageService } from 'ng-zorro-antd'
 import { DiffEditorModel } from 'ngx-monaco-editor'
 import * as screenfull from 'screenfull'
 
-import { CaseService } from '../../../api/service/case.service'
 import {
   Assertion,
   CaseReportItemMetrics,
@@ -40,6 +35,7 @@ export class ResultAssertComponent implements OnInit {
   isFullscreen = this.sf.isFullscreen
   isFullDocument = false
   tabIndex = 0
+  tabShow: { [k: number]: boolean } = {}
   /** for first modelChange event bug */
   originAssert = ''
   _assert = ''
@@ -67,6 +63,7 @@ export class ResultAssertComponent implements OnInit {
   @Input()
   set index(val: number) {
     this.tabIndex = val
+    this.tabIndexChange()
   }
   @Output()
   indexChange = new EventEmitter<number>()
@@ -168,15 +165,8 @@ export class ResultAssertComponent implements OnInit {
   jsonEditorOption = this.monocoService.getJsonOption(false)
 
   constructor(
-    private fb: FormBuilder,
-    private caseService: CaseService,
-    private msgService: NzMessageService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location,
     private monocoService: MonacoService,
     private sanitizer: DomSanitizer,
-    private el: ElementRef<HTMLDivElement>,
   ) { }
 
   assertionItemsChange() {
@@ -292,6 +282,7 @@ export class ResultAssertComponent implements OnInit {
   }
 
   tabIndexChange() {
+    this.tabShow[this.tabIndex] = true
     this.indexChange.emit(this.tabIndex)
   }
 

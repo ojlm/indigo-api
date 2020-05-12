@@ -48,6 +48,7 @@ export class CaseModelComponent implements OnInit, OnDestroy {
   assertions: Assertion[] = []
   transforms: TransformFunction[] = []
   _ctxOptions: ContextOptions = {}
+  tabShow: { [k: number]: boolean } = {}
   // for step selector usage
   @Input() newStep: Function
   @Input() updateStep: Function
@@ -60,6 +61,7 @@ export class CaseModelComponent implements OnInit, OnDestroy {
     this.testResult = {}
     this.lastResult = {}
     this.tabIndex = 1
+    this.tabIndexChange()
     this.assertResultTabIndex = 0
     if (caseId) {
       this.caseService.getById(caseId).subscribe(res => {
@@ -98,10 +100,15 @@ export class CaseModelComponent implements OnInit, OnDestroy {
     initCaseField(this.case)
   }
 
+  tabIndexChange() {
+    this.tabShow[this.tabIndex] = true
+  }
+
   updateResult(result: CaseResult) {
     this.testResult = result
     this.lastResult = {}
     this.tabIndex = 5
+    this.tabIndexChange()
     this.assertResultTabIndex = 5
     this.autocompleteContext.refeshFromHttpResult(result)
   }
@@ -235,6 +242,7 @@ export class CaseModelComponent implements OnInit, OnDestroy {
         } else {
           this.assertResultTabIndex = 0
         }
+        this.tabIndexChange()
         this.autocompleteContext.refeshFromHttpResult(this.testResult)
       }, err => this.isSending = false)
     }

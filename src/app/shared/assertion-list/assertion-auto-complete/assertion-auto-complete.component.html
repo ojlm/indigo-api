@@ -2,7 +2,7 @@
   <input #pathInput nz-input [nzSize]="'small'" (focus)="onFocus()" [placeholder]="'tips-input-json-path'|translate"
     [(ngModel)]="assertionItem.path" (ngModelChange)="onExpChange()">
   <ul class="jsonpath-options">
-    <li *ngFor="let option of options;let idx = index" [nzTooltipTitle]="auto" nzPlacement="rightTop" nz-tooltip
+    <li *ngFor="let option of options;let idx = index" [nzTooltipTitle]="auto" nzTooltipPlacement="rightTop" nz-tooltip
       (click)="onOptionClick(option)" (mouseenter)='onMouseEnter(idx)'
       [ngClass]="{'jsonpath-list-bar':optionIndex==idx}">
       <span>{{option}}</span>

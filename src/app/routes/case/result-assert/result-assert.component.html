@@ -3,7 +3,7 @@
     (nzSelectedIndexChange)="tabIndexChange()" [nzAnimated]="false" [nzTabBarExtraContent]="extraTemplate"
     [nzTabBarStyle]="tabBarStyle">
     <nz-tab [nzTitle]="'item-response-assert'|translate">
-      <div nz-row style="background-color:white;">
+      <div *ngIf="tabShow['0']" nz-row style="background-color:white;">
         <div nz-col nzSpan="12">
           <div class="response-toolbox">
             <button nzSize="small" [nzType]="responseTabType==='entity'?'primary':'dashed'" nz-button
@@ -50,23 +50,25 @@
       </div>
     </nz-tab>
     <nz-tab [nzTitle]="'item-rendered-request'|translate">
-      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption" [(ngModel)]="caseRequest">
+      <ngx-monaco-editor *ngIf="tabShow['1']" [style.height]="editorFullHeight" [options]="jsonRoEditorOption"
+        [(ngModel)]="caseRequest">
       </ngx-monaco-editor>
     </nz-tab>
     <nz-tab [nzTitle]="'item-assert-result'|translate">
-      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption"
+      <ngx-monaco-editor *ngIf="tabShow['2']" [style.height]="editorFullHeight" [options]="jsonRoEditorOption"
         [(ngModel)]="caseAssertResult"></ngx-monaco-editor>
     </nz-tab>
     <nz-tab [nzTitle]="'item-last-diff'|translate">
-      <ngx-monaco-diff-editor [style.height]="editorFullHeight" [options]="jsonRoEditorOption"
+      <ngx-monaco-diff-editor *ngIf="tabShow['3']" [style.height]="editorFullHeight" [options]="jsonRoEditorOption"
         [originalModel]="originalModel" [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor>
     </nz-tab>
     <nz-tab [nzTitle]="'item-initial-context'|translate">
-      <ngx-monaco-editor [style.height]="editorFullHeight" [options]="jsonEditorOption" [(ngModel)]="_initCtx">
+      <ngx-monaco-editor *ngIf="tabShow['4']" [style.height]="editorFullHeight" [options]="jsonEditorOption"
+        [(ngModel)]="_initCtx">
       </ngx-monaco-editor>
     </nz-tab>
     <nz-tab [nzTitle]="'item-assert-report'|translate">
-      <div style="padding-top:5px;">
+      <div *ngIf="tabShow['5']" style="padding-top:5px;">
         <app-playground-report-tab [statis]="statis" [metrics]="metrics"></app-playground-report-tab>
       </div>
     </nz-tab>

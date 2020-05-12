@@ -11,17 +11,20 @@
     </label>
   </nz-radio-group>
   <div style="width:100%;margin:5px;"></div>
-  <div nz-row [ngSwitch]="contentType">
-    <div *ngSwitchCase="'application/json'">
-      <ngx-monaco-editor class="code-editor" [options]="textEditorOptions" [(ngModel)]="mediaObjects['application/json']"
-        (ngModelChange)="modelChange()"></ngx-monaco-editor>
-    </div>
+  <div [ngSwitch]="contentType">
     <div *ngSwitchCase="'application/x-www-form-urlencoded'">
-      <app-key-value [(data)]="mediaObjects['application/x-www-form-urlencoded']" (dataChange)="modelChange()"></app-key-value>
+      <app-key-value [(data)]="mediaObjects['application/x-www-form-urlencoded']" (dataChange)="modelChange()">
+      </app-key-value>
+    </div>
+    <div *ngSwitchCase="'application/json'">
+      <ngx-monaco-editor class="code-editor" [options]="textEditorOptions"
+        [(ngModel)]="mediaObjects['application/json']" (ngModelChange)="modelChange()">
+      </ngx-monaco-editor>
     </div>
     <div *ngSwitchCase="'text/plain'">
       <ngx-monaco-editor class="code-editor" [options]="textEditorOptions" [(ngModel)]="mediaObjects['text/plain']"
-        (ngModelChange)="modelChange()"></ngx-monaco-editor>
+        (ngModelChange)="modelChange()">
+      </ngx-monaco-editor>
     </div>
   </div>
 </div>

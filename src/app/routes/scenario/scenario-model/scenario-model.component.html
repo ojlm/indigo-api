@@ -88,9 +88,11 @@
   </div>
 </div>
 <!-- console draw -->
-<nz-drawer #consoleDrawer [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
-  [nzVisible]="consoleDrawerVisible" [nzHeight]="consoleHeight" [nzClosable]="false"
-  (nzOnClose)="consoleDrawerVisible=false">
-  <app-console-report [log]="logSubject" [style.visibility]="consoleDrawerVisible?'visible':'hidden'">
-  </app-console-report>
-</nz-drawer>
+<div #consoleDrawer>
+  <nz-drawer [nzPlacement]="'top'" [nzMaskStyle]="{'background-color':'transparent'}" [nzBodyStyle]="{'padding':'0px'}"
+    [nzVisible]="consoleDrawerVisible" [nzHeight]="consoleHeight" [nzClosable]="false"
+    (nzOnClose)="consoleDrawerVisible=false">
+    <app-console-report [log]="logSubject" [style.visibility]="consoleDrawerVisible?'visible':'hidden'">
+    </app-console-report>
+  </nz-drawer>
+</div>
