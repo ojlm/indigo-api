@@ -40,7 +40,7 @@ export class StepsRuntimeComponent implements OnInit {
       this._subject.next()
     }
   }
-  _stepsDataCache: { [k: string]: ScenarioStepData }
+  _stepsDataCache: { [k: string]: ScenarioStepData } = {}
   @Input()
   set stepsDataCache(val: { [k: string]: ScenarioStepData }) {
     if (val && this._subject) {

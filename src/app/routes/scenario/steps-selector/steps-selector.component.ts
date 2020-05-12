@@ -7,8 +7,8 @@ import { CaseModelComponent } from 'app/routes/case/case-model/case-model.compon
 import { DubboPlaygroundComponent } from 'app/routes/dubbo/dubbo-playground/dubbo-playground.component'
 import { SqlPlaygroundComponent } from 'app/routes/sql/sql-playground/sql-playground.component'
 import { NzDrawerService } from 'ng-zorro-antd'
-import { SortablejsOptions } from 'ngx-sortablejs'
 import { Subject } from 'rxjs'
+import { Options } from 'sortablejs'
 
 import {
   caseToScenarioStep,
@@ -42,7 +42,7 @@ export class StepsSelectorComponent implements OnInit {
 
   @Input() group: string
   @Input() project: string
-  sortablejsOptions: SortablejsOptions = {
+  sortablejsOptions: Options = {
     handle: '.anticon-bars',
     onUpdate: function (event: any) {
       this.clearStatus()
@@ -121,6 +121,8 @@ export class StepsSelectorComponent implements OnInit {
   }
 
   updateStepRuntimeData() {
+    this.stepsDataCache = { ...this.stepsDataCache }
+    this.stepsStatusCache = { ...this.stepsStatusCache }
     this.subject.next()
   }
 
