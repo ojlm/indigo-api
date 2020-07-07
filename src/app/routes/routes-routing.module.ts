@@ -192,7 +192,7 @@ const routes: Routes = [
   },
   {
     path: 'group/:group', component: LayoutGroupComponent, canActivateChild: [JWTGuard], children: [
-      { path: '', loadChildren: () => import('./project/project.module').then(m => m.ProjectModule) },
+      { path: '', loadChildren: () => import('./group/group.module').then(m => m.GroupModule) },
     ]
   },
   {
