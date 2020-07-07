@@ -6,7 +6,7 @@
     <nz-list *ngIf="items.length>0" [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item"
       [nzPagination]="pagination" [nzLoading]="loading">
       <ng-template #item let-item>
-        <nz-list-item [nzContent]="nzContent" [nzActions]="[edit]">
+        <nz-list-item [nzActions]="[edit]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
             <ng-template #nzTitle>
               <span (click)="goProject(item)" style="cursor:pointer;">{{item.project}}</span>
@@ -27,8 +27,8 @@
         </nz-list-item>
       </ng-template>
       <ng-template #pagination>
-        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
-          [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+        <nz-pagination *ngIf="items.length>0" [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate"
+          [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
         </nz-pagination>
         <ng-template #totalTemplate let-total>
           <span style="color:lightgray;">
