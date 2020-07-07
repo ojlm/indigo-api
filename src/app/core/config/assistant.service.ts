@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core'
 })
 export class AssistantService {
 
-  docUrl = 'https://docs.asura.pro'
+  docUrl = 'https://asura-pro.github.io/indigo-docs'
   defaultItems: AssistantItem[] = [
     { title: 'hosts vs Host', url: `${this.docUrl}/#/zh-cn/bp/hosts-vs-host` },
     { title: 'context', url: `${this.docUrl}/#/zh-cn/context` },

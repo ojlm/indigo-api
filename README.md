@@ -24,7 +24,7 @@
 
 #### 基于JSON的强大断言
 
-> `Indigo`中断言被抽象为一个JSON结构体(JSON格式的DSL). [断言参考](https://docs.asura.pro/#/zh-cn/assertion)
+> `Indigo`中断言被抽象为一个JSON结构体(JSON格式的DSL). [断言参考](https://asura-pro.github.io/indigo-docs/#/zh-cn/assertion)
 ``` json
 {
   "$.entity.data" : {
