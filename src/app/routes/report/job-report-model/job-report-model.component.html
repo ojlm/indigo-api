@@ -103,52 +103,55 @@
       [nzPageSize]="pageSize" [nzShowTotal]="scenarioTotalTemplate">
       <tbody>
         <ng-template ngFor let-data let-i="index" [ngForOf]="scenarioTable.data">
-          <tr style="cursor:pointer;" (click)="data.expand=!data.expand">
-            <td>{{(scenarioPageIndex-1)*pageSize+i+1}}</td>
-            <td>{{data.title}}</td>
+          <tr style="cursor:pointer;background-color:aliceblue;" (click)="data.expand=!data.expand">
             <td>
-              <nz-tag [nzColor]="tagColor(data.status)">{{data.status}}</nz-tag>
-            </td>
-            <td style="width:64px;">
-              <i style="padding-left:4px;" class="clickable" nz-icon nzType="setting" theme="outline"
-                (click)="editScenario(data)"></i>
+              <div nz-row>
+                <div nz-col nzFlex="100px">{{(scenarioPageIndex-1)*pageSize+i+1}}</div>
+                <div nz-col nzFlex="auto">{{data.title}}</div>
+                <div nz-col nzFlex="100px"><nz-tag [nzColor]="tagColor(data.status)">{{data.status}}</nz-tag></div>
+                <div nz-col nzFlex="width:64px">
+                  <i style="padding-left:4px;" class="clickable" nz-icon nzType="setting" theme="outline"
+                    (click)="editScenario(data)">
+                  </i>
+                </div>
+              </div>
             </td>
           </tr>
-          <tr [nzExpand]="data.expand">
-            <td colspan="4">
-              <nz-table #innerTable nzSize="small" [nzData]="data.steps" [nzFrontPagination]="false"
-                [nzShowPagination]="false">
-      <tbody>
-        <tr *ngFor="let item of innerTable.data;let i = index">
-          <td class="no">{{i+1}}</td>
-          <td>
-            <nz-tag [nzColor]="typeColor(item)">{{typeText(item)}}</nz-tag>
-            <a (click)="viewItem(item)">{{item.title}}</a>
-          </td>
-          <td>
-            <nz-tag [nzColor]="tagColor(item.status)">{{item.status}}</nz-tag>
-          </td>
-          <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
-          <td style="width:64px;">
-            <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon nzType="dashboard" theme="outline"
-              (click)="viewItem(item)"></i>
-            <i style="padding-left:4px;" class="clickable" nz-icon nzType="setting" theme="outline"
-              (click)="editItem(item)"></i>
-          </td>
-        </tr>
+          <div *ngIf="data.expand">
+            <nz-table #innerTable nzSize="small" [nzData]="data.steps" [nzFrontPagination]="false"
+              [nzShowPagination]="false">
+              <tbody>
+                <tr *ngFor="let item of innerTable.data;let i = index">
+                  <td class="no">{{i+1}}</td>
+                  <td>
+                    <nz-tag [nzColor]="typeColor(item)">{{typeText(item)}}</nz-tag>
+                    <a (click)="viewItem(item)">{{item.title}}</a>
+                  </td>
+                  <td>
+                    <nz-tag [nzColor]="tagColor(item.status)">{{item.status}}</nz-tag>
+                  </td>
+                  <td>{{item.statis.passed}}/{{item.statis.failed}}</td>
+                  <td style="width:64px;">
+                    <i *ngIf="'skipped'!=item.status" class="clickable" nz-icon nzType="dashboard" theme="outline"
+                      (click)="viewItem(item)">
+                    </i>
+                    <i style="padding-left:4px;" class="clickable" nz-icon nzType="setting" theme="outline"
+                      (click)="editItem(item)">
+                    </i>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </ng-template>
       </tbody>
-    </nz-table>
-    </td>
-    </tr>
-    </ng-template>
-    </tbody>
-    <ng-template #scenarioTotalTemplate let-total>
-      <span style="color:lightgray;">
-        <span>{{'item-total'|translate}}</span>
-        <span> {{scenarioTable.data.length}} </span>
-        <span>{{'item-item'|translate}}</span>
-      </span>
-    </ng-template>
+      <ng-template #scenarioTotalTemplate let-total>
+        <span style="color:lightgray;">
+          <span>{{'item-total'|translate}}</span>
+          <span> {{scenarioTable.data.length}} </span>
+          <span>{{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
     </nz-table>
   </nz-card>
   <nz-card style="width:100%;margin-top:10px;background-color:ghostwhite;" [nzTitle]="'item-trend'|translate">
