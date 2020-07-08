@@ -148,12 +148,12 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
     this.dataChange.emit(this.data)
   }
 
-  viewScenario(item: ScenarioStep) {
+  viewScenario(item: ScenarioStep & Scenario) {
     this.drawerService.create({
       nzWidth: this.drawerWidth,
       nzContent: ScenarioModelComponent,
       nzContentParams: {
-        id: item.id,
+        id: item.id || item._id,
         ctxOptions: this._ctxOptions
       },
       nzBodyStyle: {
