@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Router } from '@angular/router'
+import { I18NService } from '@core'
 import { ActivityType, FeedItem } from 'app/api/service/activity.service'
 import { Job } from 'app/model/es.model'
 
@@ -19,17 +20,18 @@ export class FeedJobComponent {
     this.job = item.data as Job || {}
     switch (item.activity.type) {
       case ActivityType.TYPE_NEW_JOB:
-        this.action = 'create job'
-        break;
+        this.action = this.i18nService.fanyi('tips-create-job')
+        break
       case ActivityType.TYPE_TEST_JOB:
-        this.action = 'execute job'
-        break;
+        this.action = this.i18nService.fanyi('tips-test-job')
+        break
       default:
-        break;
+        break
     }
   }
 
   constructor(
+    private i18nService: I18NService,
     private router: Router,
   ) { }
 

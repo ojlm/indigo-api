@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Router } from '@angular/router'
+import { I18NService } from '@core'
 import { ActivityType, FeedItem } from 'app/api/service/activity.service'
 import { UserProfile } from 'app/model/user.model'
 
@@ -19,14 +20,15 @@ export class FeedUserComponent {
     this.profile = item.user as UserProfile || {}
     switch (item.activity.type) {
       case ActivityType.TYPE_NEW_USER:
-        this.action = 'join'
-        break;
+        this.action = this.i18nService.fanyi('tips-user-join')
+        break
       default:
-        break;
+        break
     }
   }
 
   constructor(
+    private i18nService: I18NService,
     private router: Router,
   ) { }
 

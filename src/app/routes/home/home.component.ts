@@ -9,7 +9,10 @@ import {
   RecommendProjects,
   SearchAfterActivity,
 } from 'app/api/service/activity.service'
+import { GroupService } from 'app/api/service/group.service'
+import { ProjectService } from 'app/api/service/project.service'
 import { ApiRes } from 'app/model/api.model'
+import { Group } from 'app/model/es.model'
 import { Subject } from 'rxjs'
 
 @Component({
@@ -20,8 +23,8 @@ import { Subject } from 'rxjs'
 export class HomeComponent implements OnInit {
 
   height = `${window.innerHeight - 48}px`
-  my: RecommendProject[] = []
-  others: RecommendProject[] = []
+  my: RecommendProjectEx[] = []
+  others: RecommendProjectEx[] = []
   wd = ''
   queryProjectSubject = new Subject<string>()
   searchFeed: SearchAfterActivity = {}
@@ -37,13 +40,21 @@ export class HomeComponent implements OnInit {
   }
   constructor(
     private activityService: ActivityService,
+    private groupService: GroupService,
+    private projectService: ProjectService,
     private router: Router,
   ) {
     const response = new Subject<ApiRes<RecommendProjects>>()
     this.queryProjectSubject = this.activityService.recentSubject(response)
     response.subscribe(res => {
-      this.my = res.data.my
+      this.my = fillGroupData(res.data.my, res.data.groups)
     })
+  }
+
+  itemBreadcrumb(item: RecommendProjectEx) {
+    const group = item._group ? this.groupService.getBreadcrumb(item._group) : item.group
+    const project = item.summary || item.project
+    return `${group}/${project}`
   }
 
   searchProject() {
@@ -71,8 +82,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.activityService.recentWithOthers().subscribe(res => {
-      this.my = res.data.my
-      this.others = res.data.others
+      this.my = fillGroupData(res.data.my, res.data.groups)
+      this.others = fillGroupData(res.data.others, res.data.groups)
     })
     this.searchFeedSubject = this.activityService.searchAfterSubject(this.searchFeedResponse)
     this.searchFeedResponse.subscribe(res => {
@@ -88,4 +99,15 @@ export class HomeComponent implements OnInit {
     })
     this.doSearch()
   }
+}
+
+function fillGroupData(items: RecommendProject[], groups: { [k: string]: Group }) {
+  if (items && groups) {
+    items.forEach(item => (item as RecommendProjectEx)._group = groups[item.group])
+  }
+  return items as RecommendProjectEx[]
+}
+
+interface RecommendProjectEx extends RecommendProject {
+  _group?: Group
 }

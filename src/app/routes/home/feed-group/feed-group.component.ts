@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core'
 import { Router } from '@angular/router'
+import { I18NService } from '@core'
 import { ActivityType, FeedItem } from 'app/api/service/activity.service'
+import { GroupService } from 'app/api/service/group.service'
 import { Group } from 'app/model/es.model'
 
 @Component({
@@ -19,16 +21,22 @@ export class FeedGroupComponent {
     this.group = item.data as Group || {}
     switch (item.activity.type) {
       case ActivityType.TYPE_NEW_PROJECT:
-        this.action = 'create group'
-        break;
+        this.action = this.i18nService.fanyi('tips-create-group')
+        break
       default:
-        break;
+        break
     }
   }
 
   constructor(
+    private groupService: GroupService,
+    private i18nService: I18NService,
     private router: Router,
   ) { }
+
+  avatarText() {
+    return this.groupService.getAvatarText(this.group)
+  }
 
   go() {
     const activity = this.item.activity

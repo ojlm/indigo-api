@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { Router } from '@angular/router'
-import { Activity } from 'app/model/es.model'
+import { FeedItem } from 'app/api/service/activity.service'
+import { Activity, Group, Project } from 'app/model/es.model'
 import { UserProfile } from 'app/model/user.model'
 
 @Component({
@@ -37,27 +38,34 @@ import { UserProfile } from 'app/model/user.model'
 })
 export class FeedItemTitleComponent {
 
-  _user: UserProfile = {}
-  @Input()
-  set user(val: UserProfile) {
-    if (val) this._user = val
-  }
-  _activity: Activity = {}
-  @Input()
-  set activity(val: Activity) {
-    if (val) this._activity = val
-  }
+  group: Group
+  project: Project
+  user: UserProfile = {}
+  activity: Activity = {}
   @Input() action = ''
+  @Input()
+  set item(val: FeedItem) {
+    if (val.activity) this.activity = val.activity
+    if (val.user) this.user = val.user
+    if (val.group) this.group = val.group
+    if (val.project) this.project = val.project
+  }
 
   constructor(
     private router: Router
   ) { }
 
+  title() {
+    const group = this.group ? this.group.summary : this.activity.group
+    const project = this.activity.project ? '/' + (this.project ? this.project.summary : this.activity.project) : ''
+    return `${group}${project}`
+  }
+
   go() {
-    if (this._activity.project) {
-      this.router.navigateByUrl(`/${this._activity.group}/${this._activity.project}`)
+    if (this.activity.project) {
+      this.router.navigateByUrl(`/${this.activity.group}/${this.activity.project}`)
     } else {
-      this.router.navigateByUrl(`/${this._activity.group}`)
+      this.router.navigateByUrl(`/${this.activity.group}`)
     }
   }
 }

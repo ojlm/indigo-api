@@ -1,6 +1,6 @@
 <div [style.height]="height" class="container">
   <div [style.height]="height" class="sidebar indigo-scroll-bar">
-    <div style="color:black;margin-bottom:4px;">{{'field-project'|translate}}</div>
+    <div style="color:black;margin-bottom:4px;">{{'tips-my-projects'|translate}}</div>
     <nz-input-group [nzSuffix]="suffixIconSearch" [nzSize]="'default'">
       <input type="text" nz-input [placeholder]="'tips-find-project'|translate" [(ngModel)]="wd"
         (ngModelChange)="searchProject()" />
@@ -9,8 +9,10 @@
       <i nz-icon nzType="search"></i>
     </ng-template>
     <div *ngFor="let item of my" class="my-item">
-      <i nz-icon nzType="book" nzTheme="outline"></i>
-      <a (click)="goProject(item)" nz-popover [nzPopoverContent]="item.summary">{{item.group}}/{{item.project}}</a>
+      <div (click)="goProject(item)">
+        <i nz-icon nzType="book" nzTheme="outline"></i>
+        <span>{{itemBreadcrumb(item)}}</span>
+      </div>
     </div>
   </div>
   <div [style.height]="height" class="feed indigo-scroll-bar" infiniteScroll [infiniteScrollDistance]="2"
@@ -19,13 +21,14 @@
       <app-feed-list [data]="items"></app-feed-list>
     </div>
     <div *ngIf="others.length>0" class="discover">
+      <div style="color:black;margin-bottom:4px;">{{'tips-other-projects'|translate}}</div>
       <nz-list [nzDataSource]="others" [nzBordered]="false" [nzRenderItem]="myItem">
         <ng-template #myItem let-item>
           <nz-list-item [nzContent]="discoverItem">
             <ng-template #discoverItem>
               <div class="d">
-                <div class="title" (click)="goProject(item)">{{item.group}}/{{item.project}}</div>
-                <div class="desc">{{item.summary}}</div>
+                <div class="title" (click)="goProject(item)">{{itemBreadcrumb(item)}}</div>
+                <div class="desc">{{item.description||item.summary}}</div>
               </div>
             </ng-template>
           </nz-list-item>

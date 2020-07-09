@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core'
 import { Router } from '@angular/router'
+import { I18NService } from '@core'
 import { ActivityType, FeedItem } from 'app/api/service/activity.service'
+import { ProjectService } from 'app/api/service/project.service'
 import { Project } from 'app/model/es.model'
 
 @Component({
@@ -19,16 +21,22 @@ export class FeedProjectComponent {
     this.project = item.data as Project || {}
     switch (item.activity.type) {
       case ActivityType.TYPE_NEW_PROJECT:
-        this.action = 'create project'
-        break;
+        this.action = this.i18nService.fanyi('tips-create-project')
+        break
       default:
-        break;
+        break
     }
   }
 
   constructor(
+    private projectService: ProjectService,
+    private i18nService: I18NService,
     private router: Router,
   ) { }
+
+  avatarText() {
+    return this.projectService.getAvatarText(this.project)
+  }
 
   go() {
     const activity = this.item.activity

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Router } from '@angular/router'
+import { I18NService } from '@core'
 import { ActivityType, FeedItem } from 'app/api/service/activity.service'
 import { dubboRequestSignature } from 'app/api/service/dubbo.service'
 import { DubboRequest } from 'app/model/es.model'
@@ -21,10 +22,10 @@ export class FeedDubboComponent {
     this.request = item.data as DubboRequest || {}
     switch (item.activity.type) {
       case ActivityType.TYPE_NEW_DUBBO:
-        this.action = 'create dubbo request'
+        this.action = this.i18nService.fanyi('tips-create-dubbo')
         break
       case ActivityType.TYPE_TEST_DUBBO:
-        this.action = 'send dubbo request'
+        this.action = this.i18nService.fanyi('tips-test-dubbo')
         break
       default:
         break
@@ -33,6 +34,7 @@ export class FeedDubboComponent {
   }
 
   constructor(
+    private i18nService: I18NService,
     private router: Router,
   ) { }
 

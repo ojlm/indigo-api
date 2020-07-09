@@ -1,9 +1,9 @@
 <div>
-  <app-feed-item-title [action]="action" [user]="item.user" [activity]="item.activity"></app-feed-item-title>
+  <app-feed-item-title [action]="action" [item]="item"></app-feed-item-title>
 </div>
 <div class="feed-content" style="display:flex;">
   <div style="width:48px;height:48px;cursor:pointer;" (click)="go()">
-    <nz-avatar [nzShape]="'square'" [nzSize]="48" [nzText]="(group.id||'')[0]" [nzSrc]="group.avatar"></nz-avatar>
+    <nz-avatar [nzShape]="'square'" [nzSize]="48" [nzText]="avatarText()" [nzSrc]="group.avatar"></nz-avatar>
   </div>
   <div style="margin-left:8px;">
     <div class="feed-item-title" (click)="go()">{{group.summary}}</div>

@@ -26,19 +26,20 @@
 }
 
 .my-item {
-  margin-top: 8px;
+  margin-top: 12px;
   padding-left: 4px;
-  white-space: nowrap;
-  overflow: hidden;
+  font-size: small;
+  font-weight: 600;
+  color: #0366d6;
 }
 
 .my-item i {
+  color: lightslategray;
   margin-right: 4px;
-  font-size: small;
 }
 
-.my-item a:hover {
-  text-decoration: underline;
+.my-item :hover {
+  cursor: pointer;
 }
 
 .d .title {

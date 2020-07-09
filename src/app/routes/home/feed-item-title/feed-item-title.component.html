@@ -1,23 +1,22 @@
 <div class="t">
   <nz-avatar style="cursor:pointer;margin-right:8px;" nzShape="circle" nzSize="small"
-    [nzText]="(_user.nickname||_user.username||'')[0]" [nzSrc]="_user.avatar||''" nz-popover
+    [nzText]="(user.nickname||user.username||'')[0]" [nzSrc]="user.avatar||''" nz-popover
     nzPopoverPlacement="bottomLeft" [nzPopoverContent]="nzContent">
     <ng-template #nzContent>
       <div style="display: flex;">
         <div style="width:48px;height:48px;cursor:pointer;">
-          <nz-avatar [nzShape]="'square'" [nzSize]="48" [nzText]="(_user.nickname||_user.username||'')[0]"
-            [nzSrc]="_user.avatar"></nz-avatar>
+          <nz-avatar [nzShape]="'square'" [nzSize]="48" [nzText]="(user.nickname||user.username||'')[0]"
+            [nzSrc]="user.avatar"></nz-avatar>
         </div>
         <div style="margin-left:8px;">
-          <div class="p">{{_user.nickname}}</div>
-          <div class="a">{{_user.description}}</div>
+          <div class="p">{{user.nickname}}</div>
+          <div class="a">{{user.description}}</div>
         </div>
       </div>
     </ng-template>
   </nz-avatar>
-  <span class="p">{{_user.nickname||_user.username}}</span>
-  <span class="a">{{action}} @</span>
-  <span *ngIf="_activity.group" class="p"
-    (click)="go()">{{_activity.group}}{{_activity.project?'/'+_activity.project:''}}</span>
-  <span class="s">{{_activity.timestamp}}</span>
+  <span class="p">{{user.nickname||user.username}}</span>
+  <span class="a">{{action}}</span>
+  <span *ngIf="activity.group" style="color:lightslategray;" class="p" (click)="go()">@{{title()}}</span>
+  <span class="s">{{activity.timestamp}}</span>
 </div>

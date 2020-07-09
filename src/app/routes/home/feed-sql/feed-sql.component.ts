@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Router } from '@angular/router'
+import { I18NService } from '@core'
 import { ActivityType, FeedItem } from 'app/api/service/activity.service'
 import { sqlRequestSignature } from 'app/api/service/sql.service'
 import { SqlRequest } from 'app/model/es.model'
@@ -21,18 +22,19 @@ export class FeedSqlComponent {
     this.request = item.data as SqlRequest || {}
     switch (item.activity.type) {
       case ActivityType.TYPE_NEW_SQL:
-        this.action = 'create sql request'
-        break;
+        this.action = this.i18nService.fanyi('tips-create-sql')
+        break
       case ActivityType.TYPE_TEST_SQL:
-        this.action = 'send sql request'
-        break;
+        this.action = this.i18nService.fanyi('tips-test-sql')
+        break
       default:
-        break;
+        break
     }
     this.signature = sqlRequestSignature(this.request)
   }
 
   constructor(
+    private i18nService: I18NService,
     private router: Router,
   ) { }
 

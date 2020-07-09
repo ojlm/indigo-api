@@ -61,11 +61,13 @@ export interface RecommendProject {
   project?: string
   count?: number
   summary?: string
+  description?: string
 }
 
 export interface RecommendProjects {
   my?: RecommendProject[]
   others?: RecommendProject[]
+  groups?: { [k: string]: Group }
 }
 
 export interface SearchAfterActivity extends SearchAfter {
@@ -91,9 +93,27 @@ export interface FeedResponse {
 }
 
 export interface FeedItem {
+  group?: Group
+  project?: Project
   activity?: ActivityWithSort
   user?: UserProfile
   data?: Group | Project | Case | DubboRequest | SqlRequest | SqlRequest | Job
+}
+
+export const ActivityType = {
+  TYPE_NEW_USER: 'new-user',
+  TYPE_NEW_CASE: 'new-case',
+  TYPE_TEST_CASE: 'test-case',
+  TYPE_NEW_GROUP: 'new-group',
+  TYPE_NEW_PROJECT: 'new-project',
+  TYPE_NEW_SCENARIO: 'new-scenario',
+  TYPE_TEST_SCENARIO: 'test-scenario',
+  TYPE_NEW_JOB: 'new-job',
+  TYPE_TEST_JOB: 'test-job',
+  TYPE_NEW_DUBBO: 'new-dubbo',
+  TYPE_TEST_DUBBO: 'test-dubbo',
+  TYPE_NEW_SQL: 'new-sql',
+  TYPE_TEST_SQL: 'test-sql',
 }
 
 export function feedResponseToFeedItems(response: FeedResponse) {
@@ -142,7 +162,15 @@ export function feedResponseToFeedItems(response: FeedResponse) {
     } else {
       if (data) {
         // data must be there
+        let group: Group
+        let project: Project
+        if (activity.group && response.group) group = response.group[activity.group]
+        if (group && response.project) {
+          project = response.project[`${group.id}_${activity.project}`]
+        }
         items.push({
+          group: group,
+          project: project,
           activity: activity,
           user: response.users[activity.user],
           data: data
@@ -151,20 +179,4 @@ export function feedResponseToFeedItems(response: FeedResponse) {
     }
   })
   return items
-}
-
-export const ActivityType = {
-  TYPE_NEW_USER: 'new-user',
-  TYPE_NEW_CASE: 'new-case',
-  TYPE_TEST_CASE: 'test-case',
-  TYPE_NEW_GROUP: 'new-group',
-  TYPE_NEW_PROJECT: 'new-project',
-  TYPE_NEW_SCENARIO: 'new-scenario',
-  TYPE_TEST_SCENARIO: 'test-scenario',
-  TYPE_NEW_JOB: 'new-job',
-  TYPE_TEST_JOB: 'test-job',
-  TYPE_NEW_DUBBO: 'new-dubbo',
-  TYPE_TEST_DUBBO: 'test-dubbo',
-  TYPE_NEW_SQL: 'new-sql',
-  TYPE_TEST_SQL: 'test-sql',
 }
