@@ -1,4 +1,5 @@
-// 建议所有项目自定义样式放在该文件夹下
+// indigo theme region
+
 i.click-icon {
   cursor: pointer;
 }
@@ -10,4 +11,48 @@ i.click-icon:hover {
 i.click-icon:active {
   font-weight: bold;
   cursor: pointer;
+}
+
+.indigo-header-item-btn {
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@indigo-header-item-hover-color: wheat;
+
+.indigo-header-item-btn:hover {
+  color: @indigo-header-item-hover-color;
+}
+
+.indigo-header-item-btn-active > span {
+  color: @indigo-header-item-hover-color;
+}
+
+@indigo-aside-padding-bottom: 32px;
+
+.indigo-aside-fold-btn {
+  position: absolute;
+  bottom: 0px;
+  height: @indigo-aside-padding-bottom;
+  width: 100%;
+}
+
+.indigo-sidebar-nav-padding {
+  padding-bottom: @indigo-aside-padding-bottom !important;
+}
+
+.indigo-scroll-bar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.indigo-scroll-bar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 1px;
+}
+
+.indigo-scroll-bar::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.7);
 }

@@ -35,6 +35,18 @@ export class GroupService extends BaseService {
     return this.http.get<ApiRes<Group>>(`${API_GROUP}/${id}`)
   }
 
+  getBreadcrumb(group: Group) {
+    return group.summary || group.id
+  }
+
+  getAvatarText(group: Group) {
+    if (group.summary) {
+      return group.summary[0].toUpperCase()
+    } else {
+      return group.id ? group.id[0].toUpperCase() : ''
+    }
+  }
+
   newQuerySubject(response: Subject<ApiRes<Group[]>>) {
     const querySubject = new Subject<QueryGroup>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {

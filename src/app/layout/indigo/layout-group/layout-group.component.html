@@ -3,12 +3,12 @@
 <div class="alain-default__aside">
   <div class="alain-default__aside-inner">
     <div class="alain-default__aside-user">
-      <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="group.avatar"
-        [nzText]="group.id?group.id[0].toUpperCase():''">
+      <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="group.avatar" [nzText]="avatarText()">
       </nz-avatar>
       <div class="alain-default__aside-user-info">
-        <strong>{{group.id}}</strong>
-        <p class="text-truncate mb0" [title]="group.description||group.summary||''">{{group.summary}}</p>
+        <strong>{{group.summary||group.id}}</strong>
+        <p class="text-truncate mb0" [title]="group.description||group.summary||''">{{group.description||group.summary}}
+        </p>
       </div>
     </div>
     <sidebar-nav class="d-block py-lg indigo-sidebar-nav-padding"></sidebar-nav>

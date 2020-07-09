@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { NzMessageService } from 'ng-zorro-antd'
 
 import { GroupService } from '../../../api/service/group.service'
 import { Group } from '../../../model/es.model'
@@ -17,7 +16,6 @@ export class GroupsComponent extends PageSingleModel implements OnInit {
 
   constructor(
     private groupService: GroupService,
-    private msg: NzMessageService,
     private router: Router,
   ) {
     super()
@@ -29,6 +27,10 @@ export class GroupsComponent extends PageSingleModel implements OnInit {
 
   goSettings(item: Group) {
     this.router.navigateByUrl(`/group/${item.id}/settings`)
+  }
+
+  avatarText(item: Group) {
+    return this.groupService.getAvatarText(item)
   }
 
   loadData() {

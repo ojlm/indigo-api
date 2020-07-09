@@ -1,10 +1,6 @@
-import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { NzMessageService } from 'ng-zorro-antd'
 
-import { GroupService } from '../../../api/service/group.service'
 import { ProjectService, QueryProject } from '../../../api/service/project.service'
 import { Project } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
@@ -21,14 +17,14 @@ export class GroupProjectsComponent extends PageSingleModel implements OnInit {
   search: QueryProject = {}
 
   constructor(
-    private fb: FormBuilder,
-    private groupService: GroupService,
     private projectService: ProjectService,
-    private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
   ) { super() }
+
+  avatarText(item: Project) {
+    return this.projectService.getAvatarText(item)
+  }
 
   goProject(item: Project) {
     this.router.navigateByUrl(`/${this.groupId}/${item.id}`)
@@ -44,7 +40,7 @@ export class GroupProjectsComponent extends PageSingleModel implements OnInit {
       this.projects = res.data.list
       this.pageTotal = res.data.total
       this.loading = false
-    }, err => this.loading = false)
+    }, _ => this.loading = false)
   }
 
   pageChange() {

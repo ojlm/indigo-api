@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, ApiResObj, QueryPage } from '../../model/api.model'
-import { Project, UpdateDocResponse } from '../../model/es.model'
+import { Group, Project, UpdateDocResponse } from '../../model/es.model'
 import { API_OPENAPI, API_PROJECT, API_PROJECT_QUERY } from '../path'
 import { BaseService } from './base.service'
 
@@ -15,8 +15,20 @@ export class ProjectService extends BaseService {
 
   constructor(private http: _HttpClient) { super() }
 
+  getBreadcrumb(project: Project) {
+    return project.summary || project.id
+  }
+
+  getAvatarText(project: Project) {
+    if (project.summary) {
+      return project.summary[0].toUpperCase()
+    } else {
+      return project.id ? project.id[0].toUpperCase() : ''
+    }
+  }
+
   query(query: QueryProject) {
-    return this.http.post<ApiRes<Project[]>>(API_PROJECT_QUERY, query)
+    return this.http.post<ApiRes<{ list: Project[], groups: { [k: string]: Group } }>>(API_PROJECT_QUERY, query)
   }
 
   index(project: Project) {
@@ -72,6 +84,7 @@ export interface QueryProject extends QueryPage {
   id?: string
   text?: string
   group?: string
+  includeGroup?: boolean
 }
 
 export interface TransferProject {

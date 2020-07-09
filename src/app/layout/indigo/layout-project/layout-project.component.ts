@@ -28,7 +28,7 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
     scroll: ScrollService,
     menuSrv: MenuService,
     route: ActivatedRoute,
-    projectService: ProjectService,
+    private projectService: ProjectService,
     sharedService: SharedService,
   ) {
     super(router, _message, resolver, settings, el, renderer, doc)
@@ -248,6 +248,10 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
       ]
       menuSrv.add(menus)
     })
+  }
+
+  avatarText() {
+    return this.projectService.getAvatarText(this.project)
   }
 
   toggleCollapsedSidebar() {

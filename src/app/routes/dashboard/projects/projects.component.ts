@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { NzMessageService } from 'ng-zorro-antd'
+import { GroupService } from 'app/api/service/group.service'
 
 import { ProjectService, QueryProject } from '../../../api/service/project.service'
-import { Project } from '../../../model/es.model'
+import { Group, Project } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
 @Component({
@@ -14,14 +14,23 @@ export class ProjectsComponent extends PageSingleModel implements OnInit {
 
   loading = false
   items: Project[] = []
+  groups: { [k: string]: Group } = {}
   search: QueryProject = {}
 
   constructor(
+    private groupService: GroupService,
     private projectService: ProjectService,
-    private msg: NzMessageService,
     private router: Router,
   ) {
     super()
+  }
+
+  groupBreadcrumb(item: Project) {
+    return this.groups[item.group] ? this.groupService.getBreadcrumb(this.groups[item.group]) : item.group
+  }
+
+  projectBreadcrumb(item: Project) {
+    return this.projectService.getBreadcrumb(item)
   }
 
   goGroup(item: Project) {
@@ -38,11 +47,12 @@ export class ProjectsComponent extends PageSingleModel implements OnInit {
 
   loadData() {
     this.loading = true
-    this.projectService.query({ ...this.toPageQuery(), ...this.search }).subscribe(res => {
+    this.projectService.query({ ...this.toPageQuery(), ...this.search, includeGroup: true }).subscribe(res => {
       this.items = res.data.list
+      this.groups = res.data.groups || {}
       this.pageTotal = res.data.total
       this.loading = false
-    }, err => this.loading = false)
+    }, _ => this.loading = false)
   }
 
   pageChange() {

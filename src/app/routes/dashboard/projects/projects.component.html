@@ -8,8 +8,9 @@
       <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
         <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
         <ng-template #suffixButton>
-          <a class="click-icon" style="margin-right:10px;"><i nz-icon nzType="search" theme="outline"
-              (click)="loadData()"></i></a>
+          <a class="click-icon" style="margin-right:10px;">
+            <i nz-icon nzType="search" theme="outline" (click)="loadData()"></i>
+          </a>
         </ng-template>
       </nz-input-group>
     </ng-template>
@@ -22,11 +23,9 @@
             </nz-avatar>
           </ng-template>
           <ng-template #nzTitle>
-            <span (click)="goGroup(item)" style="cursor:pointer;">{{item.group}}</span>
+            <span (click)="goGroup(item)" style="cursor:pointer;">{{groupBreadcrumb(item)}}</span>
             <span style="color:lightgray;"> / </span>
-            <span (click)="goItem(item)" style="cursor:pointer;">{{item.id}}</span>
-            <span style="color:lightgray;"> - </span>
-            <a [routerLink]="['/'+item.group+'/'+item.id]">{{item.summary}}</a>
+            <span (click)="goItem(item)" style="cursor:pointer;">{{projectBreadcrumb(item)}}</span>
           </ng-template>
           <ng-template #nzDescription>
             <div>{{item.description}}</div>

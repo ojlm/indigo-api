@@ -252,6 +252,7 @@
   "tips-check-times": "Check times",
   "tips-debounce-time": "Debounce time(ms)",
   "tips-max-trigger": "No more than 100 events enabled can be triggered within the same env and service.",
+  "tips-back-group": "Go back to group",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",

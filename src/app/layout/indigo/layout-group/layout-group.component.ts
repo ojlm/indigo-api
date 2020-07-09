@@ -28,7 +28,7 @@ export class LayoutGroupComponent extends LayoutAbstractClass {
     scroll: ScrollService,
     menuSrv: MenuService,
     route: ActivatedRoute,
-    groupService: GroupService,
+    private groupService: GroupService,
     sharedService: SharedService,
   ) {
     super(router, _message, resolver, settings, el, renderer, doc)
@@ -103,6 +103,10 @@ export class LayoutGroupComponent extends LayoutAbstractClass {
       ]
       menuSrv.add(menus)
     })
+  }
+
+  avatarText() {
+    return this.groupService.getAvatarText(this.group)
   }
 
   toggleCollapsedSidebar() {

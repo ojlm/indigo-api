@@ -18,8 +18,8 @@
         <nz-list-item [nzActions]="[actions]">
           <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
             <ng-template #nzAvatar>
-              <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="item.summary?item.summary[0].toUpperCase():''"
-                [nzSrc]="item.avatar" (click)="goProject(item)"></nz-avatar>
+              <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="avatarText(item)" [nzSrc]="item.avatar"
+                (click)="goProject(item)"></nz-avatar>
             </ng-template>
             <ng-template #nzTitle>
               <a [routerLink]="[item.id]">{{item.summary}}</a>
