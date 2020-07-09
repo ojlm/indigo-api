@@ -9,8 +9,9 @@
         <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
           <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
           <ng-template #suffixButton>
-            <a class="click-icon" style="margin-right:10px;"><i nz-icon nzType="search" theme="outline"
-                (click)="loadData()"></i></a>
+            <a class="click-icon" style="margin-right:10px;">
+              <i nz-icon nzType="search" theme="outline" (click)="loadData()"></i>
+            </a>
           </ng-template>
         </nz-input-group>
       </ng-template>
@@ -19,7 +20,8 @@
           <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
             <ng-template #nzAvatar>
               <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="avatarText(item)" [nzSrc]="item.avatar"
-                (click)="goProject(item)"></nz-avatar>
+                (click)="goProject(item)">
+              </nz-avatar>
             </ng-template>
             <ng-template #nzTitle>
               <a [routerLink]="[item.id]">{{item.summary}}</a>

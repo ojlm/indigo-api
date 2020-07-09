@@ -33,6 +33,10 @@ export class ProjectsComponent extends PageSingleModel implements OnInit {
     return this.projectService.getBreadcrumb(item)
   }
 
+  projectAvatarText(item: Project) {
+    return this.projectService.getAvatarText(item)
+  }
+
   goGroup(item: Project) {
     this.router.navigateByUrl(`/${item.group}`)
   }
