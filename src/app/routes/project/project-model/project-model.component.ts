@@ -2,7 +2,6 @@ import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { GroupService, QueryGroup } from '../../../api/service/group.service'
@@ -21,15 +20,32 @@ export class ProjectModelComponent implements OnInit {
   groups: Group[] = []
   isLoading = false
   groupQuerySubject: Subject<QueryGroup>
+
   constructor(
     private fb: FormBuilder,
     private groupService: GroupService,
     private projectService: ProjectService,
-    private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
   ) { }
+
+  getSelectGroup(id: string) {
+    const idx = this.groups.findIndex(g => g.id === id)
+    if (idx > -1) {
+      return this.groups[idx]
+    } else {
+      return null
+    }
+  }
+
+  groupAvatarText(item: Group) {
+    return this.groupService.getAvatarText(item)
+  }
+
+  getBreadcrumb(item: Group) {
+    return this.groupService.getBreadcrumb(item)
+  }
 
   searchGroup(id: string) {
     this.isLoading = true

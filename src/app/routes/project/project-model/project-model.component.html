@@ -9,17 +9,26 @@
         <nz-form-control nzXs="24" nzSm="12" nzMd="10">
           <nz-select formControlName="group" id="group" style="width: 100%;" nzMode="default"
             [nzPlaceHolder]="'field-group'|translate" nzAllowClear nzShowSearch [nzServerSearch]="true"
-            [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchGroup($event)">
+            [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchGroup($event)"
+            [nzCustomTemplate]="selectCusTpl">
             <ng-container *ngFor="let item of groups">
-              <nz-option *ngIf="!isLoading" [nzValue]="item.id" [nzLabel]="item.id" nzCustomContent>
-                <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover
-                  [nzPopoverTitle]="item.summary" [nzPopoverContent]="item.description"></nz-avatar>
-                <span style="padding-left:10px;">{{item.id}}</span>
+              <nz-option *ngIf="!isLoading" [nzValue]="item.id" [nzLabel]="getBreadcrumb(item)" nzCustomContent>
+                <nz-avatar style="margin-right:8px;" nzSize="small" [nzSrc]="item.avatar"
+                  [nzText]="groupAvatarText(item)">
+                </nz-avatar>
+                <span>{{getBreadcrumb(item)}}</span>
               </nz-option>
             </ng-container>
             <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
               <i nz-icon nzType="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
             </nz-option>
+            <ng-template #selectCusTpl let-selected>
+              <nz-avatar *ngIf="getSelectGroup(selected.nzValue)" style="margin-right:8px;" nzSize="small"
+                [nzSrc]="getSelectGroup(selected.nzValue).avatar"
+                [nzText]="groupAvatarText(getSelectGroup(selected.nzValue))">
+              </nz-avatar>
+              <span>{{selected.nzLabel}}</span>
+            </ng-template>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
