@@ -1,0 +1,11 @@
+.divider {
+  font-size: small;
+  color: lightslategrey;
+}
+.list {
+  height: 480px;
+  border: 1px solid lightgray;
+  padding: 8px;
+  border-radius: 8px;
+  overflow: auto;
+}

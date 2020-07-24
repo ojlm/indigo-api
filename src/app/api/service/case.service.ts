@@ -31,7 +31,7 @@ export class CaseService extends BaseService {
     private msgService: NzMessageService,
     private i18nService: I18NService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
-    ) { super() }
+  ) { super() }
 
   query(query: QueryCase) {
     return this.http.post<ApiRes<Case[]>>(API_CASE_QUERY, query)
@@ -55,6 +55,14 @@ export class CaseService extends BaseService {
 
   getById(id: string) {
     return this.http.get<ApiRes<Case>>(`${API_CASE}/${id}`)
+  }
+
+  openApiPreview(group: string, project: string, options: OpenApiImport) {
+    return this.http.post<ApiRes<Case[]>>(`${API_CASE}/${group}/${project}/openapi/preview`, options)
+  }
+
+  openApiImport(group: string, project: string, options: OpenApiImport) {
+    return this.http.put<ApiRes<number>>(`${API_CASE}/${group}/${project}/openapi/import`, options)
   }
 
   newQuerySubject(response: Subject<ApiRes<Case[]>>) {
@@ -168,6 +176,21 @@ export interface BatchTransfer {
   group?: string
   project?: string
   ids?: string[]
+}
+
+export interface ConvertOptions {
+  scheme?: string
+  host?: string
+  port?: number
+  basePath?: string
+  labels?: string[]
+}
+
+export interface OpenApiImport {
+  url?: string
+  content?: string
+  list?: Case[]
+  options?: ConvertOptions
 }
 
 export function httpRequestSignature(cs: Case) {

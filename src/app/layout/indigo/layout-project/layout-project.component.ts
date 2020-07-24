@@ -80,6 +80,11 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
                   link: `/${group}/${project}`,
                 },
                 {
+                  text: 'Swagger 导入',
+                  i18n: 'menu-swagger',
+                  link: `/cases/${group}/${project}/swagger`,
+                },
+                {
                   text: '新建 Http',
                   i18n: 'menu-new',
                   link: `/cases/${group}/${project}/new`,

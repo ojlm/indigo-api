@@ -95,7 +95,7 @@ const routes: Routes = [
   },
   {
     path: 'cases/:group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
-      { path: 'new', loadChildren: () => import('./case/case.module').then(m => m.CaseModule) }
+      { path: '', loadChildren: () => import('./case/case.module').then(m => m.CaseModule) }
     ]
   },
   {

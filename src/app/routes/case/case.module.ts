@@ -10,6 +10,7 @@ import { CaseModelComponent } from './case-model/case-model.component'
 import { CaseRoutingModule } from './case-routing.module'
 import { MediaObjectComponent } from './media-object/media-object.component'
 import { ResultAssertComponent } from './result-assert/result-assert.component'
+import { SwaggerImportComponent } from './swagger-import/swagger-import.component'
 
 const COMPONENT = [
   CaseModelComponent,
@@ -17,6 +18,7 @@ const COMPONENT = [
   ResultAssertComponent,
   CaseHistoryComponent,
   CaseGeneratorComponent,
+  SwaggerImportComponent,
 ]
 
 const COMPONENT_NOROUNT = []

@@ -1,0 +1,106 @@
+<div class="alain-default__content-title">
+  <h1 style="padding-left: 10px;">{{'menu-swagger'|translate}}</h1>
+</div>
+<nz-card [nzTitle]="cardTitle">
+  <ng-template #cardTitle>
+    <nz-divider [nzText]="urlDivider" nzOrientation="left">
+      <ng-template #urlDivider>
+        <span class="divider">1. {{'tips-import-by-url'|translate}}</span>
+      </ng-template>
+    </nz-divider>
+    <div nz-row nzGutter="8">
+      <div nz-col nzFlex="auto">
+        <input nz-input [placeholder]="'tips-import-by-url'|translate" [(ngModel)]="swaggerUrl">
+      </div>
+    </div>
+    <nz-divider [nzText]="contentDivicer" nzOrientation="left">
+      <ng-template #contentDivicer>
+        <span class="divider">1. {{'tips-import-by-json-yaml'|translate}}</span>
+      </ng-template>
+    </nz-divider>
+    <div nz-row nzGutter="8">
+      <div nz-col nzFlex="auto">
+        <textarea nz-input [placeholder]="'tips-import-by-json-yaml'|translate"
+          [nzAutosize]="{ minRows: 4, maxRows: 10 }" [(ngModel)]="swaggerContent">
+          </textarea>
+      </div>
+    </div>
+    <nz-divider [nzText]="optionsDivicer" nzOrientation="left">
+      <ng-template #optionsDivicer>
+        <span class="divider">2. {{'tips-swagger-options'|translate}}</span>
+      </ng-template>
+    </nz-divider>
+    <div nz-row nzGutter="3">
+      <div nz-col nzFlex="140px">
+        <nz-input-group style="width: 100%;" [nzAddOnBefore]="'item-protocol'|translate">
+          <nz-select style="width: 80px;" [(ngModel)]="options.scheme" nzAllowClear="true">
+            <nz-option nzLabel="http" nzValue="http"></nz-option>
+            <nz-option nzLabel="https" nzValue="https"></nz-option>
+          </nz-select>
+        </nz-input-group>
+      </div>
+      <div nz-col nzFlex="auto">
+        <nz-input-group style="width: 100%;" [nzAddOnBefore]="'field-host'|translate">
+          <input type="text" nz-input [(ngModel)]="options.host" />
+        </nz-input-group>
+      </div>
+      <div nz-col nzFlex="200px">
+        <nz-input-group style="width: 100%;" [nzAddOnBefore]="'field-basepath'|translate">
+          <input type="text" nz-input [(ngModel)]="options.basePath" />
+        </nz-input-group>
+      </div>
+      <div nz-col nzFlex="140px">
+        <nz-input-group style="width: 100%;" [nzAddOnBefore]="'field-port'|translate">
+          <input type="number" nz-input [(ngModel)]="options.port" />
+        </nz-input-group>
+      </div>
+      <div nz-col nzFlex="auto">
+        <nz-input-group style="width: 100%;" [nzAddOnBefore]="'field-labels'|translate">
+          <nz-select style="width: 280px;" nzMode="tags" [(ngModel)]="options.labels" nzAllowClear="true">
+          </nz-select>
+        </nz-input-group>
+      </div>
+      <div nz-col nzFlex="100px">
+        <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isLoading" (click)="preview()">
+          <span>
+            <i nz-icon nzType="import" nzTheme="outline"></i>
+            <span>{{'btn-preview'|translate}}</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <div *ngIf="list.length>0" class="list">
+    <nz-list nzSize="small" [nzBordered]="false" [nzLoading]="isLoading">
+      <nz-list-item *ngFor="let item of list;let i = index">
+        <div style="width:100%;">
+          <nz-tag style="width:64px;text-align:center;" [nzColor]="methodTagColor(item)">{{item.request.method}}
+          </nz-tag>
+          <span>{{item.request.rawUrl}}</span>
+          <span style="float:right;transform:scale(0.8);">
+            <span style="margin-right:4px;">{{item.summary}}</span>
+            <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+          </span>
+        </div>
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <a (click)="remove(i)"><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+          </nz-list-item-action>
+        </ul>
+      </nz-list-item>
+    </nz-list>
+  </div>
+  <div *ngIf="list.length>0" style="margin:24px;float:right;">
+    <span style="color:lightgray;margin-right:24px;">
+      <span>{{'item-total'|translate}}</span>
+      <span> {{list.length}} </span>
+      <span>{{'item-item'|translate}}</span>
+    </span>
+    <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isImporting" (click)="import()">
+      <span>
+        <i nz-icon nzType="import" nzTheme="outline"></i>
+        <span>{{'btn-import'|translate}}</span>
+      </span>
+    </button>
+  </div>
+</nz-card>

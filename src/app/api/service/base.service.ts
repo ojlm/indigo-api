@@ -32,3 +32,8 @@ export interface TrendResponse {
   groups: Group[]
   trends: AggsItem[]
 }
+
+export interface ErrorMessage {
+  errMsg?: string
+  name?: string
+}
