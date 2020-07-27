@@ -12,7 +12,7 @@ import { Subject } from 'rxjs'
 export class CaseSearchPanelComponent implements OnInit {
 
   search: QueryCase = {}
-  showAll = false
+  showAll = true
   @Input()
   set showCond(val: boolean) {
     this.showAll = val

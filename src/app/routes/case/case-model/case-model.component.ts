@@ -1,11 +1,12 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { OpenApiService } from '@core/config/openapi.service'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
 import { ConfigService } from 'app/api/service/config.service'
 import { AutocompleteContext } from 'app/model/indigo.model'
 import { calcDrawerWidth } from 'app/util/drawer'
-import { NzMessageService } from 'ng-zorro-antd'
+import { NzMessageService, NzModalService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { CaseService } from '../../../api/service/case.service'
@@ -96,6 +97,8 @@ export class CaseModelComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private i18nService: I18NService,
     private caseService: CaseService,
+    private openApiService: OpenApiService,
+    private modalService: NzModalService,
   ) {
     initCaseField(this.case)
   }
@@ -250,27 +253,38 @@ export class CaseModelComponent implements OnInit, OnDestroy {
 
   save() {
     if (this.case.summary) {
-      const cs = this.preHandleRequest(this.case)
-      if (cs) {
-        if (this.case._id) {
-          this.caseService.update(this.case._id, cs).subscribe(res => {
-            this.isSaved = true
-            if (this.updateStep) {
-              this.updateStep(this.case)
-            }
-            this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
-          })
-        } else {
-          this.caseService.index(cs).subscribe(res => {
-            this.case._id = res.data.id
-            this.updateCaseRoute()
-            this.isSaved = true
-            if (this.newStep) {
-              this.newStep(this.case)
-            }
-            this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
-          })
+      const isImported = this.openApiService.isLabeldByOpenapi(this.case)
+      const func = () => {
+        const cs = this.preHandleRequest(this.case)
+        if (cs) {
+          if (this.case._id) {
+            this.caseService.update(this.case._id, cs).subscribe(res => {
+              this.isSaved = true
+              if (this.updateStep) {
+                this.updateStep(this.case)
+              }
+              this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+            })
+          } else {
+            this.caseService.index(cs).subscribe(res => {
+              this.case._id = res.data.id
+              this.updateCaseRoute()
+              this.isSaved = true
+              if (this.newStep) {
+                this.newStep(this.case)
+              }
+              this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+            })
+          }
         }
+      }
+      if (isImported) {
+        this.modalService.confirm({
+          nzTitle: this.i18nService.fanyi('tips-openapi-save'),
+          nzOnOk: () => func()
+        })
+      } else {
+        func()
       }
     } else {
       this.msgService.error(this.i18nService.fanyi(I18nKey.ErrorEmptySummary))

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { I18NService } from '@core'
+import { OpenApiService } from '@core/config/openapi.service'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { CaseService, ConvertOptions } from 'app/api/service/case.service'
 import { Case } from 'app/model/es.model'
@@ -21,12 +22,13 @@ export class SwaggerImportComponent implements OnInit {
 
   swaggerUrl = ''
   swaggerContent = ''
-  options: ConvertOptions = { labels: ['swagger'] }
+  options: ConvertOptions = { labels: [...this.openApiService.defaultImportLabels] }
   list: Case[] = []
 
   constructor(
     private caseService: CaseService,
     private msgService: NzMessageService,
+    private openApiService: OpenApiService,
     private i18nService: I18NService,
     private route: ActivatedRoute,
   ) { }

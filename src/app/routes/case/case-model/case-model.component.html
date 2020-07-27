@@ -42,13 +42,17 @@
               <span>{{'btn-send'|translate}}</span>
             </span>
           </button>
-          <button nz-button (click)="save()" style="padding-left:5px;" nz-dropdown [nzTrigger]="'hover'"
-            [nzDropdownMenu]="saveMenu" [nzPlacement]="'bottomRight'">
-            <span [style.color]="isSaved?'lightgray':'orangered'">
-              <i nz-icon nzType="save" theme="outline"></i>
-              <span>{{'btn-save'|translate}}</span>
-            </span>
-          </button>
+          <nz-button-group style="padding-left:4px;">
+            <button nz-button (click)="save()">
+              <span [style.color]="isSaved?'lightgray':'orangered'">
+                <i nz-icon nzType="save" theme="outline"></i>
+                <span>{{'btn-save'|translate}}</span>
+              </span>
+            </button>
+            <button nz-button nz-dropdown [nzTrigger]="'hover'" [nzDropdownMenu]="saveMenu" nzPlacement="bottomRight">
+              <i nz-icon nzType="ellipsis"></i>
+            </button>
+          </nz-button-group>
           <nz-dropdown-menu #saveMenu="nzDropdownMenu">
             <ul nz-menu>
               <li nz-menu-item (click)="saveAs()">
@@ -59,13 +63,6 @@
               </li>
             </ul>
           </nz-dropdown-menu>
-          <button *ngIf="!isInDrawer&&isInNew" nz-button [nzType]="'default'" [nzSize]="'default'"
-            style="margin-left:5px;padding:0px 10px;" (click)="history()">
-            <span>
-              <i nz-icon nzType="book" theme="outline"></i>
-              <span>{{'btn-history'|translate}}</span>
-            </span>
-          </button>
         </div>
       </div>
     </nz-affix>
@@ -116,9 +113,9 @@
     </div>
   </div>
   <!-- drawer -->
-  <nz-drawer *ngIf="!isInDrawer&&!isInNew" [nzClosable]="false" [nzVisible]="historyVisible" nzPlacement="right"
+  <!-- <nz-drawer *ngIf="!isInDrawer&&!isInNew" [nzClosable]="false" [nzVisible]="historyVisible" nzPlacement="right"
     (nzOnClose)="historyVisible=false" [nzWidth]="drawerWidth" [nzBodyStyle]="{'padding':'0px'}">
     <app-case-history [group]="group" [project]="project" (oncopy)="copyFromHis($event)" (onedit)="editFromHis($event)">
     </app-case-history>
-  </nz-drawer>
+  </nz-drawer> -->
 </div>
