@@ -6,13 +6,12 @@ import {
   FeedResponse,
   feedResponseToFeedItems,
   RecommendProject,
-  RecommendProjects,
   SearchAfterActivity,
 } from 'app/api/service/activity.service'
 import { GroupService } from 'app/api/service/group.service'
-import { ProjectService } from 'app/api/service/project.service'
+import { ProjectService, QueryProject } from 'app/api/service/project.service'
 import { ApiRes } from 'app/model/api.model'
-import { Group } from 'app/model/es.model'
+import { Group, Project } from 'app/model/es.model'
 import { Subject } from 'rxjs'
 
 @Component({
@@ -22,32 +21,37 @@ import { Subject } from 'rxjs'
 })
 export class HomeComponent implements OnInit {
 
+  tabbarStyle = {
+    margin: '0px',
+  }
+  onlyMe = true
   height = `${window.innerHeight - 48}px`
+  backupMy: RecommendProjectEx[] = []
   my: RecommendProjectEx[] = []
   others: RecommendProjectEx[] = []
   wd = ''
-  queryProjectSubject = new Subject<string>()
+  queryProjectSubject = new Subject<QueryProject>()
   searchFeed: SearchAfterActivity = {}
   searchFeedSubject: Subject<SearchAfterActivity>
   searchFeedResponse: Subject<ApiRes<FeedResponse>> = new Subject()
   hasMoreFeeds = true
   items: FeedItem[] = []
   feedSort: any[] = []
-  response: FeedResponse = {}
   @HostListener('window:resize')
   resize() {
     this.height = `${window.innerHeight - 48}px`
   }
+
   constructor(
     private activityService: ActivityService,
     private groupService: GroupService,
     private projectService: ProjectService,
     private router: Router,
   ) {
-    const response = new Subject<ApiRes<RecommendProjects>>()
-    this.queryProjectSubject = this.activityService.recentSubject(response)
+    const response = new Subject<ApiRes<Project[]>>()
+    this.queryProjectSubject = this.projectService.newQuerySubject(response)
     response.subscribe(res => {
-      this.my = fillGroupData(res.data.my, res.data.groups)
+      this.my = fillGroupData(res.data.list, res.data['groups'])
     })
   }
 
@@ -58,7 +62,11 @@ export class HomeComponent implements OnInit {
   }
 
   searchProject() {
-    this.queryProjectSubject.next(this.wd)
+    if (this.wd || this.backupMy.length === 0) {
+      this.queryProjectSubject.next({ text: this.wd, includeGroup: true })
+    } else {
+      this.my = [...this.backupMy]
+    }
   }
 
   goProject(item: RecommendProject) {
@@ -69,12 +77,20 @@ export class HomeComponent implements OnInit {
     this.doSearch()
   }
 
+  resetFeed() {
+    this.feedSort = []
+    this.items = []
+    this.hasMoreFeeds = true
+    this.doSearch()
+  }
+
   doSearch() {
     if (this.hasMoreFeeds) {
       const search: SearchAfterActivity = {
         ...this.searchFeed,
         size: 20,
         sort: this.feedSort,
+        onlyMe: this.onlyMe,
       }
       this.searchFeedSubject.next(search)
     }
@@ -83,11 +99,14 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.activityService.recentWithOthers().subscribe(res => {
       this.my = fillGroupData(res.data.my, res.data.groups)
+      this.backupMy = [...this.my]
+      if (this.backupMy.length === 0) {
+        this.searchProject()
+      }
       this.others = fillGroupData(res.data.others, res.data.groups)
     })
     this.searchFeedSubject = this.activityService.searchAfterSubject(this.searchFeedResponse)
     this.searchFeedResponse.subscribe(res => {
-      this.response = res.data
       this.items = [...this.items, ...feedResponseToFeedItems(res.data)]
       if (res.data.list.length > 0) {
         const last = res.data.list[res.data.list.length - 1]

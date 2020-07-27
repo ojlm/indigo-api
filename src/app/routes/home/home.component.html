@@ -1,6 +1,6 @@
 <div [style.height]="height" class="container">
   <div [style.height]="height" class="sidebar indigo-scroll-bar">
-    <div style="color:black;margin-bottom:4px;">{{'tips-my-projects'|translate}}</div>
+    <div style="color:black;margin-bottom:4px;">{{'field-project'|translate}}</div>
     <nz-input-group [nzSuffix]="suffixIconSearch" [nzSize]="'default'">
       <input type="text" nz-input [placeholder]="'tips-find-project'|translate" [(ngModel)]="wd"
         (ngModelChange)="searchProject()" />
@@ -15,11 +15,20 @@
       </div>
     </div>
   </div>
-  <div [style.height]="height" class="feed indigo-scroll-bar" infiniteScroll [infiniteScrollDistance]="2"
-    [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
-    <div class="feed-list">
-      <app-feed-list [data]="items"></app-feed-list>
-    </div>
+  <nz-tabset style="width:100%;" [nzTabPosition]="'top'" [nzType]="'card'" [nzSize]="'small'"
+    [nzTabBarStyle]="tabbarStyle">
+    <nz-tab [nzTitle]="'menu-my-activity'|translate">
+      <div [style.height]="height" class="feed indigo-scroll-bar" infiniteScroll [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
+        <div class="feed-list">
+          <label style="float:right;" nz-checkbox [(ngModel)]="onlyMe"
+            (ngModelChange)="resetFeed()">{{'tips-only-me'|translate}}</label>
+          <app-feed-list [data]="items"></app-feed-list>
+        </div>
+      </div>
+    </nz-tab>
+  </nz-tabset>
+  <div [style.height]="height" class="sidebar indigo-scroll-bar">
     <div *ngIf="others.length>0" class="discover">
       <div style="color:black;margin-bottom:4px;">{{'tips-other-projects'|translate}}</div>
       <nz-list [nzDataSource]="others" [nzBordered]="false" [nzRenderItem]="myItem">
