@@ -52,7 +52,7 @@ export class SwaggerImportComponent implements OnInit {
     this.isImporting = true
     this.caseService.openApiImport(this.group, this.project, { list: this.list }).subscribe(res => {
       this.isImporting = false
-      this.msgService.warning(this.i18nService.fanyi(I18nKey.MsgSuccess))
+      this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
     }, _ => this.isImporting = false)
   }
 

@@ -96,6 +96,23 @@
         </button>
       </div>
     </ng-template>
+    <!--selected items -->
+    <nz-divider style="margin-bottom:20px;" [nzText]="itemsText" nzOrientation="left">
+      <ng-template #itemsText>
+        <span class="divider-text">
+          <span>{{'item-selected'|translate}} {{selectedItems.length}} {{'item-item'|translate}}</span>
+        </span>
+      </ng-template>
+    </nz-divider>
+    <div *ngIf="selectedItems.length>0" class="indigo-scroll-bar" style="height: 180px;overflow: auto;">
+      <nz-list [nzDataSource]="selectedItems" nzSize="small" [nzRenderItem]="selectedItem">
+        <ng-template #selectedItem let-item>
+          <nz-list-item>
+            <a>{{item.summary}}</a>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+    </div>
     <!-- labels -->
     <nz-divider [nzText]="labelsText" nzOrientation="left">
       <ng-template #labelsText>
@@ -132,20 +149,16 @@
           (click)="batchTransfer()">{{'item-transfer'|translate}}</button>
       </div>
     </div>
-    <!--selected items -->
-    <nz-divider style="margin-top:40px;" [nzText]="itemsText" nzOrientation="left">
-      <ng-template #itemsText>
+    <!-- remove -->
+    <nz-divider [nzText]="removeText" nzOrientation="left">
+      <ng-template #removeText>
         <span class="divider-text">
-          <span>{{'item-selected'|translate}}</span>
+          <span>{{'btn-batch-delete'|translate}}</span>
         </span>
       </ng-template>
     </nz-divider>
-    <nz-list *ngIf="selectedItems.length>0" [nzDataSource]="selectedItems" nzSize="small" [nzRenderItem]="selectedItem">
-      <ng-template #selectedItem let-item>
-        <nz-list-item>
-          <a>{{item.summary}}</a>
-        </nz-list-item>
-      </ng-template>
-    </nz-list>
+    <div style="float:right;">
+      <button nz-button nzType="danger" (click)="batchDeleteDocs()">{{'btn-batch-delete'|translate}}</button>
+    </div>
   </nz-card>
 </nz-drawer>

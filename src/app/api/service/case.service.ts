@@ -45,6 +45,13 @@ export class CaseService extends BaseService {
     return this.http.delete(`${API_CASE}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
+  batchDelete(group: string, project: string, ids: string[], preview: boolean = null) {
+    return this.http.post(
+      `${API_CASE}/${group}/${project}/batch/delete${preview === null ? '' : '?preview=' + preview}`,
+      { ids },
+    ) as Observable<ApiRes<DeleteResData>>
+  }
+
   update(id: string, cs: Case) {
     return this.http.post<ApiRes<UpdateDocResponse>>(`${API_CASE_UPDATE}/${id}`, cs)
   }

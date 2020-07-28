@@ -2,12 +2,14 @@ import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { I18NService } from '@core'
+import { I18nKey } from '@core/i18n/i18n.message'
 import { DeleteItemComponent } from '@shared/delete-item/delete-item.component'
 import { GroupProjectSelectorModel } from '@shared/group-project-selector/group-project-selector.component'
 import { ApiRes } from 'app/model/api.model'
 import { UserProfile } from 'app/model/user.model'
 import { calcDrawerWidth } from 'app/util/drawer'
-import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
+import { NzDrawerService, NzMessageService, NzModalService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { CaseService, QueryCase } from '../../../api/service/case.service'
@@ -53,6 +55,8 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
 
   constructor(
     private caseService: CaseService,
+    private modalService: NzModalService,
+    private i18nService: I18NService,
     private msgService: NzMessageService,
     private drawerService: NzDrawerService,
     private router: Router,
@@ -249,6 +253,29 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
         this.loadData()
       }
     })
+  }
+
+  batchDeleteDocs() {
+    if (this.selectedItems.length > 0) {
+      const ids = this.selectedItems.map(item => item._id)
+      this.caseService.batchDelete(this.group, this.project, ids, true).subscribe(res => {
+        if (res.data && res.data.scenario.total === 0 && res.data.job.total === 0) {
+          this.modalService.confirm({
+            nzTitle: this.i18nService.fanyi('tips-delete'),
+            nzCancelText: this.i18nService.fanyi(I18nKey.BtnCancel),
+            nzOkText: this.i18nService.fanyi(I18nKey.BtnOk),
+            nzOnOk: () => {
+              this.caseService.batchDelete(this.group, this.project, ids, false).subscribe(_ => {
+                this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
+                this.loadData()
+              })
+            }
+          })
+        } else {
+          this.msgService.error(this.i18nService.fanyi('tips-cannot-delete'))
+        }
+      })
+    }
   }
 
   pageChange() {
