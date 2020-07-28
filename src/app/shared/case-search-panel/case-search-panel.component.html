@@ -32,7 +32,7 @@
   </div>
   <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="6">
     <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-path'|translate">
-      <input type="text" nz-input [(ngModel)]="search.path" [nzPlaceHolder]="'field-path'|translate"
+      <input type="text" nz-input [(ngModel)]="search.path" [placeholder]="'field-path'|translate"
         (ngModelChange)="modelChange()">
     </nz-input-group>
   </div>
