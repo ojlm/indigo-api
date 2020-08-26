@@ -63,34 +63,34 @@ export class StepsRuntimeComponent implements OnInit {
 
   rebuildItems() {
     const items: RuntimeVariableItem[] = []
-    if (this._steps.length > 0 && this._stepsDataCache) {
+    if (this._steps.length > 0 && this._stepsDataCache && this._stepsStatusCache) {
       for (let i = 0; i < this._steps.length; ++i) {
         const step = this._steps[i]
         const stepData = this._stepsDataCache[getScenarioStepCacheKey(step)]
-        if (stepData && stepData.exports) {
-          const validItems = stepData.exports.filter(_ => isExportItemValid(_))
-          const statusData = this._stepsStatusCache[i]
-          let ctxData = null
-          let status = null
-          if (statusData && statusData.report && statusData.report.result && validItems && validItems.length > 0) {
-            ctxData = statusData.report.result.context
-            status = statusData.report.status
-            const title = stepData.summary
-            const item: RuntimeVariableItem = {
-              stepIdx: i,
-              title: title,
-              status: status,
-              exports: []
-            }
-            validItems.forEach(validExportItem => {
+        const statusData = this._stepsStatusCache[i]
+        let ctxData = null
+        let status = null
+        if (stepData && stepData.exports && statusData && statusData.report && statusData.report.result) {
+          ctxData = statusData.report.result.context
+          status = statusData.report.status
+          const title = stepData.summary
+          const item: RuntimeVariableItem = {
+            stepIdx: i,
+            title: title,
+            status: status,
+            exports: []
+          }
+          const renderedExportDesc = statusData.report.result.renderedExportDesc
+          stepData.exports.forEach((exportItem, subIdex) => {
+            if (isExportItemValid(exportItem)) {
               let value = ''
               if (ctxData) {
-                value = getJsonPathValueAsString(`$.${validExportItem.scope}.${validExportItem.dstName}`, ctxData)
+                value = getJsonPathValueAsString(`$.${exportItem.scope}.${exportItem.dstName}`, ctxData)
               }
-              item.exports.push({ ...validExportItem, value: value })
-            })
-            items.push(item)
-          }
+              item.exports.push({ ...exportItem, value: value, description: renderedExportDesc[subIdex] || exportItem.description })
+            }
+          })
+          items.push(item)
         }
       }
     }

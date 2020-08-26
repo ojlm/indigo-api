@@ -72,4 +72,5 @@ export interface AbstractResult {
   statis?: CaseStatis
   result?: object
   generator?: string
+  renderedExportDesc?: { [k: number]: string }
 }
