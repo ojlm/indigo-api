@@ -6,10 +6,10 @@
         [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchGroup($event)"
         (nzOpenChange)="openSearchGroup()">
         <ng-container *ngFor="let item of groups">
-          <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="item.id" nzCustomContent>
-            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover
+          <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="getGroupBreadcrumb(item)" nzCustomContent>
+            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="groupGroupAvatarText(item)" nz-popover
               [nzPopoverTitle]="item.summary" [nzPopoverContent]="item.description"></nz-avatar>
-            <span style="padding-left:10px;">{{item.id}}</span>
+            <span style="padding-left:10px;">{{getGroupBreadcrumb(item)}}</span>
           </nz-option>
         </ng-container>
         <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
@@ -27,10 +27,10 @@
         nzShowSearch [nzServerSearch]="true" [nzNotFoundContent]="'tips-no-data'|translate"
         (nzOnSearch)="searchProject($event)" (nzOpenChange)="openSearchProject()">
         <ng-container *ngFor="let item of projects">
-          <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="item.id" nzCustomContent>
-            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="item.id?item.id[0]:''" nz-popover
+          <nz-option *ngIf="!isLoading" [nzValue]="item" [nzLabel]="getProjectBreadcrumb(item)" nzCustomContent>
+            <nz-avatar nzSize="small" [nzSrc]="item.avatar" [nzText]="groupProjectAvatarText(item)" nz-popover
               [nzPopoverTitle]="item.summary" [nzPopoverContent]="item.description"></nz-avatar>
-            <span style="padding-left:10px;">{{item.group}}/{{item.id}}</span>
+            <span style="padding-left:10px;">{{getProjectBreadcrumb(item)}}</span>
           </nz-option>
         </ng-container>
         <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>

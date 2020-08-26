@@ -24,10 +24,16 @@ export class GroupProjectSelectorComponent implements OnInit {
     this.model = val
     if (this.model.group) {
       this.group = { id: this.model.group }
-      this.groups.push(this.group)
+      this.groupService.getById(this.model.group).subscribe(res => {
+        this.groups = [res.data]
+        this.group = res.data
+      })
       if (this.model.project) {
         this.project = { group: this.model.group, id: this.model.project }
-        this.projects.push(this.project)
+        this.projectService.getById(this.model.group, this.model.project).subscribe(res => {
+          this.projects = [res.data]
+          this.project = res.data
+        })
       }
     }
   }
@@ -76,6 +82,22 @@ export class GroupProjectSelectorComponent implements OnInit {
       this.model.project = undefined
     }
     this.dataChange.emit(this.model)
+  }
+
+  groupGroupAvatarText(item: Group) {
+    return this.groupService.getAvatarText(item)
+  }
+
+  getGroupBreadcrumb(item: Group) {
+    return this.groupService.getBreadcrumb(item)
+  }
+
+  groupProjectAvatarText(item: Group) {
+    return this.projectService.getAvatarText(item)
+  }
+
+  getProjectBreadcrumb(item: Project) {
+    return this.projectService.getBreadcrumb(item)
   }
 
   openSearchGroup() {
