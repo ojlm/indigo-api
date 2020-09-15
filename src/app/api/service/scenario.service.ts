@@ -112,7 +112,6 @@ export function caseToScenarioStep(doc: Case): ScenarioStep {
   return {
     id: doc._id,
     type: ScenarioStepType.CASE,
-    stored: false,
     enabled: true,
   }
 }
@@ -121,7 +120,6 @@ export function sqlRequestToScenarioStep(doc: SqlRequest): ScenarioStep {
   return {
     id: doc._id,
     type: ScenarioStepType.SQL,
-    stored: false,
     enabled: true,
   }
 }
@@ -130,7 +128,6 @@ export function dubboRequestToScenarioStep(doc: DubboRequest): ScenarioStep {
   return {
     id: doc._id,
     type: ScenarioStepType.DUBBO,
-    stored: false,
     enabled: true,
   }
 }
@@ -139,7 +136,6 @@ export function jobToScenarioStep(doc: Job): ScenarioStep {
   return {
     id: doc._id,
     type: ScenarioStepType.JOB,
-    stored: false,
     enabled: true,
   }
 }
@@ -160,7 +156,6 @@ export function scenarioToScenarioStep(scenario: Scenario) {
   const step: ScenarioStep = {
     id: scenario._id,
     type: ScenarioStepType.SCENARIO,
-    stored: false,
     enabled: true,
   }
   return step

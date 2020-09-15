@@ -99,7 +99,6 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
   addDelayStep() {
     const step: ScenarioStep = {
       type: ScenarioStepType.DELAY,
-      stored: false,
       enabled: true,
       data: { delay: { value: 1, timeUnit: TimeUnit.SECOND } }
     }
@@ -110,7 +109,6 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
   addJumpStep() {
     const step: ScenarioStep = {
       type: ScenarioStepType.JUMP,
-      stored: false,
       enabled: true,
       data: { jump: { type: 0, script: '', conditions: [] } }
     }

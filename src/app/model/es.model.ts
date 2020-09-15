@@ -95,7 +95,6 @@ export interface StepData {
 export interface ScenarioStep {
   id?: string
   type?: string
-  stored?: boolean
   enabled?: boolean
   data?: StepData
 }
