@@ -90,6 +90,7 @@ export interface QuerySqlRequest extends QueryPage {
   table?: string
   sql?: string
   hasCreators?: boolean
+  isCloned?: boolean
 }
 
 export interface SqlRequestReportModel {

@@ -156,6 +156,7 @@ export interface QueryCase extends QueryPage {
   ids?: string[]
   labels?: string[]
   hasCreators?: boolean
+  isCloned?: boolean
 }
 
 export interface SearchAfter {

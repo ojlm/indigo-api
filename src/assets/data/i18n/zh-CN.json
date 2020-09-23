@@ -277,6 +277,7 @@
   "tips-openapi-save": "这个请求是 swagger 导入的, 确认更新吗",
   "tips-delete": "确认删除？",
   "tips-cannot-delete": "无法删除, 含有关联的场景或任务",
+  "tips-show-cloned": "仅显示克隆请求",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",

@@ -16,13 +16,13 @@
     </button>
   </div>
 </div>
-<div nz-row [nzGutter]="4">
-  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="6">
+<div *ngIf="showAll" nz-row [nzGutter]="4" style="margin-top:4px;">
+  <div nz-col nzSpan="4">
     <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-host'|translate">
       <input type="text" nz-input [(ngModel)]="search.host" (ngModelChange)="modelChange()">
     </nz-input-group>
   </div>
-  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="4">
+  <div nz-col nzSpan="4">
     <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-method'|translate">
       <nz-select style="width:100%;" nzMode="multiple" [nzPlaceHolder]="'field-method'|translate"
         [(ngModel)]="search.methods" nzAllowClear nzShowSearch (ngModelChange)="modelChange()">
@@ -30,13 +30,13 @@
       </nz-select>
     </nz-input-group>
   </div>
-  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="6">
+  <div nz-col nzSpan="6">
     <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-path'|translate">
       <input type="text" nz-input [(ngModel)]="search.path" [placeholder]="'field-path'|translate"
         (ngModelChange)="modelChange()">
     </nz-input-group>
   </div>
-  <div *ngIf="showAll" style="margin-top:4px;" nz-col nzSpan="8">
+  <div nz-col nzSpan="6">
     <nz-input-group style="width:100%;" [nzAddOnBefore]="'field-labels'|translate">
       <nz-select style="width:100%;" nzMode="multiple" [(ngModel)]="search.labels" nzAllowClear nzShowSearch
         (nzOpenChange)="labelSelectOpenChange()" [nzServerSearch]="true" (nzOnSearch)="searchLabel($event)"
@@ -55,5 +55,10 @@
         </nz-option>
       </nz-select>
     </nz-input-group>
+  </div>
+  <div nz-col nzSpan="4">
+    <label nz-checkbox [(ngModel)]="search.isCloned" (ngModelChange)="modelChange()">
+      {{'tips-show-cloned'|translate}}
+    </label>
   </div>
 </div>

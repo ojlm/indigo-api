@@ -179,6 +179,7 @@ export interface QueryDubboRequest extends QueryPage {
   project?: string
   text?: string
   interface?: string
+  isCloned?: boolean
 }
 
 export interface DubboResponseReportModel {

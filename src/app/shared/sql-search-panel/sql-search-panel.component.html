@@ -1,10 +1,18 @@
 <div nz-row [nzGutter]="4">
-  <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
-    <input nz-input style="width:100%;" [placeholder]="'tips-search'|translate" [(ngModel)]="search.text"
-      (ngModelChange)="modelChange()" (keyup.enter)="modelChange()">
-    <ng-template #suffixButton>
-      <a class="click-icon" style="margin-right:10px;"><i nz-icon nzType="search" theme="outline"
-          (click)="modelChange()"></i></a>
-    </ng-template>
-  </nz-input-group>
+  <div nz-col nzSpan="20">
+    <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton">
+      <input nz-input style="width:100%;" [placeholder]="'tips-search'|translate" [(ngModel)]="search.text"
+        (ngModelChange)="modelChange()" (keyup.enter)="modelChange()">
+      <ng-template #suffixButton>
+        <a class="click-icon" style="margin-right:10px;">
+          <i nz-icon nzType="search" theme="outline" (click)="modelChange()"></i>
+        </a>
+      </ng-template>
+    </nz-input-group>
+  </div>
+  <div nz-col nzSpan="4">
+    <label nz-checkbox [(ngModel)]="search.isCloned" (ngModelChange)="modelChange()">
+      {{'tips-show-cloned'|translate}}
+    </label>
+  </div>
 </div>
