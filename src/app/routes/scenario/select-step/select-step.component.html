@@ -25,7 +25,14 @@
           </div>
         </ng-template>
         <ng-template #httpActions>
-          <a (click)="addHttpStep(httpItem)"><i nz-icon nzType="plus-circle" theme="outline" class="click-icon"></i></a>
+          <button nz-button nzType="dashed" nzSize="small" (click)="cloneHttpStep(httpItem)">
+            <i nz-icon nzType="copy" theme="outline"></i>
+            <span>{{'btn-clone'|translate}}</span>
+          </button>
+          <button nz-button nzType="dashed" nzSize="small" (click)="refHttpStep(httpItem)">
+            <i nz-icon nzType="link" theme="outline"></i>
+            <span>{{'btn-reference'|translate}}</span>
+          </button>
         </ng-template>
       </ng-template>
     </nz-list>
@@ -77,7 +84,14 @@
           </div>
         </ng-template>
         <ng-template #dubboActions>
-          <a (click)="addDubboStep(dubboItem)"><i nz-icon nzType="plus-circle" theme="outline" class="click-icon"></i></a>
+          <button nz-button nzType="dashed" nzSize="small" (click)="cloneDubboStep(dubboItem)">
+            <i nz-icon nzType="copy" theme="outline"></i>
+            <span>{{'btn-clone'|translate}}</span>
+          </button>
+          <button nz-button nzType="dashed" nzSize="small" (click)="refDubboStep(dubboItem)">
+            <i nz-icon nzType="link" theme="outline"></i>
+            <span>{{'btn-reference'|translate}}</span>
+          </button>
         </ng-template>
       </ng-template>
     </nz-list>
@@ -130,7 +144,14 @@
           </div>
         </ng-template>
         <ng-template #sqlActions>
-          <a (click)="addSqlStep(sqlItem)"><i nz-icon nzType="plus-circle" theme="outline" class="click-icon"></i></a>
+          <button nz-button nzType="dashed" nzSize="small" (click)="cloneSqlStep(sqlItem)">
+            <i nz-icon nzType="copy" theme="outline"></i>
+            <span>{{'btn-clone'|translate}}</span>
+          </button>
+          <button nz-button nzType="dashed" nzSize="small" (click)="refSqlStep(sqlItem)">
+            <i nz-icon nzType="link" theme="outline"></i>
+            <span>{{'btn-reference'|translate}}</span>
+          </button>
         </ng-template>
       </ng-template>
     </nz-list>

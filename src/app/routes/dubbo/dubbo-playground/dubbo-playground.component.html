@@ -16,14 +16,23 @@
           (ngModelChange)="modelChange()">
       </nz-input-group>
       <div style="display:flex;padding-left:10px;">
-        <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()"
-          style="padding-left:5px;" nz-dropdown [nzTrigger]="'hover'" [nzDropdownMenu]="saveMenu"
-          [nzPlacement]="'bottomRight'">
-          <span [style.color]="isSaved?'lightgray':'orangered'">
-            <i nz-icon nzType="save" theme="outline"></i>
-            <span>{{'btn-save'|translate}}</span>
+        <button nz-button [nzType]="'primary'" [nzSize]="'default'" [nzLoading]="isSending" (click)="send()">
+          <span>
+            <i nz-icon nzType="scan" theme="outline"></i>
+            <span>{{'btn-send'|translate}}</span>
           </span>
         </button>
+        <nz-button-group style="padding-left:4px;">
+          <button nz-button (click)="save()">
+            <span [style.color]="isSaved?'lightgray':'orangered'">
+              <i nz-icon nzType="save" theme="outline"></i>
+              <span>{{'btn-save'|translate}}</span>
+            </span>
+          </button>
+          <button nz-button nz-dropdown [nzTrigger]="'hover'" [nzDropdownMenu]="saveMenu" nzPlacement="bottomRight">
+            <i nz-icon nzType="ellipsis"></i>
+          </button>
+        </nz-button-group>
         <nz-dropdown-menu #saveMenu="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item (click)="saveAs()">

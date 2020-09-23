@@ -34,6 +34,10 @@ export class DubboService extends BaseService {
     return this.http.put(API_DUBBO, doc) as Observable<ApiRes<IndexDocResponse>>
   }
 
+  clone(group: string, project: string, id: string) {
+    return this.http.put(`${API_DUBBO}/${group}/${project}/clone/${id}`) as Observable<ApiRes<IndexDocResponse>>
+  }
+
   delete(id: string, preview: boolean = null) {
     return this.http.delete(`${API_DUBBO}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }

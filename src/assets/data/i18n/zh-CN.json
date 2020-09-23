@@ -327,6 +327,8 @@
   "btn-select-job": "选择任务",
   "btn-import": "导入",
   "btn-batch-delete": "批量删除",
+  "btn-reference": "引用",
+  "btn-clone": "复制",
   "item-path-variable": "路径变量",
   "item-params": "Params",
   "item-headers": "Headers",

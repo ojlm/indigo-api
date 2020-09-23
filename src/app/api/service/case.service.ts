@@ -41,6 +41,10 @@ export class CaseService extends BaseService {
     return this.http.put(API_CASE, cs) as Observable<ApiRes<IndexDocResponse>>
   }
 
+  clone(group: string, project: string, id: string) {
+    return this.http.put(`${API_CASE}/${group}/${project}/clone/${id}`) as Observable<ApiRes<IndexDocResponse>>
+  }
+
   delete(id: string, preview: boolean = null) {
     return this.http.delete(`${API_CASE}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }

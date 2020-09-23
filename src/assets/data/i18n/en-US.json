@@ -327,6 +327,8 @@
   "btn-select-job": "Select Job",
   "btn-import": "Import",
   "btn-batch-delete": "Remove Selected",
+  "btn-reference": "Reference",
+  "btn-clone": "Clone",
   "item-path-variable": "Path Variable",
   "item-params": "Params",
   "item-headers": "Headers",

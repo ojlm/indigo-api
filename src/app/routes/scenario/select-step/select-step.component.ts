@@ -128,7 +128,7 @@ export class SelectStepComponent implements OnInit {
     }
   }
 
-  addHttpStep(item: Case) {
+  refHttpStep(item: Case) {
     if (this.onSelectSubject) {
       this.onSelectSubject.next({
         step: caseToScenarioStep(item),
@@ -137,7 +137,20 @@ export class SelectStepComponent implements OnInit {
     }
   }
 
-  addDubboStep(item: DubboRequest) {
+  cloneHttpStep(item: Case) {
+    if (this.onSelectSubject) {
+      this.caseService.clone(item.group, item.project, item._id).subscribe(res => {
+        const step = caseToScenarioStep(item)
+        step.id = res.data.id
+        this.onSelectSubject.next({
+          step: step,
+          stepData: { ...item, _id: step.id }
+        })
+      })
+    }
+  }
+
+  refDubboStep(item: DubboRequest) {
     if (this.onSelectSubject) {
       this.onSelectSubject.next({
         step: dubboRequestToScenarioStep(item),
@@ -146,11 +159,37 @@ export class SelectStepComponent implements OnInit {
     }
   }
 
-  addSqlStep(item: SqlRequest) {
+  cloneDubboStep(item: DubboRequest) {
+    if (this.onSelectSubject) {
+      this.dubboService.clone(item.group, item.project, item._id).subscribe(res => {
+        const step = dubboRequestToScenarioStep(item)
+        step.id = res.data.id
+        this.onSelectSubject.next({
+          step: step,
+          stepData: { ...item, _id: step.id }
+        })
+      })
+    }
+  }
+
+  refSqlStep(item: SqlRequest) {
     if (this.onSelectSubject) {
       this.onSelectSubject.next({
         step: sqlRequestToScenarioStep(item),
         stepData: item
+      })
+    }
+  }
+
+  cloneSqlStep(item: SqlRequest) {
+    if (this.onSelectSubject) {
+      this.sqlService.clone(item.group, item.project, item._id).subscribe(res => {
+        const step = sqlRequestToScenarioStep(item)
+        step.id = res.data.id
+        this.onSelectSubject.next({
+          step: step,
+          stepData: { ...item, _id: step.id }
+        })
       })
     }
   }
