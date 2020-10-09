@@ -1,4 +1,7 @@
 <div>
+  <div *ngIf="desc" style="background-color: ghostwhite;color: lightslategray;">
+    {{desc}}
+  </div>
   <nz-collapse [nzBordered]="true">
     <ng-container *ngFor="let item of items">
       <nz-collapse-panel *ngIf="stepHasResult(item)" [nzHeader]="nzHeader" [nzShowArrow]="false" [nzActive]="true">
@@ -6,8 +9,8 @@
           [nzFrontPagination]="false">
           <thead>
             <tr>
-              <th class="th"> <span>{{'item-src-path'|translate}}</span></th>
-              <th class="th"><span>{{'item-scope'|translate}}</span></th>
+              <th *ngIf="!simple" class="th"> <span>{{'item-src-path'|translate}}</span></th>
+              <th *ngIf="!simple" class="th"><span>{{'item-scope'|translate}}</span></th>
               <th class="th"><span>{{'item-var-name'|translate}}</span></th>
               <th class="th"><span>{{'field-value'|translate}}</span></th>
               <th class="th"><span>{{'field-description'|translate}}</span></th>
@@ -15,8 +18,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let exp of item.exports; let i = index">
-              <td class="td">{{exp.srcPath}}</td>
-              <td class="td">{{exp.scope}}</td>
+              <td *ngIf="!simple" class="td">{{exp.srcPath}}</td>
+              <td *ngIf="!simple" class="td">{{exp.scope}}</td>
               <td class="td">{{exp.dstName}}</td>
               <td class="td">{{exp.value}}</td>
               <td class="td">{{exp.description}}</td>
@@ -28,9 +31,10 @@
             <span>{{item.stepIdx+1}}. </span>
             <nz-badge [nzStatus]="item.status==='pass'?'success':'error'"></nz-badge>
             <span>{{item.title}}</span>
-            <span style="float:right;margin-right:20px;">
+            <span *ngIf="view" style="float:right;margin-right:20px;">
               <i class="click-icon" nz-icon nzType="setting" nzTheme="outline"
-                (click)="viewStep(item); $event.stopPropagation();"></i>
+                (click)="viewStep(item); $event.stopPropagation();">
+              </i>
             </span>
           </div>
         </ng-template>

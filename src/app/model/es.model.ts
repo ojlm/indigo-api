@@ -340,6 +340,7 @@ export interface JobReportData {
   cases?: CaseReportItem[]
   scenarios?: ScenarioReportItem[]
   ext?: Object
+  renderedDescription?: string
 }
 
 export interface IndexDocResponse {
@@ -583,6 +584,7 @@ export interface ControllerOptions {
 
 export interface ScenarioTestWebMessage {
   summary: string
+  description?: string
   steps: ScenarioStep[]
   options?: ContextOptions
   imports?: VariablesImportItem[]

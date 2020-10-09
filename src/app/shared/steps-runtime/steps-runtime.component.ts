@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { getScenarioStepCacheKey, isExportItemValid, StepStatusData } from 'app/api/service/scenario.service'
+import { ScenarioStep } from 'app/model/es.model'
+import { ScenarioStepData } from 'app/routes/scenario/select-step/select-step.component'
 import { getJsonPathValueAsString } from 'app/util/jsonpath'
 import { Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
-
-import { ScenarioStep } from '../../../model/es.model'
-import { ScenarioStepData } from '../select-step/select-step.component'
 
 @Component({
   selector: 'app-steps-runtime',
@@ -23,13 +22,19 @@ import { ScenarioStepData } from '../select-step/select-step.component'
 })
 export class StepsRuntimeComponent implements OnInit {
 
+  desc = ''
   items: RuntimeVariableItem[] = []
   _subject: Subject<any>
   @Input()
   set subject(val: Subject<any>) {
     if (val) {
       this._subject = val
-      this._subject.pipe(debounceTime(100)).subscribe(_ => this.rebuildItems())
+      this._subject.pipe(debounceTime(100)).subscribe(desc => {
+        if (desc) {
+          this.desc = desc
+        }
+        this.rebuildItems()
+      })
     }
   }
   _steps: ScenarioStep[] = []
@@ -57,6 +62,7 @@ export class StepsRuntimeComponent implements OnInit {
     }
   }
   @Input() view: Function
+  @Input() simple = false
 
   constructor(
   ) { }

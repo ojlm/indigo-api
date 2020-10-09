@@ -1,0 +1,21 @@
+<nz-tabset nzSize="small" nzTabPosition="top" nzType="card" [nzTabBarStyle]="nzTabBarStyle"
+  [(nzSelectedIndex)]="tabIndex">
+  <nz-tab [nzTitle]="tabConsole" [nzForceRender]="true">
+    <ng-template #tabConsole>
+      <i nz-icon nzType="code"></i>
+      <span>输出</span>
+    </ng-template>
+    <div class="xterm" [ngStyle]="xtermStyle"></div>
+  </nz-tab>
+  <nz-tab [nzTitle]="tabVars" [nzForceRender]="true">
+    <ng-template #tabVars>
+      <i nz-icon nzType="field-number"></i>
+      <span>变量</span>
+    </ng-template>
+    <div style="overflow-y: auto;" [style.height]="contentHeight">
+      <app-steps-runtime [steps]="steps" [stepsDataCache]="stepsDataCache" [stepsStatusCache]="stepsStatusCache"
+        [subject]="subject" [simple]="true">
+      </app-steps-runtime>
+    </div>
+  </nz-tab>
+</nz-tabset>

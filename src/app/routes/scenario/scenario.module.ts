@@ -12,20 +12,17 @@ import { ScenarioRoutingModule } from './scenario-routing.module'
 import { SelectJobComponent } from './select-job/select-job.component'
 import { SelectStepComponent } from './select-step/select-step.component'
 import { StepJumpComponent } from './step-jump/step-jump.component'
-import { StepsRuntimeComponent } from './steps-runtime/steps-runtime.component'
 import { StepsSelectorComponent } from './steps-selector/steps-selector.component'
 
 const COMPONENT = [
   ScenarioModelComponent,
   StepsSelectorComponent,
   SelectStepComponent,
-  StepsRuntimeComponent,
   StepJumpComponent,
   SelectJobComponent,
 ]
 
 const COMPONENT_NOROUNT = [
-  StepsRuntimeComponent,
   StepJumpComponent,
   SelectStepComponent,
   SelectJobComponent,

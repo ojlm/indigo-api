@@ -29,9 +29,11 @@ import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component'
 import { PlaygroundReportTabComponent } from './playground-report-tab/playground-report-tab.component'
 import { PofileSimpleComponent } from './profile-simple/profile-simple.component'
 import { RestModelComponent } from './rest-model/rest-model.component'
+import { RuntimeToolboxComponent } from './runtime-toolbox/runtime-toolbox.component'
 import { SHARED_DELON_MODULES } from './shared-delon.module'
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module'
 import { SqlSearchPanelComponent } from './sql-search-panel/sql-search-panel.component'
+import { StepsRuntimeComponent } from './steps-runtime/steps-runtime.component'
 import { ExportAutoCompleteComponent } from './variables-export-table/export-auto-complete/export-auto-complete.component'
 import { ExportAutoCompleteDirective } from './variables-export-table/export-auto-complete/export-auto-complete.directive'
 import { VariablesExportTableComponent } from './variables-export-table/variables-export-table.component'
@@ -75,6 +77,8 @@ const COMPONENTS = [
   AssertionListComponent,
   AssertionsComponent,
   MonacoEditorComponent,
+  StepsRuntimeComponent,
+  RuntimeToolboxComponent,
 ]
 const DIRECTIVES = []
 // endregion

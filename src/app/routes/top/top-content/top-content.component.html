@@ -49,7 +49,7 @@
 </div>
 <div>
   <nz-card style="width:100;" [style.height]="toolHeight" [nzBodyStyle]="cardBodyStyle">
-    <div nz-row nzGutter="4" nzType="flex" nzJustify="end">
+    <div nz-row nzGutter="4" nzType="flex" nzJustify="start">
       <div nz-col nzSpan="8">
         <nz-input-group [nzAddOnBefore]="'item-from'|translate">
           <nz-select style="width:100%;" nzShowSearch [(ngModel)]="fromValue" (ngModelChange)="fromChange()">
@@ -81,6 +81,10 @@
         <button nz-button [nzSize]="'default'" nzType="dashed" (click)="goExport()">{{'btn-export'|translate}}</button>
       </div>
     </div>
-    <div class="xterm" [ngStyle]="xtermStyle"></div>
+    <div style="margin-top: 4px;">
+      <app-runtime-toolbox [log]="log" [height]="runtimeToolboxHeight" [steps]="steps" [stepsDataCache]="stepsDataCache"
+        [stepsStatusCache]="stepsStatusCache">
+      </app-runtime-toolbox>
+    </div>
   </nz-card>
 </div>

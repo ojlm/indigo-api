@@ -5,8 +5,8 @@ import { I18nKey } from '@core/i18n/i18n.message'
 import { formatImportsToSave } from '@shared/variables-import-table/variables-import-table.component'
 import { FavoriteService } from 'app/api/service/favorite.service'
 import { isJobScenarioStep, JobService } from 'app/api/service/job.service'
-import { ScenarioService, ScenarioStepType } from 'app/api/service/scenario.service'
-import { ActorEvent, ActorEventType } from 'app/model/api.model'
+import { ScenarioService, ScenarioStepType, StepStatusData } from 'app/api/service/scenario.service'
+import { ActorEvent } from 'app/model/api.model'
 import { NameValue } from 'app/model/common.model'
 import {
   FavoriteTargetType,
@@ -17,11 +17,9 @@ import {
   ScenarioTestWebMessage,
   VariablesImportItem,
 } from 'app/model/es.model'
+import { ScenarioStepData } from 'app/routes/scenario/select-step/select-step.component'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
-import { ITerminalOptions, ITheme, Terminal } from 'xterm'
-import { FitAddon } from 'xterm-addon-fit'
-import { WebLinksAddon } from 'xterm-addon-web-links'
 
 @Component({
   selector: 'app-top-content',
@@ -46,35 +44,22 @@ export class TopContentComponent implements OnInit, AfterViewInit {
   cardBodyStyle = {
     padding: '8px'
   }
-  importsCardHeight = `${Math.floor((window.innerHeight - 112) * 0.6)}px`
-  importsHeight = `${Math.floor((window.innerHeight - 112) * 0.6 - 72)}px`
-  toolHeight = `${Math.floor((window.innerHeight - 112) * 0.4)}px`
-  theme: ITheme = {
-    foreground: 'lightslategray',
-    background: 'white',
-  }
-  option: ITerminalOptions = {
-    theme: this.theme,
-    allowTransparency: true,
-    cursorBlink: false,
-    cursorStyle: 'block',
-    fontFamily: 'monospace',
-    fontSize: 12,
-    disableStdin: true,
-  }
-  xterm = new Terminal(this.option)
-  fitAddon = new FitAddon()
-  webAddon = new WebLinksAddon()
-  xtermStyle = {}
+  importsCardHeight = `${Math.floor((window.innerHeight - 112) * 0.5)}px`
+  importsHeight = `${Math.floor((window.innerHeight - 112) * 0.5 - 72)}px`
+  toolHeight = `${Math.floor((window.innerHeight - 112) * 0.5)}px`
+  runtimeToolboxHeight = Math.floor((window.innerHeight - 112) * 0.5) - 36
   testWs: WebSocket
-  log: Subject<ActorEvent<string>> = new Subject()
+  log: Subject<ActorEvent<any>> = new Subject()
+  steps: ScenarioStep[] = []
+  stepsDataCache: { [k: string]: ScenarioStepData } = {}
+  stepsStatusCache: { [k: number]: StepStatusData } = {}
+  stepCurrent = 0
   @HostListener('window:resize')
   resize() {
-    this.importsCardHeight = `${Math.floor((window.innerHeight - 112) * 0.6)}px`
-    this.toolHeight = `${Math.floor((window.innerHeight - 112) * 0.4)}px`
-    this.importsHeight = `${Math.floor((window.innerHeight - 112) * 0.6 - 72)}px`
-    this.initXtermStyle()
-    this.fitAddon.fit()
+    this.importsCardHeight = `${Math.floor((window.innerHeight - 112) * 0.5)}px`
+    this.toolHeight = `${Math.floor((window.innerHeight - 112) * 0.5)}px`
+    this.importsHeight = `${Math.floor((window.innerHeight - 112) * 0.5 - 72)}px`
+    this.runtimeToolboxHeight = Math.floor((window.innerHeight - 112) * 0.5) - 36
   }
 
   constructor(
@@ -87,7 +72,6 @@ export class TopContentComponent implements OnInit, AfterViewInit {
     private el: ElementRef<HTMLDivElement>,
     private i18nService: I18NService,
   ) {
-    this.initXtermStyle()
     this.KEY_ENVIRONMENT = this.i18nService.fanyi(I18nKey.KeyEnvironment)
   }
 
@@ -95,6 +79,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
     if (FavoriteTargetType.TARGET_TYPE_SCENARIO === this.type) {
       const msg: ScenarioTestWebMessage = {
         summary: this._scenaro.summary,
+        description: this._scenaro.description,
         steps: this._scenaro.steps,
         imports: formatImportsToSave(this._scenaro.imports),
         controller: {
@@ -131,8 +116,6 @@ export class TopContentComponent implements OnInit, AfterViewInit {
   }
 
   run() {
-    this.xterm.clear()
-    this.printlnOkMsg('')
     if (this.testWs) {
       this.testWs.close()
       this.testWs = null
@@ -149,25 +132,14 @@ export class TopContentComponent implements OnInit, AfterViewInit {
       this.testWs.onmessage = (event) => {
         if (event.data) {
           try {
-            const res = JSON.parse(event.data) as ActorEvent<string>
-            if (ActorEventType.ITEM === res.type) {
-            } else if (ActorEventType.OVER === res.type) {
-            } else {
-              this.log.next(res)
-            }
+            const res = JSON.parse(event.data)
+            this.log.next(res)
           } catch (error) {
             this.msgService.error(error)
             this.testWs.close()
           }
         }
       }
-    }
-  }
-
-  initXtermStyle() {
-    this.xtermStyle = {
-      'width': `100%`,
-      'height': `${Math.floor((window.innerHeight - 112) * 0.4) - 48}px`,
     }
   }
 
@@ -188,12 +160,15 @@ export class TopContentComponent implements OnInit, AfterViewInit {
   }
 
   reset() {
-    this.xterm.clear()
     this.title = ''
     this.envImport = undefined
     this.imports = []
     this.fromValue = 0
     this.toValue = 0
+    this.steps = []
+    this.stepsDataCache = {}
+    this.stepsStatusCache = {}
+    this.stepCurrent = 0
   }
 
   loadById(group: string, project: string, id: string) {
@@ -210,25 +185,33 @@ export class TopContentComponent implements OnInit, AfterViewInit {
         response.scenario.steps.forEach((step, i) => {
           switch (step.type) {
             case ScenarioStepType.CASE:
-              tmp.push({ name: response.case[step.id].summary, value: i })
-              break;
+              const cs = response.case[step.id]
+              tmp.push({ name: cs.summary, value: i })
+              this.stepsDataCache[`case:${step.id}`] = cs
+              break
             case ScenarioStepType.DUBBO:
-              tmp.push({ name: response.dubbo[step.id].summary, value: i })
-              break;
+              const dubbo = response.dubbo[step.id]
+              tmp.push({ name: dubbo.summary, value: i })
+              this.stepsDataCache[`dubbo:${step.id}`] = dubbo
+              break
             case ScenarioStepType.SQL:
-              tmp.push({ name: response.sql[step.id].summary, value: i })
-              break;
+              const sql = response.sql[step.id]
+              tmp.push({ name: sql.summary, value: i })
+              this.stepsDataCache[`sql:${step.id}`] = sql
+              break
             case ScenarioStepType.DELAY:
               tmp.push(this.toDelayOption(step, i))
-              break;
+              break
             case ScenarioStepType.JUMP:
               tmp.push(this.toJumpOption(step, i))
-              break;
+              break
             default:
               tmp.push({ name: step.type, value: i })
-              break;
+              break
           }
         })
+        this.steps = response.scenario.steps
+        this.stepsDataCache = { ...this.stepsDataCache }
       } else if (response.job) {
         this.type = FavoriteTargetType.TARGET_TYPE_JOB
         this.title = response.job.summary
@@ -240,15 +223,15 @@ export class TopContentComponent implements OnInit, AfterViewInit {
           switch (step.type) {
             case ScenarioStepType.DELAY:
               tmp.push(this.toDelayOption(step, i))
-              break;
+              break
             case ScenarioStepType.JUMP:
               tmp.push(this.toJumpOption(step, i))
-              break;
+              break
             default:
               if (isJobScenarioStep(step)) {
                 tmp.push({ name: response.scenarios[step.id].summary, value: i })
               }
-              break;
+              break
           }
         })
       }
@@ -295,27 +278,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  printlnOkMsg(msg: string) {
-    this.xterm.writeln(`${msg}`)
-  }
-
-  printlnErrMsg(msg: string) {
-    this.xterm.writeln(`💩 ${msg}`)
-  }
-
   ngAfterViewInit(): void {
-    const xtermEl = this.el.nativeElement.getElementsByClassName('xterm')[0] as HTMLElement
-    this.xterm.open(xtermEl)
-    this.xterm.loadAddon(this.fitAddon)
-    this.xterm.loadAddon(this.webAddon)
-    this.fitAddon.fit()
-    this.log.subscribe(event => {
-      if (ActorEventType.ERROR === event.type) {
-        this.printlnErrMsg(event.msg)
-      } else {
-        this.printlnOkMsg(event.msg)
-      }
-    })
   }
 
   ngOnInit(): void {
