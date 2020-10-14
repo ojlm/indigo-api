@@ -117,6 +117,24 @@ export interface KeyValueObject {
   description?: string
 }
 
+export interface BlobMetaData {
+  engine?: string
+  key?: string
+  fileName?: string
+  contentLength?: number
+  contentDisposition?: string
+  contentType?: string
+}
+
+export interface FormDataItem {
+  key?: string
+  value?: string
+  type?: 'string' | 'blob'
+  enabled?: boolean
+  description?: string
+  metaData?: BlobMetaData
+}
+
 export interface MediaObject {
   contentType?: string
   data?: any

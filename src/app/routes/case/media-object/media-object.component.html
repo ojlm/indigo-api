@@ -1,13 +1,16 @@
 <div>
   <nz-radio-group [(ngModel)]="contentType" (ngModelChange)="contentTypeChange()">
     <label nz-radio [nzValue]="'application/x-www-form-urlencoded'">
-      <span>application/x-www-form-urlencoded</span>
+      <span>x-www-form-urlencoded</span>
     </label>
     <label nz-radio [nzValue]="'application/json'">
-      <span>application/json</span>
+      <span>json</span>
     </label>
     <label nz-radio [nzValue]="'text/plain'">
       <span>text/plain</span>
+    </label>
+    <label nz-radio [nzValue]="'multipart/form-data'">
+      <span>form-data</span>
     </label>
   </nz-radio-group>
   <div style="width:100%;margin:5px;"></div>
@@ -25,6 +28,10 @@
       <ngx-monaco-editor class="code-editor" [options]="textEditorOptions" [(ngModel)]="mediaObjects['text/plain']"
         (ngModelChange)="modelChange()">
       </ngx-monaco-editor>
+    </div>
+    <div *ngSwitchCase="'multipart/form-data'">
+      <app-form-data-item [(data)]="mediaObjects['multipart/form-data']" (dataChange)="modelChange()">
+      </app-form-data-item>
     </div>
   </div>
 </div>

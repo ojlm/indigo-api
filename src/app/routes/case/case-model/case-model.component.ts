@@ -364,7 +364,7 @@ export class CaseModelComponent implements OnInit, OnDestroy {
         return
       }
       req.body.forEach(item => {
-        if (HttpContentTypes.X_WWW_FORM_URLENCODED === item.contentType && item.data) {
+        if (HttpContentTypes.isNeedTransform(item.contentType) && item.data) {
           if (typeof item.data !== 'string') {
             item.data = JSON.stringify(item.data)
           }

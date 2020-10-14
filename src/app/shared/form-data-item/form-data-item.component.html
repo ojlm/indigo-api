@@ -1,0 +1,76 @@
+<nz-table #nzTable [nzSize]="'default'" [nzData]="values" [nzShowPagination]="false" [nzFrontPagination]="false">
+  <thead>
+    <tr>
+      <th style="padding:3px;width:48px;padding-left:20px;">
+        <i style="cursor:pointer;" nz-icon nzType="check-square" nzTheme="outline" nz-tooltip
+          [nzTooltipTitle]="'item-is-enabled'|translate"></i>
+      </th>
+      <th style="padding:3px;">
+        <span>{{'field-key'|translate}}</span>
+      </th>
+      <th style="padding:3px;">
+        <span>{{'field-value'|translate}}</span>
+      </th>
+      <th style="padding:3px;width:20%;">
+        <span>{{'field-description'|translate}}</span>
+      </th>
+      <th style="padding:3px;width:24px;"></th>
+    </tr>
+  </thead>
+  <tbody [sortablejs]="values" [sortablejsOptions]="sortablejsOptions">
+    <tr *ngFor="let item of values; let i = index">
+      <td *ngIf="hasCheckbox" style="padding:2px;">
+        <i nz-icon nzType="bars" theme="outline" class="click-icon" style="cursor:grab;margin-right:4px;"></i>
+        <label style="margin:0px;" nz-checkbox [(ngModel)]="item.enabled" (ngModelChange)="modelChange(item,i)"></label>
+      </td>
+      <td style="padding:2px;">
+        <nz-input-group style="width:100%;" [nzAddOnAfter]="addOnAfterTemplate">
+          <input nz-input [(ngModel)]="item.key" (ngModelChange)="modelChange(item,i)">
+          <ng-template #addOnAfterTemplate>
+            <nz-select style="width:80px;" [(ngModel)]="item.type" (ngModelChange)="modelChange(item,i)">
+              <nz-option [nzLabel]="'item-form-string'|translate" nzValue="string"></nz-option>
+              <nz-option [nzLabel]="'item-form-blob'|translate" nzValue="blob"></nz-option>
+            </nz-select>
+          </ng-template>
+        </nz-input-group>
+      </td>
+      <td style="padding:2px;">
+        <div *ngIf="item.type==='blob'" style="padding-right:20px;">
+          <nz-upload style="margin-left: 4px;" [nzAction]="UPLOAD_BLOB_ACTION" [(nzFileList)]="files[i].fileList"
+            (nzChange)="files[i].handleChange($event)" [nzLimit]="1" [nzShowUploadList]="false"
+            [nzShowButton]="files[i].showButton">
+            <button nz-button nzSize="small" nzType="primary" [nzLoading]="files[i].uploading">
+              <i nz-icon nzType="upload"></i>
+              <span style="margin-left:0px;">{{'btn-select'|translate}}</span>
+            </button>
+          </nz-upload>
+          <nz-progress *ngIf="files[i].uploading" [nzPercent]="files[i].percent" nzSize="small" nzStatus="active">
+          </nz-progress>
+          <span *ngIf="!files[i].showButton&&!files[i].uploading&&files[i].data.value" style="font-size: small;">
+            <span *ngIf="files[i].data.metaData">
+              <a (click)="downloadItem(item)" [download]="files[i].data.metaData.fileName">
+                <i nz-icon nzType="paper-clip" nzTheme="outline"></i>
+                {{files[i].data.metaData.fileName}}
+              </a>
+            </span>
+            <span style="float: right;">
+              <i class="click-icon" nz-icon nzType="delete" nzTheme="outline" (click)="removeFile(files[i])"></i>
+            </span>
+            <span *ngIf="files[i].data.metaData" style="float: right;margin-right: 8px;">
+              {{files[i].data.metaData.contentLength|filesize}}
+            </span>
+          </span>
+        </div>
+        <div *ngIf="item.type!=='blob'">
+          <input nz-input [(ngModel)]="item.value" (ngModelChange)="modelChange(item,i)">
+        </div>
+      </td>
+      <td style="padding:2px;">
+        <input nz-input [(ngModel)]="item.description" (ngModelChange)="modelChange(item,i)">
+      </td>
+      <td style="padding:2px;">
+        <i *ngIf="i<values.length-1" nz-icon nzType="close" theme="outline" class="click-icon" (click)="remove(i)"></i>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

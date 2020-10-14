@@ -11,6 +11,7 @@ import { EnvModelComponent } from '@shared/env-model/env-model.component'
 import { EnvSelectorComponent } from '@shared/env-selector/env-selector.component'
 import { KeyValueComponent } from '@shared/key-value/key-value.component'
 import { ProjectBreadcrumbComponent } from '@shared/project-breadcrumb/project-breadcrumb.component'
+import { FilesizePipe } from 'app/pipe/file-size.pipe'
 import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 import { SortablejsModule } from 'ngx-sortablejs'
@@ -22,6 +23,7 @@ import { AssertionsComponent } from './assertions/assertions.component'
 import { CaseSearchPanelComponent } from './case-search-panel/case-search-panel.component'
 import { DeleteItemComponent } from './delete-item/delete-item.component'
 import { DubboSearchPanelComponent } from './dubbo-search-panel/dubbo-search-panel.component'
+import { FormDataItemComponent } from './form-data-item/form-data-item.component'
 import { GroupProjectSelectorComponent } from './group-project-selector/group-project-selector.component'
 import { LabelListComponent } from './label-list/label-list.component'
 import { LinkerdHttpComponent } from './linkerd-http/linkerd-http.component'
@@ -79,8 +81,11 @@ const COMPONENTS = [
   MonacoEditorComponent,
   StepsRuntimeComponent,
   RuntimeToolboxComponent,
+  FormDataItemComponent,
 ]
-const DIRECTIVES = []
+const DIRECTIVES = [
+  FilesizePipe,
+]
 // endregion
 
 @NgModule({

@@ -49,12 +49,16 @@ export class DefaultInterceptor implements HttpInterceptor {
       case 200:
         // 业务层级错误处理，以下是假定restful有一套统一输出格式（指不管成功与否都有相应的数据格式）情况下进行处理
         if (event instanceof HttpResponse) {
-          const body: ApiResObj = event.body
-          if (body && body.code !== APICODE.OK) {
-            this.msg.error(body.msg)
-            return Observable.create(obs => obs.error(event))
-          } else {
+          if (event.body instanceof Blob) {
             return of(event)
+          } else {
+            const body: ApiResObj = event.body
+            if (body && body.code !== APICODE.OK) {
+              this.msg.error(body.msg)
+              return new Observable(obs => obs.error(event))
+            } else {
+              return of(event)
+            }
           }
         }
         break
@@ -83,11 +87,11 @@ export class DefaultInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<
-  | HttpSentEvent
-  | HttpHeaderResponse
-  | HttpProgressEvent
-  | HttpResponse<any>
-  | HttpUserEvent<any>
+    | HttpSentEvent
+    | HttpHeaderResponse
+    | HttpProgressEvent
+    | HttpResponse<any>
+    | HttpUserEvent<any>
   > {
     // 统一加上服务端前缀
     let url = req.url

@@ -36,7 +36,7 @@ export class MediaObjectComponent implements OnInit {
   set data(objs: MediaObject[]) {
     if (objs && objs.length > 0) {
       objs.forEach(obj => {
-        if (HttpContentTypes.X_WWW_FORM_URLENCODED === obj.contentType) {
+        if (HttpContentTypes.isNeedTransform(obj.contentType)) {
           try {
             this.mediaObjects[obj.contentType] = JSON.parse(obj.data)
           } catch (err) { }
