@@ -35,7 +35,7 @@
         </nz-input-group>
       </td>
       <td style="padding:2px;">
-        <div *ngIf="item.type==='blob'" style="padding-right:20px;">
+        <div *ngIf="item.type==='blob'" style="padding-right:20px;background-color: ghostwhite;">
           <nz-upload style="margin-left: 4px;" [nzAction]="UPLOAD_BLOB_ACTION" [(nzFileList)]="files[i].fileList"
             (nzChange)="files[i].handleChange($event)" [nzLimit]="1" [nzShowUploadList]="false"
             [nzShowButton]="files[i].showButton">
