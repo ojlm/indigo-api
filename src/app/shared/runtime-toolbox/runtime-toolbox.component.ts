@@ -15,6 +15,7 @@ import { JobExecDesc, ReportItemEvent, ScenarioStep } from '../../model/es.model
 })
 export class RuntimeToolboxComponent implements AfterViewInit {
 
+  desc = ''
   tabIndex = 0
   nzTabBarStyle = {
     margin: '4px'
@@ -53,6 +54,7 @@ export class RuntimeToolboxComponent implements AfterViewInit {
     }
   }
   @Input() log: Subject<ActorEvent<JobExecDesc & ReportItemEvent>>
+  @Input() command: Subject<string>
 
   resize() {
     this.initStyle()
@@ -118,7 +120,7 @@ export class RuntimeToolboxComponent implements AfterViewInit {
           if (!renderedDescription && event.data.report && event.data.report.data && event.data.report.data.renderedDescription) {
             renderedDescription = event.data.report.data.renderedDescription // job
           }
-          this.subject.next(renderedDescription)
+          this.desc = renderedDescription
           this.tabIndex = 1
         } else {
           if (ActorEventType.ERROR === event.type) {
@@ -130,6 +132,17 @@ export class RuntimeToolboxComponent implements AfterViewInit {
       })
     } else {
       this.xterm.writeln(`🤔 : no log subject injected`)
+    }
+    if (this.command) {
+      this.command.subscribe(cmd => {
+        switch (cmd) {
+          case 'reset':
+            this.desc = ''
+            this.xterm.clear()
+            this.tabIndex = 0
+            break
+        }
+      })
     }
   }
 

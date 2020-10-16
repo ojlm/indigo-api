@@ -13,6 +13,9 @@
       <span>变量</span>
     </ng-template>
     <div style="overflow-y: auto;" [style.height]="contentHeight">
+      <div *ngIf="desc" style="background-color: ghostwhite;color: lightslategray;min-height: 64px;">
+        <markdown [data]="desc"></markdown>
+      </div>
       <app-steps-runtime [steps]="steps" [stepsDataCache]="stepsDataCache" [stepsStatusCache]="stepsStatusCache"
         [subject]="subject" [simple]="true">
       </app-steps-runtime>

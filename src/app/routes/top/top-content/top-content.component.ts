@@ -44,22 +44,23 @@ export class TopContentComponent implements OnInit, AfterViewInit {
   cardBodyStyle = {
     padding: '8px'
   }
-  importsCardHeight = `${Math.floor((window.innerHeight - 112) * 0.5)}px`
-  importsHeight = `${Math.floor((window.innerHeight - 112) * 0.5 - 72)}px`
-  toolHeight = `${Math.floor((window.innerHeight - 112) * 0.5)}px`
-  runtimeToolboxHeight = Math.floor((window.innerHeight - 112) * 0.5) - 36
+  importsCardHeight = `${Math.floor((window.innerHeight - 112) * 0.4)}px`
+  importsHeight = `${Math.floor((window.innerHeight - 112) * 0.4 - 72)}px`
+  toolHeight = `${Math.floor((window.innerHeight - 112) * 0.6)}px`
+  runtimeToolboxHeight = Math.floor((window.innerHeight - 112) * 0.6) - 36
   testWs: WebSocket
   log: Subject<ActorEvent<any>> = new Subject()
+  command: Subject<string> = new Subject()
   steps: ScenarioStep[] = []
   stepsDataCache: { [k: string]: ScenarioStepData } = {}
   stepsStatusCache: { [k: number]: StepStatusData } = {}
   stepCurrent = 0
   @HostListener('window:resize')
   resize() {
-    this.importsCardHeight = `${Math.floor((window.innerHeight - 112) * 0.5)}px`
-    this.toolHeight = `${Math.floor((window.innerHeight - 112) * 0.5)}px`
-    this.importsHeight = `${Math.floor((window.innerHeight - 112) * 0.5 - 72)}px`
-    this.runtimeToolboxHeight = Math.floor((window.innerHeight - 112) * 0.5) - 36
+    this.importsCardHeight = `${Math.floor((window.innerHeight - 112) * 0.4)}px`
+    this.importsHeight = `${Math.floor((window.innerHeight - 112) * 0.4 - 72)}px`
+    this.toolHeight = `${Math.floor((window.innerHeight - 112) * 0.6)}px`
+    this.runtimeToolboxHeight = Math.floor((window.innerHeight - 112) * 0.6) - 36
   }
 
   constructor(
@@ -169,6 +170,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
     this.stepsDataCache = {}
     this.stepsStatusCache = {}
     this.stepCurrent = 0
+    this.command.next('reset')
   }
 
   loadById(group: string, project: string, id: string) {

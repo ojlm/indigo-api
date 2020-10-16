@@ -22,17 +22,13 @@ import { debounceTime } from 'rxjs/operators'
 })
 export class StepsRuntimeComponent implements OnInit {
 
-  desc = ''
   items: RuntimeVariableItem[] = []
   _subject: Subject<any>
   @Input()
   set subject(val: Subject<any>) {
     if (val) {
       this._subject = val
-      this._subject.pipe(debounceTime(100)).subscribe(desc => {
-        if (desc) {
-          this.desc = desc
-        }
+      this._subject.pipe(debounceTime(100)).subscribe(_ => {
         this.rebuildItems()
       })
     }
@@ -110,7 +106,7 @@ export class StepsRuntimeComponent implements OnInit {
   }
 
   stepHasResult(item: RuntimeVariableItem) {
-    return item.status === 'pass' || item.status === 'fail'
+    return (item.status === 'pass' || item.status === 'fail') && (item.exports && item.exports.length > 0)
   }
 
   ngOnInit(): void {

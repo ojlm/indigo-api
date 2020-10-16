@@ -1,7 +1,4 @@
 <div>
-  <div *ngIf="desc" style="background-color: ghostwhite;color: lightslategray;">
-    {{desc}}
-  </div>
   <nz-collapse [nzBordered]="true">
     <ng-container *ngFor="let item of items">
       <nz-collapse-panel *ngIf="stepHasResult(item)" [nzHeader]="nzHeader" [nzShowArrow]="false" [nzActive]="true">
