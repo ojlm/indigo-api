@@ -150,31 +150,44 @@
             <nz-tabset [nzSize]="'small'" [nzType]="'line'" [(nzSelectedIndex)]="tabIndex" [nzAnimated]="false"
               [nzTabBarStyle]="tabBarStyle">
               <nz-tab [nzTitle]="'item-request-body'|translate">
-                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="requestStr"
-                  (ngModelChange)="modelChange()">
-                </ngx-monaco-editor>
+                <ng-template nz-tab>
+                  <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="requestStr"
+                    (ngModelChange)="modelChange()">
+                  </ngx-monaco-editor>
+                </ng-template>
               </nz-tab>
               <nz-tab [nzTitle]="'item-initial-context'|translate">
-                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="_initCtx">
-                </ngx-monaco-editor>
+                <ng-template nz-tab>
+                  <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="_initCtx">
+                  </ngx-monaco-editor>
+                </ng-template>
               </nz-tab>
               <nz-tab [nzTitle]="'item-response-body'|translate">
-                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="responseStr">
-                </ngx-monaco-editor>
+                <ng-template nz-tab>
+                  <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption"
+                    [(ngModel)]="responseStr">
+                  </ngx-monaco-editor>
+                </ng-template>
               </nz-tab>
               <nz-tab [nzTitle]="'item-assert'|translate">
-                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="assertionsStr"
-                  (ngModelChange)="modelChange()">
-                </ngx-monaco-editor>
+                <ng-template nz-tab>
+                  <ngx-monaco-editor [style.height]="subHeight" [options]="jsonEditorOption" [(ngModel)]="assertionsStr"
+                    (ngModelChange)="modelChange()">
+                  </ngx-monaco-editor>
+                </ng-template>
               </nz-tab>
               <nz-tab [nzTitle]="'item-rendered-request'|translate">
-                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption"
-                  [(ngModel)]="renderedRequestStr">
-                </ngx-monaco-editor>
+                <ng-template nz-tab>
+                  <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption"
+                    [(ngModel)]="renderedRequestStr">
+                  </ngx-monaco-editor>
+                </ng-template>
               </nz-tab>
               <nz-tab [nzTitle]="'item-assert-result'|translate">
-                <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="resultStr">
-                </ngx-monaco-editor>
+                <ng-template nz-tab>
+                  <ngx-monaco-editor [style.height]="subHeight" [options]="jsonRoEditorOption" [(ngModel)]="resultStr">
+                  </ngx-monaco-editor>
+                </ng-template>
               </nz-tab>
               <nz-tab [nzTitle]="'item-exports'|translate">
                 <app-variables-export-table [transforms]="transforms" [defaultScope]="'_s'" [(data)]="request.exports"
