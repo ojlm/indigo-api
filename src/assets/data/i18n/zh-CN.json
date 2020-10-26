@@ -114,6 +114,7 @@
   "field-dubbo": "Dubbo",
   "field-sql": "Sql",
   "field-basepath": "路径前缀",
+  "field-comment": "备注",
   "new-group": "新建项目组",
   "new-job": "新建任务",
   "new-project": "新建项目",

@@ -44,6 +44,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
   cardBodyStyle = {
     padding: '8px'
   }
+  comment = ''
   importsCardHeight = `${Math.floor((window.innerHeight - 112) * 0.4)}px`
   importsHeight = `${Math.floor((window.innerHeight - 112) * 0.4 - 72)}px`
   toolHeight = `${Math.floor((window.innerHeight - 112) * 0.6)}px`
@@ -129,6 +130,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
     if (this.testWs) {
       this.testWs.onopen = (event) => {
         this.testWs.send(JSON.stringify(this.buildTestMessage()))
+        this.command.next('start')
       }
       this.testWs.onmessage = (event) => {
         if (event.data) {
@@ -182,6 +184,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
         this.type = FavoriteTargetType.TARGET_TYPE_SCENARIO
         this.title = response.scenario.summary
         this._scenaro = response.scenario
+        this.comment = response.scenario.comment
         this.url = `/scenario/${response.scenario.group}/${response.scenario.project}/${response.scenario._id}`
         this.imports = this.filterImports(response.scenario.imports)
         response.scenario.steps.forEach((step, i) => {
@@ -219,6 +222,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
         this.title = response.job.summary
         this._job = response.job
         this._job._id = response.jobId
+        this.comment = response.job.comment
         this.url = `/job/${response.job.group}/${response.job.project}/${response.jobId}`
         this.imports = this.filterImports(response.job.imports)
         response.job.jobData.scenario.forEach((step, i) => {

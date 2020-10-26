@@ -114,6 +114,7 @@
   "field-dubbo": "Dubbo",
   "field-sql": "Sql",
   "field-basepath": "Base path",
+  "field-comment": "Comment",
   "new-group": "New group",
   "new-job": "New job",
   "new-project": "New project",

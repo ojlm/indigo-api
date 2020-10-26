@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
+import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 import { SortablejsModule } from 'ngx-sortablejs'
 
@@ -20,6 +21,7 @@ const COMPONENT_NOROUNT = []
 @NgModule({
   imports: [
     CommonModule,
+    MarkdownModule.forChild(),
     MonacoEditorModule,
     SortablejsModule,
     SharedModule,

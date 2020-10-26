@@ -46,6 +46,18 @@
         </label>
       </ng-template>
     </div>
+    <div style="margin-top:7px;">
+      <nz-input-group style="width:100%;" [nzAddOnBefore]="commentTpl">
+        <textarea nz-input [nzAutosize]="{minRows:2, maxRows:4}" [placeholder]="'field-comment'|translate"
+          [(ngModel)]="jobMeta.comment"></textarea>
+      </nz-input-group>
+      <ng-template #commentTpl>
+        <label>
+          <span style="visibility:hidden;padding-right:3px;">*</span>
+          <span>{{'field-comment'|translate}}</span>
+        </label>
+      </ng-template>
+    </div>
   </nz-card>
   <!-- trigger -->
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">

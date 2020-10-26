@@ -324,6 +324,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
           this.jobMeta.description = job.description
           this.jobMeta.scheduler = job.scheduler
           this.jobMeta.env = job.env
+          this.jobMeta.comment = job.comment
           this.ctxOptions.jobEnv = this.jobMeta.env
           this.jobMeta.classAlias = job.classAlias
           if (job.trigger && job.trigger.length > 0) {

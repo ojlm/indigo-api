@@ -1,28 +1,37 @@
 <div>
   <nz-card style="width:100;" [style.height]="importsCardHeight" [nzTitle]="importsTitle" [nzExtra]="importsExtra"
     [nzBodyStyle]="cardBodyStyle">
-    <div nz-row nzGutter="4" style="overflow:auto;" [style.height]="importsHeight" class="indigo-scroll-bar">
-      <div *ngFor="let item of imports" nz-col nzSpan="8">
-        <ng-container *ngIf="item.name">
-          <nz-input-group style="width:100%;margin-top:4px;" [nzAddOnBefore]="item.description||item.name">
-            <input *ngIf="item.type!=='enum'" style="width:100%;" nz-input [placeholder]="item.name"
-              [(ngModel)]="item.value">
-            <nz-select *ngIf="item.type==='enum'" style="width:100%;" nzShowSearch nzAllowClear
-              [nzPlaceHolder]="item.name" [(ngModel)]="item.value">
-              <nz-option *ngFor="let kv of item.extra.options" nzCustomContent [nzValue]="kv.key" [nzLabel]="kv.key">
-                <div class="item-option">
-                  <div class="option-title">
-                    <i style="color:darkcyan;" nz-icon nzType="double-right" nzTheme="outline"></i>
-                    <span>{{kv.key}}</span>
-                  </div>
-                  <div class="option-content indigo-scroll-bar"> {{kv.value}}</div>
-                </div>
-              </nz-option>
-            </nz-select>
-          </nz-input-group>
-        </ng-container>
+    <div nz-row nzGutter="4">
+      <div nz-col nzSpan="10" style="overflow:auto;background-color:ghostwhite;color:lightslategray;"
+        [style.height]="importsHeight" class="indigo-scroll-bar">
+        <markdown [data]="comment"></markdown>
       </div>
-      <div *ngIf="imports.length===0">{{'tips-no-data'|translate}}</div>
+      <div nz-col nzSpan="14" style="overflow:auto;" [style.height]="importsHeight" class="indigo-scroll-bar">
+        <div nz-row nzGutter="4">
+          <div *ngFor="let item of imports" nz-col nzSpan="12">
+            <ng-container *ngIf="item.name">
+              <nz-input-group style="width:100%;margin-top:4px;" [nzAddOnBefore]="item.description||item.name">
+                <input *ngIf="item.type!=='enum'" style="width:100%;" nz-input [placeholder]="item.name"
+                  [(ngModel)]="item.value">
+                <nz-select *ngIf="item.type==='enum'" style="width:100%;" nzShowSearch nzAllowClear
+                  [nzPlaceHolder]="item.name" [(ngModel)]="item.value">
+                  <nz-option *ngFor="let kv of item.extra.options" nzCustomContent [nzValue]="kv.key"
+                    [nzLabel]="kv.key">
+                    <div class="item-option">
+                      <div class="option-title">
+                        <i style="color:darkcyan;" nz-icon nzType="double-right" nzTheme="outline"></i>
+                        <span>{{kv.key}}</span>
+                      </div>
+                      <div class="option-content indigo-scroll-bar"> {{kv.value}}</div>
+                    </div>
+                  </nz-option>
+                </nz-select>
+              </nz-input-group>
+            </ng-container>
+          </div>
+        </div>
+        <div *ngIf="imports.length===0">{{'tips-no-data'|translate}}</div>
+      </div>
     </div>
   </nz-card>
   <ng-template #importsTitle>

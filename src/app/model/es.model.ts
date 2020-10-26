@@ -103,6 +103,7 @@ export interface Scenario extends BaseDoc {
   group?: string
   project?: string
   env?: string
+  comment?: string
   failFast?: boolean
   steps?: ScenarioStep[]
   labels?: LabelRef[]
@@ -254,6 +255,7 @@ export interface Job extends BaseDoc {
   group?: string
   project?: string
   env?: string
+  comment?: string
   scheduler?: string
   jobData?: JobData
   trigger?: JobTrigger[]

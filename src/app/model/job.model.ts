@@ -5,6 +5,7 @@ export interface JobMeta {
   project?: string
   summary?: string
   description?: string
+  comment?: string
   scheduler?: string
   env?: string
   classAlias?: string
