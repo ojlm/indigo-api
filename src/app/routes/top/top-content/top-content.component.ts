@@ -172,6 +172,7 @@ export class TopContentComponent implements OnInit, AfterViewInit {
     this.stepsDataCache = {}
     this.stepsStatusCache = {}
     this.stepCurrent = 0
+    this.comment = ''
     this.command.next('reset')
   }
 
