@@ -1,4 +1,3 @@
-import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -61,26 +60,8 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
     private drawerService: NzDrawerService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
   ) {
     super()
-    const response = new Subject<ApiRes<Case[]>>()
-    this.querySubject = this.caseService.newQuerySubject(response)
-    response.subscribe(res => {
-      this.allSelected = false
-      this.loading = false
-      if (res) {
-        this.items = res.data.list
-        this.pageTotal = res.data.total
-        const newUser = res.data['creators'] || {}
-        for (const k of Object.keys(newUser)) {
-          this.users[k] = newUser[k]
-        }
-      }
-    })
-    this.panelSubject.subscribe(search => {
-      this.loadData()
-    })
   }
 
   batchOperationBtnClick() {
@@ -103,7 +84,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
 
   batchTransfer() {
     const reqBody = { ...this.transferGroupProject, ids: this.selectedItems.map(item => item._id) }
-    this.caseService.batchTransfer(reqBody)
+    this.caseService.batchTransfer(this.group, this.project, reqBody)
       .subscribe(res => {
         this.loadData()
         this.resetSeleableState()
@@ -119,7 +100,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
         }
       })
       if (labelItems.length > 0) {
-        this.caseService.batchOperateLabels({ labels: labelItems }).subscribe(res => {
+        this.caseService.batchOperateLabels(this.group, this.project, { labels: labelItems }).subscribe(res => {
           this.loadData()
           this.resetSeleableState()
         })
@@ -139,7 +120,7 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
         }
       })
       if (labelItems.length > 0) {
-        this.caseService.batchOperateLabels({ labels: labelItems }).subscribe(res => {
+        this.caseService.batchOperateLabels(this.group, this.project, { labels: labelItems }).subscribe(res => {
           this.loadData()
           this.resetSeleableState()
         })
@@ -238,6 +219,8 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
       nzTitle: item.summary,
       nzContent: DeleteItemComponent,
       nzContentParams: {
+        group: this.group,
+        project: this.project,
         data: {
           type: 'case',
           value: item
@@ -287,6 +270,23 @@ export class ProjectCasesComponent extends PageSingleModel implements OnInit {
       this.group = params['group']
       this.transferGroupProject.group = this.group
       this.project = params['project']
+      const response = new Subject<ApiRes<Case[]>>()
+      this.querySubject = this.caseService.newQuerySubject(this.group, this.project, response)
+      response.subscribe(res => {
+        this.allSelected = false
+        this.loading = false
+        if (res) {
+          this.items = res.data.list
+          this.pageTotal = res.data.total
+          const newUser = res.data['creators'] || {}
+          for (const k of Object.keys(newUser)) {
+            this.users[k] = newUser[k]
+          }
+        }
+      })
+      this.panelSubject.subscribe(search => {
+        this.loadData()
+      })
       this.loadData()
     })
   }

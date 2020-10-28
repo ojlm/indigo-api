@@ -328,7 +328,9 @@ export class SelectStepComponent implements OnInit {
       this.httpItemsPage.pageTotal = res.data.total
       this.httpItems = res.data.list
     })
-    this.searchHttpStepSubject = this.caseService.newQuerySubject(httpStepsResponse)
+    this.searchHttpStepSubject = this.caseService.newQuerySubject(
+      this.searchGroupProject.group, this.searchGroupProject.project, httpStepsResponse
+    )
     this.searchHttpSteps()
 
     const dubboStepsResponse = new Subject<ApiRes<DubboRequest[]>>()

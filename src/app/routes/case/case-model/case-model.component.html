@@ -18,7 +18,8 @@
       </nz-input-group>
     </nz-row>
     <nz-row style="margin-bottom:4px;">
-      <app-label-list style="width: 100%;" [(data)]="case.labels" (dataChange)="modelChange()" [type]="'case'">
+      <app-label-list style="width: 100%;" [group]="group" [project]="project" [(data)]="case.labels"
+        (dataChange)="modelChange()" [type]="'case'">
       </app-label-list>
     </nz-row>
     <!-- url row start -->

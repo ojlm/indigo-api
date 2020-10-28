@@ -54,6 +54,8 @@ export class ProjectEnvsComponent extends PageSingleModel implements OnInit {
       nzTitle: item.summary,
       nzContent: DeleteItemComponent,
       nzContentParams: {
+        group: this.group,
+        project: this.project,
         data: {
           type: 'env',
           value: item

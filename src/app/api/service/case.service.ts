@@ -18,7 +18,7 @@ import {
   LabelRef,
   UpdateDocResponse,
 } from '../../model/es.model'
-import { API_CASE, API_CASE_QUERY, API_CASE_TEST, API_CASE_UPDATE, API_WS_HTTP_TEST } from '../path'
+import { API_HTTP, API_WS_HTTP_TEST } from '../path'
 import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
 
 @Injectable({
@@ -33,63 +33,64 @@ export class CaseService extends BaseService {
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
   ) { super() }
 
-  query(query: QueryCase) {
-    return this.http.post<ApiRes<Case[]>>(API_CASE_QUERY, query)
+  query(group: string, project: string, query: QueryCase) {
+    return this.http.post<ApiRes<Case[]>>(`${API_HTTP}/${group}/${project}/query`, query)
   }
 
-  index(cs: Case) {
-    return this.http.put(API_CASE, cs) as Observable<ApiRes<IndexDocResponse>>
+  index(group: string, project: string, cs: Case) {
+    return this.http.put(`${API_HTTP}/${group}/${project}`, cs) as Observable<ApiRes<IndexDocResponse>>
   }
 
   clone(group: string, project: string, id: string) {
-    return this.http.put(`${API_CASE}/${group}/${project}/clone/${id}`) as Observable<ApiRes<IndexDocResponse>>
+    return this.http.put(`${API_HTTP}/${group}/${project}/clone/${id}`) as Observable<ApiRes<IndexDocResponse>>
   }
 
-  delete(id: string, preview: boolean = null) {
-    return this.http.delete(`${API_CASE}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
+  delete(group: string, project: string, id: string, preview: boolean = null) {
+    return this.http.delete(
+      `${API_HTTP}/${group}/${project}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
   batchDelete(group: string, project: string, ids: string[], preview: boolean = null) {
     return this.http.post(
-      `${API_CASE}/${group}/${project}/batch/delete${preview === null ? '' : '?preview=' + preview}`,
+      `${API_HTTP}/${group}/${project}/batch/delete${preview === null ? '' : '?preview=' + preview}`,
       { ids },
     ) as Observable<ApiRes<DeleteResData>>
   }
 
-  update(id: string, cs: Case) {
-    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_CASE_UPDATE}/${id}`, cs)
+  update(group: string, project: string, id: string, cs: Case) {
+    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_HTTP}/${group}/${project}/update/${id}`, cs)
   }
 
-  test(cs: { id: string, cs: Case, options: ContextOptions }) {
-    return this.http.post<ApiRes<CaseResult>>(API_CASE_TEST, cs)
+  test(group: string, project: string, cs: { id: string, cs: Case, options: ContextOptions }) {
+    return this.http.post<ApiRes<CaseResult>>(`${API_HTTP}/${group}/${project}/test`, cs)
   }
 
-  getById(id: string) {
-    return this.http.get<ApiRes<Case>>(`${API_CASE}/${id}`)
+  getById(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<Case>>(`${API_HTTP}/${group}/${project}/${id}`)
   }
 
   openApiPreview(group: string, project: string, options: OpenApiImport) {
-    return this.http.post<ApiRes<Case[]>>(`${API_CASE}/${group}/${project}/openapi/preview`, options)
+    return this.http.post<ApiRes<Case[]>>(`${API_HTTP}/${group}/${project}/openapi/preview`, options)
   }
 
   openApiImport(group: string, project: string, options: OpenApiImport) {
-    return this.http.put<ApiRes<number>>(`${API_CASE}/${group}/${project}/openapi/import`, options)
+    return this.http.put<ApiRes<number>>(`${API_HTTP}/${group}/${project}/openapi/import`, options)
   }
 
-  newQuerySubject(response: Subject<ApiRes<Case[]>>) {
+  newQuerySubject(group: string, project: string, response: Subject<ApiRes<Case[]>>) {
     const querySubject = new Subject<QueryCase>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
-      this.http.post<ApiRes<Case[]>>(API_CASE_QUERY, query).subscribe(
+      this.http.post<ApiRes<Case[]>>(`${API_HTTP}/${group}/${project}/query`, query).subscribe(
         res => response.next(res),
         err => response.next(null))
     })
     return querySubject
   }
 
-  searchAfterSubject(response: Subject<ApiRes<CaseWithSort[]>>) {
+  searchAfterSubject(group: string, project: string, response: Subject<ApiRes<CaseWithSort[]>>) {
     const querySubject = new Subject<SearchAfterCase>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
-      this.http.post<ApiRes<CaseWithSort[]>>(`${API_CASE}/after`, query).subscribe(
+      this.http.post<ApiRes<CaseWithSort[]>>(`${API_HTTP}/${group}/${project}/after`, query).subscribe(
         res => response.next(res),
         err => response.error(err))
     })
@@ -97,13 +98,13 @@ export class CaseService extends BaseService {
   }
 
   aggs(aggs: AggsQuery) {
-    return this.http.post<ApiRes<AggsItem[]>>(`${API_CASE}/aggs`, aggs)
+    return this.http.post<ApiRes<AggsItem[]>>(`${API_HTTP}/aggs`, aggs)
   }
 
-  aggsSubject(response: Subject<ApiRes<AggsItem[]>>) {
+  aggsSubject(group: string, project: string, response: Subject<ApiRes<AggsItem[]>>) {
     const querySubject = new Subject<AggsQuery>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
-      this.http.post<ApiRes<AggsItem[]>>(`${API_CASE}/aggs`, query).subscribe(
+      this.http.post<ApiRes<AggsItem[]>>(`${API_HTTP}/${group}/${project}/aggs`, query).subscribe(
         res => response.next(res),
         err => response.error(err))
     })
@@ -111,25 +112,27 @@ export class CaseService extends BaseService {
   }
 
   trend(aggs: AggsQuery, groups: boolean = null) {
-    return this.http.post<ApiRes<TrendResponse>>(`${API_CASE}/aggs/trend${groups !== null ? '?groups=' + groups : ''}`, aggs)
+    return this.http.post<ApiRes<TrendResponse>>(
+      `${API_HTTP}/aggs/trend${groups !== null ? '?groups=' + groups : ''}`, aggs
+    )
   }
 
-  aggsLabelsSubject(response: Subject<ApiRes<AggsItem[]>>) {
+  aggsLabelsSubject(group: string, project: string, response: Subject<ApiRes<AggsItem[]>>) {
     const querySubject = new Subject<string>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(label => {
-      this.http.get<ApiRes<AggsItem[]>>(`${API_CASE}/aggs/labels?label=${label}`).subscribe(
+      this.http.get<ApiRes<AggsItem[]>>(`${API_HTTP}/${group}/${project}/aggs/labels?label=${label}`).subscribe(
         res => response.next(res),
         err => response.error(err))
     })
     return querySubject
   }
 
-  batchOperateLabels(ops: BatchOperationLabels) {
-    return this.http.post<ApiRes<any>>(`${API_CASE}/batch/labels`, ops)
+  batchOperateLabels(group: string, project: string, ops: BatchOperationLabels) {
+    return this.http.post<ApiRes<any>>(`${API_HTTP}/${group}/${project}/batch/labels`, ops)
   }
 
-  batchTransfer(ops: BatchTransfer) {
-    return this.http.post<ApiRes<any>>(`${API_CASE}/batch/transfer`, ops)
+  batchTransfer(group: string, project: string, ops: BatchTransfer) {
+    return this.http.post<ApiRes<any>>(`${API_HTTP}/${group}/${project}/batch/transfer`, ops)
   }
 
   newTestWs(group: string, project: string, id: string) {

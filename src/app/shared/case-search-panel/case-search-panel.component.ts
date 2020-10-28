@@ -45,7 +45,7 @@ export class CaseSearchPanelComponent implements OnInit {
     private caseService: CaseService,
   ) {
     const response = new Subject<ApiRes<AggsItem[]>>()
-    this.queryLabelSubject = this.caseService.aggsLabelsSubject(response)
+    this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.search.group, this.search.project, response)
     response.subscribe(res => {
       this.items = res.data
     })

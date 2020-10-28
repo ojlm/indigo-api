@@ -20,6 +20,8 @@ export class LabelListComponent implements OnInit {
   values: string[] = []
   response = new Subject<ApiRes<AggsItem[]>>()
   queryLabelSubject: Subject<string>
+  @Input() group = ''
+  @Input() project = ''
   @Input()
   set type(val: string) {
     if (!this.queryLabelSubject) {
@@ -31,10 +33,10 @@ export class LabelListComponent implements OnInit {
           this.queryLabelSubject = this.sqlService.aggsLabelsSubject(this.response)
           break
         case ScenarioStepType.CASE:
-          this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.response)
+          this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.group, this.project, this.response)
           break
         default:
-          this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.response)
+          this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.group, this.project, this.response)
           break
       }
       this.response.subscribe(res => {

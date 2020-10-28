@@ -37,13 +37,15 @@ export class DeleteItemComponent implements OnInit {
   jobs: Job[] = []
   jobsTotal = 0
   item: DeleteItemType = { type: 'case' }
+  @Input() group = ''
+  @Input() project = ''
   @Input()
   set data(val: DeleteItemType) {
     if (val) {
       this.item = val
       if ('case' === this.item.type) {
         this.cs = val.value
-        this.caseService.delete(this.cs._id, true).subscribe(res => {
+        this.caseService.delete(this.group, this.project, this.cs._id, true).subscribe(res => {
           this.jobs = res.data.job.list
           this.jobsTotal = res.data.job.total
           this.scenarios = res.data.scenario.list
@@ -97,7 +99,7 @@ export class DeleteItemComponent implements OnInit {
 
   delete() {
     if ('case' === this.item.type) {
-      this.caseService.delete(this.cs._id, false).subscribe(res => {
+      this.caseService.delete(this.group, this.project, this.cs._id, false).subscribe(res => {
         this.drawerRef.close(res)
       })
     } else if ('scenario' === this.item.type) {

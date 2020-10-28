@@ -1,9 +1,8 @@
-import { Location } from '@angular/common'
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { JobDataExt } from 'app/model/job.model'
 import { CaseModelComponent } from 'app/routes/case/case-model/case-model.component'
-import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
+import { NzDrawerService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { CaseService, QueryCase } from '../../../api/service/case.service'
@@ -68,7 +67,7 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
   @Input()
   set data(ids: string[]) {
     if (ids.length > 0 && this.addedItems.length === 0) {
-      this.caseService.query({ ids: ids }).subscribe(res => {
+      this.caseService.query(this.group, this.project, { ids: ids }).subscribe(res => {
         this.addedItems = res.data.list
         this.addedItems.forEach(item => this.addedItemsMap[item._id] = true)
       })
@@ -105,10 +104,8 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
   constructor(
     private caseService: CaseService,
     private drawerService: NzDrawerService,
-    private msgService: NzMessageService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
   ) {
     super()
     const response = new Subject<ApiRes<Case[]>>()
@@ -116,7 +113,7 @@ export class CaseSelectorComponent extends PageSingleModel implements OnInit {
       this.pageTotal = res.data.total
       this.items = res.data.list
     })
-    this.searchCase = this.caseService.newQuerySubject(response)
+    this.searchCase = this.caseService.newQuerySubject(this.group, this.project, response)
   }
 
   applyFilter() {

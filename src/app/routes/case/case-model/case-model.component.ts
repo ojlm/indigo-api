@@ -64,8 +64,8 @@ export class CaseModelComponent implements OnInit, OnDestroy {
     this.tabIndex = 1
     this.tabIndexChange()
     this.assertResultTabIndex = 0
-    if (caseId) {
-      this.caseService.getById(caseId).subscribe(res => {
+    if (this.group && this.project && caseId) {
+      this.caseService.getById(this.group, this.project, caseId).subscribe(res => {
         this.case = res.data
         this.case._id = caseId
         this.updateCaseRoute()
@@ -236,7 +236,10 @@ export class CaseModelComponent implements OnInit, OnDestroy {
         this.lastResult = this.testResult.context
       }
       this.testResult = {}
-      this.caseService.test({ id: this.case._id, cs: cs, options: this._ctxOptions }).subscribe(res => {
+      this.caseService.test(
+        this.group, this.project,
+        { id: this.case._id, cs: cs, options: this._ctxOptions }
+      ).subscribe(res => {
         this.isSending = false
         this.testResult = res.data
         this.tabIndex = 5
@@ -258,7 +261,7 @@ export class CaseModelComponent implements OnInit, OnDestroy {
         const cs = this.preHandleRequest(this.case)
         if (cs) {
           if (this.case._id) {
-            this.caseService.update(this.case._id, cs).subscribe(res => {
+            this.caseService.update(this.group, this.project, this.case._id, cs).subscribe(res => {
               this.isSaved = true
               if (this.updateStep) {
                 this.updateStep(this.case)
@@ -266,7 +269,7 @@ export class CaseModelComponent implements OnInit, OnDestroy {
               this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
             })
           } else {
-            this.caseService.index(cs).subscribe(res => {
+            this.caseService.index(this.group, this.project, cs).subscribe(res => {
               this.case._id = res.data.id
               this.updateCaseRoute()
               this.isSaved = true
@@ -295,7 +298,7 @@ export class CaseModelComponent implements OnInit, OnDestroy {
     if (this.case.summary) {
       const cs = this.preHandleRequest(this.case)
       if (cs) {
-        this.caseService.index(cs).subscribe(res => {
+        this.caseService.index(this.group, this.project, cs).subscribe(res => {
           this.case._id = res.data.id
           this.updateCaseRoute()
           this.isSaved = true
@@ -322,7 +325,7 @@ export class CaseModelComponent implements OnInit, OnDestroy {
   editFromHis(item: Case) {
     if (item._id) {
       this.historyVisible = false
-      this.caseService.getById(item._id).subscribe(res => {
+      this.caseService.getById(this.group, this.project, item._id).subscribe(res => {
         this.case = res.data
         this.updateCaseRoute()
       })
@@ -332,7 +335,7 @@ export class CaseModelComponent implements OnInit, OnDestroy {
   copyFromHis(item: Case) {
     if (item._id) {
       this.historyVisible = false
-      this.caseService.getById(item._id).subscribe(res => {
+      this.caseService.getById(this.group, this.project, item._id).subscribe(res => {
         this.case = res.data
         this.case._id = undefined
         this.case._creator = undefined
@@ -415,9 +418,9 @@ export class CaseModelComponent implements OnInit, OnDestroy {
       })
       this.route.parent.params.subscribe(params => {
         const caseId = params['caseId']
-        if (caseId) { // edit
+        if (caseId && this.group && this.project) { // edit
           this.isInNew = false
-          this.caseService.getById(caseId).subscribe(res => {
+          this.caseService.getById(this.group, this.project, caseId).subscribe(res => {
             this.case = res.data
             this.case._id = caseId
             this.updateCaseRoute()

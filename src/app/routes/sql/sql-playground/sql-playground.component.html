@@ -46,7 +46,9 @@
       </div>
     </div>
     <nz-row style="margin:4px;">
-      <app-label-list [(data)]="request.labels" [type]="'sql'" (dataChange)="modelChange()"></app-label-list>
+      <app-label-list [(data)]="request.labels" [group]="group" [project]="project" [type]="'sql'"
+        (dataChange)="modelChange()">
+      </app-label-list>
     </nz-row>
     <div style="overflow:hidden;margin-top:4px;">
       <div nz-row nzGutter="8">

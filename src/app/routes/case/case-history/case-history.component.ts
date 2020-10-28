@@ -121,7 +121,7 @@ export class CaseHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.searchSubject = this.caseService.searchAfterSubject(this.searchAfterResponse)
+    this.searchSubject = this.caseService.searchAfterSubject(this.group, this.project, this.searchAfterResponse)
     this.searchAfterResponse.subscribe(res => {
       this.items = [...this.items, ...res.data.list]
       this.total = res.data.total
