@@ -92,10 +92,15 @@ export class LayoutGroupComponent extends LayoutAbstractClass {
                   link: `/group/${group}/settings`,
                 },
                 {
-                  text: '其他选项',
-                  i18n: 'menu-other-options',
-                  link: `/group/${group}/options`,
-                }
+                  text: '成员管理',
+                  i18n: 'menu-members',
+                  link: `/group/${group}/members`,
+                },
+                {
+                  text: '基本信息',
+                  i18n: 'menu-general-info',
+                  link: `/group/${group}/settings`,
+                },
               ]
             }
           ]

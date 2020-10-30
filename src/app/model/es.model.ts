@@ -111,6 +111,15 @@ export interface Scenario extends BaseDoc {
   exports?: VariablesExportItem[]
 }
 
+export interface Permissions extends BaseDoc {
+  group?: string
+  project?: string
+  type?: string
+  username?: string
+  role?: string
+  data?: object
+}
+
 export interface KeyValueObject {
   key?: string
   value?: string

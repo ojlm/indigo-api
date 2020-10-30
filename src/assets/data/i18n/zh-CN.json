@@ -51,6 +51,7 @@
   "menu-events": "事件",
   "menu-swagger": "Swagger 导入",
   "menu-my-activity": "我的事件",
+  "menu-members": "成员管理",
   "field-id": "标识",
   "field-id-err": "唯一标识, 只允许[a-z][A-Z][0-9]-_.等字符",
   "field-summary": "名称",
@@ -115,6 +116,7 @@
   "field-sql": "Sql",
   "field-basepath": "路径前缀",
   "field-comment": "备注",
+  "field-role": "角色",
   "new-group": "新建项目组",
   "new-job": "新建任务",
   "new-project": "新建项目",
@@ -280,6 +282,7 @@
   "tips-cannot-delete": "无法删除, 含有关联的场景或任务",
   "tips-show-cloned": "仅显示克隆请求",
   "tips-upload-error": "上传失败",
+  "tips-search-users": "搜索用户名或昵称",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",
@@ -483,5 +486,10 @@
   "$type": "字段类型",
   "$regex": "匹配正则",
   "$is-null": "是否为 null",
-  "$is-empty": "是否为空字符串或空数组"
+  "$is-empty": "是否为空字符串或空数组",
+  "permission-owner": "Owner",
+  "permission-maintainer": "Maintainer",
+  "permission-developer": "Developer",
+  "permission-reporter": "Reporter",
+  "permission-guest": "Guest"
 }

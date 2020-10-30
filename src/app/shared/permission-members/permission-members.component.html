@@ -1,0 +1,95 @@
+<div>
+  <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="submit()">
+    <nz-form-item>
+      <nz-form-label nzFor="user">{{'field-username'|translate}}</nz-form-label>
+      <nz-form-control [nzErrorTip]="'field-username'|translate">
+        <nz-select formControlName="user" id="user" style="width: 100%;" nzMode="default"
+          [nzPlaceHolder]="'tips-search-users'|translate" nzAllowClear nzShowSearch [nzServerSearch]="true"
+          [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchUser($event)"
+          [nzCustomTemplate]="selectCusTpl">
+          <ng-container *ngFor="let item of users">
+            <nz-option *ngIf="!isUserSearchLoading" [nzValue]="item" [nzLabel]="userLabel(item)" nzCustomContent>
+              <nz-avatar style="margin-right:8px;" nzSize="small" [nzSrc]="item.avatar" [nzText]="userAvatarText(item)">
+              </nz-avatar>
+              <span>{{userLabel(item)}}</span>
+            </nz-option>
+          </ng-container>
+          <nz-option *ngIf="isUserSearchLoading" nzDisabled nzCustomContent>
+            <i nz-icon nzType="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
+          </nz-option>
+          <ng-template #selectCusTpl let-selected>
+            <nz-avatar *ngIf="selected.nzValue" style="margin-right:8px;" nzSize="small"
+              [nzSrc]="selected.nzValue.avatar" [nzText]="userAvatarText(selected.nzValue)">
+            </nz-avatar>
+            <span>{{selected.nzLabel}}</span>
+          </ng-template>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="role">{{'field-role'|translate}}</nz-form-label>
+      <nz-form-control [nzErrorTip]="'field-role'|translate">
+        <nz-select formControlName="role" id="role" style="width: 100%;" nzMode="default">
+          <nz-option *ngFor="let item of roles" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <div style="margin-top: 16px;padding-top: 16px;border-top: 1px solid lightgray;">
+    <nz-list [nzDataSource]="members" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
+      [nzLoading]="membersLoading" [nzHeader]="nzHeader">
+      <ng-template #nzHeader>
+        <div nz-row>
+          <div nz-col nzOffset="18" nzSpan="6">
+            <nz-input-group style="width: 100%;" [nzSize]="'default'" [nzSuffix]="suffixButton">
+              <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="query.username"
+                (ngModelChange)="loadMembers()" (keyup.enter)="loadMembers()">
+              <ng-template #suffixButton>
+                <a class="click-icon" style="margin-right:10px;">
+                  <i nz-icon nzType="search" theme="outline" (click)="loadMembers()"></i>
+                </a>
+              </ng-template>
+            </nz-input-group>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #item let-item>
+        <nz-list-item [nzActions]="[actions]">
+          <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
+            <ng-template #nzAvatar>
+              <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="profileText(item)"
+                [nzSrc]="profileAvatar(item)">
+              </nz-avatar>
+            </ng-template>
+            <ng-template #nzTitle>
+              <span style="cursor:pointer;">{{profileName(item)}}</span>
+            </ng-template>
+            <ng-template #nzDescription>
+              <div>@{{item.username}}</div>
+            </ng-template>
+          </nz-list-item-meta>
+          <ng-template #actions>
+            <nz-tag>{{roleText(item)}}</nz-tag>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+      <ng-template #pagination>
+        <nz-pagination [(nzPageIndex)]="pageIndex" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
+          [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+        </nz-pagination>
+        <ng-template #totalTemplate let-total>
+          <span style="color:lightgray;">
+            <span>{{'item-total'|translate}}</span>
+            <span> {{total}} </span>
+            <span>{{'item-item'|translate}}</span>
+          </span>
+        </ng-template>
+      </ng-template>
+    </nz-list>
+  </div>
+</div>

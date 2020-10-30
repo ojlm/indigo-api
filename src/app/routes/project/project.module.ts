@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
+import { ProjectMembersComponent } from './project-members/project-members.component'
 import { ProjectOpenapiComponent } from './project-openapi/project-openapi.component'
 import { ProjectOptionsComponent } from './project-options/project-options.component'
 import { ProjectReportsComponent } from './project-reports/project-reports.component'
@@ -16,6 +17,7 @@ const COMPONENT = [
   ProjectReportsComponent,
   ProjectOptionsComponent,
   ProjectSyncSettingsComponent,
+  ProjectMembersComponent,
 ]
 
 const COMPONENT_NOROUNT = []

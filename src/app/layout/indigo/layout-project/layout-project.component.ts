@@ -237,6 +237,11 @@ export class LayoutProjectComponent extends LayoutAbstractClass {
                   link: `/project/${group}/${project}/settings`,
                 },
                 {
+                  text: '成员管理',
+                  i18n: 'menu-members',
+                  link: `/project/${group}/${project}/members`,
+                },
+                {
                   text: '同步设置',
                   i18n: 'menu-sync-settings',
                   link: `/project/${group}/${project}/sync`,

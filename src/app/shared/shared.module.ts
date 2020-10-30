@@ -28,6 +28,7 @@ import { GroupProjectSelectorComponent } from './group-project-selector/group-pr
 import { LabelListComponent } from './label-list/label-list.component'
 import { LinkerdHttpComponent } from './linkerd-http/linkerd-http.component'
 import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component'
+import { PermissionMembersComponent } from './permission-members/permission-members.component'
 import { PlaygroundReportTabComponent } from './playground-report-tab/playground-report-tab.component'
 import { PofileSimpleComponent } from './profile-simple/profile-simple.component'
 import { RestModelComponent } from './rest-model/rest-model.component'
@@ -82,6 +83,7 @@ const COMPONENTS = [
   StepsRuntimeComponent,
   RuntimeToolboxComponent,
   FormDataItemComponent,
+  PermissionMembersComponent,
 ]
 const DIRECTIVES = [
   FilesizePipe,

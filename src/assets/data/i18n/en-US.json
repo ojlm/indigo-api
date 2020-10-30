@@ -51,6 +51,7 @@
   "menu-events": "Events",
   "menu-swagger": "Swagger Import",
   "menu-my-activity": "My Activity",
+  "menu-members": "Members",
   "field-id": "Id",
   "field-id-err": "identification, only [a-z][A-Z][0-9]-_. characters",
   "field-summary": "Summary",
@@ -115,6 +116,7 @@
   "field-sql": "Sql",
   "field-basepath": "Base path",
   "field-comment": "Comment",
+  "field-role": "Role",
   "new-group": "New group",
   "new-job": "New job",
   "new-project": "New project",
@@ -280,6 +282,7 @@
   "tips-cannot-delete": "Can not delete, there are related scenarios or jobs",
   "tips-show-cloned": "Show cloned requests",
   "tips-upload-error": "Upload error",
+  "tips-search-users": "Search for usernames",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",
@@ -483,5 +486,10 @@
   "$type": "Type",
   "$regex": "Regex matches",
   "$is-null": "Is null",
-  "$is-empty": "Is empty string or array"
+  "$is-empty": "Is empty string or array",
+  "permission-owner": "Owner",
+  "permission-maintainer": "Maintainer",
+  "permission-developer": "Developer",
+  "permission-reporter": "Reporter",
+  "permission-guest": "Guest"
 }
