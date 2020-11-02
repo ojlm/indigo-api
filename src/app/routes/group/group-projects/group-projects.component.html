@@ -6,7 +6,7 @@
     <nz-list [nzDataSource]="projects" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
       [nzLoading]="loading" [nzHeader]="nzHeader">
       <ng-template #nzHeader>
-        <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
+        <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton">
           <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
           <ng-template #suffixButton>
             <a class="click-icon" style="margin-right:10px;">

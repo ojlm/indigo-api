@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { GroupService } from 'app/api/service/group.service'
 
 import { ProjectService, QueryProject } from '../../../api/service/project.service'
 import { Project } from '../../../model/es.model'
@@ -17,6 +18,7 @@ export class GroupProjectsComponent extends PageSingleModel implements OnInit {
   search: QueryProject = {}
 
   constructor(
+    private groupService: GroupService,
     private projectService: ProjectService,
     private router: Router,
     private route: ActivatedRoute,
@@ -36,7 +38,7 @@ export class GroupProjectsComponent extends PageSingleModel implements OnInit {
 
   loadData() {
     this.loading = true
-    this.projectService.query({ group: this.groupId, ...this.toPageQuery(), ...this.search }).subscribe(res => {
+    this.groupService.projects(this.groupId, { ...this.toPageQuery(), ...this.search }).subscribe(res => {
       this.projects = res.data.list
       this.pageTotal = res.data.total
       this.loading = false

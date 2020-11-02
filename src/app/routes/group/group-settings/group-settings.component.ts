@@ -55,7 +55,7 @@ export class GroupSettingsComponent implements OnInit {
     if (this.form.invalid) return
     const group = this.form.value as Group
     this.submitting = true
-    this.groupService.update(group).subscribe(res => {
+    this.groupService.update(group.id, group).subscribe(res => {
       this.submitting = false
       this.sharedService.currentGroup.next(group)
       this.msgService.success(res.msg)

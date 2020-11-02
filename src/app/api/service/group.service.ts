@@ -4,9 +4,11 @@ import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, ApiResObj, QueryPage } from '../../model/api.model'
-import { Group, IndexDocResponse } from '../../model/es.model'
+import { Group, IndexDocResponse, Project } from '../../model/es.model'
 import { API_GROUP, API_GROUP_QUERY } from '../path'
 import { BaseService } from './base.service'
+import { QueryJob } from './job.service'
+import { QueryProject } from './project.service'
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +29,16 @@ export class GroupService extends BaseService {
     return this.http.delete(`${API_GROUP}/${id}`) as Observable<ApiRes<any>>
   }
 
-  update(group: Group) {
-    return this.http.post<ApiResObj>(API_GROUP, group)
+  update(id: string, group: Group) {
+    return this.http.post<ApiResObj>(`${API_GROUP}/${id}/update`, group)
+  }
+
+  projects(id: string, query: QueryProject) {
+    return this.http.post<ApiRes<Project[]>>(`${API_GROUP}/${id}/projects`, query)
+  }
+
+  jobs(id: string, query: QueryJob) {
+    return this.http.post<ApiRes<Project[]>>(`${API_GROUP}/${id}/jobs`, query)
   }
 
   getById(id: string) {

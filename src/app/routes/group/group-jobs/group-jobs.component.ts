@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { NzMessageService } from 'ng-zorro-antd'
+import { GroupService } from 'app/api/service/group.service'
 
-import { JobService } from '../../../api/service/job.service'
 import { Job } from '../../../model/es.model'
 import { PageSingleModel } from '../../../model/page.model'
 
@@ -17,8 +16,7 @@ export class GroupJobsComponent extends PageSingleModel implements OnInit {
   items: Job[] = []
 
   constructor(
-    private jobService: JobService,
-    private msg: NzMessageService,
+    private groupService: GroupService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
@@ -43,7 +41,7 @@ export class GroupJobsComponent extends PageSingleModel implements OnInit {
 
   loadData() {
     this.loading = true
-    this.jobService.query({ ...this.toPageQuery(), group: this.groupId }).subscribe(res => {
+    this.groupService.jobs(this.groupId, { ...this.toPageQuery() }).subscribe(res => {
       this.items = res.data.list
       this.pageTotal = res.data.total
       this.loading = false
