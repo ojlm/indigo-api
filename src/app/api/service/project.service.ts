@@ -32,11 +32,11 @@ export class ProjectService extends BaseService {
   }
 
   index(project: Project) {
-    return this.http.put(API_PROJECT, project)
+    return this.http.put(`${API_PROJECT}/${project.group}/${project.id}`, project)
   }
 
   update(project: Project) {
-    return this.http.post<ApiResObj>(API_PROJECT, project)
+    return this.http.post<ApiResObj>(`${API_PROJECT}/${project.group}/${project.id}`, project)
   }
 
   getById(group: string, id: string) {
