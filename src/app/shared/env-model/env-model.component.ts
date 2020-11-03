@@ -143,8 +143,8 @@ export class EnvModelComponent implements OnInit {
   }
 
   initByEnvId() {
-    if (this.envId) {
-      this.envService.getById(this.envId).subscribe(res => {
+    if (this.group && this.project && this.envId) {
+      this.envService.getById(this.group, this.project, this.envId).subscribe(res => {
         if (res.data.custom) {
           this.custom = res.data.custom
         }

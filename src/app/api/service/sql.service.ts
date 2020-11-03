@@ -25,47 +25,48 @@ export class SqlService extends BaseService {
   ) { super() }
 
   query(query: QuerySqlRequest) {
-    return this.http.post<ApiRes<SqlRequest[]>>(`${API_SQL}/query`, query)
+    return this.http.post<ApiRes<SqlRequest[]>>(`${API_SQL}/${query.group}/${query.project}/query`, query)
   }
 
   index(doc: SqlRequest) {
-    return this.http.put(API_SQL, doc) as Observable<ApiRes<IndexDocResponse>>
+    return this.http.put(`${API_SQL}/${doc.group}/${doc.project}`, doc) as Observable<ApiRes<IndexDocResponse>>
   }
 
   clone(group: string, project: string, id: string) {
     return this.http.put(`${API_SQL}/${group}/${project}/clone/${id}`) as Observable<ApiRes<IndexDocResponse>>
   }
 
-  delete(id: string, preview: boolean = null) {
-    return this.http.delete(`${API_SQL}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
+  delete(group: string, project: string, id: string, preview: boolean = null) {
+    return this.http.delete(
+      `${API_SQL}/${group}/${project}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
-  update(id: string, doc: SqlRequest) {
-    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_SQL}/update/${id}`, doc)
+  update(group: string, project: string, id: string, doc: SqlRequest) {
+    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_SQL}/${group}/${project}/update/${id}`, doc)
   }
 
-  getById(id: string) {
-    return this.http.get<ApiRes<SqlRequest>>(`${API_SQL}/${id}`)
+  getById(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<SqlRequest>>(`${API_SQL}/${group}/${project}/${id}`)
   }
 
-  test(msg: { id: string, request: SqlRequest, options: ContextOptions }) {
-    return this.http.post<ApiRes<SqlResult>>(`${API_SQL}/test`, msg)
+  test(group: string, project: string, msg: { id: string, request: SqlRequest, options: ContextOptions }) {
+    return this.http.post<ApiRes<SqlResult>>(`${API_SQL}/${group}/${project}/test`, msg)
   }
 
   newQuerySubject(response: Subject<ApiRes<SqlRequest[]>>) {
     const querySubject = new Subject<QuerySqlRequest>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
-      this.http.post<ApiRes<SqlRequest[]>>(`${API_SQL}/query`, query).subscribe(
+      this.http.post<ApiRes<SqlRequest[]>>(`${API_SQL}/${query.group}/${query.project}/query`, query).subscribe(
         res => response.next(res),
         err => response.next(null))
     })
     return querySubject
   }
 
-  aggsLabelsSubject(response: Subject<ApiRes<AggsItem[]>>) {
+  aggsLabelsSubject(group: string, project: string, response: Subject<ApiRes<AggsItem[]>>) {
     const querySubject = new Subject<string>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(label => {
-      this.http.get<ApiRes<AggsItem[]>>(`${API_SQL}/aggs/labels?label=${label}`).subscribe(
+      this.http.get<ApiRes<AggsItem[]>>(`${API_SQL}/${group}/${project}/aggs/labels?label=${label}`).subscribe(
         res => response.next(res),
         err => response.error(err))
     })

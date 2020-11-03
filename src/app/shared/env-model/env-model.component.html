@@ -52,7 +52,7 @@
       <nz-form-item class="form-item">
         <nz-form-label>{{'field-auth'|translate}}</nz-form-label>
         <nz-form-control>
-          <app-auth-selector [(data)]="auth"></app-auth-selector>
+          <app-auth-selector [group]="group" [project]="project" [(data)]="auth"></app-auth-selector>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item class="form-item">

@@ -118,7 +118,9 @@ export class SqlPlaygroundComponent implements OnInit {
     this.isSending = true
     const newReq = this.preHandleRequest(this.request)
     if (newReq) {
-      this.sqlService.test({ id: this.request._id, request: newReq, options: this._ctxOptions }).subscribe(res => {
+      this.sqlService.test(this.group, this.project,
+        { id: this.request._id, request: newReq, options: this._ctxOptions }
+      ).subscribe(res => {
         this.dealResult(res.data)
         this.tabIndex = 7
         this.isSending = false
@@ -142,7 +144,7 @@ export class SqlPlaygroundComponent implements OnInit {
       const newReq = this.preHandleRequest(this.request)
       if (newReq) {
         if (this.request._id) {
-          this.sqlService.update(this.request._id, newReq).subscribe(res => {
+          this.sqlService.update(this.group, this.project, this.request._id, newReq).subscribe(res => {
             this.isSaved = true
             if (this.updateStep) {
               this.updateStep(this.request)
@@ -220,7 +222,7 @@ export class SqlPlaygroundComponent implements OnInit {
 
   loadDataById(docId: string) {
     if (docId) {
-      this.sqlService.getById(docId).subscribe(res => {
+      this.sqlService.getById(this.group, this.project, docId).subscribe(res => {
         this.request = res.data
         this.request._id = docId
         this.assertionsStr = formatJson(this.request.assert, 2)

@@ -1,4 +1,3 @@
-import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DeleteItemComponent } from '@shared/delete-item/delete-item.component'
@@ -6,7 +5,7 @@ import { dubboRequestSignature, DubboService, QueryDubboRequest } from 'app/api/
 import { ApiRes } from 'app/model/api.model'
 import { DubboRequest } from 'app/model/es.model'
 import { calcDrawerWidth } from 'app/util/drawer'
-import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
+import { NzDrawerService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
 import { PageSingleModel } from '../../../model/page.model'
@@ -27,11 +26,9 @@ export class ProjectDubboListComponent extends PageSingleModel implements OnInit
 
   constructor(
     private dubboService: DubboService,
-    private msgService: NzMessageService,
     private drawerService: NzDrawerService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
   ) {
     super()
     const response = new Subject<ApiRes<DubboRequest[]>>()
@@ -40,7 +37,7 @@ export class ProjectDubboListComponent extends PageSingleModel implements OnInit
       this.loading = false
       this.items = res.data.list
       this.pageTotal = res.data.total
-    }, err => this.loading = false)
+    }, _ => this.loading = false)
     this.searchPanelSubject.subscribe(search => {
       this.loadData()
     })

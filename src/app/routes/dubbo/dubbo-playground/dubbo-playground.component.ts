@@ -142,7 +142,9 @@ export class DubboPlaygroundComponent implements OnInit {
     const newReq = this.preHandleRequest(this.request)
     if (null != newReq) {
       this.isSending = true
-      this.dubboService.test({ id: this.request._id, request: newReq, options: this._ctxOptions }).subscribe(res => {
+      this.dubboService.test(this.group, this.project,
+        { id: this.request._id, request: newReq, options: this._ctxOptions }
+      ).subscribe(res => {
         this.dealResult(res.data)
         this.tabIndex = 7
         this.isSending = false
@@ -279,7 +281,7 @@ export class DubboPlaygroundComponent implements OnInit {
   }
 
   getInterfaces() {
-    this.dubboService.getInterfaces({
+    this.dubboService.getInterfaces(this.group, this.project, {
       zkConnectString: this.request.request.zkConnectString,
       path: this.request.request.path,
       zkUsername: this.request.request.zkUsername,
@@ -296,7 +298,7 @@ export class DubboPlaygroundComponent implements OnInit {
       this.request.request.interface = item.ref
       this.selectedProvider = {}
       this.request.request.method = ''
-      this.dubboService.getProviders({
+      this.dubboService.getProviders(this.group, this.project, {
         ...item,
         zkUsername: this.request.request.zkUsername,
         zkPassword: this.request.request.zkPassword
@@ -358,7 +360,7 @@ export class DubboPlaygroundComponent implements OnInit {
         port: this.selectedProvider.port,
         ref: this.selectedProvider.ref
       }
-      this.dubboService.getParams(msg).subscribe(res => {
+      this.dubboService.getParams(this.group, this.project, msg).subscribe(res => {
         const params: InterfaceMethodParams = res.data
         const methodParamCache = {}
         params.methods.forEach(method => {
@@ -431,7 +433,7 @@ export class DubboPlaygroundComponent implements OnInit {
   }
 
   loadDataById(docId: string) {
-    this.dubboService.getById(docId).subscribe(res => {
+    this.dubboService.getById(this.group, this.project, docId).subscribe(res => {
       this.request = res.data
       this.request._id = docId
       this.interfaceSearchTxt = this.request.request.interface

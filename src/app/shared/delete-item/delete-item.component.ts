@@ -53,13 +53,13 @@ export class DeleteItemComponent implements OnInit {
         })
       } else if ('scenario' === this.item.type) {
         this.scenario = val.value
-        this.scenarioService.delete(this.scenario._id, true).subscribe(res => {
+        this.scenarioService.delete(this.group, this.project, this.scenario._id, true).subscribe(res => {
           this.jobs = res.data.job.list
           this.jobsTotal = res.data.job.total
         })
       } else if ('env' === this.item.type) {
         this.env = val.value
-        this.envService.delete(this.env._id, true).subscribe(res => {
+        this.envService.delete(this.group, this.project, this.env._id, true).subscribe(res => {
           this.cases = res.data.case.list
           this.casesTotal = res.data.case.total
           this.jobs = res.data.job.list
@@ -69,13 +69,13 @@ export class DeleteItemComponent implements OnInit {
         })
       } else if ('dubbo' === this.item.type) {
         this.dubbo = val.value
-        this.dubboService.delete(this.dubbo._id, true).subscribe(res => {
+        this.dubboService.delete(this.group, this.project, this.dubbo._id, true).subscribe(res => {
           this.scenarios = res.data.scenario.list
           this.scenariosTotal = res.data.scenario.total
         })
       } else if ('sql' === this.item.type) {
         this.sql = val.value
-        this.sqlService.delete(this.sql._id, true).subscribe(res => {
+        this.sqlService.delete(this.group, this.project, this.sql._id, true).subscribe(res => {
           this.scenarios = res.data.scenario.list
           this.scenariosTotal = res.data.scenario.total
         })
@@ -103,19 +103,19 @@ export class DeleteItemComponent implements OnInit {
         this.drawerRef.close(res)
       })
     } else if ('scenario' === this.item.type) {
-      this.scenarioService.delete(this.scenario._id, false).subscribe(res => {
+      this.scenarioService.delete(this.group, this.project, this.scenario._id, false).subscribe(res => {
         this.drawerRef.close(res)
       })
     } else if ('env' === this.item.type) {
-      this.envService.delete(this.env._id, false).subscribe(res => {
+      this.envService.delete(this.group, this.project, this.env._id, false).subscribe(res => {
         this.drawerRef.close(res)
       })
     } else if ('sql' === this.item.type) {
-      this.sqlService.delete(this.sql._id, false).subscribe(res => {
+      this.sqlService.delete(this.group, this.project, this.sql._id, false).subscribe(res => {
         this.drawerRef.close(res)
       })
     } else if ('dubbo' === this.item.type) {
-      this.dubboService.delete(this.dubbo._id, false).subscribe(res => {
+      this.dubboService.delete(this.group, this.project, this.dubbo._id, false).subscribe(res => {
         this.drawerRef.close(res)
       })
     }

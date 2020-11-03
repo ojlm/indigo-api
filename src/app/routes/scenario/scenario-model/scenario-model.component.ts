@@ -191,8 +191,8 @@ export class ScenarioModelComponent extends PageSingleModel implements OnInit, A
   }
 
   loadDataById() {
-    if (this.scenarioId) {
-      this.scenarioService.getById(this.scenarioId).subscribe(res => {
+    if (this.group && this.project && this.scenarioId) {
+      this.scenarioService.getById(this.group, this.project, this.scenarioId).subscribe(res => {
         this.scenarioResponse = res.data
         this.scenario = res.data.scenario
         this.group = this.scenario.group

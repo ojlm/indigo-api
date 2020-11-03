@@ -50,7 +50,7 @@ export class ProjectScenariosComponent extends PageSingleModel implements OnInit
   }
 
   copyItem(item: Scenario) {
-    this.scenarioService.copyById(item._id).subscribe(res => {
+    this.scenarioService.copyById(this.group, this.project, item._id).subscribe(res => {
       this.loadData()
     })
   }

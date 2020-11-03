@@ -27,10 +27,10 @@ export class LabelListComponent implements OnInit {
     if (!this.queryLabelSubject) {
       switch (val) {
         case ScenarioStepType.DUBBO:
-          this.queryLabelSubject = this.dubboService.aggsLabelsSubject(this.response)
+          this.queryLabelSubject = this.dubboService.aggsLabelsSubject(this.group, this.project, this.response)
           break
         case ScenarioStepType.SQL:
-          this.queryLabelSubject = this.sqlService.aggsLabelsSubject(this.response)
+          this.queryLabelSubject = this.sqlService.aggsLabelsSubject(this.group, this.project, this.response)
           break
         case ScenarioStepType.CASE:
           this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.group, this.project, this.response)

@@ -21,7 +21,7 @@ import {
   VariablesExportItem,
 } from '../../model/es.model'
 import { newWS } from '../../util/ws'
-import { API_SCENARIO, API_SCENARIO_QUERY, API_WS_SCENARIO_TEST } from '../path'
+import { API_SCENARIO, API_WS_SCENARIO_TEST } from '../path'
 import { BaseService } from './base.service'
 
 @Injectable({
@@ -37,33 +37,34 @@ export class ScenarioService extends BaseService {
   ) { super() }
 
   query(query: QueryScenario) {
-    return this.http.post<ApiRes<Scenario[]>>(API_SCENARIO_QUERY, query)
+    return this.http.post<ApiRes<Scenario[]>>(`${API_SCENARIO}/${query.group}/${query.project}/query`, query)
   }
 
   index(scenario: Scenario) {
-    return this.http.put(API_SCENARIO, scenario) as Observable<ApiRes<IndexDocResponse>>
+    return this.http.put(`${API_SCENARIO}/${scenario.group}/${scenario.project}`, scenario) as Observable<ApiRes<IndexDocResponse>>
   }
 
-  delete(id: string, preview: boolean = null) {
-    return this.http.delete(`${API_SCENARIO}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
+  delete(group: string, project: string, id: string, preview: boolean = null) {
+    return this.http.delete(
+      `${API_SCENARIO}/${group}/${project}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
   update(id: string, scenario: Scenario) {
-    return this.http.post<ApiResObj>(`${API_SCENARIO}/update/${id}`, scenario)
+    return this.http.post<ApiResObj>(`${API_SCENARIO}/${scenario.group}/${scenario.project}/update/${id}`, scenario)
   }
 
-  getById(id: string) {
-    return this.http.get<ApiRes<ScenarioResponse>>(`${API_SCENARIO}/${id}`)
+  getById(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<ScenarioResponse>>(`${API_SCENARIO}/${group}/${project}/${id}`)
   }
 
-  copyById(id: string) {
-    return this.http.get<ApiRes<IndexDocResponse>>(`${API_SCENARIO}/copy/${id}`)
+  copyById(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<IndexDocResponse>>(`${API_SCENARIO}/${group}/${project}/copy/${id}`)
   }
 
   newQuerySubject(response: Subject<ApiRes<Scenario[]>>) {
     const querySubject = new Subject<QueryScenario>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
-      this.http.post<ApiRes<Scenario[]>>(API_SCENARIO_QUERY, query).subscribe(
+      this.http.post<ApiRes<Scenario[]>>(`${API_SCENARIO}/${query.group}/${query.project}/query`, query).subscribe(
         res => response.next(res),
         err => response.error(err))
     })

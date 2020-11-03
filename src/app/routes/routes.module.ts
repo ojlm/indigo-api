@@ -22,7 +22,6 @@ import { FeedUserComponent } from './home/feed-user/feed-user.component'
 import { HomeComponent } from './home/home.component'
 import { UserLoginComponent } from './passport/login/login.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
-import { ProjectApisComponent } from './project/project-apis/project-apis.component'
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
 import { ProjectCiCdListComponent } from './project/project-cicd-list/project-cicd-list.component'
 import { ProjectDubboListComponent } from './project/project-dubbo-list/project-dubbo-list.component'
@@ -47,7 +46,6 @@ const COMPONENTS = [
   GroupProjectsComponent,
   // project
   ProjectModelComponent,
-  ProjectApisComponent,
   ProjectApiNewComponent,
   ProjectCasesComponent,
   ProjectEnvsComponent,

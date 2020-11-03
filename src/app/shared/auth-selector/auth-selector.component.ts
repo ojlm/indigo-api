@@ -1,6 +1,4 @@
-import { Location } from '@angular/common'
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
 import { MonacoService } from '@core/config/monaco.service'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { I18NService } from '@core/i18n/i18n.service'
@@ -33,6 +31,8 @@ export class AuthSelectorComponent implements OnInit {
   selectedIndex: number
   selectedAuth: Authorization
   auth: Authorization[] = []
+  @Input() group = ''
+  @Input() project = ''
   @Input()
   set data(value: Authorization[]) {
     if (value && value.length > 0) {
@@ -43,7 +43,7 @@ export class AuthSelectorComponent implements OnInit {
     }
     if (this.supports && this.supports.length < 1 && !this.isSupportsInitialized) {
       this.isSupportsInitialized = true
-      this.envService.getAllAuth().subscribe(res => {
+      this.envService.getAllAuth(this.group, this.project).subscribe(res => {
         this.supports = res.data
         if (this.auth && this.auth.length > 0) {
           this.activateTag(this.auth[0], 0)
@@ -130,9 +130,6 @@ export class AuthSelectorComponent implements OnInit {
     private envService: EnvService,
     private msgService: NzMessageService,
     private i18nService: I18NService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location,
   ) { }
 
   ngOnInit(): void {

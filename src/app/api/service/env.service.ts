@@ -5,7 +5,7 @@ import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
 import { AuthorizeAndValidate, DeleteResData, Environment, IndexDocResponse, UpdateDocResponse } from '../../model/es.model'
-import { API_ENV, API_ENV_QUERY } from '../path'
+import { API_ENV } from '../path'
 import { BaseService } from './base.service'
 
 @Injectable({
@@ -15,34 +15,35 @@ export class EnvService extends BaseService {
 
   constructor(private http: _HttpClient) { super() }
 
-  getAllAuth() {
-    return this.http.get<ApiRes<AuthorizeAndValidate[]>>(`${API_ENV}/auth/all`)
+  getAllAuth(group: string, project: string) {
+    return this.http.get<ApiRes<AuthorizeAndValidate[]>>(`${API_ENV}/${group}/${project}/auth/all`)
   }
 
   query(query: QueryEnv) {
-    return this.http.post<ApiRes<Environment[]>>(API_ENV_QUERY, query)
+    return this.http.post<ApiRes<Environment[]>>(`${API_ENV}/${query.group}/${query.project}/query`, query)
   }
 
   index(env: Environment) {
     return this.http.put(`${API_ENV}/${env.group}/${env.project}`, env) as Observable<ApiRes<IndexDocResponse>>
   }
 
-  delete(id: string, preview: boolean = null) {
-    return this.http.delete(`${API_ENV}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
+  delete(group: string, project: string, id: string, preview: boolean = null) {
+    return this.http.delete(
+      `${API_ENV}/${group}/${project}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
-  getById(id: string) {
-    return this.http.get<ApiRes<Environment>>(`${API_ENV}/${id}`)
+  getById(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<Environment>>(`${API_ENV}/${group}/${project}/${id}`)
   }
 
   update(id: string, env: Environment) {
-    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_ENV}/${env.group}/${env.project}/${id}`, env)
+    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_ENV}/${env.group}/${env.project}/update/${id}`, env)
   }
 
   newQuerySubject(response: Subject<ApiRes<Environment[]>>) {
     const querySubject = new Subject<QueryEnv>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
-      this.http.post<ApiRes<Environment[]>>(API_ENV_QUERY, query).subscribe(
+      this.http.post<ApiRes<Environment[]>>(`${API_ENV}/${query.group}/${query.project}/query`, query).subscribe(
         res => response.next(res),
         err => response.error(err))
     })

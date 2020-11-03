@@ -27,43 +27,44 @@ export class DubboService extends BaseService {
   ) { super() }
 
   query(query: QueryDubboRequest) {
-    return this.http.post<ApiRes<DubboRequest[]>>(`${API_DUBBO}/query`, query)
+    return this.http.post<ApiRes<DubboRequest[]>>(`${API_DUBBO}/${query.group}/${query.project}/query`, query)
   }
 
   index(doc: DubboRequest) {
-    return this.http.put(API_DUBBO, doc) as Observable<ApiRes<IndexDocResponse>>
+    return this.http.put(`${API_DUBBO}/${doc.group}/${doc.project}`, doc) as Observable<ApiRes<IndexDocResponse>>
   }
 
   clone(group: string, project: string, id: string) {
     return this.http.put(`${API_DUBBO}/${group}/${project}/clone/${id}`) as Observable<ApiRes<IndexDocResponse>>
   }
 
-  delete(id: string, preview: boolean = null) {
-    return this.http.delete(`${API_DUBBO}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
+  delete(group: string, project: string, id: string, preview: boolean = null) {
+    return this.http.delete(
+      `${API_DUBBO}/${group}/${project}/${id}${preview === null ? '' : '?preview=' + preview}`) as Observable<ApiRes<DeleteResData>>
   }
 
   update(id: string, doc: DubboRequest) {
-    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_DUBBO}/update/${id}`, doc)
+    return this.http.post<ApiRes<UpdateDocResponse>>(`${API_DUBBO}/${doc.group}/${doc.project}/update/${id}`, doc)
   }
 
-  getById(id: string) {
-    return this.http.get<ApiRes<DubboRequest>>(`${API_DUBBO}/${id}`)
+  getById(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<DubboRequest>>(`${API_DUBBO}/${group}/${project}/${id}`)
   }
 
-  getInterfaces(msg: GetInterfacesMessage) {
-    return this.http.post<ApiRes<DubboInterface[]>>(`${API_DUBBO}/interfaces`, msg)
+  getInterfaces(group: string, project: string, msg: GetInterfacesMessage) {
+    return this.http.post<ApiRes<DubboInterface[]>>(`${API_DUBBO}/${group}/${project}/interfaces`, msg)
   }
 
-  getProviders(msg: GetProvidersMessage) {
-    return this.http.post<ApiRes<DubboProvider[]>>(`${API_DUBBO}/providers`, msg)
+  getProviders(group: string, project: string, msg: GetProvidersMessage) {
+    return this.http.post<ApiRes<DubboProvider[]>>(`${API_DUBBO}/${group}/${project}/providers`, msg)
   }
 
-  getParams(msg: GetInterfaceMethodParams) {
-    return this.http.post<ApiRes<InterfaceMethodParams>>(`${API_DUBBO}/params`, msg)
+  getParams(group: string, project: string, msg: GetInterfaceMethodParams) {
+    return this.http.post<ApiRes<InterfaceMethodParams>>(`${API_DUBBO}/${group}/${project}/params`, msg)
   }
 
-  test(msg: { id: string, request: DubboRequest, options: ContextOptions }) {
-    return this.http.post<ApiRes<DubboResult>>(`${API_DUBBO}/test`, msg)
+  test(group: string, project: string, msg: { id: string, request: DubboRequest, options: ContextOptions }) {
+    return this.http.post<ApiRes<DubboResult>>(`${API_DUBBO}/${group}/${project}/test`, msg)
   }
 
   newTelnetWs(address: string, port: number = 0) {
@@ -78,17 +79,17 @@ export class DubboService extends BaseService {
   newQuerySubject(response: Subject<ApiRes<QueryDubboRequest[]>>) {
     const querySubject = new Subject<DubboRequest>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
-      this.http.post<ApiRes<DubboRequest[]>>(`${API_DUBBO}/query`, query).subscribe(
+      this.http.post<ApiRes<DubboRequest[]>>(`${API_DUBBO}/${query.group}/${query.project}/query`, query).subscribe(
         res => response.next(res),
         err => response.next(null))
     })
     return querySubject
   }
 
-  aggsLabelsSubject(response: Subject<ApiRes<AggsItem[]>>) {
+  aggsLabelsSubject(group: string, project: string, response: Subject<ApiRes<AggsItem[]>>) {
     const querySubject = new Subject<string>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(label => {
-      this.http.get<ApiRes<AggsItem[]>>(`${API_DUBBO}/aggs/labels?label=${label}`).subscribe(
+      this.http.get<ApiRes<AggsItem[]>>(`${API_DUBBO}/${group}/${project}/aggs/labels?label=${label}`).subscribe(
         res => response.next(res),
         err => response.error(err))
     })
