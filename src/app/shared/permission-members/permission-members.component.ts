@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { PermissionsService, QueryPermissions } from 'app/api/service/permissions.service'
+import { Router } from '@angular/router'
+import { MemberRoleItem, PermissionsService, QueryPermissions, UserRoles } from 'app/api/service/permissions.service'
 import { QueryUser, UserService } from 'app/api/service/user.service'
 import { ApiRes } from 'app/model/api.model'
 import { NameValue } from 'app/model/common.model'
@@ -22,20 +23,25 @@ export class PermissionMembersComponent extends PageSingleModel implements OnIni
   userQuerySubject: Subject<QueryUser>
   users: UserProfile[] = []
   roles: NameValue[] = this.permissionsService.BASIC_ROLES
+  FULL_ROLES: NameValue[] = this.permissionsService.FULL_ROLES
 
   form: FormGroup
   submitting = false
 
-  members: Permissions[] = []
+  members: PermissionsEx[] = []
   membersLoading = false
   query: QueryPermissions = {}
   querySubject = new Subject<QueryPermissions>()
   profiles: { [k: string]: UserProfile } = {}
 
+  canEdit = false
+  myRoles: UserRoles = {}
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private permissionsService: PermissionsService,
+    private router: Router,
   ) {
     super()
     this.form = this.fb.group({
@@ -63,6 +69,45 @@ export class PermissionMembersComponent extends PageSingleModel implements OnIni
         this.submitting = false
         this.loadMembers()
       }, _ => this.submitting = false)
+    }
+  }
+
+  itemChange(item: PermissionsEx) {
+    const tmp = { ...item }
+    delete tmp._id
+    delete tmp.canEdit
+    delete tmp.roles
+    delete tmp.createdAt
+    delete tmp.creator
+    delete tmp.updatedAt
+    if (item.type === this.permissionsService.TYPE_GROUP) {
+      this.permissionsService.updateGroup(item.group, item._id, tmp).subscribe(_ => this.loadMembers())
+    } else if (item.type === this.permissionsService.TYPE_PROJECT) {
+      this.permissionsService.updateProject(item.group, item.project, item._id, tmp).subscribe(_ => this.loadMembers())
+    }
+  }
+
+  remove(item: Permissions) {
+    if (item.type === this.permissionsService.TYPE_GROUP) {
+      this.permissionsService.deleteGroup(item.group, item._id).subscribe(_ => this.loadMembers())
+    } else if (item.type === this.permissionsService.TYPE_PROJECT) {
+      this.permissionsService.deleteProject(item.group, item.project, item._id).subscribe(_ => this.loadMembers())
+    }
+  }
+
+  linkText(item: Permissions) {
+    if (item.type === 'group') {
+      return item.group
+    } else {
+      return `${item.group}/${item.project}`
+    }
+  }
+
+  linkClick(item: Permissions) {
+    if (item.type === 'group') {
+      this.router.navigateByUrl(`/${item.group}`)
+    } else {
+      this.router.navigateByUrl(`/${item.group}/${item.project}`)
     }
   }
 
@@ -120,26 +165,65 @@ export class PermissionMembersComponent extends PageSingleModel implements OnIni
   }
 
   ngOnInit(): void {
-    // TODO: get current user roles
-    // this.permissionsService.getRoleOptions('')
-    const permissionResponse = new Subject<ApiRes<Permissions[]>>()
-    if (this.group && this.project) {
-      this.querySubject = this.permissionsService.newQueryProjectSubject(this.group, this.project, permissionResponse)
-    } else if (this.group) {
-      this.querySubject = this.permissionsService.newQueryGroupSubject(this.group, permissionResponse)
-    }
-    permissionResponse.subscribe(res => {
-      this.members = res.data.list
-      this.pageTotal = res.data.total
-      this.profiles = res.data['profiles'] || {}
-      this.membersLoading = false
-    }, _ => this.membersLoading = false)
-    this.loadMembers()
-    const userResponse = new Subject<ApiRes<UserProfile[]>>()
-    this.userQuerySubject = this.userService.newQuerySubject(userResponse)
-    userResponse.subscribe(res => {
-      this.isUserSearchLoading = false
-      this.users = res.data.list
-    }, _ => this.isUserSearchLoading = false)
+    this.permissionsService.roles().subscribe(resRoles => {
+      this.myRoles = resRoles.data
+      this.canEdit = this.permissionsService.isMaintainer(this.group, this.project, this.myRoles)
+      this.roles = this.permissionsService.getRoleOptions(this.group, this.project, this.myRoles)
+      const permissionResponse = new Subject<ApiRes<Permissions[]>>()
+      if (this.group && this.project) {
+        this.querySubject = this.permissionsService.newQueryProjectSubject(this.group, this.project, permissionResponse)
+      } else if (this.group) {
+        this.querySubject = this.permissionsService.newQueryGroupSubject(this.group, permissionResponse)
+      }
+      permissionResponse.subscribe(resMembers => {
+        let groupRole: MemberRoleItem
+        if (this.group && this.myRoles.groups[this.group]) {
+          groupRole = this.myRoles.groups[this.group]
+        }
+        let projectRole: MemberRoleItem
+        if (this.project && this.myRoles.projects[this.project]) {
+          projectRole = this.myRoles.projects[this.project]
+        }
+        this.members = resMembers.data.list.map(item => this.toMemberEx(item, groupRole, projectRole))
+        this.pageTotal = resMembers.data.total
+        this.profiles = resMembers.data['profiles'] || {}
+        this.membersLoading = false
+      }, _ => this.membersLoading = false)
+      this.loadMembers()
+      const userResponse = new Subject<ApiRes<UserProfile[]>>()
+      this.userQuerySubject = this.userService.newQuerySubject(userResponse)
+      userResponse.subscribe(res => {
+        this.isUserSearchLoading = false
+        this.users = res.data.list
+      }, _ => this.isUserSearchLoading = false)
+    })
   }
+
+  toMemberEx(item: Permissions, groupRole: MemberRoleItem, projectRole: MemberRoleItem): PermissionsEx {
+    let canEdit = false
+    if (this.myRoles.isAdmin) {
+      canEdit = true
+    } else {
+      if (!this.project) { // project members
+        if (groupRole && this.permissionsService.RoleScores[groupRole.role] >= this.permissionsService.RoleScores[item.role]) {
+          canEdit = true
+        } else if (projectRole && this.permissionsService.RoleScores[projectRole.role] >= this.permissionsService.RoleScores[item.role]) {
+          canEdit = true
+        }
+      } else { // group members
+        if (groupRole && this.permissionsService.RoleScores[groupRole.role] >= this.permissionsService.RoleScores[item.role]) {
+          canEdit = true
+        }
+      }
+    }
+    return {
+      ...item, canEdit,
+      roles: item.type === this.permissionsService.TYPE_GROUP ? this.FULL_ROLES : this.permissionsService.BASIC_ROLES
+    }
+  }
+}
+
+export interface PermissionsEx extends Permissions {
+  canEdit?: boolean
+  roles?: NameValue[]
 }

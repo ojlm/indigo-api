@@ -1,46 +1,49 @@
 <div>
-  <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="submit()">
-    <nz-form-item>
-      <nz-form-label nzFor="user">{{'field-username'|translate}}</nz-form-label>
-      <nz-form-control [nzErrorTip]="'field-username'|translate">
-        <nz-select formControlName="user" id="user" style="width: 100%;" nzMode="default"
-          [nzPlaceHolder]="'tips-search-users'|translate" nzAllowClear nzShowSearch [nzServerSearch]="true"
-          [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchUser($event)"
-          [nzCustomTemplate]="selectCusTpl">
-          <ng-container *ngFor="let item of users">
-            <nz-option *ngIf="!isUserSearchLoading" [nzValue]="item" [nzLabel]="userLabel(item)" nzCustomContent>
-              <nz-avatar style="margin-right:8px;" nzSize="small" [nzSrc]="item.avatar" [nzText]="userAvatarText(item)">
-              </nz-avatar>
-              <span>{{userLabel(item)}}</span>
+  <div *ngIf="canEdit" style="border-bottom: 1px solid lightgray;">
+    <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="submit()">
+      <nz-form-item>
+        <nz-form-label nzFor="user">{{'field-username'|translate}}</nz-form-label>
+        <nz-form-control [nzErrorTip]="'field-username'|translate">
+          <nz-select formControlName="user" id="user" style="width: 100%;" nzMode="default"
+            [nzPlaceHolder]="'tips-search-users'|translate" nzAllowClear nzShowSearch [nzServerSearch]="true"
+            [nzNotFoundContent]="'tips-no-data'|translate" (nzOnSearch)="searchUser($event)"
+            [nzCustomTemplate]="selectCusTpl">
+            <ng-container *ngFor="let item of users">
+              <nz-option *ngIf="!isUserSearchLoading" [nzValue]="item" [nzLabel]="userLabel(item)" nzCustomContent>
+                <nz-avatar style="margin-right:8px;" nzSize="small" [nzSrc]="item.avatar"
+                  [nzText]="userAvatarText(item)">
+                </nz-avatar>
+                <span>{{userLabel(item)}}</span>
+              </nz-option>
+            </ng-container>
+            <nz-option *ngIf="isUserSearchLoading" nzDisabled nzCustomContent>
+              <i nz-icon nzType="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
             </nz-option>
-          </ng-container>
-          <nz-option *ngIf="isUserSearchLoading" nzDisabled nzCustomContent>
-            <i nz-icon nzType="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
-          </nz-option>
-          <ng-template #selectCusTpl let-selected>
-            <nz-avatar *ngIf="selected.nzValue" style="margin-right:8px;" nzSize="small"
-              [nzSrc]="selected.nzValue.avatar" [nzText]="userAvatarText(selected.nzValue)">
-            </nz-avatar>
-            <span>{{selected.nzLabel}}</span>
-          </ng-template>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzFor="role">{{'field-role'|translate}}</nz-form-label>
-      <nz-form-control [nzErrorTip]="'field-role'|translate">
-        <nz-select formControlName="role" id="role" style="width: 100%;" nzMode="default">
-          <nz-option *ngFor="let item of roles" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-        <button nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-  <div style="margin-top: 16px;padding-top: 16px;border-top: 1px solid lightgray;">
+            <ng-template #selectCusTpl let-selected>
+              <nz-avatar *ngIf="selected.nzValue" style="margin-right:8px;" nzSize="small"
+                [nzSrc]="selected.nzValue.avatar" [nzText]="userAvatarText(selected.nzValue)">
+              </nz-avatar>
+              <span>{{selected.nzLabel}}</span>
+            </ng-template>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="role">{{'field-role'|translate}}</nz-form-label>
+        <nz-form-control [nzErrorTip]="'field-role'|translate">
+          <nz-select formControlName="role" id="role" style="width: 100%;" nzMode="default">
+            <nz-option *ngFor="let item of roles" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting">{{'btn-commit'|translate}}</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div style="margin-top: 16px;">
     <nz-list [nzDataSource]="members" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
       [nzLoading]="membersLoading" [nzHeader]="nzHeader">
       <ng-template #nzHeader>
@@ -70,11 +73,23 @@
               <span style="cursor:pointer;">{{profileName(item)}}</span>
             </ng-template>
             <ng-template #nzDescription>
-              <div>@{{item.username}}</div>
+              <div>
+                <span>@{{item.username}}</span>
+                <a style="margin-left: 4px;" (click)="linkClick(item)">{{linkText(item)}}</a>
+              </div>
             </ng-template>
           </nz-list-item-meta>
           <ng-template #actions>
-            <nz-tag>{{roleText(item)}}</nz-tag>
+            <div *ngIf="item.canEdit">
+              <nz-select style="width: 120px;" nzMode="default" [(ngModel)]="item.role"
+                (ngModelChange)="itemChange(item)">
+                <nz-option *ngFor="let opt of item.roles" [nzValue]="opt.value" [nzLabel]="opt.name"></nz-option>
+              </nz-select>
+              <i class="click-icon" style="margin-left: 12px;font-size: large;" nz-icon nzType="delete"
+                nzTheme="twotone" (click)="remove(item)">
+              </i>
+            </div>
+            <nz-tag *ngIf="!item.canEdit">{{roleText(item)}}</nz-tag>
           </ng-template>
         </nz-list-item>
       </ng-template>

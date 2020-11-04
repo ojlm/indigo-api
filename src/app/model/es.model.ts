@@ -11,6 +11,7 @@ interface BaseDoc {
   description?: string
   creator?: string
   createdAt?: string
+  updatedAt?: string
 }
 
 export interface LabelRef {

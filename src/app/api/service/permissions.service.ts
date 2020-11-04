@@ -14,12 +14,21 @@ import { BaseService } from './base.service'
 })
 export class PermissionsService extends BaseService {
 
+  TYPE_GROUP = 'group'
+  TYPE_PROJECT = 'project'
   PermissionRoles = {
     owner: 'owner',
     maintainer: 'maintainer',
     developer: 'developer',
     reporter: 'reporter',
     guest: 'guest'
+  }
+  RoleScores = {
+    owner: 5,
+    maintainer: 4,
+    developer: 3,
+    reporter: 2,
+    guest: 1
   }
 
   constructor(
@@ -34,16 +43,48 @@ export class PermissionsService extends BaseService {
     { name: this.i18nService.fanyi(`permission-${this.PermissionRoles.maintainer}`), value: this.PermissionRoles.maintainer },
   ]
   OWER_ROLE = { name: this.i18nService.fanyi(`permission-${this.PermissionRoles.owner}`), value: this.PermissionRoles.owner }
-  getRoleOptions(currentRole: string) {
-    if (currentRole === this.PermissionRoles.owner) {
-      return [...this.BASIC_ROLES, this.OWER_ROLE]
-    } else {
-      return this.BASIC_ROLES
+  FULL_ROLES = [...this.BASIC_ROLES, this.OWER_ROLE]
+  getRoleOptions(group: string, project: string, roles: UserRoles) {
+    if (!project) {
+      if (roles.isAdmin) {
+        return this.FULL_ROLES
+      } else {
+        if (group) {
+          const groupRole = roles.groups[group]
+          if (groupRole && groupRole.role === this.PermissionRoles.owner) {
+            return this.FULL_ROLES
+          }
+        }
+      }
     }
+    return this.BASIC_ROLES
   }
 
   getRoleText(role: string) {
     return this.i18nService.fanyi(`permission-${role}`)
+  }
+
+  isMaintainer(group: string, project: string, roles: UserRoles) {
+    if (roles.isAdmin) {
+      return true
+    }
+    if (group) {
+      const item = roles.groups[group]
+      if (item && (item.role === this.PermissionRoles.owner || item.role === this.PermissionRoles.maintainer)) {
+        return true
+      }
+    }
+    if (project) {
+      const item = roles.projects[project]
+      if (item && (item.role === this.PermissionRoles.maintainer)) {
+        return true
+      }
+    }
+    return false
+  }
+
+  roles() {
+    return this.http.get<ApiRes<UserRoles>>(`${API_PERMISSIONS}/roles`)
   }
 
   indexGroup(group: string, doc: Permissions) {
@@ -96,4 +137,16 @@ export interface QueryPermissions extends QueryPage {
   project?: string
   username?: string
   type?: string
+}
+
+export interface MemberRoleItem {
+  group?: string
+  project?: string
+  role?: string
+}
+
+export interface UserRoles {
+  groups?: { [k: string]: MemberRoleItem }
+  projects?: { [k: string]: MemberRoleItem }
+  isAdmin?: boolean
 }
