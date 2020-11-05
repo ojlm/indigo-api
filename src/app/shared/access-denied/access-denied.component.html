@@ -1,0 +1,19 @@
+<div>
+  <div *ngIf="maintainers.projects&&maintainers.projects.length>0">
+    <div class="title">{{'title-project-maintainer'|translate}}</div>
+    <div *ngFor="let item of maintainers.projects" class="item">
+      <a class="user"><i nz-icon nzType="wechat" nzTheme="outline"></i> {{item.username}}</a>
+      <span class="role">@{{item.role}}</span>
+    </div>
+  </div>
+  <div *ngIf="maintainers.groups&&maintainers.groups.length>0">
+    <div class="title">{{'title-group-maintainer'|translate}}</div>
+    <div *ngFor="let item of maintainers.groups" class="item">
+      <a class="user"><i nz-icon nzType="wechat" nzTheme="outline"></i> {{item.username}}</a>
+      <span class="role">@{{item.role}}</span>
+    </div>
+  </div>
+  <div *ngIf="!hasMaintainer()">
+    <span style="color: red;">{{'tips-contact-system'|translate}}</span>
+  </div>
+</div>

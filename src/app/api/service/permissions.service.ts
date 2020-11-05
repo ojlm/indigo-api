@@ -142,6 +142,7 @@ export interface QueryPermissions extends QueryPage {
 export interface MemberRoleItem {
   group?: string
   project?: string
+  username?: string
   role?: string
 }
 
@@ -149,4 +150,12 @@ export interface UserRoles {
   groups?: { [k: string]: MemberRoleItem }
   projects?: { [k: string]: MemberRoleItem }
   isAdmin?: boolean
+}
+
+export interface Maintainers {
+  group?: string
+  project?: string
+  groups?: MemberRoleItem[]
+  projects?: MemberRoleItem[]
+  admins?: string[]
 }

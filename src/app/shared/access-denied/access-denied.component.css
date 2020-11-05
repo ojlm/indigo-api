@@ -1,0 +1,16 @@
+.title {
+  margin-top: 4px;
+  font-weight: bold;
+  border-bottom: 1px solid lightblue;
+}
+.item {
+  padding-top: 4px;
+}
+.user {
+  font-weight: 600;
+}
+.role {
+  padding-left: 8px;
+  font-size: small;
+  color: lightgray;
+}

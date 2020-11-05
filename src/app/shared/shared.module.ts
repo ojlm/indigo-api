@@ -16,6 +16,7 @@ import { MarkdownModule } from 'ngx-markdown'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 import { SortablejsModule } from 'ngx-sortablejs'
 
+import { AccessDeniedComponent } from './access-denied/access-denied.component'
 import { AssertionAutoCompleteComponent } from './assertion-list/assertion-auto-complete/assertion-auto-complete.component'
 import { AssertionAutoCompleteDirective } from './assertion-list/assertion-auto-complete/assertion-auto-complete.directive'
 import { AssertionListComponent } from './assertion-list/assertion-list.component'
@@ -84,6 +85,7 @@ const COMPONENTS = [
   RuntimeToolboxComponent,
   FormDataItemComponent,
   PermissionMembersComponent,
+  AccessDeniedComponent,
 ]
 const DIRECTIVES = [
   FilesizePipe,
@@ -115,6 +117,7 @@ const DIRECTIVES = [
     VariablesOptionsComponent,
     AssertionsComponent,
     MonacoEditorComponent,
+    AccessDeniedComponent,
   ],
   exports: [
     CommonModule,

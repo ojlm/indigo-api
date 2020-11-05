@@ -14,7 +14,8 @@ import { Router } from '@angular/router'
 import { I18NService } from '@core/i18n/i18n.service'
 import { _HttpClient } from '@delon/theme'
 import { environment } from '@env/environment'
-import { NzMessageService } from 'ng-zorro-antd'
+import { AccessDeniedComponent } from '@shared/access-denied/access-denied.component'
+import { NzMessageService, NzModalService } from 'ng-zorro-antd'
 import { Observable, of } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 
@@ -29,6 +30,10 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   get msg(): NzMessageService {
     return this.injector.get(NzMessageService)
+  }
+
+  get modal(): NzModalService {
+    return this.injector.get(NzModalService)
   }
 
   get i18N(): I18NService {
@@ -54,7 +59,21 @@ export class DefaultInterceptor implements HttpInterceptor {
           } else {
             const body: ApiResObj = event.body
             if (body && body.code !== APICODE.OK) {
-              this.msg.error(body.msg)
+              if (body.code === APICODE.PERMISSION_DENIED) {
+                this.modal.create({
+                  nzTitle: this.i18N.fanyi('tips-access-denied'),
+                  nzContent: AccessDeniedComponent,
+                  nzComponentParams: {
+                    maintainers: body.data
+                  },
+                  nzBodyStyle: {
+                    padding: '12px 24px'
+                  },
+                  nzFooter: null,
+                })
+              } else {
+                this.msg.error(body.msg)
+              }
               return new Observable(obs => obs.error(event))
             } else {
               return of(event)
