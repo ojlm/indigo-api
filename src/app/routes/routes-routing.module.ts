@@ -15,7 +15,7 @@ import { Exception404Component } from './exception/404.component'
 import { Exception500Component } from './exception/500.component'
 import { GroupModelComponent } from './group/group-model/group-model.component'
 import { GroupProjectsComponent } from './group/group-projects/group-projects.component'
-import { HomeComponent } from './home/home.component'
+import { Home2Component } from './home/home2/home2.component'
 import { UserLoginComponent } from './passport/login/login.component'
 import { ProjectApiNewComponent } from './project/project-api-new/project-api-new.component'
 import { ProjectCasesComponent } from './project/project-cases/project-cases.component'
@@ -34,7 +34,7 @@ const routes: Routes = [
     canActivateChild: [JWTGuard],
     children: [
       // { path: '', redirectTo: 'dashboard/groups', pathMatch: 'full', data: { titleI18n: 'title-home' } },
-      { path: '', component: HomeComponent, data: { titleI18n: 'title-home' } },
+      { path: '', component: Home2Component, data: { titleI18n: 'title-home' } },
       { path: 'toptop', loadChildren: () => import('./top/top.module').then(m => m.TopModule) },
       { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'groups/new', component: GroupModelComponent, data: { titleI18n: 'title-group-new' } },

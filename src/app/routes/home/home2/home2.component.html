@@ -1,0 +1,22 @@
+<div style="padding:24px;">
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="8">
+      <nz-card [nzBodyStyle]="cardBodyStyle" [nzTitle]="'menu-groups'|translate">
+        <app-group-list></app-group-list>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card [nzBodyStyle]="cardBodyStyle" [nzTitle]="'tips-my-projects'|translate">
+        <app-my-project-list></app-my-project-list>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card [nzBodyStyle]="cardBodyStyle" [nzTitle]="'tips-my-activities'|translate">
+        <div [style.height]="feedHeight" class="feed indigo-scroll-bar" infiniteScroll [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
+          <app-feed-list [data]="items"></app-feed-list>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+</div>

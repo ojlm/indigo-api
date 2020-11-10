@@ -1,0 +1,8 @@
+<div *ngFor="let item of my" class="my-item">
+  <div (click)="goProject(item)">
+    <i nz-icon nzType="book" nzTheme="outline"></i>
+    <span>{{groupText(item)}}</span>
+    <span class="spit">/</span>
+    <span>{{projectText(item)}}</span>
+  </div>
+</div>

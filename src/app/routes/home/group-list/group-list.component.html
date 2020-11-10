@@ -1,0 +1,34 @@
+<nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
+  [nzLoading]="loading" nzSize="small">
+  <ng-template #item let-item>
+    <nz-list-item [nzActions]="[actions]">
+      <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
+        <ng-template #nzAvatar>
+          <nz-avatar style="cursor:pointer;" nzSize="large" [nzText]="avatarText(item)" [nzSrc]="item.avatar"
+            (click)="goItem(item)">
+          </nz-avatar>
+        </ng-template>
+        <ng-template #nzTitle>
+          <a [routerLink]="['/'+item.id]">{{item.summary||item.id}}</a>
+        </ng-template>
+        <ng-template #nzDescription>
+          <div>{{item.description}}</div>
+        </ng-template>
+      </nz-list-item-meta>
+      <ng-template #actions>
+      </ng-template>
+    </nz-list-item>
+  </ng-template>
+  <ng-template #pagination>
+    <nz-pagination [(nzPageIndex)]="pageIndex" nzSize="small" [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal"
+      [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange()">
+    </nz-pagination>
+    <ng-template #totalTemplate let-total>
+      <span style="color:lightgray;">
+        <span>{{'item-total'|translate}}</span>
+        <span> {{total}} </span>
+        <span>{{'item-item'|translate}}</span>
+      </span>
+    </ng-template>
+  </ng-template>
+</nz-list>

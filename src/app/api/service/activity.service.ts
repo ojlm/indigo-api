@@ -41,6 +41,10 @@ export class ActivityService extends BaseService {
     return querySubject
   }
 
+  recentWithoutOthers() {
+    return this.http.get<ApiRes<RecommendProjects>>(`${API_ACTIVITY}/recent?discover=false`)
+  }
+
   recentWithOthers() {
     return this.http.get<ApiRes<RecommendProjects>>(`${API_ACTIVITY}/recent?discover=true`)
   }
