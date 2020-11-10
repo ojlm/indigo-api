@@ -3,14 +3,14 @@
   <nz-tab [nzTitle]="tabConsole" [nzForceRender]="true">
     <ng-template #tabConsole>
       <i nz-icon nzType="code"></i>
-      <span>输出</span>
+      <span>{{'item-output'|translate}}</span>
     </ng-template>
     <div class="xterm" [ngStyle]="xtermStyle"></div>
   </nz-tab>
   <nz-tab [nzTitle]="tabVars" [nzForceRender]="true">
     <ng-template #tabVars>
       <i nz-icon nzType="field-number"></i>
-      <span>变量</span>
+      <span>{{'item-variables'|translate}}</span>
     </ng-template>
     <div style="overflow-y: auto;" [style.height]="contentHeight">
       <div *ngIf="desc" style="background-color: ghostwhite;color: lightslategray;min-height: 64px;">

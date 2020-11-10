@@ -448,6 +448,8 @@
   "item-activity": "系统事件",
   "item-form-string": "文本",
   "item-form-blob": "文件",
+  "item-output": "输出",
+  "item-variables": "变量",
   "error-empty-summary": "名称不能为空",
   "error-empty-group": "项目组不能为空",
   "error-empty-project": "项目不能为空",

@@ -448,6 +448,8 @@
   "item-activity": "Activities",
   "item-form-string": "Text",
   "item-form-blob": "File",
+  "item-output": "Output",
+  "item-variables": "Variables",
   "error-empty-summary": "Empty name",
   "error-empty-group": "Empty group",
   "error-empty-project": "Empty project",
