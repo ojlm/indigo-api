@@ -317,7 +317,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
       const jobId = params['jobId']
       if (jobId) {
         this.jobId = jobId
-        this.jobService.getById(jobId).subscribe(res => {
+        this.jobService.getById(this.group, this.project, jobId).subscribe(res => {
           const job = res.data
           this.imports = job.imports
           this.jobMeta.summary = job.summary

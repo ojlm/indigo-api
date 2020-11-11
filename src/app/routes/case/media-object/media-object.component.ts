@@ -16,6 +16,8 @@ export class MediaObjectComponent implements OnInit {
     'application/x-www-form-urlencoded': []
   }
 
+  @Input() group = ''
+  @Input() project = ''
   @Input()
   get type() {
     return this.contentType

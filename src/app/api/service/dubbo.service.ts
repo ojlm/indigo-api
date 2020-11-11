@@ -11,7 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd'
 import { Observable, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
-import { API_DUBBO, API_WS_DUBBO } from '../path'
+import { API_DUBBO, API_WS } from '../path'
 import { AggsItem, BaseService } from './base.service'
 
 @Injectable({
@@ -67,8 +67,8 @@ export class DubboService extends BaseService {
     return this.http.post<ApiRes<DubboResult>>(`${API_DUBBO}/${group}/${project}/test`, msg)
   }
 
-  newTelnetWs(address: string, port: number = 0) {
-    const ws = newWS(`${API_WS_DUBBO}/telnet/${address}/${port}?token=${this.tokenService.get()['token']}`)
+  newTelnetWs(group: string, project: string, address: string, port: number = 0) {
+    const ws = newWS(`${API_WS}/dubbo/${group}/${project}/telnet/${address}/${port}?token=${this.tokenService.get()['token']}`)
     ws.onerror = (event) => {
       console.error(event)
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorWsOnError))

@@ -1,8 +1,6 @@
-import { Location } from '@angular/common'
 import { Component, Input, OnInit } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { MonacoService } from '@core/config/monaco.service'
-import { I18NService } from '@core/i18n/i18n.service'
 import { ScenarioStepType } from 'app/api/service/scenario.service'
 
 import { JobService } from '../../../api/service/job.service'
@@ -53,6 +51,8 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
   requestHeaders: KeyValueObject[] = []
   responseHeaders: KeyValueObject[] = []
   response: CaseResultResponse = { headers: {}, body: '' }
+  @Input() group = ''
+  @Input() project = ''
   @Input() day = ''
   @Input()
   set data(item: CaseReportItem) {
@@ -67,8 +67,6 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
   constructor(
     private jobService: JobService,
     private monocoService: MonacoService,
-    private location: Location,
-    private i18nService: I18NService,
     private sanitizer: DomSanitizer,
   ) {
     super()
@@ -84,7 +82,7 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
 
   ngOnInit(): void {
     if (this.day && this.item.itemId) {
-      this.jobService.getReportItemById(this.day, this.item.itemId).subscribe(res => {
+      this.jobService.getReportItemById(this.group, this.project, this.day, this.item.itemId).subscribe(res => {
         this.itemData = res.data
         this.metrics = this.itemData.metrics
         this.request = this.itemData.request as CaseDataItemRequest

@@ -18,7 +18,7 @@ import {
   LabelRef,
   UpdateDocResponse,
 } from '../../model/es.model'
-import { API_HTTP, API_WS_HTTP_TEST } from '../path'
+import { API_HTTP, API_WS } from '../path'
 import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
 
 @Injectable({
@@ -140,7 +140,7 @@ export class CaseService extends BaseService {
     if (id) {
       idParam = `&id=${id}`
     }
-    const ws = newWS(`${API_WS_HTTP_TEST}/${group}/${project}?token=${this.tokenService.get()['token']}${idParam}`)
+    const ws = newWS(`${API_WS}/http/${group}/${project}/test?token=${this.tokenService.get()['token']}${idParam}`)
     ws.onerror = (event) => {
       console.error(event)
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorWsOnError))

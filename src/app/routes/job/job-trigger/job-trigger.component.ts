@@ -24,6 +24,8 @@ export class JobTriggerComponent implements OnInit {
   cronDates = []
   cronErrorMsg = ''
   repeatForever: boolean
+  @Input() group = ''
+  @Input() project = ''
   @Input()
   set data(val: TriggerMeta) {
     this.trigger = val
@@ -102,7 +104,7 @@ export class JobTriggerComponent implements OnInit {
   }
 
   checkCron() {
-    this.jobService.checkCron(this.trigger.cron).subscribe(res => {
+    this.jobService.checkCron(this.group, this.project, this.trigger.cron).subscribe(res => {
       if (res.data && res.data.length > 0) {
         this.cronDates = res.data
         this.cronErrorMsg = ''

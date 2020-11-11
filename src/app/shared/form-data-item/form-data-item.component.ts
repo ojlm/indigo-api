@@ -14,7 +14,7 @@ import { BlobMetaData, FormDataItem } from '../../model/es.model'
 })
 export class FormDataItemComponent implements OnInit {
 
-  UPLOAD_BLOB_ACTION = this.blobService.UPLOAD_BLOB
+  UPLOAD_BLOB_ACTION = ''
 
   sortablejsOptions: Options = {
     handle: '.anticon-bars',
@@ -24,6 +24,17 @@ export class FormDataItemComponent implements OnInit {
   }
   values: FormDataItem[] = []
   files: FormDataFileItem[] = []
+  holder = { group: '', project: '' }
+  @Input()
+  set group(val: string) {
+    this.holder.group = val
+    this.updateUrl()
+  }
+  @Input()
+  set project(val: string) {
+    this.holder.project = val
+    this.updateUrl()
+  }
   @Input()
   get data() {
     return this.values.filter(item => Object.keys(item).length > 0)
@@ -43,8 +54,16 @@ export class FormDataItemComponent implements OnInit {
     private i18nService: I18NService,
   ) { }
 
+  updateUrl() {
+    if (this.holder.group && this.holder.project) {
+      this.UPLOAD_BLOB_ACTION = this.blobService.getUploadUrl(this.holder.group, this.holder.project)
+    }
+  }
+
   downloadItem(item: FormDataItem) {
-    return this.blobService.downloadBlob(item.value, item.metaData.fileName)
+    if (this.holder.group && this.holder.project) {
+      return this.blobService.downloadBlob(this.holder.group, this.holder.project, item.value, item.metaData.fileName)
+    }
   }
 
   removeFile(fileItem: FormDataFileItem) {

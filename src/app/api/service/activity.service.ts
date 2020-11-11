@@ -41,18 +41,18 @@ export class ActivityService extends BaseService {
     return querySubject
   }
 
-  recentWithoutOthers() {
-    return this.http.get<ApiRes<RecommendProjects>>(`${API_ACTIVITY}/recent?discover=false`)
+  recentProjectsWithoutOthers() {
+    return this.http.get<ApiRes<RecommendProjects>>(`${API_ACTIVITY}/recent/projects?discover=false`)
   }
 
-  recentWithOthers() {
-    return this.http.get<ApiRes<RecommendProjects>>(`${API_ACTIVITY}/recent?discover=true`)
+  recentProjectsWithOthers() {
+    return this.http.get<ApiRes<RecommendProjects>>(`${API_ACTIVITY}/recent/projects?discover=true`)
   }
 
-  searchAfterSubject(response: Subject<ApiRes<FeedResponse>>) {
+  selfSearchAfterSubject(response: Subject<ApiRes<FeedResponse>>) {
     const querySubject = new Subject<SearchAfterActivity>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
-      this.http.post<ApiRes<FeedResponse>>(`${API_ACTIVITY}/feed`, query).subscribe(
+      this.http.post<ApiRes<FeedResponse>>(`${API_ACTIVITY}/feed/self`, query).subscribe(
         res => response.next(res),
         err => response.error(err))
     })

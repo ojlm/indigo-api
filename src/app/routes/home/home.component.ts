@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activityService.recentWithOthers().subscribe(res => {
+    this.activityService.recentProjectsWithOthers().subscribe(res => {
       this.my = fillGroupData(res.data.my, res.data.groups)
       this.backupMy = [...this.my]
       if (this.backupMy.length === 0) {
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
       }
       this.others = fillGroupData(res.data.others, res.data.groups)
     })
-    this.searchFeedSubject = this.activityService.searchAfterSubject(this.searchFeedResponse)
+    this.searchFeedSubject = this.activityService.selfSearchAfterSubject(this.searchFeedResponse)
     this.searchFeedResponse.subscribe(res => {
       this.items = [...this.items, ...feedResponseToFeedItems(res.data)]
       if (res.data.list.length > 0) {

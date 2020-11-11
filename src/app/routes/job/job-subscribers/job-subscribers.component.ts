@@ -115,7 +115,7 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
 
   delete(item: JobNotify, index: number) {
     if (item._id) {
-      this.jobService.deleteSubscriber(item._id).subscribe(res => {
+      this.jobService.deleteSubscriber(this.group, this.project, item._id).subscribe(res => {
         this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
         this.search()
       })
@@ -162,6 +162,13 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
     this.route.parent.parent.params.subscribe(params => {
       this.group = params['group']
       this.project = params['project']
+      this.jobService.getAllNotifiers(this.group, this.project).subscribe(res => {
+        this.supports = res.data
+        if (this.supports.length > 0) {
+          this.selected = this.supports[0]
+          this.selectChange()
+        }
+      })
     })
     this.route.parent.params.subscribe(params => {
       const jobId = params['jobId']
@@ -169,13 +176,6 @@ export class JobSubscribersComponent extends PageSingleModel implements OnInit {
         this._jobId = jobId
         this.pageSize = 10
         this.search()
-      }
-    })
-    this.jobService.getAllNotifiers().subscribe(res => {
-      this.supports = res.data
-      if (this.supports.length > 0) {
-        this.selected = this.supports[0]
-        this.selectChange()
       }
     })
   }

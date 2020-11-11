@@ -19,7 +19,7 @@ import {
 } from '../../model/es.model'
 import { JobData, JobMeta, TriggerMeta } from '../../model/job.model'
 import { newWS } from '../../util/ws'
-import { API_JOB, API_JOB_CRON, API_JOB_QUERY, API_WS_JOB_TEST } from '../path'
+import { API_JOB, API_WS } from '../path'
 import { AggsQuery, BaseService, TrendResponse } from './base.service'
 import { ScenarioStepType } from './scenario.service'
 
@@ -35,66 +35,66 @@ export class JobService extends BaseService {
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
   ) { super() }
 
-  checkCron(cron: String) {
-    return this.http.post(API_JOB_CRON, cron) as Observable<ApiRes<string[]>>
+  checkCron(group: string, project: string, cron: String) {
+    return this.http.post(`${API_JOB}/${group}/${project}/cron`, cron) as Observable<ApiRes<string[]>>
   }
 
   index(job: NewJob) {
-    return this.http.put(API_JOB, job) as Observable<ApiRes<IndexDocResponse>>
+    return this.http.put(`${API_JOB}/${job.jobMeta.group}/${job.jobMeta.project}`, job) as Observable<ApiRes<IndexDocResponse>>
   }
 
   update(id: string, job: NewJob) {
-    return this.http.post(API_JOB, { id, ...job })
+    return this.http.post(`${API_JOB}/${job.jobMeta.group}/${job.jobMeta.project}`, { id, ...job })
   }
 
   resume(op: JobOperation) {
-    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/resume`, op)
+    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/${op.group}/${op.project}/resume`, op)
   }
 
   pause(op: JobOperation) {
-    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/pause`, op)
+    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/${op.group}/${op.project}/pause`, op)
   }
 
   delete(op: JobOperation) {
-    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/delete`, op)
+    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/${op.group}/${op.project}/delete`, op)
   }
 
   query(query: QueryJob) {
-    return this.http.post<ApiRes<Job[]>>(API_JOB_QUERY, query)
+    return this.http.post<ApiRes<Job[]>>(`${API_JOB}/${query.group}/${query.project}/query`, query)
   }
 
-  getReportById(id: string) {
-    return this.http.get<ApiRes<JobReport>>(`${API_JOB}/report/${id}`)
+  getReportById(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<JobReport>>(`${API_JOB}/${group}/${project}/report/${id}`)
   }
 
-  jobTrend(id: string) {
-    return this.http.get<ApiRes<JobReport[]>>(`${API_JOB}/report/trend/${id}`)
+  jobTrend(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<JobReport[]>>(`${API_JOB}/${group}/${project}/report/trend/${id}`)
   }
 
   trend(aggs: AggsQuery) {
-    return this.http.post<ApiRes<TrendResponse>>(`${API_JOB}/report/trend`, aggs)
+    return this.http.post<ApiRes<TrendResponse>>(`${API_JOB}/${aggs.group}/${aggs.project}/report/trend`, aggs)
   }
 
-  getReportItemById(day: string, id: string) {
-    return this.http.get<ApiRes<JobReportDataItem>>(`${API_JOB}/report/item/${day}/${id}`)
+  getReportItemById(group: string, project: string, day: string, id: string) {
+    return this.http.get<ApiRes<JobReportDataItem>>(`${API_JOB}/${group}/${project}/report/item/${day}/${id}`)
   }
 
   queryReports(query: QueryJobReport) {
-    return this.http.post<ApiRes<JobReport[]>>(`${API_JOB}/reports`, query)
+    return this.http.post<ApiRes<JobReport[]>>(`${API_JOB}/${query.group}/${query.project}/reports`, query)
   }
 
-  getById(id: string) {
-    return this.http.get<ApiRes<Job>>(`${API_JOB}/${id}`)
+  getById(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<Job>>(`${API_JOB}/${group}/${project}/${id}`)
   }
 
-  copyById(id: string) {
-    return this.http.get<ApiRes<IndexDocResponse>>(`${API_JOB}/copy/${id}`)
+  copyById(group: string, project: string, id: string) {
+    return this.http.get<ApiRes<IndexDocResponse>>(`${API_JOB}/${group}/${project}/copy/${id}`)
   }
 
   newQuerySubject(response: Subject<ApiRes<Job[]>>) {
     const querySubject = new Subject<QueryJob>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
-      this.http.post<ApiRes<Job[]>>(API_JOB_QUERY, query).subscribe(
+      this.http.post<ApiRes<Job[]>>(`${API_JOB}/${query.group}/${query.project}/query`, query).subscribe(
         res => response.next(res),
         err => response.error(err))
     })
@@ -106,7 +106,7 @@ export class JobService extends BaseService {
     if (id) {
       idParam = `&id=${id}`
     }
-    const ws = newWS(`${API_WS_JOB_TEST}/${group}/${project}?token=${this.tokenService.get()['token']}${idParam}`)
+    const ws = newWS(`${API_WS}/job/${group}/${project}/test?token=${this.tokenService.get()['token']}${idParam}`)
     ws.onerror = (event) => {
       console.error(event)
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorWsOnError))
@@ -114,28 +114,28 @@ export class JobService extends BaseService {
     return ws
   }
 
-  getAllNotifiers() {
-    return this.http.get<ApiRes<JobNotifyFunction[]>>(`${API_JOB}/notify`)
+  getAllNotifiers(group: string, project: string) {
+    return this.http.get<ApiRes<JobNotifyFunction[]>>(`${API_JOB}/${group}/${project}/notify`)
   }
 
   newSubscriber(subscriber: JobNotify) {
-    return this.http.put<ApiRes<IndexDocResponse>>(`${API_JOB}/notify`, subscriber)
+    return this.http.put<ApiRes<IndexDocResponse>>(`${API_JOB}/${subscriber.group}/${subscriber.project}/notify`, subscriber)
   }
 
   updateSubscriber(id: string, subscriber: JobNotify) {
-    return this.http.post<ApiRes<IndexDocResponse>>(`${API_JOB}/notify/${id}`, subscriber)
+    return this.http.post<ApiRes<IndexDocResponse>>(`${API_JOB}/${subscriber.group}/${subscriber.project}/notify/${id}`, subscriber)
   }
 
   querySubscribers(query: QueryJobNotify) {
-    return this.http.post<ApiRes<JobNotify[]>>(`${API_JOB}/notify`, query)
+    return this.http.post<ApiRes<JobNotify[]>>(`${API_JOB}/${query.group}/${query.project}/notify`, query)
   }
 
-  deleteSubscriber(id: string) {
-    return this.http.delete(`${API_JOB}/notify/${id}`)
+  deleteSubscriber(group: string, project: string, id: string) {
+    return this.http.delete(`${API_JOB}/${group}/${project}/notify/${id}`)
   }
 
-  getJobState(items: QueryJobStateItem[]) {
-    return this.http.post<ApiRes<Object>>(`${API_JOB}/state`, { items: items })
+  getJobState(group: string, project: string, items: QueryJobStateItem[]) {
+    return this.http.post<ApiRes<Object>>(`${API_JOB}/${group}/${project}/state`, { items: items })
   }
 }
 

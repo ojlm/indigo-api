@@ -123,11 +123,13 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
 
   viewItem(item: CaseReportItem) {
     if ('skipped' !== item.status) {
-      this.drawerService.create<JobReportItemComponent, { day: string, data: CaseReportItem }, any>({
+      this.drawerService.create({
         nzTitle: item.title,
         nzWidth: calcDrawerWidth(),
         nzContent: JobReportItemComponent,
         nzContentParams: {
+          group: this.group,
+          project: this.project,
           day: this.dayIndexSuffix,
           data: item
         }
@@ -174,7 +176,7 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
 
   loadDataById() {
     if (this.reportId) {
-      this.jobService.getReportById(this.reportId).subscribe(res => {
+      this.jobService.getReportById(this.group, this.project, this.reportId).subscribe(res => {
         this.report = res.data
         this.statis = this.report.statis
         this.assertions = [
@@ -199,7 +201,7 @@ export class JobReportModelComponent extends PageSingleModel implements OnInit {
         this.scenarioItems = this.report.data.scenarios.map(item => {
           return { ...item, expand: true }
         })
-        this.jobService.jobTrend(this.report.jobId).subscribe(trendRes => {
+        this.jobService.jobTrend(this.group, this.project, this.report.jobId).subscribe(trendRes => {
           const reports = trendRes.data.list
           if (null != reports && reports.length > 0) {
             const okRateSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.FieldOkRate), series: [] }

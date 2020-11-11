@@ -61,7 +61,7 @@ export class Home2Component implements OnInit {
   }
 
   ngOnInit() {
-    this.searchFeedSubject = this.activityService.searchAfterSubject(this.searchFeedResponse)
+    this.searchFeedSubject = this.activityService.selfSearchAfterSubject(this.searchFeedResponse)
     this.searchFeedResponse.subscribe(res => {
       this.items = [...this.items, ...feedResponseToFeedItems(res.data)]
       if (res.data.list.length > 0) {

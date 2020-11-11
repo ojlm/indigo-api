@@ -17,15 +17,16 @@ export class BlobService extends BaseService {
     private msgService: NzMessageService,
   ) { super() }
 
-  UPLOAD_BLOB = `${API_BLOB}/upload`
-  DOWNLOAD_BLOB = `${API_BLOB}/download`
-
-  uploadBlob(formData: FormData) {
-    return this.http.post<ApiRes<BlobMetaData>>(`${API_BLOB}/upload`, formData)
+  getUploadUrl(group: string, project: string) {
+    return `${API_BLOB}/${group}/${project}/upload`
   }
 
-  downloadBlob(key: string, fileName: string) {
-    this.http.get(`${this.DOWNLOAD_BLOB}/${key}`, null, { responseType: 'blob' }).subscribe(res => {
+  uploadBlob(group: string, project: string, formData: FormData) {
+    return this.http.post<ApiRes<BlobMetaData>>(`${API_BLOB}/${group}/${project}/upload`, formData)
+  }
+
+  downloadBlob(group: string, project: string, key: string, fileName: string) {
+    this.http.get(`${API_BLOB}/${group}/${project}/download/${key}`, null, { responseType: 'blob' }).subscribe(res => {
       if (res.type === 'application/json') {
         res.text().then(txt => {
           try {

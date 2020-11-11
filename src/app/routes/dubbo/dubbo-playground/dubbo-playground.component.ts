@@ -230,7 +230,7 @@ export class DubboPlaygroundComponent implements OnInit {
   }
 
   reConnectTelnet() {
-    this.testWs = this.dubboService.newTelnetWs(this.selectedProvider.address, this.selectedProvider.port)
+    this.testWs = this.dubboService.newTelnetWs(this.group, this.project, this.selectedProvider.address, this.selectedProvider.port)
     this.testWs.onopen = (event) => {
       this.testWs.send('help\r\n')
       this.echoSubject.subscribe(cmd => {

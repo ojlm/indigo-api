@@ -30,7 +30,8 @@
       </ngx-monaco-editor>
     </div>
     <div *ngSwitchCase="'multipart/form-data'">
-      <app-form-data-item [(data)]="mediaObjects['multipart/form-data']" (dataChange)="modelChange()">
+      <app-form-data-item [(data)]="mediaObjects['multipart/form-data']" (dataChange)="modelChange()" [group]="group"
+        [project]="project">
       </app-form-data-item>
     </div>
   </div>

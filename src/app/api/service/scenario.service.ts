@@ -21,7 +21,7 @@ import {
   VariablesExportItem,
 } from '../../model/es.model'
 import { newWS } from '../../util/ws'
-import { API_SCENARIO, API_WS_SCENARIO_TEST } from '../path'
+import { API_SCENARIO, API_WS } from '../path'
 import { BaseService } from './base.service'
 
 @Injectable({
@@ -76,7 +76,7 @@ export class ScenarioService extends BaseService {
     if (id) {
       idParam = `&id=${id}`
     }
-    const ws = newWS(`${API_WS_SCENARIO_TEST}/${group}/${project}?token=${this.tokenService.get()['token']}${idParam}`)
+    const ws = newWS(`${API_WS}/scenario/${group}/${project}/test?token=${this.tokenService.get()['token']}${idParam}`)
     ws.onerror = (event) => {
       console.error(event)
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorWsOnError))

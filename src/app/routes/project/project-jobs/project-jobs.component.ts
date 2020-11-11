@@ -1,4 +1,3 @@
-import { Location } from '@angular/common'
 import { Component, HostListener, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { I18nKey } from '@core/i18n/i18n.message'
@@ -45,13 +44,12 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
     private i18nService: I18NService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
     private modal: NzModalService,
   ) { super() }
 
   showTrend(item: Job) {
     this.chartVisible = true
-    this.jobService.jobTrend(item._id).subscribe(trendRes => {
+    this.jobService.jobTrend(this.group, this.project, item._id).subscribe(trendRes => {
       const reports = trendRes.data.list
       if (null != reports && reports.length > 0) {
         const okRateSeries: SeriesItem = { name: this.i18nService.fanyi(I18nKey.FieldOkRate), series: [] }
@@ -100,7 +98,7 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
         this.pageTotal = res.data.total
         this.loading = false
         this.refreshJobState()
-      }, err => this.loading = false)
+      }, _ => this.loading = false)
     }
   }
 
@@ -119,7 +117,7 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
           }
         }
       })
-      this.jobService.getJobState(jobStateQueryItems).subscribe(stateRes => {
+      this.jobService.getJobState(this.group, this.project, jobStateQueryItems).subscribe(stateRes => {
         if (stateRes.data) {
           for (const k of Object.keys(stateRes.data)) {
             idMap[k].state = this.translateJobState(stateRes.data[k])
@@ -153,14 +151,14 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
   }
 
   resumeItem(item: Job) {
-    this.jobService.resume(this.toJobOp(item)).subscribe(res => {
+    this.jobService.resume(this.toJobOp(item)).subscribe(_ => {
       this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
       this.refreshJobState()
     })
   }
 
   pauseItem(item: Job) {
-    this.jobService.pause(this.toJobOp(item)).subscribe(res => {
+    this.jobService.pause(this.toJobOp(item)).subscribe(_ => {
       this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
       this.refreshJobState()
     })
@@ -172,7 +170,7 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
       nzOkText: this.i18nService.fanyi(I18nKey.BtnOk),
       nzCancelText: this.i18nService.fanyi(I18nKey.BtnCancel),
       nzOnOk: () => {
-        this.jobService.delete(this.toJobOp(item)).subscribe(res => {
+        this.jobService.delete(this.toJobOp(item)).subscribe(_ => {
           this.msgService.success(this.i18nService.fanyi(I18nKey.MsgSuccess))
           this.loadData()
         })
@@ -185,7 +183,7 @@ export class ProjectJobsComponent extends PageSingleModel implements OnInit {
   }
 
   copyItem(item: Job) {
-    this.jobService.copyById(item._id).subscribe(res => {
+    this.jobService.copyById(this.group, this.project, item._id).subscribe(_ => {
       this.loadData()
     })
   }

@@ -41,7 +41,7 @@ export class MyProjectListComponent extends PageSingleModel implements OnInit {
   }
 
   ngOnInit() {
-    this.activityService.recentWithoutOthers().subscribe(res => {
+    this.activityService.recentProjectsWithoutOthers().subscribe(res => {
       this.my = fillGroupData(res.data.my, res.data.groups)
     })
   }
