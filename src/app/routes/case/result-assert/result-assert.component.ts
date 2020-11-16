@@ -73,9 +73,11 @@ export class ResultAssertComponent implements OnInit {
       this.response.status = val.response.statusCode
       this.response.headers = val.response.headers
       this.responseHeaders = []
-      for (const k of Object.keys(val.response.headers)) {
-        this.responseHeaders.push({ key: k, value: this.response.headers[k] })
-      }
+      val.response.headers.map(header => {
+        for (const k of Object.keys(header)) {
+          this.responseHeaders.push({ key: k, value: header[k] })
+        }
+      })
       // handle response
       try {
         if (val.response.contentType.startsWith('image/') || val.response.contentType.startsWith('application/pdf')) {
@@ -114,16 +116,18 @@ export class ResultAssertComponent implements OnInit {
     }
     this.caseContext = formatJson(val.context)
     this.modifiedModel = { code: this.caseContext || '', language: 'json' }
-    if (val.request && val.request.headers && ContentTypes.JSON === val.request.headers['Content-Type']) {
+    if (val.request && val.request.body && ContentTypes.JSON === val.request.body.contentType) {
       try {
         const tmp = { ...val.request }
-        tmp.body = JSON.parse(tmp.body)
+        tmp.body = JSON.parse(tmp.body.data)
         this.caseRequest = formatJson(tmp)
       } catch (error) {
         this.caseRequest = formatJson(val.request)
       }
     } else {
-      this.caseRequest = formatJson(val.request)
+      const tmp = { ...val.request }
+      tmp.body = tmp.body.data
+      this.caseRequest = formatJson(tmp)
     }
     this.caseAssertResult = formatJson(val.result)
     this.metrics = val.metrics || {}

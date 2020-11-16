@@ -50,7 +50,7 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
   request: CaseDataItemRequest = { headers: {}, body: '' }
   requestHeaders: KeyValueObject[] = []
   responseHeaders: KeyValueObject[] = []
-  response: CaseResultResponse = { headers: {}, body: '' }
+  response: CaseResultResponse = { headers: [], body: '' }
   @Input() group = ''
   @Input() project = ''
   @Input() day = ''
@@ -130,9 +130,11 @@ export class JobReportItemComponent extends PageSingleModel implements OnInit {
           for (const k of Object.keys(this.request.headers)) {
             this.requestHeaders.push({ key: k, value: this.request.headers[k] })
           }
-          for (const k of Object.keys(this.response.headers)) {
-            this.responseHeaders.push({ key: k, value: this.response.headers[k] })
-          }
+          this.response.headers.forEach(header => {
+            for (const k of Object.keys(header)) {
+              this.responseHeaders.push({ key: k, value: header[k] })
+            }
+          })
         } else {
           this.request = {
             body: formatJson(this.request, 2)

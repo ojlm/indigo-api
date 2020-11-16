@@ -176,14 +176,14 @@ export interface CaseStatis {
 export interface CaseResultRequest {
   method?: string
   url?: string
-  headers?: Object
-  body?: string
+  headers?: { [k: string]: string }[]
+  body?: MediaObject
 }
 
 export interface CaseResultResponse {
   statusCode?: number
   statusMsg?: string
-  headers?: Object
+  headers?: { [k: string]: string }[]
   contentType?: string
   body?: string
 }
