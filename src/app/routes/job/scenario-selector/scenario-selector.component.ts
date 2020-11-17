@@ -7,8 +7,8 @@ import { isJobScenarioStep } from 'app/api/service/job.service'
 import { ScenarioModelComponent } from 'app/routes/scenario/scenario-model/scenario-model.component'
 import { StepJumpComponent } from 'app/routes/scenario/step-jump/step-jump.component'
 import { NzDrawerService } from 'ng-zorro-antd'
-import { SortablejsOptions } from 'ngx-sortablejs'
 import { Subject } from 'rxjs'
+import { Options } from 'sortablejs'
 
 import {
   QueryScenario,
@@ -30,7 +30,7 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
 
   @Input() group: string
   @Input() project: string
-  sortablejsOptions: SortablejsOptions = {
+  sortablejsOptions: Options = {
     handle: '.anticon-bars',
     onUpdate: function (event: any) {
       this.dataChange.emit(this.data)
@@ -151,6 +151,8 @@ export class ScenarioSelectorComponent extends PageSingleModel implements OnInit
       nzWidth: this.drawerWidth,
       nzContent: ScenarioModelComponent,
       nzContentParams: {
+        group: this.group,
+        project: this.project,
         id: item.id || item._id,
         ctxOptions: this._ctxOptions
       },

@@ -7,7 +7,7 @@ import { TransformFunction, VariablesExportItem } from 'app/model/es.model'
 import { AutocompleteContext } from 'app/model/indigo.model'
 import { calcDrawerWidth } from 'app/util/drawer'
 import { NzDrawerService } from 'ng-zorro-antd'
-import { SortablejsOptions } from 'ngx-sortablejs'
+import { Options } from 'sortablejs'
 
 @Component({
   selector: 'app-variables-export-table',
@@ -34,7 +34,7 @@ import { SortablejsOptions } from 'ngx-sortablejs'
 export class VariablesExportTableComponent implements OnInit {
 
   drawerWidth = calcDrawerWidth(0.6)
-  sortablejsOptions: SortablejsOptions = {
+  sortablejsOptions: Options = {
     handle: '.anticon-bars',
     onUpdate: function (event: any) {
       this.dataChange.emit(this.data)

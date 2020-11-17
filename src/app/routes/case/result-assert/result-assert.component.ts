@@ -119,14 +119,18 @@ export class ResultAssertComponent implements OnInit {
     if (val.request && val.request.body && ContentTypes.JSON === val.request.body.contentType) {
       try {
         const tmp = { ...val.request }
-        tmp.body = JSON.parse(tmp.body.data)
+        if (tmp.body.data) {
+          tmp.body = JSON.parse(tmp.body.data)
+        }
         this.caseRequest = formatJson(tmp)
       } catch (error) {
         this.caseRequest = formatJson(val.request)
       }
     } else {
       const tmp = { ...val.request }
-      tmp.body = tmp.body.data
+      if (tmp.body && tmp.body.data) {
+        tmp.body = JSON.parse(tmp.body.data)
+      }
       this.caseRequest = formatJson(tmp)
     }
     this.caseAssertResult = formatJson(val.result)

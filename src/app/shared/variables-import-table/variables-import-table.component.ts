@@ -7,7 +7,7 @@ import { ImportItemType, TransformFunction, VariablesImportItem } from 'app/mode
 import { calcDrawerWidth } from 'app/util/drawer'
 import { intputNumFormat, numToInputValue } from 'app/util/number'
 import { NzDrawerService } from 'ng-zorro-antd'
-import { SortablejsOptions } from 'ngx-sortablejs'
+import { Options } from 'sortablejs'
 
 @Component({
   selector: 'app-variables-import-table',
@@ -33,7 +33,7 @@ import { SortablejsOptions } from 'ngx-sortablejs'
 })
 export class VariablesImportTableComponent implements OnInit {
 
-  sortablejsOptions: SortablejsOptions = {
+  sortablejsOptions: Options = {
     handle: '.anticon-bars',
     onUpdate: function (event: any) {
       this.dataChange.emit(this.data)

@@ -89,7 +89,11 @@ export class StepsRuntimeComponent implements OnInit {
               if (ctxData) {
                 value = getJsonPathValueAsString(`$.${exportItem.scope}.${exportItem.dstName}`, ctxData)
               }
-              item.exports.push({ ...exportItem, value: value, description: renderedExportDesc[subIdex] || exportItem.description })
+              let description = exportItem.description
+              if (renderedExportDesc && renderedExportDesc[subIdex]) {
+                description = renderedExportDesc[subIdex]
+              }
+              item.exports.push({ ...exportItem, value: value, description: description })
             }
           })
           items.push(item)
