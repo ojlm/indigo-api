@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { AggsItem } from 'app/api/service/base.service'
-import { CaseService } from 'app/api/service/case.service'
+import { CountService } from 'app/api/service/count.service'
 import { SystemService } from 'app/api/service/system.service'
 import { NameValue } from 'app/model/common.model'
 
@@ -34,7 +34,7 @@ export class RequestsFundComponent implements OnInit {
     this.barHeight = `${Math.floor((window.innerHeight - 150) * 0.4)}px`
   }
   constructor(
-    private caseService: CaseService,
+    private countService: CountService,
     private systemService: SystemService,
     private router: Router,
   ) {
@@ -56,7 +56,7 @@ export class RequestsFundComponent implements OnInit {
   loadGroupData() {
     this.level = 'group'
     this.group = ''
-    this.caseService.aggs({ size: this.size }).subscribe(res => {
+    this.countService.httpAggs({ size: this.size }).subscribe(res => {
       const map = {}
       this.results = res.data.map(item => {
         map[item.id] = item
@@ -67,7 +67,7 @@ export class RequestsFundComponent implements OnInit {
   }
 
   loadGroupProjectData(group: string) {
-    this.caseService.aggs({ size: this.size, group: group }).subscribe(res => {
+    this.countService.httpAggs({ size: this.size, group: group }).subscribe(res => {
       const map = {}
       this.results = res.data.map(item => {
         map[item.id] = item

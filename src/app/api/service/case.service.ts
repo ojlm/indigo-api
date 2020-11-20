@@ -19,7 +19,7 @@ import {
   UpdateDocResponse,
 } from '../../model/es.model'
 import { API_HTTP, API_WS } from '../path'
-import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
+import { AggsItem, AggsQuery, BaseService } from './base.service'
 
 @Injectable({
   providedIn: 'root'
@@ -97,10 +97,6 @@ export class CaseService extends BaseService {
     return querySubject
   }
 
-  aggs(aggs: AggsQuery) {
-    return this.http.post<ApiRes<AggsItem[]>>(`${API_HTTP}/aggs`, aggs)
-  }
-
   aggsSubject(group: string, project: string, response: Subject<ApiRes<AggsItem[]>>) {
     const querySubject = new Subject<AggsQuery>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
@@ -109,12 +105,6 @@ export class CaseService extends BaseService {
         err => response.error(err))
     })
     return querySubject
-  }
-
-  trend(aggs: AggsQuery, groups: boolean = null) {
-    return this.http.post<ApiRes<TrendResponse>>(
-      `${API_HTTP}/aggs/trend${groups !== null ? '?groups=' + groups : ''}`, aggs
-    )
   }
 
   aggsLabelsSubject(group: string, project: string, response: Subject<ApiRes<AggsItem[]>>) {

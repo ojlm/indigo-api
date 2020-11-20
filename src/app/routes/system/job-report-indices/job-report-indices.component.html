@@ -1,4 +1,7 @@
-<div style="padding:10px;">
+<div class="alain-default__content-title">
+  <h1 style="padding-left: 10px;">{{'menu-job-report-data-indices'|translate}}</h1>
+</div>
+<nz-card [nzBordered]="false">
   <nz-table #basicTable [nzData]="items" [nzFrontPagination]="false" [nzShowPagination]="false" [nzSize]="'default'"
     [nzNoResult]="'tips-no-data'|translate">
     <thead>
@@ -23,9 +26,11 @@
         <td>{{item['store.size']}}</td>
         <td>{{item['pri.store.size']}}</td>
         <td>
-          <a (click)="delete(item)"><i style="color:red;" nz-icon nzType="delete" theme="outline" class="click-icon"></i></a>
+          <a (click)="delete(item)">
+            <i style="color:red;" nz-icon nzType="delete" theme="outline" class="click-icon"></i>
+          </a>
         </td>
       </tr>
     </tbody>
   </nz-table>
-</div>
+</nz-card>

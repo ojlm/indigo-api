@@ -5,7 +5,7 @@ import { AggsItem } from 'app/api/service/base.service'
 import { AllHistogramResponse } from 'app/api/service/count.service'
 import { NameValue } from 'app/model/common.model'
 
-import { CountI18nKeyMap } from '../dashboard.config'
+import { CountI18nKeyMap } from '../system.config'
 
 @Component({
   selector: 'app-count-item-trend',

@@ -13,6 +13,7 @@ import { HeaderComponent } from './indigo/header/header.component'
 import { LayoutGroupComponent } from './indigo/layout-group/layout-group.component'
 import { LayoutIndigoComponent } from './indigo/layout-indigo/layout-indigo.component'
 import { LayoutProjectComponent } from './indigo/layout-project/layout-project.component'
+import { LayoutSystemComponent } from './indigo/layout-system/layout-system.component'
 import { SettingDrawerItemComponent } from './indigo/setting-drawer/setting-drawer-item.component'
 import { SettingDrawerComponent } from './indigo/setting-drawer/setting-drawer.component'
 import { LayoutPassportComponent } from './passport/passport.component'
@@ -26,6 +27,7 @@ const SETTINGDRAWER = [
 const COMPONENTS = [
   HeaderComponent,
   LayoutIndigoComponent,
+  LayoutSystemComponent,
   LayoutFullScreenComponent,
   LayoutGroupComponent,
   LayoutProjectComponent,

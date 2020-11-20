@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { JWTGuard } from '@delon/auth'
 import { environment } from '@env/environment'
 import { EnvModelComponent } from '@shared/env-model/env-model.component'
+import { LayoutSystemComponent } from 'app/layout/indigo/layout-system/layout-system.component'
 
 import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component'
 import { LayoutGroupComponent } from '../layout/indigo/layout-group/layout-group.component'
@@ -59,7 +60,7 @@ const routes: Routes = [
   },
   {
     path: 'system',
-    component: LayoutIndigoComponent,
+    component: LayoutSystemComponent,
     canActivateChild: [JWTGuard],
     children: [
       { path: '', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) }

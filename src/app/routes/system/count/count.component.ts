@@ -6,7 +6,8 @@ import { NameValue } from 'app/model/common.model'
 import { NzDrawerService } from 'ng-zorro-antd'
 
 import { CountItemTrendComponent } from '../count-item-trend/count-item-trend.component'
-import { CountI18nKeyMap } from '../dashboard.config'
+import { CountI18nKeyMap } from '../system.config'
+
 
 @Component({
   selector: 'app-count',
@@ -53,7 +54,7 @@ export class CountComponent implements OnInit {
       const count = res.data.count
       const tmp: NameValue[] = []
       if (count) {
-        for (let k of Object.keys(CountI18nKeyMap)) {
+        for (const k of Object.keys(CountI18nKeyMap)) {
           tmp.push({ name: this.i18nService.fanyi(CountI18nKeyMap[k]), value: count[k], extra: k })
         }
       }

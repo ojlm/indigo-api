@@ -1,0 +1,27 @@
+<div class="alain-default__progress-bar" *ngIf="isFetching"></div>
+<layout-header class="alain-default__header"></layout-header>
+<div class="alain-default__aside">
+  <div class="alain-default__aside-inner">
+    <div class="alain-default__aside-user">
+      <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="user.avatar" [nzText]="avatarText()">
+      </nz-avatar>
+      <div class="alain-default__aside-user-info">
+        <strong>{{user.nickname}}</strong>
+        <p class="text-truncate mb0" [title]="user.username||''">
+          {{user.email?user.email:'@'+user.username}}
+        </p>
+      </div>
+    </div>
+    <sidebar-nav class="d-block indigo-py-lg indigo-sidebar-nav-padding"></sidebar-nav>
+    <div>
+      <button class="indigo-aside-fold-btn" nz-button nzType="dashed" (click)="toggleCollapsedSidebar()">
+        <i nz-icon nzType="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<section class="alain-default__content">
+  <router-outlet></router-outlet>
+</section>
+<ng-template #settingHost></ng-template>
+<ng-template #assistant></ng-template>

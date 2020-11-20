@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
+import { Subject } from 'rxjs'
+import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes } from '../../model/api.model'
 import { API_COUNT } from '../path'
-import { AggsItem, BaseService } from './base.service'
+import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,30 @@ export class CountService extends BaseService {
 
   all() {
     return this.http.get<ApiRes<AllResponse>>(`${API_COUNT}/all`)
+  }
+
+  httpAggs(aggs: AggsQuery) {
+    return this.http.post<ApiRes<AggsItem[]>>(`${API_COUNT}/aggs/http`, aggs)
+  }
+
+  httpTrend(aggs: AggsQuery, groups: boolean = null) {
+    return this.http.post<ApiRes<TrendResponse>>(
+      `${API_COUNT}/aggs/trend/http${groups !== null ? '?groups=' + groups : ''}`, aggs
+    )
+  }
+
+  activityTrend(aggs: AggsQuery) {
+    return this.http.post<ApiRes<TrendResponse>>(`${API_COUNT}/aggs/trend/activity`, aggs)
+  }
+
+  activityAggTermsSubject(response: Subject<ApiRes<AggsItem[]>>) {
+    const querySubject = new Subject<AggsQuery>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
+      this.http.post<ApiRes<AggsItem[]>>(`${API_COUNT}/aggs/terms/activity`, query).subscribe(
+        res => response.next(res),
+        err => response.error(err))
+    })
+    return querySubject
   }
 }
 

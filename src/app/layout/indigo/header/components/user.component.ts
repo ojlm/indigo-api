@@ -18,10 +18,7 @@ import { SettingsService } from '@delon/theme'
         <div nz-menu-item (click)="goProfile()"><i nz-icon nzType="profile" theme="outline" class="mr-sm"></i>{{'menu-profile'|translate}}</div>
         <div nz-menu-item (click)="goUserDashboard()"><i nz-icon nzType="dashboard" theme="outline" class="mr-sm"></i>{{'menu-user-dashboard'|translate}}</div>
         <li nz-menu-divider></li>
-        <div nz-menu-item (click)="goCount()"><i nz-icon nzType="stock" nzTheme="outline" class="mr-sm"></i>{{'title-count'|translate}}</div>
-        <div nz-menu-item (click)="goFund()"><i nz-icon nzType="fund" nzTheme="outline" class="mr-sm"></i>{{'title-fund'|translate}}</div>
-        <div nz-menu-item (click)="goTrend()"><i nz-icon nzType="dot-chart" theme="outline" class="mr-sm"></i>{{'menu-sys-trend'|translate}}</div>
-        <div nz-menu-item (click)="goSystem()"><i nz-icon nzType="setting" theme="outline" class="mr-sm"></i>{{'menu-sys-settings'|translate}}</div>
+        <div nz-menu-item (click)="goSystem()"><i nz-icon nzType="insurance" theme="outline" class="mr-sm"></i>{{'menu-sys-settings'|translate}}</div>
         <li nz-menu-divider></li>
         <div nz-menu-item (click)="logout()"><i nz-icon nzType="logout" theme="outline" class="mr-sm"></i>{{'menu-logout'|translate}}</div>
       </div>
@@ -51,18 +48,6 @@ export class HeaderUserComponent {
 
   goSystem() {
     this.router.navigateByUrl('/system/settings')
-  }
-
-  goTrend() {
-    this.router.navigateByUrl('/dashboard/trend')
-  }
-
-  goCount() {
-    this.router.navigateByUrl('/dashboard/count')
-  }
-
-  goFund() {
-    this.router.navigateByUrl('/dashboard/fund')
   }
 
   logout() {

@@ -1,8 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { ActivityService } from 'app/api/service/activity.service'
+import { ActivatedRoute } from '@angular/router'
 import { AggsItem, AggsQuery } from 'app/api/service/base.service'
-import { CaseService } from 'app/api/service/case.service'
+import { CountService } from 'app/api/service/count.service'
 import { JobService } from 'app/api/service/job.service'
 import { ApiRes } from 'app/model/api.model'
 import { NameValue } from 'app/model/common.model'
@@ -64,11 +63,9 @@ export class GroupUserTrendComponent implements OnInit {
   }
 
   constructor(
-    private caseService: CaseService,
-    private activityService: ActivityService,
+    private countService: CountService,
     private jobService: JobService,
     private route: ActivatedRoute,
-    private router: Router,
   ) { }
 
   private isShowSubChart(val: NameValue[]) {
@@ -211,7 +208,7 @@ export class GroupUserTrendComponent implements OnInit {
     if (this.groups && this.groups.length > 0) {
       groups = false
     }
-    this.caseService.trend({ group: this.group, creator: this.creator, ...this.aggsParams }, groups).subscribe(res => {
+    this.countService.httpTrend({ group: this.group, creator: this.creator, ...this.aggsParams }, groups).subscribe(res => {
       this.showSubChart = false
       this.resize()
       if (res.data.groups && res.data.groups.length > 0) {
@@ -228,7 +225,7 @@ export class GroupUserTrendComponent implements OnInit {
   }
 
   loadActivityAggData(updateAggregationPanel = false) {
-    this.activityService.trend({ group: this.group, creator: this.creator, ...this.aggsParams }).subscribe(res => {
+    this.countService.activityTrend({ group: this.group, creator: this.creator, ...this.aggsParams }).subscribe(res => {
       this.showSubChart = false
       this.resize()
       this.activityData = res.data.trends
@@ -311,7 +308,7 @@ export class GroupUserTrendComponent implements OnInit {
       this.loadData()
     })
     const response = new Subject<ApiRes<AggsItem[]>>()
-    this.queryCreatorSubject = this.activityService.aggTermsSubject(response)
+    this.queryCreatorSubject = this.countService.activityAggTermsSubject(response)
     response.subscribe(res => {
       this.creators = res.data
     })
