@@ -1,0 +1,28 @@
+<div>
+  <div class="tool">
+    <nz-select style="width: 100%;" nzMode="default" [nzPlaceHolder]="'tips-search-users'|translate" nzAllowClear
+      nzShowSearch [nzServerSearch]="true" [nzNotFoundContent]="'tips-no-data'|translate"
+      (nzOnSearch)="searchUser($event)" [nzCustomTemplate]="selectCusTpl" [(ngModel)]="selectedUser">
+      <ng-container *ngFor="let item of users">
+        <nz-option *ngIf="!isUserSearchLoading" [nzValue]="item" [nzLabel]="userLabel(item)" nzCustomContent>
+          <nz-avatar style="margin-right:8px;" nzSize="small" [nzSrc]="item.avatar" [nzText]="userAvatarText(item)">
+          </nz-avatar>
+          <span>{{userLabel(item)}}</span>
+        </nz-option>
+      </ng-container>
+      <nz-option *ngIf="isUserSearchLoading" nzDisabled nzCustomContent>
+        <i nz-icon nzType="loading" theme="outline"></i><span> {{'tips-loading-data'|translate}}</span>
+      </nz-option>
+      <ng-template #selectCusTpl let-selected>
+        <nz-avatar *ngIf="selected.nzValue" style="margin-right:8px;" nzSize="small" [nzSrc]="selected.nzValue.avatar"
+          [nzText]="userAvatarText(selected.nzValue)">
+        </nz-avatar>
+        <span>{{selected.nzLabel}}</span>
+      </ng-template>
+    </nz-select>
+  </div>
+  <div [style.height]="feedHeight" class="feed indigo-scroll-bar" infiniteScroll [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
+    <app-feed-list class="feed-list" [data]="items"></app-feed-list>
+  </div>
+</div>

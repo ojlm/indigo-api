@@ -16,7 +16,6 @@ import { SettingsService } from '@delon/theme'
     <nz-dropdown-menu #userMenu="nzDropdownMenu">
       <div nz-menu class="width-sm">
         <div nz-menu-item (click)="goProfile()"><i nz-icon nzType="profile" theme="outline" class="mr-sm"></i>{{'menu-profile'|translate}}</div>
-        <div nz-menu-item (click)="goUserDashboard()"><i nz-icon nzType="dashboard" theme="outline" class="mr-sm"></i>{{'menu-user-dashboard'|translate}}</div>
         <li nz-menu-divider></li>
         <div nz-menu-item (click)="goSystem()"><i nz-icon nzType="insurance" theme="outline" class="mr-sm"></i>{{'menu-sys-settings'|translate}}</div>
         <li nz-menu-divider></li>
@@ -39,15 +38,8 @@ export class HeaderUserComponent {
     this.router.navigateByUrl('/dashboard/profile')
   }
 
-  goUserDashboard() {
-    const username = this.settings.user.username
-    if (username) {
-      this.router.navigateByUrl(`/dashboard/${username}`)
-    }
-  }
-
   goSystem() {
-    this.router.navigateByUrl('/system/settings')
+    this.router.navigateByUrl('/system')
   }
 
   logout() {

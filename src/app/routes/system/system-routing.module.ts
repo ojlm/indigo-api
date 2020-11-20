@@ -6,9 +6,11 @@ import { GitlabSyncComponent } from './gitlab-sync/gitlab-sync.component'
 import { GroupUserTrendComponent } from './group-user-trend/group-user-trend.component'
 import { JobReportIndicesComponent } from './job-report-indices/job-report-indices.component'
 import { RequestsFundComponent } from './requests-fund/requests-fund.component'
+import { SystemActivityComponent } from './system-activity/system-activity.component'
 import { SystemJobsComponent } from './system-jobs/system-jobs.component'
 
 const routes: Routes = [
+  { path: '', component: SystemActivityComponent, data: { titleI18n: 'item-activity' } },
   { path: 'count', component: CountComponent, data: { titleI18n: 'title-count' } },
   { path: 'fund', component: RequestsFundComponent, data: { titleI18n: 'title-fund' } },
   { path: 'trend', component: GroupUserTrendComponent, data: { titleI18n: 'title-trend' } },

@@ -1,0 +1,14 @@
+.tool {
+  padding: 0 24px;
+  height: 48px;
+  padding-top: 12px;
+}
+.feed {
+  overflow: auto;
+  width: 100%;
+  display: flex;
+}
+.feed-list {
+  width: 100%;
+  padding: 0 24px;
+}

@@ -54,6 +54,12 @@ export class LayoutSystemComponent extends LayoutAbstractClass {
         hideInBreadcrumb: true,
         children: [
           {
+            text: '系统事件',
+            i18n: 'item-activity',
+            icon: { type: 'icon', value: 'database', theme: 'outline' },
+            link: `/system`
+          },
+          {
             text: '总数',
             i18n: 'title-count',
             icon: { type: 'icon', value: 'stock', theme: 'outline' },

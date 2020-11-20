@@ -4,13 +4,14 @@ import { Observable } from 'rxjs'
 
 import { ApiRes } from '../../model/api.model'
 import { API_SYSTEM } from '../path'
+import { BaseService } from './base.service'
 
 @Injectable({
   providedIn: 'root'
 })
-export class SystemService {
+export class SystemService extends BaseService {
 
-  constructor(private http: _HttpClient) { }
+  constructor(private http: _HttpClient) { super() }
 
   getJobReportDataIndices() {
     return this.http.get<ApiRes<CatIndicesResponse[]>>(`${API_SYSTEM}/job-report-indices`)

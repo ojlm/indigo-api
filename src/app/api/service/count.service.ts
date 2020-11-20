@@ -5,6 +5,7 @@ import { debounceTime } from 'rxjs/operators'
 
 import { ApiRes } from '../../model/api.model'
 import { API_COUNT } from '../path'
+import { FeedResponse, SearchAfterActivity } from './activity.service'
 import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
 
 @Injectable({
@@ -13,6 +14,16 @@ import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
 export class CountService extends BaseService {
 
   constructor(private http: _HttpClient) { super() }
+
+  activityFeedSubject(response: Subject<ApiRes<FeedResponse>>) {
+    const querySubject = new Subject<SearchAfterActivity>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
+      this.http.post<ApiRes<FeedResponse>>(`${API_COUNT}/activity/feed`, query).subscribe(
+        res => response.next(res),
+        err => response.error(err))
+    })
+    return querySubject
+  }
 
   all() {
     return this.http.get<ApiRes<AllResponse>>(`${API_COUNT}/all`)
