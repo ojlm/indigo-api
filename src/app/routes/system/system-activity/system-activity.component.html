@@ -2,7 +2,7 @@
   <div class="tool">
     <nz-select style="width: 100%;" nzMode="default" [nzPlaceHolder]="'tips-search-users'|translate" nzAllowClear
       nzShowSearch [nzServerSearch]="true" [nzNotFoundContent]="'tips-no-data'|translate"
-      (nzOnSearch)="searchUser($event)" [nzCustomTemplate]="selectCusTpl" [(ngModel)]="selectedUser">
+      (nzOnSearch)="searchUser($event)" [nzCustomTemplate]="selectCusTpl" [(ngModel)]="selectedUser" (ngModelChange)="userChange()">
       <ng-container *ngFor="let item of users">
         <nz-option *ngIf="!isUserSearchLoading" [nzValue]="item" [nzLabel]="userLabel(item)" nzCustomContent>
           <nz-avatar style="margin-right:8px;" nzSize="small" [nzSrc]="item.avatar" [nzText]="userAvatarText(item)">

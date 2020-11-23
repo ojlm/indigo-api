@@ -63,6 +63,7 @@ export interface RecommendProjects {
 export interface SearchAfterActivity extends SearchAfter {
   type?: string
   onlyMe?: boolean
+  user?: string
 }
 
 export interface ActivityWithSort extends Activity {

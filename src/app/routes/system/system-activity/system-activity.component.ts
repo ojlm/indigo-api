@@ -49,6 +49,18 @@ export class SystemActivityComponent implements OnInit {
     this.userQuerySubject.next({ text: text })
   }
 
+  userChange() {
+    this.hasMoreFeeds = true
+    this.items = []
+    this.feedSort = []
+    if (this.selectedUser) {
+      this.searchFeed.user = this.selectedUser.username
+    } else {
+      this.searchFeed.user = undefined
+    }
+    this.doSearch()
+  }
+
   onScroll() {
     this.doSearch()
   }
