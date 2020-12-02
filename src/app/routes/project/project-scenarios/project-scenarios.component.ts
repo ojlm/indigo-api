@@ -1,9 +1,10 @@
-import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DeleteItemComponent } from '@shared/delete-item/delete-item.component'
+import { ApiRes } from 'app/model/api.model'
 import { calcDrawerWidth } from 'app/util/drawer'
-import { NzDrawerService, NzMessageService } from 'ng-zorro-antd'
+import { NzDrawerService } from 'ng-zorro-antd'
+import { Subject } from 'rxjs'
 
 import { QueryScenario, ScenarioService } from '../../../api/service/scenario.service'
 import { Scenario } from '../../../model/es.model'
@@ -20,24 +21,28 @@ export class ProjectScenariosComponent extends PageSingleModel implements OnInit
   loading = false
   group: string
   project: string
+  searchSubject: Subject<QueryScenario>
 
   constructor(
     private scenarioService: ScenarioService,
-    private msgService: NzMessageService,
     private drawerService: NzDrawerService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
-  ) { super() }
+  ) {
+    super()
+    const responseSubject = new Subject<ApiRes<Scenario[]>>()
+    this.searchSubject = this.scenarioService.newQuerySubject(responseSubject)
+    responseSubject.subscribe(res => {
+      this.items = res.data.list
+      this.pageTotal = res.data.total
+      this.loading = false
+    }, _ => this.loading = false)
+  }
 
   loadData() {
     if (this.group && this.project) {
       this.loading = true
-      this.scenarioService.query({ group: this.group, project: this.project, ...this.search, ...this.toPageQuery() }).subscribe(res => {
-        this.items = res.data.list
-        this.pageTotal = res.data.total
-        this.loading = false
-      }, err => this.loading = false)
+      this.searchSubject.next({ group: this.group, project: this.project, ...this.search, ...this.toPageQuery() })
     }
   }
 

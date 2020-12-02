@@ -265,6 +265,7 @@ export interface Job extends BaseDoc {
   group?: string
   project?: string
   env?: string
+  labels?: LabelRef[]
   comment?: string
   scheduler?: string
   jobData?: JobData

@@ -7,13 +7,19 @@
     <nz-list [nzDataSource]="items" [nzItemLayout]="'horizontal'" [nzRenderItem]="item" [nzPagination]="pagination"
       [nzLoading]="loading" [nzHeader]="nzHeader">
       <ng-template #nzHeader>
-        <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton" nzSearch>
+        <nz-input-group style="width:100%;" [nzSize]="'default'" [nzSuffix]="suffixButton">
           <input nz-input [placeholder]="'tips-search'|translate" [(ngModel)]="search.text" (keyup.enter)="loadData()">
           <ng-template #suffixButton>
-            <a class="click-icon" style="margin-right:10px;"><i nz-icon nzType="search" theme="outline"
-                (click)="loadData()"></i></a>
+            <a class="click-icon">
+              <i nz-icon nzType="search" theme="outline" (click)="loadData()"></i>
+            </a>
           </ng-template>
         </nz-input-group>
+        <div style="margin-top: 4px;">
+          <app-label-list [(data)]="search.labels" (dataChange)="loadData()" [group]="group" [project]="project"
+            [type]="'scenario'">
+          </app-label-list>
+        </div>
       </ng-template>
       <ng-template #item let-item>
         <nz-list-item [nzActions]="[edit]">
@@ -21,6 +27,11 @@
             <ng-template #nzTitle>
               <a [routerLink]="[getRouter(item)]">{{item.summary}}</a>
               <span style="font-size:smaller;color:lightgray;padding-left:10px;">{{item.description}}</span>
+              <ng-container *ngIf="item.labels">
+                <span style="float:right;transform:scale(0.8);">
+                  <nz-tag *ngFor="let item of item.labels">{{item.name}}</nz-tag>
+                </span>
+              </ng-container>
             </ng-template>
           </nz-list-item-meta>
           <ng-template #nzDescription>

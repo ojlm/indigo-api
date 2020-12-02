@@ -288,6 +288,7 @@
   "tips-access-denied": "Forbidden",
   "tips-contact-system": "Please contact your system administrator",
   "tips-my-activities": "Recent Activities",
+  "tips-ref-count": "reference count",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",

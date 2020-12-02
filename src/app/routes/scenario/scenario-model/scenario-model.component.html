@@ -58,6 +58,10 @@
         </label>
       </ng-template>
     </div>
+    <div style="margin-top: 4px;">
+      <app-label-list [(data)]="scenario.labels" [group]="group" [project]="project" [type]="'scenario'">
+      </app-label-list>
+    </div>
   </nz-card>
   <nz-card [nzBordered]="false" [nzBodyStyle]="card2BodyStyle">
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'line'" [nzAnimated]="false" [nzSize]="'small'">

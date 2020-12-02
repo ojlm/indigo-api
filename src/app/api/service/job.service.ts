@@ -20,7 +20,7 @@ import {
 import { JobData, JobMeta, TriggerMeta } from '../../model/job.model'
 import { newWS } from '../../util/ws'
 import { API_JOB, API_WS } from '../path'
-import { AggsQuery, BaseService, TrendResponse } from './base.service'
+import { AggsItem, AggsQuery, BaseService, TrendResponse } from './base.service'
 import { ScenarioStepType } from './scenario.service'
 
 @Injectable({
@@ -89,6 +89,16 @@ export class JobService extends BaseService {
 
   copyById(group: string, project: string, id: string) {
     return this.http.get<ApiRes<IndexDocResponse>>(`${API_JOB}/${group}/${project}/copy/${id}`)
+  }
+
+  aggsLabelsSubject(group: string, project: string, response: Subject<ApiRes<AggsItem[]>>) {
+    const querySubject = new Subject<string>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(label => {
+      this.http.get<ApiRes<AggsItem[]>>(`${API_JOB}/${group}/${project}/aggs/labels?label=${label}`).subscribe(
+        res => response.next(res),
+        err => response.error(err))
+    })
+    return querySubject
   }
 
   newQuerySubject(response: Subject<ApiRes<Job[]>>) {

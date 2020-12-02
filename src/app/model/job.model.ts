@@ -1,4 +1,4 @@
-import { CaseReportItemMetrics, CaseStatis, Job, ScenarioStep } from './es.model'
+import { CaseReportItemMetrics, CaseStatis, Job, LabelRef, ScenarioStep } from './es.model'
 
 export interface JobMeta {
   group?: string
@@ -8,6 +8,7 @@ export interface JobMeta {
   comment?: string
   scheduler?: string
   env?: string
+  labels?: LabelRef[]
   classAlias?: string
 }
 

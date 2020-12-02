@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { AggsItem } from 'app/api/service/base.service'
 import { CaseService } from 'app/api/service/case.service'
 import { DubboService } from 'app/api/service/dubbo.service'
-import { ScenarioStepType } from 'app/api/service/scenario.service'
+import { JobService } from 'app/api/service/job.service'
+import { ScenarioService, ScenarioStepType } from 'app/api/service/scenario.service'
 import { SqlService } from 'app/api/service/sql.service'
 import { ApiRes } from 'app/model/api.model'
 import { Subject } from 'rxjs'
@@ -35,8 +36,13 @@ export class LabelListComponent implements OnInit {
         case ScenarioStepType.CASE:
           this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.group, this.project, this.response)
           break
+        case ScenarioStepType.SCENARIO:
+          this.queryLabelSubject = this.scenarioService.aggsLabelsSubject(this.group, this.project, this.response)
+          break
+        case ScenarioStepType.JOB:
+          this.queryLabelSubject = this.jobService.aggsLabelsSubject(this.group, this.project, this.response)
+          break
         default:
-          this.queryLabelSubject = this.caseService.aggsLabelsSubject(this.group, this.project, this.response)
           break
       }
       this.response.subscribe(res => {
@@ -62,6 +68,8 @@ export class LabelListComponent implements OnInit {
     private caseService: CaseService,
     private dubboService: DubboService,
     private sqlService: SqlService,
+    private scenarioService: ScenarioService,
+    private jobService: JobService,
   ) {
   }
 
@@ -73,6 +81,10 @@ export class LabelListComponent implements OnInit {
 
   modelChange() {
     this.dataChange.emit(this.data)
+  }
+
+  confirm() {
+    this.isEditable = false
   }
 
   searchLabel(label: string) {

@@ -14,6 +14,7 @@ import {
   DubboRequest,
   IndexDocResponse,
   Job,
+  LabelRef,
   ReportItemEvent,
   Scenario,
   ScenarioStep,
@@ -22,7 +23,7 @@ import {
 } from '../../model/es.model'
 import { newWS } from '../../util/ws'
 import { API_SCENARIO, API_WS } from '../path'
-import { BaseService } from './base.service'
+import { AggsItem, BaseService } from './base.service'
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,16 @@ export class ScenarioService extends BaseService {
     return this.http.get<ApiRes<IndexDocResponse>>(`${API_SCENARIO}/${group}/${project}/copy/${id}`)
   }
 
+  aggsLabelsSubject(group: string, project: string, response: Subject<ApiRes<AggsItem[]>>) {
+    const querySubject = new Subject<string>()
+    querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(label => {
+      this.http.get<ApiRes<AggsItem[]>>(`${API_SCENARIO}/${group}/${project}/aggs/labels?label=${label}`).subscribe(
+        res => response.next(res),
+        err => response.error(err))
+    })
+    return querySubject
+  }
+
   newQuerySubject(response: Subject<ApiRes<Scenario[]>>) {
     const querySubject = new Subject<QueryScenario>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
@@ -90,6 +101,7 @@ export interface QueryScenario extends QueryPage {
   project?: string
   text?: string
   ids?: string[]
+  labels?: LabelRef[]
 }
 
 export interface ScenarioResponse {

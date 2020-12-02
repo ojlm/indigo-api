@@ -218,7 +218,8 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
       group: this.group,
       project: this.project,
       summary: '',
-      description: ''
+      description: '',
+      labels: []
     }
     this.triggerMeta = {
       group: this.group,
@@ -324,6 +325,7 @@ export class JobModelComponent extends PageSingleModel implements OnInit {
           this.jobMeta.description = job.description
           this.jobMeta.scheduler = job.scheduler
           this.jobMeta.env = job.env
+          this.jobMeta.labels = job.labels
           this.jobMeta.comment = job.comment
           this.ctxOptions.jobEnv = this.jobMeta.env
           this.jobMeta.classAlias = job.classAlias

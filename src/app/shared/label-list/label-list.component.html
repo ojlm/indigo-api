@@ -13,18 +13,19 @@
           (ngModelChange)="modelChange()" [nzServerSearch]="true" (nzOnSearch)="searchLabel($event)">
           <nz-option *ngFor="let item of labels" [nzLabel]="item.id" [nzValue]="item.id" nzCustomContent>
             <span>
-              <nz-badge style="transform: scale(0.6);" [nzCount]="item.count" [nzStyle]="{backgroundColor:'#52c41a'}">
-              </nz-badge>
               <span>{{item.id}}</span>
+              <span style="color: lightgray;font-size: small;margin-left: 4px;">
+                {{'tips-ref-count'|translate}}:{{item.count}}
+              </span>
             </span>
           </nz-option>
         </nz-select>
-        <ng-template #suffixButton>
-          <button style="width:100%;" nz-button nzType="default" (click)="isEditable=false">
-            <span>{{'btn-done'|translate}}</span>
-          </button>
-        </ng-template>
       </nz-input-group>
+      <ng-template #suffixButton>
+        <button style="width:100%;" nz-button nzType="primary" nzSize="small" (click)="confirm()">
+          <span>{{'btn-done'|translate}}</span>
+        </button>
+      </ng-template>
     </div>
   </ng-container>
 </div>
