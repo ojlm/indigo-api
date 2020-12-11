@@ -1,0 +1,9 @@
+.panel {
+  background-color: white;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+.panel-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+}

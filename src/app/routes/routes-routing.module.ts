@@ -87,6 +87,7 @@ const routes: Routes = [
   { path: '403', component: Exception403Component },
   { path: '404', component: Exception404Component },
   { path: '500', component: Exception500Component },
+  { path: 'ui', loadChildren: () => import('./ui/ui.module').then(m => m.UiModule) },
   {
     path: ':group/:project', component: LayoutProjectComponent, canActivateChild: [JWTGuard], children: [
       { path: '', component: ProjectCasesComponent, data: { titleI18n: 'title-case-list' } }

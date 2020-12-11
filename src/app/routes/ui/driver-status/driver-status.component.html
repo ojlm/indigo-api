@@ -1,0 +1,34 @@
+<span>
+  <div [ngSwitch]="status.status" style="cursor: pointer;" nz-popover [nzPopoverContent]="contentTpl"
+    nzPopoverPlacement="bottomRight">
+    <ng-container *ngSwitchCase="'running'">
+      <span class="tag ant-tag-cyan">
+        <i nz-icon nzType="sync" nzSpin></i>
+        <span>{{status.status}}</span>
+      </span>
+    </ng-container>
+    <ng-container *ngSwitchCase="'idle'">
+      <span class="tag ant-tag-success">
+        <i nz-icon nzType="smile"></i>
+        <span>{{status.status}}</span>
+      </span>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <span class="tag">
+        <i nz-icon nzType="sync" nzSpin></i>
+      </span>
+    </ng-container>
+  </div>
+  <ng-template #contentTpl>
+    <div *ngIf="status.updateAt">
+      <span>updateAt: {{status.updateAt}}</span>
+    </div>
+    <div *ngIf="status.commandStartAt">
+      <span>startAt: {{startAtStr()}}</span>
+    </div>
+    <div *ngIf="status.status==='running'">
+      <span>startedBy: </span>
+      <span>{{status.command.creator}}</span>
+    </div>
+  </ng-template>
+</span>

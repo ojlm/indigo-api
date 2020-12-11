@@ -1,0 +1,44 @@
+<div>
+  <div class="line">
+    <div>{{'tips.monkey.startUrl'|translate}}</div>
+    <input nz-input [(ngModel)]="data.startUrl" (ngModelChange)="modelChange()" />
+  </div>
+  <div nz-row nzGutter="4">
+    <div class="line" nz-col nzSpan="12">
+      <div>{{'tips.monkey.delta'|translate}}</div>
+      <nz-input-number style="width: 100%;" [(ngModel)]="data.delta" (ngModelChange)="modelChange()" [nzMin]="0"
+        [nzPrecision]="0">
+      </nz-input-number>
+    </div>
+    <div class="line" nz-col nzSpan="12">
+      <div>{{'tips.monkey.keyEventRatio'|translate}}</div>
+      <nz-input-number style="width: 100%;" [(ngModel)]="data.keyEventRatio" (ngModelChange)="modelChange()" [nzMin]="0"
+        [nzMax]="1" [nzStep]="0.1" [nzPrecision]="1">
+      </nz-input-number>
+    </div>
+    <div class="line" nz-col nzSpan="12">
+      <div>{{'tips.monkey.maxOnceKeyCount'|translate}}</div>
+      <nz-input-number style="width: 100%;" [(ngModel)]="data.maxOnceKeyCount" (ngModelChange)="modelChange()"
+        [nzMin]="0" [nzPrecision]="0">
+      </nz-input-number>
+    </div>
+    <div class="line" nz-col nzSpan="12">
+      <div>{{'tips.monkey.interval'|translate}}</div>
+      <nz-input-number style="width: 100%;" [(ngModel)]="data.interval" (ngModelChange)="modelChange()" [nzMin]="0"
+        [nzPrecision]="0">
+      </nz-input-number>
+    </div>
+    <div class="line" nz-col nzSpan="12">
+      <div>{{'tips.monkey.generateCount'|translate}}</div>
+      <nz-input-number style="width: 100%;" [(ngModel)]="data.generateCount" (ngModelChange)="modelChange()" [nzMin]="0"
+        [nzPrecision]="0">
+      </nz-input-number>
+    </div>
+    <div class="line" nz-col nzSpan="12">
+      <div>{{'tips.monkey.maxDuration'|translate}}</div>
+      <nz-input-number style="width: 100%;" [(ngModel)]="data.maxDuration" (ngModelChange)="modelChange()" [nzMin]="0"
+        [nzPrecision]="0">
+      </nz-input-number>
+    </div>
+  </div>
+</div>

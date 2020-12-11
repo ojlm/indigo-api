@@ -1,0 +1,10 @@
+.line {
+  margin-top: 4px;
+}
+.line > div {
+  font-size: small;
+  color: lightslategray;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

@@ -1,0 +1,68 @@
+<div style="padding: 12px;">
+  <!-- toolbar -->
+  <div nz-row nzGutter="4" style="height: 32px;">
+    <div nz-col nzSpan="6">
+      <nz-input-group [nzAddOnBefore]="'item-host'|translate">
+        <nz-select style="width: 100%;" nzShowSearch [(ngModel)]="selectedDriver" (ngModelChange)="driverChange()"
+          [nzCustomTemplate]="selectTpl">
+          <nz-option *ngFor="let item of drivers" nzCustomContent [nzLabel]="getDriverLabel(item)" [nzValue]="item">
+            <i nz-icon nzType="chrome" nzTheme="outline"></i>
+            <span>{{getDriverLabel(item)}}</span>
+          </nz-option>
+          <ng-template #selectTpl let-selected>
+            <i nz-icon nzType="chrome" nzTheme="outline"></i>
+            <span>{{selected.nzLabel}}</span>
+          </ng-template>
+        </nz-select>
+      </nz-input-group>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-input-group [nzAddOnBefore]="'item-command'|translate">
+        <nz-select style="width: 100%;" nzShowSearch [(ngModel)]="selectedCommand" (ngModelChange)="commandChange()"
+          [nzCustomTemplate]="cmdTpl">
+          <nz-option *ngFor="let item of commands" nzCustomContent [nzLabel]="item" [nzValue]="item">
+            <span>{{item}}</span>
+          </nz-option>
+          <ng-template #cmdTpl let-selected>
+            <span>{{selected.nzLabel}}</span>
+          </ng-template>
+        </nz-select>
+      </nz-input-group>
+    </div>
+    <div nz-col nzSpan="4">
+      <button nz-button nzType="primary" (click)="startCommand()">{{'btn-send'|translate}}</button>
+      <button *ngIf="driverStatus.status==='running'" nz-button nzType="danger"
+        (click)="stopCommand()">{{'btn-stop'|translate}}</button>
+    </div>
+    <div nz-col nzSpan="10">
+      <span style="float: right;">
+        <app-driver-status [status]="driverStatus"></app-driver-status>
+      </span>
+    </div>
+  </div>
+  <div nz-row style="margin-top: 4px;">
+    <div nz-col nzSpan="10" class="panel">
+      <div [style.height]="height">
+        <nz-tabset nzSize="small" [nzTabBarStyle]="{'height':'40px','margin':'0'}" [(nzSelectedIndex)]="tabIndex"
+          (nzSelectedIndexChange)="tabChange()">
+          <nz-tab [nzTitle]="'item-param'|translate">
+            <div [ngSwitch]="selectedCommand" class="panel-container indigo-scroll-bar" [style.height]="contentHeight">
+              <ng-container *ngSwitchCase="'monkey'">
+                <app-monkey-command [(params)]="params"></app-monkey-command>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                <ng-content></ng-content>
+              </ng-container>
+            </div>
+          </nz-tab>
+          <nz-tab [nzTitle]="'item-console'|translate">
+            <app-driver-console *ngIf="showConsole" [height]="contentHeight" [log]="log"></app-driver-console>
+          </nz-tab>
+        </nz-tabset>
+      </div>
+    </div>
+    <div nz-col nzSpan="14" class="panel">
+      <div id="vnc" [style.height]="height"></div>
+    </div>
+  </div>
+</div>

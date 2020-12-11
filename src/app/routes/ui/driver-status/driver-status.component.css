@@ -1,0 +1,6 @@
+.tag {
+  padding: 4px 8px;
+}
+.tag > i {
+  margin-right: 4px;
+}

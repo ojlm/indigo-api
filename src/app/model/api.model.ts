@@ -41,7 +41,8 @@ export class ActorEvent<T> {
   code?: string
   msg?: string
   data?: T & DataBody<T>
-  type?: string = 'init' || 'list' || 'item' || 'over' || 'notify'
+  type?: string = 'init' || 'list' || 'item' || 'over' || 'notify' ||
+    'command.start' || 'command.log' || 'driver.status' || 'driver.log'
 }
 
 export const ActorEventType = {
