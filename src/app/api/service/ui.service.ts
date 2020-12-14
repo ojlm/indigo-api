@@ -3,10 +3,11 @@ import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
+import { newWS, newWSUrl } from 'app/util/ws'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { ApiRes } from '../../model/api.model'
-import { API_UI } from '../path'
+import { API_UI, API_WS } from '../path'
 import { BaseService } from './base.service'
 
 @Injectable({
@@ -31,12 +32,13 @@ export class UiService extends BaseService {
 
   // direct connect ip:port
   getRfbProxyUrl(driver: UiDriverAddress, group: string, project: string) {
-    return `ws://${driver.host}:${driver.port}/${API_UI}/proxy/${group}/${project}?token=${this.tokenService.get().token}`
+    const query = `host=${driver.host}&port=${driver.port}&token=${this.tokenService.get().token}`
+    return newWSUrl(`${API_WS}/ui/proxy/rfb/${group}/${project}?${query}`)
   }
 
   connectDriver(driver: UiDriverAddress, group: string, project: string) {
-    const url = `ws://${driver.host}:${driver.port}/${API_UI}/driver/connect/${group}/${project}?token=${this.tokenService.get().token}`
-    const ws = new WebSocket(url)
+    const query = `host=${driver.host}&port=${driver.port}&token=${this.tokenService.get().token}`
+    const ws = newWS(`${API_WS}/ui/proxy/connect/${group}/${project}?${query}`)
     ws.onerror = (event) => {
       console.error(event)
       this.msgService.warning(this.i18nService.fanyi(I18nKey.ErrorWsOnError))

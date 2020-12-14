@@ -2,7 +2,7 @@
   <!-- toolbar -->
   <div nz-row nzGutter="4" style="height: 32px;">
     <div nz-col nzSpan="6">
-      <nz-input-group [nzAddOnBefore]="'item-host'|translate">
+      <nz-input-group [nzAddOnBefore]="'item-host'|translate" [nzAddOnAfter]="suffixIcon">
         <nz-select style="width: 100%;" nzShowSearch [(ngModel)]="selectedDriver" (ngModelChange)="driverChange()"
           [nzCustomTemplate]="selectTpl">
           <nz-option *ngFor="let item of drivers" nzCustomContent [nzLabel]="getDriverLabel(item)" [nzValue]="item">
@@ -14,6 +14,11 @@
             <span>{{selected.nzLabel}}</span>
           </ng-template>
         </nz-select>
+        <ng-template #suffixIcon>
+          <i class="click-icon" style="color: lightseagreen;" nz-icon nzType="redo" nzTheme="outline"
+            (click)="driverChange()">
+          </i>
+        </ng-template>
       </nz-input-group>
     </div>
     <div nz-col nzSpan="4">
