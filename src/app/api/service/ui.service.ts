@@ -94,3 +94,7 @@ export interface DriverCommandLog {
   type?: string
   params?: any
 }
+
+export interface KarateCommandParams {
+  text?: string
+}

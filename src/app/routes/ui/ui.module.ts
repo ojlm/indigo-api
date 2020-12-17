@@ -6,6 +6,7 @@ import { SortablejsModule } from 'ngx-sortablejs'
 
 import { DriverConsoleComponent } from './driver-console/driver-console.component'
 import { DriverStatusComponent } from './driver-status/driver-status.component'
+import { KarateCommandComponent } from './karate-command/karate-command.component'
 import { MonkeyCommandComponent } from './monkey-command/monkey-command.component'
 import { NovncComponent } from './novnc/novnc.component'
 import { UiRoutingModule } from './ui-routing.module'
@@ -15,6 +16,7 @@ const COMPONENT = [
   MonkeyCommandComponent,
   DriverStatusComponent,
   DriverConsoleComponent,
+  KarateCommandComponent,
 ]
 
 const COMPONENT_NOROUNT = []

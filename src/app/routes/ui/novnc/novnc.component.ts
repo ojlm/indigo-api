@@ -29,7 +29,7 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
   rfb: RFB
 
   drivers: UiDriverAddress[] = []
-  commands = ['monkey']
+  commands = ['monkey', 'karate']
 
   driverStatus: DriverStatus = {}
   selectedDriver: UiDriverAddress

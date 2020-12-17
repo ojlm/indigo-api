@@ -1,48 +1,67 @@
 <div style="padding: 12px;">
   <!-- toolbar -->
   <div nz-row nzGutter="4" style="height: 32px;">
-    <div nz-col nzSpan="6">
-      <nz-input-group [nzAddOnBefore]="'item-host'|translate" [nzAddOnAfter]="suffixIcon">
-        <nz-select style="width: 100%;" nzShowSearch [(ngModel)]="selectedDriver" (ngModelChange)="driverChange()"
-          [nzCustomTemplate]="selectTpl">
-          <nz-option *ngFor="let item of drivers" nzCustomContent [nzLabel]="getDriverLabel(item)" [nzValue]="item">
-            <i nz-icon nzType="chrome" nzTheme="outline"></i>
-            <span>{{getDriverLabel(item)}}</span>
-          </nz-option>
-          <ng-template #selectTpl let-selected>
-            <i nz-icon nzType="chrome" nzTheme="outline"></i>
-            <span>{{selected.nzLabel}}</span>
-          </ng-template>
-        </nz-select>
-        <ng-template #suffixIcon>
-          <i class="click-icon" style="color: lightseagreen;" nz-icon nzType="redo" nzTheme="outline"
-            (click)="driverChange()">
-          </i>
-        </ng-template>
-      </nz-input-group>
-    </div>
     <div nz-col nzSpan="4">
       <nz-input-group [nzAddOnBefore]="'item-command'|translate">
         <nz-select style="width: 100%;" nzShowSearch [(ngModel)]="selectedCommand" (ngModelChange)="commandChange()"
           [nzCustomTemplate]="cmdTpl">
           <nz-option *ngFor="let item of commands" nzCustomContent [nzLabel]="item" [nzValue]="item">
-            <span>{{item}}</span>
+            <img [src]="'/assets/svg/'+item+'.svg'" style="width: 22px;height: 22px;">
+            <span style="margin-left: 8px;">{{item}}</span>
           </nz-option>
           <ng-template #cmdTpl let-selected>
-            <span>{{selected.nzLabel}}</span>
+            <img [src]="'/assets/svg/'+selected.nzLabel+'.svg'" style="width: 22px;height: 22px;">
+            <span style="margin-left: 8px;">{{selected.nzLabel}}</span>
           </ng-template>
         </nz-select>
       </nz-input-group>
     </div>
     <div nz-col nzSpan="4">
       <button nz-button nzType="primary" (click)="startCommand()">{{'btn-send'|translate}}</button>
-      <button *ngIf="driverStatus.status==='running'" nz-button nzType="danger"
-        (click)="stopCommand()">{{'btn-stop'|translate}}</button>
+      <button *ngIf="driverStatus.status==='running'" nz-button nzType="danger" (click)="stopCommand()">
+        {{'btn-stop'|translate}}
+      </button>
     </div>
-    <div nz-col nzSpan="10">
-      <span style="float: right;">
-        <app-driver-status [status]="driverStatus"></app-driver-status>
-      </span>
+    <div nz-col nzOffset="4" nzSpan="12">
+      <div nz-row nzGutter="4">
+        <div nz-col nzFlex="auto">
+          <nz-input-group style="width: 280px;float: right;" [nzAddOnBefore]="'item-host'|translate">
+            <nz-select style="width: 200px;" nzShowSearch [(ngModel)]="selectedDriver" (ngModelChange)="driverChange()"
+              [nzCustomTemplate]="selectTpl">
+              <nz-option *ngFor="let item of drivers" nzCustomContent [nzLabel]="getDriverLabel(item)" [nzValue]="item">
+                <span [title]="getDriverLabel(item)">
+                  <i nz-icon nzType="chrome" nzTheme="outline"></i>
+                  <span>{{getDriverLabel(item)}}</span>
+                </span>
+              </nz-option>
+              <ng-template #selectTpl let-selected>
+                <span [title]="selected.nzLabel">
+                  <i nz-icon nzType="chrome" nzTheme="outline"></i>
+                  <span>{{selected.nzLabel}}</span>
+                </span>
+              </ng-template>
+            </nz-select>
+          </nz-input-group>
+        </div>
+        <div nz-col nzFlex="100px" style="text-align: center;">
+          <nz-button-group>
+            <button nz-button nzType="dashed" (click)="driverChange()">
+              <i nz-icon nzType="redo" nzTheme="outline"></i>
+            </button>
+            <button nz-button nzType="dashed">
+              <i nz-icon nzType="layout" nzTheme="outline"></i>
+            </button>
+            <button nz-button nzType="dashed">
+              <i nz-icon nzType="fullscreen" nzTheme="outline"></i>
+            </button>
+          </nz-button-group>
+        </div>
+        <div nz-col nzFlex="100px">
+          <span style="float: right;line-height: 32px;">
+            <app-driver-status [status]="driverStatus"></app-driver-status>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
   <div nz-row style="margin-top: 4px;">
@@ -54,6 +73,9 @@
             <div [ngSwitch]="selectedCommand" class="panel-container indigo-scroll-bar" [style.height]="contentHeight">
               <ng-container *ngSwitchCase="'monkey'">
                 <app-monkey-command [(params)]="params"></app-monkey-command>
+              </ng-container>
+              <ng-container *ngSwitchCase="'karate'">
+                <app-karate-command [(params)]="params" [height]="contentHeight"></app-karate-command>
               </ng-container>
               <ng-container *ngSwitchDefault>
                 <ng-content></ng-content>
