@@ -53,6 +53,11 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   tabChange() {
+    if (this.tabIndex === 0 && this.selectedCommand === 'karate') {
+      setTimeout(_ => {
+        window.dispatchEvent(new Event('resize'))
+      }, 10)
+    }
     if (this.tabIndex === 1) {
       this.showConsole = true
     }
