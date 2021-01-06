@@ -127,6 +127,19 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
               break
             case 'driver.log':
               console.log('driver:', msg.data)
+              if (msg.data.method === 'Log.entryAdded' && msg.data.params && msg.data.params.entry) {
+                const entry = msg.data.params.entry as LogEntry
+                const console = this.xtermService.wrapBlue('console')
+                let level
+                if (entry.level === 'warning') {
+                  level = this.xtermService.wrapYellow(entry.level)
+                } else if (entry.level === 'red') {
+                  level = this.xtermService.wrapRed(entry.level)
+                } else {
+                  level = entry.level
+                }
+                this.log.next(`[${console}][${level}]${entry.text}`)
+              }
               break
           }
         } catch (error) {
@@ -177,4 +190,12 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+}
+
+export interface LogEntry {
+  level?: string
+  source?: string
+  text?: string
+  timestamp?: number
+  url?: string
 }
