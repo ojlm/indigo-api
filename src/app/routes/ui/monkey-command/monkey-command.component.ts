@@ -10,15 +10,22 @@ export class MonkeyCommandComponent implements OnInit {
 
   data: MonkeyCommandParams = {
     delta: 100,
+    minOnceKeyCount: 1,
     maxOnceKeyCount: 5,
+    cjkRatio: 1.0,
     keyEventRatio: 0.7,
     interval: 500,
     generateCount: 100,
-    maxDuration: 0
+    maxDuration: 0,
+    areaRatio: [{}],
   }
   @Input() set params(params: MonkeyCommandParams) {
     if (params) {
-      this.data = params
+      if (params.areaRatio) {
+        this.data = params
+      } else {
+        this.data = { ...params, areaRatio: [{}] }
+      }
     } else {
       setTimeout(() => this.modelChange(), 1)
     }
@@ -28,6 +35,16 @@ export class MonkeyCommandComponent implements OnInit {
   constructor(
     private uiService: UiService,
   ) { }
+
+  addArea() {
+    this.data.areaRatio.push({})
+    this.modelChange()
+  }
+
+  removeArea(idx: number) {
+    this.data.areaRatio.splice(idx, 1)
+    this.modelChange()
+  }
 
   modelChange() {
     this.paramsChange.emit(this.data)

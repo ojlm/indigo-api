@@ -116,14 +116,25 @@ export interface DriverCommandResult {
   status?: DriverStatus
 }
 
+export interface AreaRatio {
+  locator?: string
+  ratio?: number
+}
+
 export interface MonkeyCommandParams {
   startUrl?: string
   delta?: number
+  minOnceKeyCount?: number
   maxOnceKeyCount?: number
+  cjkRatio?: number
   keyEventRatio?: number
   interval?: number
   generateCount?: number
   maxDuration?: number
+  beforeScript?: string
+  checkInterval?: number
+  checkScript?: string
+  areaRatio?: AreaRatio[]
 }
 
 export interface DriverCommandLog {

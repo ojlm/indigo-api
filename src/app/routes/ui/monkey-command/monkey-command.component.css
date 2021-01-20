@@ -8,3 +8,13 @@
   white-space: nowrap;
   overflow: hidden;
 }
+.margin {
+  font-size: small;
+  margin: 4px 0;
+  color: lightslategrey;
+}
+.plus {
+  color: lightseagreen;
+  font-size: medium;
+  margin-left: 4px;
+}

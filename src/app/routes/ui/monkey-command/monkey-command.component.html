@@ -1,4 +1,5 @@
 <div>
+  <nz-divider class="margin" [nzText]="'tips.monkey.basic'|translate" nzOrientation="left"></nz-divider>
   <div class="line">
     <div>{{'tips.monkey.startUrl'|translate}}</div>
     <input nz-input [(ngModel)]="data.startUrl" (ngModelChange)="modelChange()" />
@@ -16,10 +17,25 @@
         [nzMax]="1" [nzStep]="0.1" [nzPrecision]="1">
       </nz-input-number>
     </div>
+    <div class="line" nz-col nzSpan="24">
+      <div>{{'tips.monkey.onceKeyCount'|translate}}</div>
+      <div nz-row nzGutter="4">
+        <nz-input-group nz-col nzSpan="12" [nzAddOnBefore]="'item.min'|translate">
+          <nz-input-number style="width: 100%;" [(ngModel)]="data.minOnceKeyCount" (ngModelChange)="modelChange()"
+            [nzMin]="1" [nzPrecision]="0">
+          </nz-input-number>
+        </nz-input-group>
+        <nz-input-group nz-col nzSpan="12" [nzAddOnBefore]="'item.max'|translate">
+          <nz-input-number style="width: 100%;" [(ngModel)]="data.maxOnceKeyCount" (ngModelChange)="modelChange()"
+            [nzMin]="1" [nzPrecision]="0">
+          </nz-input-number>
+        </nz-input-group>
+      </div>
+    </div>
     <div class="line" nz-col nzSpan="12">
-      <div>{{'tips.monkey.maxOnceKeyCount'|translate}}</div>
-      <nz-input-number style="width: 100%;" [(ngModel)]="data.maxOnceKeyCount" (ngModelChange)="modelChange()"
-        [nzMin]="0" [nzPrecision]="0">
+      <div>{{'tips.monkey.cjkRatio'|translate}}</div>
+      <nz-input-number style="width: 100%;" [(ngModel)]="data.cjkRatio" (ngModelChange)="modelChange()" [nzMin]="0"
+        [nzMax]="1" [nzStep]="0.1" [nzPrecision]="1">
       </nz-input-number>
     </div>
     <div class="line" nz-col nzSpan="12">
@@ -40,5 +56,48 @@
         [nzPrecision]="0">
       </nz-input-number>
     </div>
+  </div>
+  <nz-divider class="margin" [nzText]="textTpl" nzOrientation="left">
+    <ng-template #textTpl>
+      <span>{{'tips.monkey.areaRatio'|translate}}</span>
+      <i class="click-icon plus" nz-icon nzType="plus-circle" nzTheme="outline" (click)="addArea()"></i>
+    </ng-template>
+  </nz-divider>
+  <div>
+    <div *ngFor="let item of data.areaRatio;let i = index" style="margin-bottom:4px;" nz-row nzGutter="4">
+      <div nz-col nzFlex="2">
+        <input style="width: 100%;" type="text" nz-input [placeholder]="'item.locator'|translate"
+          [(ngModel)]="item.locator" (ngModelChange)="modelChange()" />
+      </div>
+      <div nz-col nzFlex="1">
+        <nz-input-number style="width: 100%;" [(ngModel)]="item.ratio" (ngModelChange)="modelChange()" [nzMin]="0"
+          [nzMax]="1" [nzStep]="0.1" [nzPrecision]="1">
+        </nz-input-number>
+      </div>
+      <div nz-col nzFlex="24px">
+        <i class="click-icon" style="vertical-align: bottom;" nz-icon nzType="delete" nzTheme="outline"
+          (click)="removeArea(i)">
+        </i>
+      </div>
+    </div>
+  </div>
+  <nz-divider class="margin" [nzText]="'tips.monkey.script'|translate" nzOrientation="left"></nz-divider>
+  <div class="line">
+    <div>{{'tips.monkey.beforeScript'|translate}}</div>
+    <textarea nz-input [nzAutosize]="{minRows: 2}" [placeholder]="'tips.monkey.beforeScript'|translate"
+      [(ngModel)]="data.beforeScript" (ngModelChange)="modelChange()">
+    </textarea>
+  </div>
+  <div class="line">
+    <div>{{'tips.monkey.checkInterval'|translate}}</div>
+    <nz-input-number style="width: 100%;" [(ngModel)]="data.checkInterval" (ngModelChange)="modelChange()" [nzMin]="0"
+      [nzPrecision]="0">
+    </nz-input-number>
+  </div>
+  <div class="line">
+    <div>{{'tips.monkey.checkScript'|translate}}</div>
+    <textarea nz-input [nzAutosize]="{minRows: 4}" [placeholder]="'tips.monkey.checkScript'|translate"
+      [(ngModel)]="data.checkScript" (ngModelChange)="modelChange()">
+    </textarea>
   </div>
 </div>
