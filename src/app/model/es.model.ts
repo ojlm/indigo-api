@@ -4,7 +4,7 @@ import { DataBody } from './api.model'
 import { AbstractResult, JobData, JobMeta } from './job.model'
 import { UserProfile } from './user.model'
 
-interface BaseDoc {
+export interface BaseDoc {
   _id?: string
   _creator?: UserProfile
   summary?: string

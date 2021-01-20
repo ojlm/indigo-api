@@ -1,0 +1,49 @@
+<div style="text-align: right;margin-top: 4px;padding-right: 4px;">
+  <ng-container>
+    <button nz-button nzType="dashed" nzSize="small" nz-dropdown [nzDropdownMenu]="uploadMenu"
+      nzPlacement="bottomRight">
+      <i nz-icon nzType="upload" nzTheme="outline"></i>
+    </button>
+    <nz-dropdown-menu #uploadMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li class="menu-item" nz-menu-item (click)="uploadKarate()">
+          <img class="menu-img" src="/assets/svg/karate.svg">
+          <span>Karate</span>
+        </li>
+        <li class="menu-item" nz-menu-item (click)="uploadSoloPi()">
+          <img class="menu-img" src="/assets/svg/pi.svg">
+          <span>SoloPi</span>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </ng-container>
+  <ng-container>
+    <button nz-button nzType="dashed" nzSize="small" nz-dropdown [nzDropdownMenu]="newMenu" nzPlacement="bottomRight">
+      <i nz-icon nzType="folder-add" nzTheme="outline"></i>
+    </button>
+    <nz-dropdown-menu #newMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li class="menu-item" nz-menu-item (click)="newMonkey()">
+          <img class="menu-img" src="/assets/svg/monkey.svg">
+          <span>{{'app.monkey'|translate}}</span>
+        </li>
+        <li nz-menu-divider></li>
+        <li class="menu-item" nz-menu-item (click)="newFolder()">
+          <img class="menu-img" src="/assets/svg/folder.svg">
+          <span>{{"menu.folder"|translate}}</span>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </ng-container>
+</div>
+<div style="margin-top:4px;">
+  <nz-tree style="padding: 0px 4px;" [nzData]="nodes" [nzBlockNode]="true" [nzShowIcon]="false" [nzShowExpand]="false"
+    [nzTreeTemplate]="treeTpl" (nzClick)="clickNode($event)">
+    <ng-template #treeTpl let-node let-origin="origin">
+      <div style="width: 100%;cursor: pointer;">
+        <img class="menu-img" [src]="getImgSrc(node, origin.file)">
+        <span>{{node.title}}</span>
+      </div>
+    </ng-template>
+  </nz-tree>
+</div>

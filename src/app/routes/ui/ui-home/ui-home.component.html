@@ -1,0 +1,26 @@
+<div nz-row style="height: 100%;width: 100%;display: grid;grid-template-columns: 264px auto;">
+  <div style="background-color: white;">
+    <div class="title">{{'title.spaces'|translate}}</div>
+    <ul nz-menu nzMode="inline">
+      <li *ngFor="let g of groups" nz-submenu [nzTitle]="gTpl" [nzOpen]="openMenu[g.id]"
+        (nzOpenChange)="openChange($event, g)">
+        <ng-template #gTpl>
+          <span>
+            <nz-avatar class="avatar" nzIcon="team" nzSize="small" [nzSrc]="g.avatar"></nz-avatar>
+            <span>{{g.summary||g.id}}</span>
+          </span>
+        </ng-template>
+        <ul *ngIf="groupProjects[g.id]">
+          <li *ngFor="let p of groupProjects[g.id]" nz-menu-item [nzSelected]="selectMenu[p.group+p.id]"
+            (click)="goProject(p)">
+            <nz-avatar class="avatar" nzIcon="project" nzSize="small" [nzSrc]="p.avatar"></nz-avatar>
+            <span>{{p.summary||p.id}}</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

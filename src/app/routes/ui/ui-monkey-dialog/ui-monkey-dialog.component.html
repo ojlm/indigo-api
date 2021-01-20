@@ -1,0 +1,23 @@
+<div>
+  <div>
+    <div>
+      <div>
+        <span>{{'field.name'|translate}}</span>
+        <span style="color: red;">*</span>
+      </div>
+      <input nz-input [placeholder]="'field.name'|translate" [(ngModel)]="name" />
+    </div>
+    <div>
+      <div>{{'field.description'|translate}}</div>
+      <textarea nz-input [nzAutosize]="{minRows: 2}" [placeholder]="'field.description'|translate"
+        [(ngModel)]="description">
+    </textarea>
+    </div>
+  </div>
+  <nz-divider style="margin-top: 12px;margin-bottom: 12px;"></nz-divider>
+  <app-monkey-command [(params)]="params"></app-monkey-command>
+  <div style="margin-top: 24px;text-align: right;">
+    <button nz-button type="button" (click)="cancel()">{{'btn-cancel'|translate}}</button>
+    <button nz-button type="button" nzType="primary" (click)="submit()">{{'btn-ok'|translate}}</button>
+  </div>
+</div>

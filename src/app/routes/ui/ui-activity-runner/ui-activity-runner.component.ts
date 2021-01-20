@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { XtermService } from '@core/config/xterm.service'
 import RFB from '@novnc/novnc/core/rfb.js'
 import {
@@ -13,38 +13,36 @@ import { ActorEvent } from 'app/model/api.model'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
+import { FileNode } from '../ui.model'
+
 @Component({
-  selector: 'app-novnc',
-  templateUrl: './novnc.component.html',
-  styleUrls: ['./novnc.component.css']
+  selector: 'app-ui-activity-runner',
+  templateUrl: './ui-activity-runner.component.html',
+  styleUrls: ['./ui-activity-runner.component.css']
 })
-export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UiActivityRunnerComponent implements OnInit, OnDestroy {
 
-  @Input() group = 'indigo'
-  @Input() project = 'indigo'
+  group = ''
+  project = ''
+  id = ''
+  _file: FileNode
+  @Input()
+  set file(val: FileNode) {
+    this._file = val
+    this.group = val.group
+    this.project = val.project
+    this.id = val._id
+    if (this.group && this.project) {
+      this.loadDrivers()
+    }
+  }
 
-  tabIndex = 0
-  showConsole = false
   driverWs: WebSocket
   rfb: RFB
-
   drivers: UiDriverAddress[] = []
-  commands = ['monkey', 'karate']
-
   driverStatus: DriverStatus = {}
   selectedDriver: UiDriverAddress
-  selectedCommand = this.commands[0]
-  params: any
-
-  height = `${window.innerHeight - 24 - 36}px`
-  contentHeight = `${window.innerHeight - 24 - 36 - 40}px`
   log = new Subject<string>()
-
-  @HostListener('window:resize')
-  resizeBy() {
-    this.height = `${window.innerHeight - 24 - 36}px`
-    this.contentHeight = `${window.innerHeight - 24 - 36 - 40}px`
-  }
 
   constructor(
     private uiService: UiService,
@@ -52,16 +50,6 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
     private xtermService: XtermService,
   ) { }
 
-  tabChange() {
-    if (this.tabIndex === 0 && this.selectedCommand === 'karate') {
-      setTimeout(_ => {
-        window.dispatchEvent(new Event('resize'))
-      }, 10)
-    }
-    if (this.tabIndex === 1) {
-      this.showConsole = true
-    }
-  }
 
   getDriverLabel(driver: UiDriverAddress) {
     return this.uiService.getDriverLabel(driver)
@@ -75,18 +63,16 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   startCommand() {
-    if (this.params && this.driverWs && this.driverWs.readyState === this.driverWs.OPEN) {
-      const driverCommand: DriverCommand = {
-        type: this.selectedCommand,
-        params: this.params
-      }
-      this.driverWs.send(JSON.stringify(driverCommand))
-      this.tabIndex = 1
-    }
+    this.driverWs.send(JSON.stringify({
+      name: this._file.name,
+      description: this._file.description,
+      type: 'monkey',
+      params: this._file.data,
+    }))
   }
 
   stopCommand() {
-    if (this.params && this.driverWs && this.driverWs.readyState === this.driverWs.OPEN) {
+    if (this.driverWs && this.driverWs.readyState === this.driverWs.OPEN) {
       const driverCommand: DriverCommand = {
         type: 'stop',
       }
@@ -94,16 +80,12 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  commandChange() {
-    this.params = null
-  }
-
   connectDriver(driver: UiDriverAddress) {
     if (this.driverWs) {
       this.driverWs.close()
       this.driverWs = null
     }
-    this.driverWs = this.uiService.connectDriver(driver, this.group, this.project, 'test')
+    this.driverWs = this.uiService.connectDriver(driver, this.group, this.project, this.id)
     this.driverWs.onmessage = (event) => {
       if (event.data) {
         try {
@@ -150,7 +132,7 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   refreshRfb(driver: UiDriverAddress) {
-    const url = this.uiService.getRfbProxyUrl(driver, this.group, this.project, 'test')
+    const url = this.uiService.getRfbProxyUrl(driver, this.group, this.project, this.id)
     // https://github.com/novnc/noVNC/blob/master/docs/API.md
     if (this.rfb) {
       this.rfb.disconnect()
@@ -170,10 +152,7 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  ngOnInit(): void {
-  }
-
-  ngAfterViewInit(): void {
+  loadDrivers() {
     this.uiService.getDriverList(this.group, this.project).subscribe(res => {
       this.drivers = res.data
       if (this.drivers.length > 0) {
@@ -188,6 +167,12 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
       this.driverWs.close()
       this.driverWs = null
     }
+    if (this.rfb) {
+      this.rfb.disconnect()
+    }
+  }
+
+  ngOnInit(): void {
   }
 
 }

@@ -1,0 +1,50 @@
+<div style="padding: 12px;">
+  <nz-list *ngIf="items.length>0" [nzBordered]="false" nzSize="small" [nzHeader]="headerTpl"
+    [nzPagination]="pagination">
+    <ng-template #headerTpl>
+      <div style="text-align: right;padding-right: 24px;">
+        <i class="click-icon" nz-icon nzType="redo" nzTheme="outline" (click)="reload()"></i>
+      </div>
+    </ng-template>
+    <nz-list-item *ngFor="let item of items">
+      <div style="width: 100%;cursor: pointer;" (click)="click(item)">
+        <div>
+          <a>{{item.summary}}</a>
+          <span style="float: right;">
+            <span>{{item.creator}}</span>
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>{{item.createdAt}}</span>
+          </span>
+        </div>
+        <div>
+          <span style="float: right;">
+            <span>
+              <span>result: </span>
+              <span [style.color]="item.result==='success'?'lightseagreen':'red'">{{item.result}}</span>
+            </span>
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>
+              <span>elapse: </span>
+              <span style="color:lightseagreen;">{{item.elapse}} ms</span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </nz-list-item>
+    <ng-template #pagination>
+      <nz-pagination *ngIf="items.length>0 && items.length > pageSize" [(nzPageIndex)]="pageIndex" nzSize="small"
+        [nzShowTotal]="totalTemplate" [nzTotal]="pageTotal" [nzPageSize]="pageSize" (nzPageIndexChange)="load()">
+        <ng-template #totalTemplate let-total>
+          <span style="color:lightgray;">
+            <span>{{'item-total'|translate}}</span>
+            <span> {{total}} </span>
+            <span>{{'item-item'|translate}}</span>
+          </span>
+        </ng-template>
+      </nz-pagination>
+    </ng-template>
+  </nz-list>
+  <div *ngIf="items.length===0">
+    <nz-empty nzNotFoundImage="simple"></nz-empty>
+  </div>
+</div>

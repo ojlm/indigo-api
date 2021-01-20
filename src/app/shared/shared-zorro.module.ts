@@ -1,4 +1,4 @@
-import { NzAutocompleteModule } from 'ng-zorro-antd'
+import { NzAutocompleteModule, NzEmptyModule, NzTreeModule } from 'ng-zorro-antd'
 import { NzAffixModule } from 'ng-zorro-antd/affix'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
@@ -78,4 +78,6 @@ export const SHARED_ZORRO_MODULES = [
   NzSkeletonModule,
   NzAffixModule,
   NzCollapseModule,
+  NzEmptyModule,
+  NzTreeModule,
 ]

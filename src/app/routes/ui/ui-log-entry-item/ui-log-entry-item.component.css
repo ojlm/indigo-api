@@ -1,0 +1,14 @@
+.line {
+  font-size: small;
+}
+.time {
+  color: darkblue;
+}
+.type {
+  color: darkgray;
+  width: 56px;
+  display: inline-block;
+  text-align: center;
+}
+.text {
+}

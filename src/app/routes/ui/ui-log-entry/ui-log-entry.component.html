@@ -1,0 +1,6 @@
+<div [style.height]="_height" class="feed indigo-scroll-bar" infiniteScroll [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
+  <div *ngFor="let item of items">
+    <app-ui-log-entry-item [item]="item"></app-ui-log-entry-item>
+  </div>
+</div>
