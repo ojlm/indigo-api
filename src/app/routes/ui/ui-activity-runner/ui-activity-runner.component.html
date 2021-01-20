@@ -34,6 +34,10 @@
     </div>
   </div>
 </div>
+<div>
+  <label nz-checkbox [(ngModel)]="options.saveCommandLog">{{'tips.runner.saveCommandLog'|translate}}</label>
+  <label nz-checkbox [(ngModel)]="options.saveDriverLog">{{'tips.runner.saveDriverLog'|translate}}</label>
+</div>
 <div style="margin-top: 4px;">
   <app-driver-console [height]="'120px'" [log]="log"></app-driver-console>
   <div id="vnc" style="height: 360px;"></div>

@@ -13,7 +13,7 @@ import { ActorEvent } from 'app/model/api.model'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
-import { FileNode } from '../ui.model'
+import { CommandOptions, FileNode } from '../ui.model'
 
 @Component({
   selector: 'app-ui-activity-runner',
@@ -44,12 +44,13 @@ export class UiActivityRunnerComponent implements OnInit, OnDestroy {
   selectedDriver: UiDriverAddress
   log = new Subject<string>()
 
+  options: CommandOptions = { saveCommandLog: false, saveDriverLog: true }
+
   constructor(
     private uiService: UiService,
     private msgService: NzMessageService,
     private xtermService: XtermService,
   ) { }
-
 
   getDriverLabel(driver: UiDriverAddress) {
     return this.uiService.getDriverLabel(driver)
@@ -68,6 +69,7 @@ export class UiActivityRunnerComponent implements OnInit, OnDestroy {
       description: this._file.description,
       type: 'monkey',
       params: this._file.data,
+      options: this.options,
     }))
   }
 

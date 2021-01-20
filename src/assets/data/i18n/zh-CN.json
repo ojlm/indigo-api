@@ -312,6 +312,8 @@
   "tips.monkey.checkInterval": "特定检查时间间隔(秒)",
   "tips.monkey.checkScript": "特定检查执行脚本",
   "tips.monkey.areaRatio": "区域比重",
+  "tips.runner.saveCommandLog": "保存指令日志",
+  "tips.runner.saveDriverLog": "保存Driver日志",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",

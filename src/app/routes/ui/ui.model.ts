@@ -49,6 +49,11 @@ export interface LogEntry extends BaseDoc {
   data?: object
 }
 
+export interface CommandOptions {
+  saveCommandLog?: boolean
+  saveDriverLog?: boolean
+}
+
 export const APP = {
   KARATE: 'karate',
   SOLOPI: 'solopi',

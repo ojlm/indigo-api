@@ -1,11 +1,26 @@
 <div style="height: 100%;display: grid;grid-template-columns: 1fr 2fr">
-  <div [ngSwitch]="file.app">
-    <ng-container *ngSwitchCase="'web.monkey'">
-      <app-monkey-command [(params)]="file.data"></app-monkey-command>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
-      <ng-content></ng-content>
-    </ng-container>
+  <div>
+    <div>
+      <div>
+        <span>{{'field.name'|translate}}</span>
+        <span style="color: red;">*</span>
+      </div>
+      <input nz-input [placeholder]="'field.name'|translate" [(ngModel)]="file.name" />
+    </div>
+    <div>
+      <div>{{'field.description'|translate}}</div>
+      <textarea nz-input [nzAutosize]="{minRows: 2}" [placeholder]="'field.description'|translate"
+        [(ngModel)]="file.description">
+      </textarea>
+    </div>
+    <div [ngSwitch]="file.app">
+      <ng-container *ngSwitchCase="'web.monkey'">
+        <app-monkey-command [(params)]="file.data"></app-monkey-command>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <ng-content></ng-content>
+      </ng-container>
+    </div>
   </div>
   <div>
     <app-ui-activity-bar [file]="file"></app-ui-activity-bar>
