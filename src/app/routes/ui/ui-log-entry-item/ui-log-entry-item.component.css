@@ -1,6 +1,9 @@
 .line {
   font-size: small;
 }
+.line:hover {
+  background-color: wheat;
+}
 .time {
   color: darkblue;
 }
