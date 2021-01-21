@@ -1,5 +1,10 @@
 <div class="line">
-  <span class="time">{{timeStr(_item)}}</span>
-  <span class="type">{{_item.type}}</span>
-  <span class="text">{{textStr(_item)}}</span>
+  <span class="time">{{timeStr()}}</span>
+  <span class="level" [style.color]="levelColor()">{{levelStr()}}</span>
+  <span class="text">{{textStr()}}</span>
+  <span class="right">
+    <span class="method">{{_item.method}}</span>
+    <span class="type">{{_item.type}}</span>
+    <span class="bug" (click)="debug()"><i class="click-icon" nz-icon nzType="bug" nzTheme="outline"></i></span>
+  </span>
 </div>

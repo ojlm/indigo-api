@@ -1,3 +1,12 @@
+<div style="height: 32px;">
+  <nz-checkbox-group [(ngModel)]="levels" (ngModelChange)="levelsChange()"></nz-checkbox-group>
+  <nz-input-group style="width: auto;" [nzSuffix]="suffixTpl">
+    <input type="text" nz-input [(ngModel)]="searchFeed.text" (keydown.enter)="reset()" />
+    <ng-template #suffixTpl>
+      <i nz-icon nzType="search"></i>
+    </ng-template>
+  </nz-input-group>
+</div>
 <div [style.height]="_height" class="feed indigo-scroll-bar" infiniteScroll [infiniteScrollDistance]="2"
   [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
   <div *ngFor="let item of items">

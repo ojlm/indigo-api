@@ -157,4 +157,6 @@ export interface QueryUiReport extends QueryPage {
 export interface SearchAfterLogEntry extends SearchAfter {
   day?: string
   reportId?: string
+  levels?: string[]
+  text?: string
 }

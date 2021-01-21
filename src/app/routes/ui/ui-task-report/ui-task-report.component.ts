@@ -11,7 +11,7 @@ import { UiTaskReport } from '../ui.model'
 })
 export class UiTaskReportComponent implements OnInit {
 
-  logsHeight = window.innerHeight
+  logsHeight = window.innerHeight - 84
   group = ''
   project = ''
   id = ''
@@ -20,7 +20,7 @@ export class UiTaskReportComponent implements OnInit {
 
   @HostListener('window:resize')
   resize() {
-    this.logsHeight = window.innerHeight
+    this.logsHeight = window.innerHeight - 84
   }
 
   constructor(
@@ -28,17 +28,16 @@ export class UiTaskReportComponent implements OnInit {
     private route: ActivatedRoute,
   ) { }
 
+  timeStr(time: number) {
+    return new Date(time).toLocaleString()
+  }
+
   loadReport() {
     if (this.group && this.project && this.id) {
       this.uiService.getTaskReport(this.group, this.project, this.id).subscribe(res => {
         this.report = res.data
-        this.loadLogs()
       })
     }
-  }
-
-  loadLogs() {
-
   }
 
   ngOnInit(): void {

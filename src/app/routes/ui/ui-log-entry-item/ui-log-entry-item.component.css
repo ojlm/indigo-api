@@ -4,11 +4,28 @@
 .time {
   color: darkblue;
 }
-.type {
-  color: darkgray;
-  width: 56px;
+.level {
+  width: 52px;
   display: inline-block;
   text-align: center;
 }
 .text {
+  display: inline-block;
+}
+.right {
+  float: right;
+  padding-right: 8px;
+}
+.type {
+  color: darkgray;
+  width: 52px;
+  display: inline-block;
+  text-align: center;
+}
+.method {
+  color: darkgray;
+  display: inline-block;
+  text-align: right;
+}
+.bug {
 }

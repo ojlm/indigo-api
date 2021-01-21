@@ -19,10 +19,17 @@ export class UiLogEntryComponent implements OnInit {
   items: LogEntry[] = []
   feedSort: any[] = []
 
+  levels: LabelModel[] = [
+    { label: 'unknown', value: 'unknown', },
+    { label: 'log', value: 'log', },
+    { label: 'info', value: 'info', },
+    { label: 'warning', value: 'warning', },
+    { label: 'error', value: 'error' },
+  ]
   _height = '480px'
   @Input()
   set height(val: number) {
-    this._height = `${val}px`
+    this._height = `${val - 32}px`
   }
   @Input()
   set report(val: UiTaskReport) {
@@ -45,6 +52,18 @@ export class UiLogEntryComponent implements OnInit {
     private uiService: UiService,
   ) { }
 
+  levelsChange() {
+    this.searchFeed.levels = this.levels.filter(item => item.checked).map(item => item.value)
+    this.reset()
+  }
+
+  reset() {
+    this.items = []
+    this.feedSort = []
+    this.hasMoreFeeds = true
+    this.loadLogs()
+  }
+
   onScroll() {
     this.loadLogs()
   }
@@ -62,4 +81,10 @@ export class UiLogEntryComponent implements OnInit {
   ngOnInit(): void {
   }
 
+}
+
+interface LabelModel {
+  label: string
+  value: string
+  checked?: boolean
 }

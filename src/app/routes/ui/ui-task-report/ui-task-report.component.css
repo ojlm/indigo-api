@@ -1,0 +1,11 @@
+.detail {
+  height: 84px;
+}
+.desc {
+  margin-left: 8px;
+  color: lightgray;
+  font-size: small;
+}
+.right {
+  margin-left: 12px;
+}
