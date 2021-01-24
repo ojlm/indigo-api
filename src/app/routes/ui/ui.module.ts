@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
+import { NzLayoutModule } from 'ng-zorro-antd'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 import { SortablejsModule } from 'ngx-sortablejs'
@@ -55,6 +56,7 @@ const COMPONENT_NOROUNT = [
 
 @NgModule({
   imports: [
+    NzLayoutModule,
     CommonModule,
     MonacoEditorModule,
     SortablejsModule,

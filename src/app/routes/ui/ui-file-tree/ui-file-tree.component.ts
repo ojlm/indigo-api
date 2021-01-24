@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { I18NService } from '@core'
-import { FileNodeService, QueryFile } from 'app/api/service/file.node.service'
+import { FileNodeService, NewResponse, QueryFile } from 'app/api/service/file.node.service'
 import { PageSingleModel } from 'app/model/page.model'
-import { NzFormatEmitEvent, NzMessageService, NzModalService, NzTreeNodeOptions } from 'ng-zorro-antd'
+import { NzFormatEmitEvent, NzMessageService, NzModalService, NzTreeComponent, NzTreeNodeOptions } from 'ng-zorro-antd'
 
 import { UiConfigService } from '../ui-config.service'
 import { UiFolderDialogComponent } from '../ui-folder-dialog/ui-folder-dialog.component'
@@ -17,8 +17,11 @@ import { APP, FileNode } from '../ui.model'
 })
 export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDestroy {
 
+  @ViewChild('nzTreeComponent', { static: false }) nzTreeComponent!: NzTreeComponent
+
   group = ''
   project = ''
+  id = ''
 
   // TODO page
   pageSize = 2000
@@ -26,6 +29,9 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
     topOnly: false
   }
   nodes: NzTreeNodeOptions[] = []
+
+  expandedKeys: string[] = []
+  selectedKeys: string[] = []
 
   constructor(
     private uiConfigService: UiConfigService,
@@ -61,12 +67,11 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
 
   clickNode(event: NzFormatEmitEvent) {
     const node = event.node
-    if (node.isLeaf) {
-      const item = node.origin.file
-      this.uiConfigService.goFile(item.group, item.project, item._id)
-    } else {
+    const item = node.origin.file
+    if (!node.isLeaf) {
       node.isExpanded = !node.isExpanded
     }
+    this.uiConfigService.goFile(item.group, item.project, item._id)
   }
 
   uploadKarate() {
@@ -77,8 +82,7 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
     this.msgService.warning('TBD')
   }
 
-  // TODO
-  newMonkey() {
+  newMonkey(node: NzTreeNodeOptions) {
     this.modalService.create({
       nzTitle: this.i18nService.fanyi('title.monkey.new'),
       nzCancelText: null,
@@ -89,17 +93,14 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
       nzComponentParams: {
         group: this.group,
         project: this.project,
-        // current: this.current,
+        current: node ? node.origin.file : null,
       },
-    }).afterClose.subscribe(newFileId => {
-      if (newFileId) {
-        this.uiConfigService.goFile(this.group, this.project, newFileId)
-      }
+    }).afterClose.subscribe((res: NewResponse) => {
+      this.dealNewFile(res)
     })
   }
 
-  // TOOD
-  newFolder() {
+  newFolder(node: NzTreeNodeOptions) {
     this.modalService.create({
       nzTitle: this.i18nService.fanyi('title.folder.new'),
       nzCancelText: null,
@@ -109,13 +110,30 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
       nzComponentParams: {
         group: this.group,
         project: this.project,
-        // current: this.current,
+        current: node ? node.origin.file : null,
       },
-    }).afterClose.subscribe(newFileId => {
-      if (newFileId) {
-        this.uiConfigService.goFile(this.group, this.project, newFileId)
-      }
+    }).afterClose.subscribe((res: NewResponse) => {
+      this.dealNewFile(res)
     })
+  }
+
+  dealNewFile(res: NewResponse) {
+    if (res.id) {
+      res.doc._id = res.id
+      this.id = res.id
+      this.uiConfigService.goFile(this.group, this.project, res.id)
+      this.load()
+    }
+  }
+
+  mv(node: NzTreeNodeOptions) {
+    console.log('mv', node)
+    this.msgService.warning('TBD')
+  }
+
+  delete(node: NzTreeNodeOptions) {
+    console.log('delete', node)
+    this.msgService.warning('TBD')
   }
 
   reset() {
@@ -130,28 +148,67 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
     })
   }
 
+  toTreeNode(file: FileNode) {
+    const node: NzTreeNodeOptions = {
+      title: file.name,
+      key: file._id,
+      isLeaf: file.type === 'file',
+      file: file,
+    }
+    return node
+  }
+
   toTreeNodes(files: FileNode[]) {
-    const tmp: NzTreeNodeOptions[] = []
+    const nodesMap: { [k: string]: NzTreeNodeOptions } = {}
+    const parentNodeOptionsMap: { [k: string]: NzTreeNodeOptions[] } = {}
+    const root: NzTreeNodeOptions[] = []
+    // 1. make children 2. build parent -(;
     files.forEach(file => {
-      const node: NzTreeNodeOptions = {
-        title: file.name,
-        key: file._id,
-        isLeaf: file.type === 'file',
-        file: file,
+      const node: NzTreeNodeOptions = this.toTreeNode(file)
+      nodesMap[node.key] = node
+      if (file.parent) {
+        const children = parentNodeOptionsMap[file.parent]
+        if (children) {
+          children.push(node)
+        } else {
+          parentNodeOptionsMap[file.parent] = [node]
+        }
       }
-      tmp.push(node)
     })
-    return this.nodes = tmp
+    if (this.id) {
+      const selected = nodesMap[this.id]
+      this.selectedKeys = [this.id]
+      if (selected.file.path) {
+        this.expandedKeys = selected.file.path.map(path => path.id)
+      }
+    }
+    files.forEach(file => {
+      const children = parentNodeOptionsMap[file._id]
+      if (children) {
+        nodesMap[file._id].children = children
+      }
+      if (!file.parent) {
+        root.push(nodesMap[file._id])
+      }
+    })
+    this.nodes = root
+    this.selectedKeys = [...this.selectedKeys]
+    this.expandedKeys = [...this.expandedKeys]
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.group = params['group']
-      this.project = params['project']
-      this.q.group = this.group
-      this.q.project = this.project
-      this.load()
-    })
+    if (this.route.children[0] && this.route.children[0].snapshot) {
+      const params = this.route.snapshot.params
+      const childParams = this.route.children[0].snapshot.params
+      if (childParams['fileId']) {
+        this.group = params['group']
+        this.project = params['project']
+        this.id = childParams['fileId']
+        this.q.group = this.group
+        this.q.project = this.project
+        this.load()
+      }
+    }
   }
 
   ngOnDestroy(): void {

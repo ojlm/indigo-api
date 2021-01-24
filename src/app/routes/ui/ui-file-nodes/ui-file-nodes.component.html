@@ -1,50 +1,52 @@
-<div style="text-align: right;padding-right: 48px;">
-  <ng-container>
-    <button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="uploadMenu" nzPlacement="bottomRight">
-      {{'btn.upload'|translate}}
-    </button>
-    <nz-dropdown-menu #uploadMenu="nzDropdownMenu">
-      <ul nz-menu>
-        <li nz-menu-item (click)="uploadKarate()">
-          <img class="menu-img" src="/assets/svg/karate.svg">
-          <span>Karate</span>
-        </li>
-        <li nz-menu-item (click)="uploadSoloPi()">
-          <img class="menu-img" src="/assets/svg/pi.svg">
-          <span>SoloPi</span>
-        </li>
-      </ul>
-    </nz-dropdown-menu>
-  </ng-container>
-  <ng-container>
-    <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="newMenu" nzPlacement="bottomRight">
-      {{'btn-new'|translate}}
-    </button>
-    <nz-dropdown-menu #newMenu="nzDropdownMenu">
-      <ul nz-menu>
-        <li nz-menu-item (click)="newMonkey()">
-          <img class="menu-img" src="/assets/svg/monkey.svg">
-          <span>{{'app.monkey'|translate}}</span>
-        </li>
-        <li nz-menu-divider></li>
-        <li nz-menu-item (click)="newFolder()">
-          <img class="menu-img" src="/assets/svg/folder.svg">
-          <span>{{"menu.folder"|translate}}</span>
-        </li>
-      </ul>
-    </nz-dropdown-menu>
-  </ng-container>
-</div>
-<div style="margin-top:20px;">
-  <nz-list *ngIf="files.length>0" nzBordered nzSize="small">
-    <nz-list-item *ngFor="let item of files">
-      <div style="width: 100%;cursor: pointer;" (click)="goFile(item)">
-        <img class="menu-img" [src]="getImgSrc(item)">
-        <span>{{item.name}}</span>
-      </div>
-    </nz-list-item>
-  </nz-list>
-  <div *ngIf="files.length===0">
-    <nz-empty nzNotFoundImage="simple"></nz-empty>
+<div class="ui-container">
+  <div style="text-align: right;padding-right: 48px;">
+    <ng-container>
+      <button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="uploadMenu" nzPlacement="bottomRight">
+        {{'btn.upload'|translate}}
+      </button>
+      <nz-dropdown-menu #uploadMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item (click)="uploadKarate()">
+            <img class="menu-img" src="/assets/svg/karate.svg">
+            <span>Karate</span>
+          </li>
+          <li nz-menu-item (click)="uploadSoloPi()">
+            <img class="menu-img" src="/assets/svg/pi.svg">
+            <span>SoloPi</span>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </ng-container>
+    <ng-container>
+      <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="newMenu" nzPlacement="bottomRight">
+        {{'btn-new'|translate}}
+      </button>
+      <nz-dropdown-menu #newMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item (click)="newMonkey()">
+            <img class="menu-img" src="/assets/svg/monkey.svg">
+            <span>{{'app.monkey'|translate}}</span>
+          </li>
+          <li nz-menu-divider></li>
+          <li nz-menu-item (click)="newFolder()">
+            <img class="menu-img" src="/assets/svg/folder.svg">
+            <span>{{"menu.folder"|translate}}</span>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </ng-container>
+  </div>
+  <div style="margin-top:20px;">
+    <nz-list *ngIf="files.length>0" nzBordered nzSize="small">
+      <nz-list-item *ngFor="let item of files">
+        <div style="width: 100%;cursor: pointer;" (click)="goFile(item)">
+          <img class="menu-img" [src]="getImgSrc(item)">
+          <span>{{item.name}}</span>
+        </div>
+      </nz-list-item>
+    </nz-list>
+    <div *ngIf="files.length===0">
+      <nz-empty nzNotFoundImage="simple"></nz-empty>
+    </div>
   </div>
 </div>

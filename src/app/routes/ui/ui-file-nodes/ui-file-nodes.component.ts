@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { I18NService } from '@core'
-import { FileNodeService, QueryFile } from 'app/api/service/file.node.service'
+import { FileNodeService, NewResponse, QueryFile } from 'app/api/service/file.node.service'
 import { PageSingleModel } from 'app/model/page.model'
 import { NzMessageService, NzModalService } from 'ng-zorro-antd'
 
@@ -13,7 +13,7 @@ import { APP, FileNode } from '../ui.model'
 @Component({
   selector: 'app-ui-file-nodes',
   templateUrl: './ui-file-nodes.component.html',
-  styleUrls: ['./ui-file-nodes.component.css']
+  styleUrls: ['../ui.module.css', './ui-file-nodes.component.css']
 })
 export class UiFileNodesComponent extends PageSingleModel implements OnInit, OnDestroy {
 
@@ -57,6 +57,7 @@ export class UiFileNodesComponent extends PageSingleModel implements OnInit, OnD
   }
 
   goFile(item: FileNode) {
+    this.uiConfigService.menuCollapsedSubject.next(true)
     this.uiConfigService.goFile(item.group, item.project, item._id)
   }
 
@@ -81,9 +82,9 @@ export class UiFileNodesComponent extends PageSingleModel implements OnInit, OnD
         project: this.project,
         current: this.current,
       },
-    }).afterClose.subscribe(newFileId => {
-      if (newFileId) {
-        this.uiConfigService.goFile(this.group, this.project, newFileId)
+    }).afterClose.subscribe((res: NewResponse) => {
+      if (res.id) {
+        this.uiConfigService.goFile(this.group, this.project, res.id)
       }
     })
   }
@@ -100,9 +101,9 @@ export class UiFileNodesComponent extends PageSingleModel implements OnInit, OnD
         project: this.project,
         current: this.current,
       },
-    }).afterClose.subscribe(newFileId => {
-      if (newFileId) {
-        this.uiConfigService.goFile(this.group, this.project, newFileId)
+    }).afterClose.subscribe((res: NewResponse) => {
+      if (res.id) {
+        this.uiConfigService.goFile(this.group, this.project, res.id)
       }
     })
   }

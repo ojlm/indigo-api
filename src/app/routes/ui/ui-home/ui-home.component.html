@@ -1,26 +1,26 @@
-<div nz-row style="height: 100%;width: 100%;display: grid;grid-template-columns: 264px auto;">
-  <div style="background-color: white;">
-    <div class="title">{{'title.spaces'|translate}}</div>
+<nz-layout class="layout">
+  <nz-sider class="indigo-scroll-bar" nzCollapsible [(nzCollapsed)]="isCollapsed" nzTheme="light">
+    <div *ngIf="!isCollapsed" class="title">{{'title.spaces'|translate}}</div>
     <ul nz-menu nzMode="inline">
-      <li *ngFor="let g of groups" nz-submenu [nzTitle]="gTpl" [nzOpen]="openMenu[g.id]"
+      <li *ngFor="let g of groups" nz-submenu [nzTitle]="gTpl" [nzOpen]="!isCollapsed&&openMenu[g.id]"
         (nzOpenChange)="openChange($event, g)">
         <ng-template #gTpl>
           <span>
-            <nz-avatar class="avatar" nzIcon="team" nzSize="small" [nzSrc]="g.avatar"></nz-avatar>
-            <span>{{g.summary||g.id}}</span>
+            <nz-avatar class="avatar" [nzText]="groupAvatar(g)" nzSize="small" [nzSrc]="g.avatar"></nz-avatar>
+            <span *ngIf="!isCollapsed">{{g.summary||g.id}}</span>
           </span>
         </ng-template>
         <ul *ngIf="groupProjects[g.id]">
           <li *ngFor="let p of groupProjects[g.id]" nz-menu-item [nzSelected]="selectMenu[p.group+p.id]"
             (click)="goProject(p)">
-            <nz-avatar class="avatar" nzIcon="project" nzSize="small" [nzSrc]="p.avatar"></nz-avatar>
+            <nz-avatar class="avatar" [nzText]="projectAvatar(p)" nzSize="small" [nzSrc]="p.avatar"></nz-avatar>
             <span>{{p.summary||p.id}}</span>
           </li>
         </ul>
       </li>
     </ul>
-  </div>
-  <div>
+  </nz-sider>
+  <nz-content>
     <router-outlet></router-outlet>
-  </div>
-</div>
+  </nz-content>
+</nz-layout>

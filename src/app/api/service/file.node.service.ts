@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
-import { IndexDocResponse } from 'app/model/es.model'
 import { DocRef } from 'app/model/job.model'
 import { FileNode } from 'app/routes/ui/ui.model'
 import { Observable } from 'rxjs'
@@ -27,11 +26,23 @@ export class FileNodeService extends BaseService {
   }
 
   newFile(group: string, project: string, doc: NewFile) {
-    return this.http.put(`${API_FILES}/${group}/${project}/file`, doc) as Observable<ApiRes<IndexDocResponse>>
+    return this.http.put(`${API_FILES}/${group}/${project}/file`, doc) as Observable<ApiRes<NewResponse>>
   }
 
   newFolder(group: string, project: string, doc: NewFolder) {
-    return this.http.put(`${API_FILES}/${group}/${project}/folder`, doc) as Observable<ApiRes<IndexDocResponse>>
+    return this.http.put(`${API_FILES}/${group}/${project}/folder`, doc) as Observable<ApiRes<NewResponse>>
+  }
+
+  toChildPath(file: FileNode): DocRef[] {
+    if (file) {
+      if (file.path) {
+        return [...file.path, { id: file._id }]
+      } else {
+        return [{ id: file._id }]
+      }
+    } else {
+      return undefined
+    }
   }
 
 }
@@ -55,4 +66,9 @@ export interface NewFolder {
 export interface NewFile extends NewFolder {
   app?: string
   data?: object
+}
+
+export interface NewResponse {
+  id?: string
+  doc?: FileNode
 }

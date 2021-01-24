@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
+import { Subject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UiConfigService {
+
+  menuCollapsedSubject = new Subject<boolean>()
 
   constructor(
     private router: Router,

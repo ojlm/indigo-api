@@ -1,8 +1,31 @@
+.menu-item {
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  padding: 4px 8px;
+}
+.menu-title {
+  font-size: small;
+}
 .menu-img {
   width: 22px;
   height: 22px;
   margin-right: 8px;
 }
-.menu-item {
-  padding: 4px 8px;
+.menu-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+}
+.btns {
+  display: none;
+  position: absolute;
+  right: 4px;
+  padding: 0px 4px;
+}
+.menu-item:hover .btns {
+  display: initial;
+}
+.btns:hover {
+  background-color: #dde1e6;
 }

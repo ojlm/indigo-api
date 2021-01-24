@@ -37,9 +37,13 @@ export class UiFolderDialogComponent extends PageSingleModel implements OnInit {
       this.form.controls[i].updateValueAndValidity()
     }
     if (this.form.invalid) return
-    const q: NewFolder = { ...this.form.value, parent: this.current ? this.current.parent : undefined, path: this.current ? this.current.path : undefined }
+    const q: NewFolder = {
+      ...this.form.value,
+      parent: this.current ? this.current._id : undefined,
+      path: this.fileNodeService.toChildPath(this.current)
+    }
     this.fileNodeService.newFolder(this.group, this.project, q).subscribe(res => {
-      this.modalRef.destroy(res.data.id)
+      this.modalRef.destroy(res.data)
     })
   }
 

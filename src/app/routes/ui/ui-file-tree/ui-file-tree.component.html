@@ -23,12 +23,12 @@
     </button>
     <nz-dropdown-menu #newMenu="nzDropdownMenu">
       <ul nz-menu>
-        <li class="menu-item" nz-menu-item (click)="newMonkey()">
+        <li class="menu-item" nz-menu-item (click)="newMonkey(null)">
           <img class="menu-img" src="/assets/svg/monkey.svg">
           <span>{{'app.monkey'|translate}}</span>
         </li>
         <li nz-menu-divider></li>
-        <li class="menu-item" nz-menu-item (click)="newFolder()">
+        <li class="menu-item" nz-menu-item (click)="newFolder(null)">
           <img class="menu-img" src="/assets/svg/folder.svg">
           <span>{{"menu.folder"|translate}}</span>
         </li>
@@ -38,11 +38,58 @@
 </div>
 <div style="margin-top:4px;">
   <nz-tree style="padding: 0px 4px;" [nzData]="nodes" [nzBlockNode]="true" [nzShowIcon]="false" [nzShowExpand]="false"
-    [nzTreeTemplate]="treeTpl" (nzClick)="clickNode($event)">
+    [nzShowLine]="false" [nzExpandedKeys]="expandedKeys" [nzSelectedKeys]="selectedKeys" [nzTreeTemplate]="treeTpl"
+    (nzClick)="clickNode($event)">
     <ng-template #treeTpl let-node let-origin="origin">
-      <div style="width: 100%;cursor: pointer;">
+      <div class="menu-item">
         <img class="menu-img" [src]="getImgSrc(node, origin.file)">
         <span>{{node.title}}</span>
+        <span class="btns" nz-dropdown [nzDropdownMenu]="btnsMenu" nzPlacement="bottomRight">
+          <i nz-icon nzType="down-circle" nzTheme="outline"></i>
+          <nz-dropdown-menu #btnsMenu="nzDropdownMenu">
+            <ul nz-menu>
+              <li *ngIf="!node.isLeaf" nz-menu-group [nzTitle]="newTpl">
+                <ul>
+                  <li class="menu-item" nz-menu-item (click)="newMonkey(node)">
+                    <img class="menu-img" src="/assets/svg/monkey.svg">
+                    <span>{{'app.monkey'|translate}}</span>
+                  </li>
+                  <li class="menu-item" nz-menu-item (click)="newFolder(node)">
+                    <img class="menu-img" src="/assets/svg/folder.svg">
+                    <span>{{"menu.folder"|translate}}</span>
+                  </li>
+                </ul>
+              </li>
+              <ng-template #newTpl>
+                <span class="menu-title">{{'btn.new'|translate}}</span>
+              </ng-template>
+              <li *ngIf="!node.isLeaf" nz-menu-group [nzTitle]="upTpl">
+                <ul>
+                  <li class="menu-item" nz-menu-item (click)="uploadKarate()">
+                    <img class="menu-img" src="/assets/svg/karate.svg">
+                    <span>Karate</span>
+                  </li>
+                  <li class="menu-item" nz-menu-item (click)="uploadSoloPi()">
+                    <img class="menu-img" src="/assets/svg/pi.svg">
+                    <span>SoloPi</span>
+                  </li>
+                </ul>
+              </li>
+              <ng-template #upTpl>
+                <span class="menu-title">{{'btn.upload'|translate}}</span>
+              </ng-template>
+              <li *ngIf="!node.isLeaf" nz-menu-divider></li>
+              <li class="menu-item" nz-menu-item (click)="mv(node)">
+                <i class="menu-icon" style="font-size: 14px;" nz-icon nzType="edit" nzTheme="outline"></i>
+                <span>{{'btn.mv'|translate}}</span>
+              </li>
+              <li class="menu-item" nz-menu-item (click)="delete(node)">
+                <i class="menu-icon" style="font-size: 14px;" nz-icon nzType="delete" nzTheme="outline"></i>
+                <span>{{'btn.delete'|translate}}</span>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+        </span>
       </div>
     </ng-template>
   </nz-tree>

@@ -1,3 +1,8 @@
+.layout {
+  width: 100%;
+  min-height: 100vh;
+  background-color: white;
+}
 .title {
   padding: 12px 12px 12px 24px;
   color: lightgray;
@@ -5,4 +10,12 @@
 
 .avatar {
   margin-right: 8px;
+}
+
+nz-sider {
+  overflow: auto;
+  height: 100%;
+}
+
+nz-content {
 }

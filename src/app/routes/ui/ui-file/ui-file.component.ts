@@ -27,14 +27,14 @@ export class UiFileComponent implements OnInit {
     })
   }
 
-  // TODO: subscribe file change
   ngOnInit(): void {
     const parentParams = this.route.parent.snapshot.params
     this.group = parentParams['group']
     this.project = parentParams['project']
-    const params = this.route.snapshot.params
-    this.id = params['fileId']
-    this.load()
+    this.route.params.subscribe(params => {
+      this.id = params['fileId']
+      this.load()
+    })
   }
 
 }

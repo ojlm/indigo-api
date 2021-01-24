@@ -37,13 +37,13 @@ export class UiMonkeyDialogComponent extends PageSingleModel implements OnInit {
     const q: NewFile = {
       name: this.name,
       description: this.description,
-      parent: this.current ? this.current.parent : undefined,
-      path: this.current ? this.current.path : undefined,
+      parent: this.current ? this.current._id : undefined,
+      path: this.fileNodeService.toChildPath(this.current),
       app: APP.WEB_MONKEY,
       data: this.params
     }
     this.fileNodeService.newFile(this.group, this.project, q).subscribe(res => {
-      this.modalRef.destroy(res.data.id)
+      this.modalRef.destroy(res.data)
     })
   }
 
