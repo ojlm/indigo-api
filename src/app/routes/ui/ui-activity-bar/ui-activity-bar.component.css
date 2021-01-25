@@ -1,0 +1,18 @@
+.img {
+  width: 20px;
+  height: 20px;
+}
+.drag-line {
+  width: 4px;
+  height: 100%;
+  cursor: ew-resize;
+  position: absolute;
+  border-left: 1px solid #f0f0f0;
+}
+.drag-line:hover {
+  background-color: #f0f0f0;
+}
+.tabs {
+  margin-left: 4px;
+  height: 100%;
+}

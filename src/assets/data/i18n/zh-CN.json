@@ -314,6 +314,8 @@
   "tips.monkey.areaRatio": "区域比重",
   "tips.runner.saveCommandLog": "保存指令日志",
   "tips.runner.saveDriverLog": "保存Driver日志",
+  "tips.activity.runner": "伺服",
+  "tips.activity.history": "执行历史",
   "btn-add": "添加",
   "btn-test": "测试",
   "btn-send": "发送",

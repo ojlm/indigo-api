@@ -1,44 +1,8 @@
-<div nz-row nzGutter="4" style="height: 32px;">
-  <div nz-col nzSpan="6">
-    <button nz-button nzType="primary" (click)="startCommand()">{{'btn-send'|translate}}</button>
-    <button *ngIf="driverStatus.status==='running'" nz-button nzType="danger" (click)="stopCommand()">
-      {{'btn-stop'|translate}}
-    </button>
-  </div>
-  <div nz-col nzSpan="18">
-    <div nz-row nzGutter="4">
-      <div nz-col nzFlex="auto">
-        <nz-input-group style="float: right;" [nzAddOnBefore]="'item-host'|translate">
-          <nz-select style="width: 200px;" nzShowSearch [(ngModel)]="selectedDriver" (ngModelChange)="driverChange()"
-            [nzCustomTemplate]="selectTpl">
-            <nz-option *ngFor="let item of drivers" nzCustomContent [nzLabel]="getDriverLabel(item)" [nzValue]="item">
-              <span [title]="getDriverLabel(item)">
-                <i nz-icon nzType="chrome" nzTheme="outline"></i>
-                <span>{{getDriverLabel(item)}}</span>
-              </span>
-            </nz-option>
-            <ng-template #selectTpl let-selected>
-              <span [title]="selected.nzLabel">
-                <i nz-icon nzType="chrome" nzTheme="outline"></i>
-                <span>{{selected.nzLabel}}</span>
-              </span>
-            </ng-template>
-          </nz-select>
-        </nz-input-group>
-      </div>
-      <div nz-col nzFlex="100px">
-        <span style="float: right;line-height: 32px;">
-          <app-driver-status [status]="driverStatus"></app-driver-status>
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-<div>
-  <label nz-checkbox [(ngModel)]="options.saveCommandLog">{{'tips.runner.saveCommandLog'|translate}}</label>
-  <label nz-checkbox [(ngModel)]="options.saveDriverLog">{{'tips.runner.saveDriverLog'|translate}}</label>
-</div>
-<div style="margin-top: 4px;">
-  <app-driver-console [height]="'120px'" [log]="log"></app-driver-console>
-  <div id="vnc" style="height: 360px;"></div>
+<div [ngSwitch]="file.app">
+  <ng-container *ngSwitchCase="'web.monkey'">
+    <app-ui-activity-runner-web [file]="file"></app-ui-activity-runner-web>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <nz-empty nzNotFoundImage="simple"></nz-empty>
+  </ng-container>
 </div>

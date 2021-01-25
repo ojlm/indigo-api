@@ -13,6 +13,7 @@ import { MonkeyCommandComponent } from './monkey-command/monkey-command.componen
 import { NovncComponent } from './novnc/novnc.component'
 import { UiActivityBarComponent } from './ui-activity-bar/ui-activity-bar.component'
 import { UiActivityHistoryComponent } from './ui-activity-history/ui-activity-history.component'
+import { UiActivityRunnerWebComponent } from './ui-activity-runner-web/ui-activity-runner-web.component'
 import { UiActivityRunnerComponent } from './ui-activity-runner/ui-activity-runner.component'
 import { UiFileContainerComponent } from './ui-file-container/ui-file-container.component'
 import { UiFileNodesComponent } from './ui-file-nodes/ui-file-nodes.component'
@@ -48,6 +49,7 @@ const COMPONENT = [
   UiTaskReportComponent,
   UiLogEntryComponent,
   UiLogEntryItemComponent,
+  UiActivityRunnerWebComponent,
 ]
 
 const COMPONENT_NOROUNT = [

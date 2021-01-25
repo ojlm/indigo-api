@@ -314,6 +314,8 @@
   "tips.monkey.areaRatio": "Area Ratio",
   "tips.runner.saveCommandLog": "Save command log",
   "tips.runner.saveDriverLog": "Save driver log",
+  "tips.activity.runner": "Runner",
+  "tips.activity.history": "History",
   "btn-add": "Add",
   "btn-test": "Test",
   "btn-send": "Send",

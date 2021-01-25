@@ -1,10 +1,26 @@
-<div>
-  <nz-tabset nzTabPosition="right" nzSize="small" nzType="line" [nzTabBarStyle]="tabBarStyle">
-    <nz-tab nzTitle="Runner">
-      <app-ui-activity-runner [file]="file"></app-ui-activity-runner>
+<div [style.width]="width+'px'" [style.height]="height">
+  <div #drag [class]="hideAll?'':'drag-line'"></div>
+  <nz-tabset class="tabs" nzTabPosition="right" nzSize="small" nzType="line" nzTabBarGutter="0"
+    [nzTabBarStyle]="tabBarStyle" [(nzSelectedIndex)]="tabIndex" [nzHideAll]="hideAll">
+    <nz-tab [nzTitle]="runnerTpl" (nzClick)="tabClick(0)">
+      <ng-template #runnerTpl>
+        <div [nzTooltipTitle]="'tips.activity.runner'|translate" nzTooltipPlacement="left" nz-tooltip>
+          <img class="img" src="/assets/svg/rocket.svg">
+        </div>
+      </ng-template>
+      <ng-template nz-tab>
+        <app-ui-activity-runner [file]="file"></app-ui-activity-runner>
+      </ng-template>
     </nz-tab>
-    <nz-tab nzTitle="History">
-      <app-ui-activity-history [file]="file"></app-ui-activity-history>
+    <nz-tab [nzTitle]="hisTpl" (nzClick)="tabClick(1)">
+      <ng-template #hisTpl>
+        <div [nzTooltipTitle]="'tips.activity.history'|translate" nzTooltipPlacement="left" nz-tooltip>
+          <img class="img" src="/assets/svg/nav_history.svg">
+        </div>
+      </ng-template>
+      <ng-template nz-tab>
+        <app-ui-activity-history [file]="file"></app-ui-activity-history>
+      </ng-template>
     </nz-tab>
   </nz-tabset>
 </div>
