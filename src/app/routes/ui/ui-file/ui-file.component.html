@@ -17,8 +17,17 @@
       <ng-container *ngSwitchCase="'web.monkey'">
         <app-monkey-command [(params)]="file.data"></app-monkey-command>
       </ng-container>
+      <ng-container *ngSwitchCase="'karate'">
+        <app-ui-file-app-karate [file]="file"></app-ui-file-app-karate>
+      </ng-container>
+      <ng-container *ngSwitchCase="'solopi'">
+        <app-ui-file-app-solopi [file]="file"></app-ui-file-app-solopi>
+      </ng-container>
+      <ng-container *ngSwitchCase="'raw'">
+        <app-ui-file-app-raw [file]="file"></app-ui-file-app-raw>
+      </ng-container>
       <ng-container *ngSwitchDefault>
-        <div>This is a folder</div>
+        <div>{{file.app}}</div>
       </ng-container>
     </div>
   </div>

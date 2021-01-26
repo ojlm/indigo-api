@@ -8,6 +8,7 @@ import { NzFormatEmitEvent, NzMessageService, NzModalService, NzTreeComponent, N
 import { UiConfigService } from '../ui-config.service'
 import { UiFolderDialogComponent } from '../ui-folder-dialog/ui-folder-dialog.component'
 import { UiMonkeyDialogComponent } from '../ui-monkey-dialog/ui-monkey-dialog.component'
+import { UiUploadDialogComponent } from '../ui-upload-dialog/ui-upload-dialog.component'
 import { APP, FileNode } from '../ui.model'
 
 @Component({
@@ -52,16 +53,7 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
         return '/assets/svg/folder.svg'
       }
     } else {
-      switch (item.app) {
-        case APP.KARATE:
-          return '/assets/svg/karate.svg'
-        case APP.SOLOPI:
-          return '/assets/svg/pi.svg'
-        case APP.WEB_MONKEY:
-          return '/assets/svg/monkey.svg'
-        default:
-          return '/assets/svg/file.svg'
-      }
+      return this.fileNodeService.getImgSrc(item)
     }
   }
 
@@ -74,39 +66,58 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
     this.uiConfigService.goFile(item.group, item.project, item._id)
   }
 
-  uploadKarate() {
-    this.msgService.warning('TBD')
+  uploadKarate(node: NzTreeNodeOptions) {
+    this.openUploadDialog('title.upload.karate', APP.KARATE, node)
   }
 
-  uploadSoloPi() {
-    this.msgService.warning('TBD')
+  uploadSoloPi(node: NzTreeNodeOptions) {
+    this.openUploadDialog('title.upload.solopi', APP.SOLOPI, node)
   }
 
-  newMonkey(node: NzTreeNodeOptions) {
+  uploadRaw(node: NzTreeNodeOptions) {
+    this.openUploadDialog('title.upload.raw', APP.RAW, node)
+  }
+
+
+  openUploadDialog(titleKey: string, app: string, node: NzTreeNodeOptions) {
     this.modalService.create({
-      nzTitle: this.i18nService.fanyi('title.monkey.new'),
+      nzTitle: this.i18nService.fanyi(titleKey),
       nzCancelText: null,
       nzOkText: null,
       nzFooter: null,
-      nzWidth: window.innerWidth * 0.6,
-      nzContent: UiMonkeyDialogComponent,
+      nzWidth: window.innerWidth * 0.5,
+      nzContent: UiUploadDialogComponent,
       nzComponentParams: {
         group: this.group,
         project: this.project,
         current: node ? node.origin.file : null,
+        app: app,
       },
-    }).afterClose.subscribe((res: NewResponse) => {
-      this.dealNewFile(res)
+    }).afterClose.subscribe((_: any) => {
+      if (node && node.key) {
+        this.id = node.key
+        this.uiConfigService.goFile(this.group, this.project, node.key)
+      }
+      this.load()
     })
   }
 
+  newMonkey(node: NzTreeNodeOptions) {
+    this.openNewFileDialog('title.monkey.new', node, UiMonkeyDialogComponent)
+  }
+
   newFolder(node: NzTreeNodeOptions) {
+    this.openNewFileDialog('title.folder.new', node, UiFolderDialogComponent)
+  }
+
+  openNewFileDialog(titleKey: string, node: NzTreeNodeOptions, content: any) {
     this.modalService.create({
-      nzTitle: this.i18nService.fanyi('title.folder.new'),
+      nzTitle: this.i18nService.fanyi(titleKey),
       nzCancelText: null,
       nzOkText: null,
       nzFooter: null,
-      nzContent: UiFolderDialogComponent,
+      nzWidth: window.innerWidth * 0.6,
+      nzContent: content,
       nzComponentParams: {
         group: this.group,
         project: this.project,
@@ -118,7 +129,7 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
   }
 
   dealNewFile(res: NewResponse) {
-    if (res.id) {
+    if (res && res.id) {
       res.doc._id = res.id
       this.id = res.id
       this.uiConfigService.goFile(this.group, this.project, res.id)
@@ -180,6 +191,9 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
       this.selectedKeys = [this.id]
       if (selected.file.path) {
         this.expandedKeys = selected.file.path.map(path => path.id)
+      }
+      if (!selected.isLeaf) {
+        this.expandedKeys = [...this.expandedKeys, selected.key]
       }
     }
     files.forEach(file => {

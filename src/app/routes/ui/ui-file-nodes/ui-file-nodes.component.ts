@@ -8,7 +8,7 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd'
 import { UiConfigService } from '../ui-config.service'
 import { UiFolderDialogComponent } from '../ui-folder-dialog/ui-folder-dialog.component'
 import { UiMonkeyDialogComponent } from '../ui-monkey-dialog/ui-monkey-dialog.component'
-import { APP, FileNode } from '../ui.model'
+import { FileNode } from '../ui.model'
 
 @Component({
   selector: 'app-ui-file-nodes',
@@ -43,16 +43,7 @@ export class UiFileNodesComponent extends PageSingleModel implements OnInit, OnD
     if (item.type === 'folder') {
       return '/assets/svg/folder.svg'
     } else {
-      switch (item.app) {
-        case APP.KARATE:
-          return '/assets/svg/karate.svg'
-        case APP.SOLOPI:
-          return '/assets/svg/pi.svg'
-        case APP.WEB_MONKEY:
-          return '/assets/svg/monkey.svg'
-        default:
-          return '/assets/svg/file.svg'
-      }
+      return this.fileNodeService.getImgSrc(item)
     }
   }
 
@@ -83,7 +74,7 @@ export class UiFileNodesComponent extends PageSingleModel implements OnInit, OnD
         current: this.current,
       },
     }).afterClose.subscribe((res: NewResponse) => {
-      if (res.id) {
+      if (res && res.id) {
         this.uiConfigService.goFile(this.group, this.project, res.id)
       }
     })
@@ -102,7 +93,7 @@ export class UiFileNodesComponent extends PageSingleModel implements OnInit, OnD
         current: this.current,
       },
     }).afterClose.subscribe((res: NewResponse) => {
-      if (res.id) {
+      if (res && res.id) {
         this.uiConfigService.goFile(this.group, this.project, res.id)
       }
     })

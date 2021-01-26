@@ -58,4 +58,5 @@ export const APP = {
   KARATE: 'karate',
   SOLOPI: 'solopi',
   WEB_MONKEY: 'web.monkey',
+  RAW: 'raw',
 }

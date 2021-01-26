@@ -15,6 +15,9 @@ import { UiActivityBarComponent } from './ui-activity-bar/ui-activity-bar.compon
 import { UiActivityHistoryComponent } from './ui-activity-history/ui-activity-history.component'
 import { UiActivityRunnerWebComponent } from './ui-activity-runner-web/ui-activity-runner-web.component'
 import { UiActivityRunnerComponent } from './ui-activity-runner/ui-activity-runner.component'
+import { UiFileAppKarateComponent } from './ui-file-app-karate/ui-file-app-karate.component'
+import { UiFileAppRawComponent } from './ui-file-app-raw/ui-file-app-raw.component'
+import { UiFileAppSolopiComponent } from './ui-file-app-solopi/ui-file-app-solopi.component'
 import { UiFileContainerComponent } from './ui-file-container/ui-file-container.component'
 import { UiFileNodesComponent } from './ui-file-nodes/ui-file-nodes.component'
 import { UiFileTreeComponent } from './ui-file-tree/ui-file-tree.component'
@@ -27,6 +30,7 @@ import { UiMonkeyDialogComponent } from './ui-monkey-dialog/ui-monkey-dialog.com
 import { UiRoutingModule } from './ui-routing.module'
 import { UiRunningJobComponent } from './ui-running-job/ui-running-job.component'
 import { UiTaskReportComponent } from './ui-task-report/ui-task-report.component'
+import { UiUploadDialogComponent } from './ui-upload-dialog/ui-upload-dialog.component'
 
 const COMPONENT = [
   UiHomeComponent,
@@ -50,10 +54,15 @@ const COMPONENT = [
   UiLogEntryComponent,
   UiLogEntryItemComponent,
   UiActivityRunnerWebComponent,
+  UiUploadDialogComponent,
+  UiFileAppKarateComponent,
+  UiFileAppSolopiComponent,
+  UiFileAppRawComponent,
 ]
 
 const COMPONENT_NOROUNT = [
   UiFolderDialogComponent,
+  UiUploadDialogComponent,
 ]
 
 @NgModule({

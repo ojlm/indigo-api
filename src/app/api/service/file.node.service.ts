@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { _HttpClient } from '@delon/theme'
 import { DocRef } from 'app/model/job.model'
-import { FileNode } from 'app/routes/ui/ui.model'
+import { APP, FileNode } from 'app/routes/ui/ui.model'
 import { Observable } from 'rxjs'
 
 import { ApiRes, QueryPage } from '../../model/api.model'
@@ -16,6 +16,10 @@ export class FileNodeService extends BaseService {
   constructor(
     private http: _HttpClient,
   ) { super() }
+
+  getUploadUrl(group: string, project: string) {
+    return `${API_FILES}/${group}/${project}/upload`
+  }
 
   get(group: string, project: string, id: string) {
     return this.http.get<ApiRes<FileNode>>(`${API_FILES}/${group}/${project}/${id}`)
@@ -42,6 +46,22 @@ export class FileNodeService extends BaseService {
       }
     } else {
       return undefined
+    }
+  }
+
+  getImgSrc(item: FileNode) {
+    switch (item.app) {
+      case APP.KARATE:
+      case APP.SOLOPI:
+      case APP.WEB_MONKEY:
+        return `/assets/svg/${item.app}.svg`
+      default:
+        switch (item.extension) {
+          case 'json':
+            return `/assets/svg/${item.extension}.svg`
+          default:
+            return '/assets/svg/file.svg'
+        }
     }
   }
 

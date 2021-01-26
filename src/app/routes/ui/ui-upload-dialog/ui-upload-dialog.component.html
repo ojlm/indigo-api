@@ -1,0 +1,10 @@
+<div>
+  <nz-upload nzType="drag" [nzMultiple]="true" [nzAccept]="ACCEPT" [nzAction]="UPLOAD_ACTION"
+    [nzShowUploadList]="{'showDownloadIcon':false}" [nzData]="extraData" (nzChange)="handleChange($event)">
+    <p class="ant-upload-drag-icon">
+      <i nz-icon nzType="inbox"></i>
+    </p>
+    <p class="ant-upload-text">{{'tips.upload.text'|translate}}</p>
+    <p class="ant-upload-hint"></p>
+  </nz-upload>
+</div>
