@@ -1,5 +1,10 @@
-import { BaseDoc, LabelRef } from 'app/model/es.model'
+import { BaseDoc, BlobMetaData, LabelRef } from 'app/model/es.model'
 import { DocRef } from 'app/model/job.model'
+
+export interface FileNodeData {
+  data?: object
+  blob?: BlobMetaData
+}
 
 export interface FileNode extends BaseDoc {
   group?: string
@@ -12,7 +17,7 @@ export interface FileNode extends BaseDoc {
   extension?: string
   app?: string
   labels?: LabelRef[]
-  data?: object
+  data?: FileNodeData
 }
 
 export interface UiTaskReportData {

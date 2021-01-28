@@ -26,6 +26,10 @@ export class UiService extends BaseService {
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
   ) { super() }
 
+  runSolopi(group: string, project: string, id: string, params: RunTaskInBlob) {
+    return this.http.post<ApiRes<UiTaskReport[]>>(`${API_UI}/task/run/solopi/${group}/${project}/${id}`, params)
+  }
+
   getReportLogsSubject(group: string, project: string, reportId: string, response: Subject<ApiRes<LogEntry[]>>) {
     const querySubject = new Subject<SearchAfterLogEntry>()
     querySubject.pipe(debounceTime(this.DEFAULT_DEBOUNCE_TIME)).subscribe(query => {
@@ -176,4 +180,9 @@ export interface SearchAfterLogEntry extends SearchAfter {
   reportId?: string
   levels?: string[]
   text?: string
+}
+
+export interface RunTaskInBlob {
+  key?: string
+  servers?: { host?: string, port?: number }[]
 }

@@ -1,6 +1,6 @@
 <div>
   <div style="height: 32px;">
-    <button nz-button nzType="primary" (click)="run()">{{'btn-send'|translate}}</button>
+    <button nz-button nzType="primary" [nzLoading]="loading" (click)="run()">{{'btn-send'|translate}}</button>
   </div>
   <nz-list nzItemLayout="vertical" nzSize="small">
     <nz-list-item *ngFor="let item of drivers" style="padding: 4px;">

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
-import { UiDriverInfo, UiService } from 'app/api/service/ui.service'
+import { RunTaskInBlob, UiDriverInfo, UiService } from 'app/api/service/ui.service'
+import { NzMessageService } from 'ng-zorro-antd'
 
 import { DRIVERS, FileNode } from '../ui.model'
 
@@ -26,14 +27,27 @@ export class UiActivityRunnerSolopiComponent implements OnInit {
     }
   }
 
+  loading = false
+
   constructor(
     private uiService: UiService,
+    private msgService: NzMessageService,
     private sanitizer: DomSanitizer,
   ) { }
 
   run() {
     const drivers = this.drivers.filter(item => item._checked)
-    console.log(drivers)
+    if (this._file && this._file.data && this._file.data.blob && this._file.data.blob.key) {
+      const params: RunTaskInBlob = {
+        key: this._file.data.blob.key,
+        servers: drivers.map(item => { return { host: item.host, port: item.port } })
+      }
+      this.loading = true
+      this.uiService.runSolopi(this.group, this.project, this._file._id, params).subscribe(res => {
+        this.msgService.success('ok')
+        this.loading = false
+      }, _ => this.loading = false)
+    }
   }
 
   getImgSrc(item: UiDriverInfo) {
