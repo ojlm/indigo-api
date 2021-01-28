@@ -44,21 +44,21 @@ export class UiService extends BaseService {
     return this.http.post<ApiRes<UiTaskReport[]>>(`${API_UI}/task/report/${group}/${project}`, q)
   }
 
-  getDriverLabel(driver: UiDriverAddress) {
+  getDriverLabel(driver: UiDriverInfo) {
     return `${driver.host}:${driver.port}`
   }
 
-  getDriverList(group: string, project: string) {
-    return this.http.get<ApiRes<UiDriverAddress[]>>(`${API_UI}/driver/list/${group}/${project}`)
+  getDriverList(group: string, project: string, driverType: string) {
+    return this.http.get<ApiRes<UiDriverInfo[]>>(`${API_UI}/driver/list/${group}/${project}?driverType=${driverType}`)
   }
 
   // direct connect ip:port
-  getRfbProxyUrl(driver: UiDriverAddress, group: string, project: string, id: string) {
+  getRfbProxyUrl(driver: UiDriverInfo, group: string, project: string, id: string) {
     const query = `host=${driver.host}&port=${driver.port}&token=${this.tokenService.get().token}`
     return newWSUrl(`${API_WS}/ui/proxy/rfb/${group}/${project}/${id}?${query}`)
   }
 
-  connectDriver(driver: UiDriverAddress, group: string, project: string, id: string) {
+  connectDriver(driver: UiDriverInfo, group: string, project: string, id: string) {
     const query = `host=${driver.host}&port=${driver.port}&token=${this.tokenService.get().token}`
     const ws = newWS(`${API_WS}/ui/proxy/connect/${group}/${project}/${id}?${query}`)
     ws.onerror = (event) => {
@@ -69,11 +69,28 @@ export class UiService extends BaseService {
   }
 }
 
-export interface UiDriverAddress {
+export interface UiDriverInfo {
   host?: string
   port?: number
   password?: string
   type?: string
+  // mobile
+  systemVersion?: string
+  model?: string
+  brand?: string
+  manufacturer?: string
+  product?: string
+  sdkVersion?: number
+  serial?: string
+  screenSize?: string
+  displaySize?: string
+  densityDpi?: number
+  density?: number
+  cpuABI?: string
+  mac?: string
+  ram?: number
+  screenCapture?: string
+  _checked?: boolean
 }
 
 export interface CommandMeta {

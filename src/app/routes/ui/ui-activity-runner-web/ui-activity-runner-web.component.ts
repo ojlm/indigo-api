@@ -6,14 +6,14 @@ import {
   DriverCommandLog,
   DriverCommandStart,
   DriverStatus,
-  UiDriverAddress,
+  UiDriverInfo,
   UiService,
 } from 'app/api/service/ui.service'
 import { ActorEvent } from 'app/model/api.model'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
 
-import { CommandOptions, FileNode } from '../ui.model'
+import { CommandOptions, DRIVERS, FileNode } from '../ui.model'
 
 @Component({
   selector: 'app-ui-activity-runner-web',
@@ -39,9 +39,9 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
 
   driverWs: WebSocket
   rfb: RFB
-  drivers: UiDriverAddress[] = []
+  drivers: UiDriverInfo[] = []
   driverStatus: DriverStatus = {}
-  selectedDriver: UiDriverAddress
+  selectedDriver: UiDriverInfo
   log = new Subject<string>()
 
   options: CommandOptions = { saveCommandLog: false, saveDriverLog: true }
@@ -52,7 +52,7 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
     private xtermService: XtermService,
   ) { }
 
-  getDriverLabel(driver: UiDriverAddress) {
+  getDriverLabel(driver: UiDriverInfo) {
     return this.uiService.getDriverLabel(driver)
   }
 
@@ -82,7 +82,7 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
     }
   }
 
-  connectDriver(driver: UiDriverAddress) {
+  connectDriver(driver: UiDriverInfo) {
     if (this.driverWs) {
       this.driverWs.close()
       this.driverWs = null
@@ -133,7 +133,7 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
     }
   }
 
-  refreshRfb(driver: UiDriverAddress) {
+  refreshRfb(driver: UiDriverInfo) {
     const url = this.uiService.getRfbProxyUrl(driver, this.group, this.project, this.id)
     // https://github.com/novnc/noVNC/blob/master/docs/API.md
     if (this.rfb) {
@@ -155,7 +155,7 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
   }
 
   loadDrivers() {
-    this.uiService.getDriverList(this.group, this.project).subscribe(res => {
+    this.uiService.getDriverList(this.group, this.project, DRIVERS.CHROME).subscribe(res => {
       this.drivers = res.data
       if (this.drivers.length > 0) {
         this.selectedDriver = this.drivers[0]

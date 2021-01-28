@@ -6,12 +6,14 @@ import {
   DriverCommandLog,
   DriverCommandStart,
   DriverStatus,
-  UiDriverAddress,
+  UiDriverInfo,
   UiService,
 } from 'app/api/service/ui.service'
 import { ActorEvent } from 'app/model/api.model'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
+
+import { DRIVERS } from '../ui.model'
 
 @Component({
   selector: 'app-novnc',
@@ -28,11 +30,11 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
   driverWs: WebSocket
   rfb: RFB
 
-  drivers: UiDriverAddress[] = []
+  drivers: UiDriverInfo[] = []
   commands = ['monkey', 'karate']
 
   driverStatus: DriverStatus = {}
-  selectedDriver: UiDriverAddress
+  selectedDriver: UiDriverInfo
   selectedCommand = this.commands[0]
   params: any
 
@@ -63,7 +65,7 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  getDriverLabel(driver: UiDriverAddress) {
+  getDriverLabel(driver: UiDriverInfo) {
     return this.uiService.getDriverLabel(driver)
   }
 
@@ -98,7 +100,7 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
     this.params = null
   }
 
-  connectDriver(driver: UiDriverAddress) {
+  connectDriver(driver: UiDriverInfo) {
     if (this.driverWs) {
       this.driverWs.close()
       this.driverWs = null
@@ -149,7 +151,7 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  refreshRfb(driver: UiDriverAddress) {
+  refreshRfb(driver: UiDriverInfo) {
     const url = this.uiService.getRfbProxyUrl(driver, this.group, this.project, 'test')
     // https://github.com/novnc/noVNC/blob/master/docs/API.md
     if (this.rfb) {
@@ -174,7 +176,7 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.uiService.getDriverList(this.group, this.project).subscribe(res => {
+    this.uiService.getDriverList(this.group, this.project, DRIVERS.CHROME).subscribe(res => {
       this.drivers = res.data
       if (this.drivers.length > 0) {
         this.selectedDriver = this.drivers[0]

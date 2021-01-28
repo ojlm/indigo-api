@@ -90,11 +90,13 @@
                 <ul>
                   <li *ngIf="!node.isLeaf" nz-menu-divider></li>
                   <li class="menu-item" nz-menu-item (click)="mv(node)">
-                    <i class="menu-icon" style="font-size: 14px;" nz-icon nzType="edit" nzTheme="outline"></i>
+                    <i class="menu-icon" style="font-size: 14px;margin-right: 4px;" nz-icon nzType="edit"
+                      nzTheme="outline"></i>
                     <span>{{'btn.mv'|translate}}</span>
                   </li>
                   <li class="menu-item" nz-menu-item (click)="delete(node)">
-                    <i class="menu-icon" style="font-size: 14px;" nz-icon nzType="delete" nzTheme="outline"></i>
+                    <i class="menu-icon" style="font-size: 14px;margin-right: 4px;" nz-icon nzType="delete"
+                      nzTheme="outline"></i>
                     <span>{{'btn.delete'|translate}}</span>
                   </li>
                 </ul>

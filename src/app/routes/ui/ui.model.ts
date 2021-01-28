@@ -60,3 +60,9 @@ export const APP = {
   WEB_MONKEY: 'web.monkey',
   RAW: 'raw',
 }
+
+export const DRIVERS = {
+  CHROME: 'chrome',
+  ANDROID: 'android',
+  IOS: 'ios'
+}

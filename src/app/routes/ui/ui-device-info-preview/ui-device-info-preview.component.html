@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="img">
+    <img *ngIf="info.screenCapture" [src]="getImgSrc()" />
+    <img *ngIf="!info.screenCapture" src="/assets/svg/android.svg" />
+  </div>
+  <div class="info">
+    <div>
+      <span>{{'device.model'|translate}}: </span>
+      <span>{{info.model}}</span>
+    </div>
+    <div>
+      <span>{{'device.brand'|translate}}: </span>
+      <span>{{info.brand}}</span>
+    </div>
+    <div>
+      <span>{{'device.manufacturer'|translate}}: </span>
+      <span>{{info.manufacturer}}</span>
+    </div>
+    <div>
+      <span>{{'device.product'|translate}}: </span>
+      <span>{{info.product}}</span>
+    </div>
+    <div>
+      <span>{{'device.systemVersion'|translate}}: </span>
+      <span>{{info.systemVersion}}</span>
+    </div>
+    <div>
+      <span>{{'device.sdkVersion'|translate}}: </span>
+      <span>{{info.sdkVersion}}</span>
+    </div>
+    <div>
+      <span>{{'device.serial'|translate}}: </span>
+      <span>{{info.serial}}</span>
+    </div>
+    <div>
+      <span>{{'device.screenSize'|translate}}: </span>
+      <span>{{info.screenSize}}</span>
+    </div>
+    <div>
+      <span>{{'device.displaySize'|translate}}: </span>
+      <span>{{info.displaySize}}</span>
+    </div>
+    <div>
+      <span>{{'device.densityDpi'|translate}}: </span>
+      <span>{{info.densityDpi}}</span>
+    </div>
+    <div>
+      <span>{{'device.density'|translate}}: </span>
+      <span>{{info.density}}</span>
+    </div>
+    <div>
+      <span>{{'device.cpuABI'|translate}}: </span>
+      <span>{{info.cpuABI}}</span>
+    </div>
+    <div>
+      <span>{{'device.host'|translate}}: </span>
+      <span>{{info.host}}</span>
+    </div>
+    <div>
+      <span>{{'device.mac'|translate}}: </span>
+      <span>{{info.mac}}</span>
+    </div>
+    <div>
+      <span>{{'device.ram'|translate}}: </span>
+      <span>{{info.ram}}G</span>
+    </div>
+  </div>
+</div>

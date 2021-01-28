@@ -13,8 +13,10 @@ import { MonkeyCommandComponent } from './monkey-command/monkey-command.componen
 import { NovncComponent } from './novnc/novnc.component'
 import { UiActivityBarComponent } from './ui-activity-bar/ui-activity-bar.component'
 import { UiActivityHistoryComponent } from './ui-activity-history/ui-activity-history.component'
+import { UiActivityRunnerSolopiComponent } from './ui-activity-runner-solopi/ui-activity-runner-solopi.component'
 import { UiActivityRunnerWebComponent } from './ui-activity-runner-web/ui-activity-runner-web.component'
 import { UiActivityRunnerComponent } from './ui-activity-runner/ui-activity-runner.component'
+import { UiDeviceInfoPreviewComponent } from './ui-device-info-preview/ui-device-info-preview.component'
 import { UiFileAppKarateComponent } from './ui-file-app-karate/ui-file-app-karate.component'
 import { UiFileAppRawComponent } from './ui-file-app-raw/ui-file-app-raw.component'
 import { UiFileAppSolopiComponent } from './ui-file-app-solopi/ui-file-app-solopi.component'
@@ -58,6 +60,8 @@ const COMPONENT = [
   UiFileAppKarateComponent,
   UiFileAppSolopiComponent,
   UiFileAppRawComponent,
+  UiActivityRunnerSolopiComponent,
+  UiDeviceInfoPreviewComponent,
 ]
 
 const COMPONENT_NOROUNT = [

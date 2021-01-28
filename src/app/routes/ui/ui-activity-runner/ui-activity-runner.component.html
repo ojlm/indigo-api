@@ -2,6 +2,9 @@
   <ng-container *ngSwitchCase="'web.monkey'">
     <app-ui-activity-runner-web [file]="file"></app-ui-activity-runner-web>
   </ng-container>
+  <ng-container *ngSwitchCase="'solopi'">
+    <app-ui-activity-runner-solopi [file]="file"></app-ui-activity-runner-solopi>
+  </ng-container>
   <ng-container *ngSwitchDefault>
     <nz-empty nzNotFoundImage="simple"></nz-empty>
   </ng-container>
