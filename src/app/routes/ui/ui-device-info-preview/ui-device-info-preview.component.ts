@@ -19,6 +19,12 @@ export class UiDeviceInfoPreviewComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.info.screenCapture}`)
   }
 
+  getUpdateTime() {
+    if (this.info.timestamp) {
+      return new Date(this.info.timestamp).toLocaleString()
+    }
+  }
+
   ngOnInit(): void {
 
   }

@@ -94,6 +94,7 @@ export interface UiDriverInfo {
   mac?: string
   ram?: number
   screenCapture?: string
+  timestamp?: number
   _checked?: boolean
 }
 
