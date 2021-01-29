@@ -152,7 +152,7 @@ export class NovncComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   refreshRfb(driver: UiDriverInfo) {
-    const url = this.uiService.getRfbProxyUrl(driver, this.group, this.project, 'test')
+    const url = this.uiService.getRfbProxyUrl(driver, this.group, this.project)
     // https://github.com/novnc/noVNC/blob/master/docs/API.md
     if (this.rfb) {
       this.rfb.disconnect()

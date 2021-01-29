@@ -17,6 +17,7 @@ import { UiActivityRunnerSolopiComponent } from './ui-activity-runner-solopi/ui-
 import { UiActivityRunnerWebComponent } from './ui-activity-runner-web/ui-activity-runner-web.component'
 import { UiActivityRunnerComponent } from './ui-activity-runner/ui-activity-runner.component'
 import { UiDeviceInfoPreviewComponent } from './ui-device-info-preview/ui-device-info-preview.component'
+import { UiDriverVncComponent } from './ui-driver-vnc/ui-driver-vnc.component'
 import { UiFileAppKarateComponent } from './ui-file-app-karate/ui-file-app-karate.component'
 import { UiFileAppRawComponent } from './ui-file-app-raw/ui-file-app-raw.component'
 import { UiFileAppSolopiComponent } from './ui-file-app-solopi/ui-file-app-solopi.component'
@@ -62,6 +63,8 @@ const COMPONENT = [
   UiFileAppRawComponent,
   UiActivityRunnerSolopiComponent,
   UiDeviceInfoPreviewComponent,
+  UiDriverVncComponent,
+  UiDriverVncComponent,
 ]
 
 const COMPONENT_NOROUNT = [

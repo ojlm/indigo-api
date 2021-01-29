@@ -57,9 +57,9 @@ export class UiService extends BaseService {
   }
 
   // direct connect ip:port
-  getRfbProxyUrl(driver: UiDriverInfo, group: string, project: string, id: string) {
+  getRfbProxyUrl(driver: UiDriverInfo, group: string, project: string) {
     const query = `host=${driver.host}&port=${driver.port}&token=${this.tokenService.get().token}`
-    return newWSUrl(`${API_WS}/ui/proxy/rfb/${group}/${project}/${id}?${query}`)
+    return newWSUrl(`${API_WS}/ui/proxy/rfb/${group}/${project}?${query}`)
   }
 
   connectDriver(driver: UiDriverInfo, group: string, project: string, id: string) {
@@ -71,6 +71,7 @@ export class UiService extends BaseService {
     }
     return ws
   }
+
 }
 
 export interface UiDriverInfo {
@@ -96,6 +97,8 @@ export interface UiDriverInfo {
   screenCapture?: string
   timestamp?: number
   _checked?: boolean
+  _vnc?: boolean
+  _log?: boolean
 }
 
 export interface CommandMeta {

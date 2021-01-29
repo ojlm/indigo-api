@@ -1,44 +1,44 @@
-<div nz-row nzGutter="4" style="height: 32px;">
-  <div nz-col nzSpan="6">
-    <button nz-button nzType="primary" (click)="startCommand()">{{'btn-send'|translate}}</button>
-    <button *ngIf="driverStatus.status==='running'" nz-button nzType="danger" (click)="stopCommand()">
-      {{'btn-stop'|translate}}
-    </button>
-  </div>
-  <div nz-col nzSpan="18">
-    <div nz-row nzGutter="4">
-      <div nz-col nzFlex="auto">
-        <nz-input-group style="float: right;" [nzAddOnBefore]="'item-host'|translate">
-          <nz-select style="width: 200px;" nzShowSearch [(ngModel)]="selectedDriver" (ngModelChange)="driverChange()"
-            [nzCustomTemplate]="selectTpl">
-            <nz-option *ngFor="let item of drivers" nzCustomContent [nzLabel]="getDriverLabel(item)" [nzValue]="item">
-              <span [title]="getDriverLabel(item)">
-                <i nz-icon nzType="chrome" nzTheme="outline"></i>
-                <span>{{getDriverLabel(item)}}</span>
-              </span>
-            </nz-option>
-            <ng-template #selectTpl let-selected>
-              <span [title]="selected.nzLabel">
-                <i nz-icon nzType="chrome" nzTheme="outline"></i>
-                <span>{{selected.nzLabel}}</span>
-              </span>
-            </ng-template>
-          </nz-select>
-        </nz-input-group>
-      </div>
-      <div nz-col nzFlex="100px">
-        <span style="float: right;line-height: 32px;">
-          <app-driver-status [status]="driverStatus"></app-driver-status>
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-<div>
+<div style="height: 32px;margin-top: 4px;">
   <label nz-checkbox [(ngModel)]="options.saveCommandLog">{{'tips.runner.saveCommandLog'|translate}}</label>
   <label nz-checkbox [(ngModel)]="options.saveDriverLog">{{'tips.runner.saveDriverLog'|translate}}</label>
+  <button style="margin-left: 16px;" nz-button nzType="primary" nzSize="small"
+    (click)="startCommand()">{{'btn-send'|translate}}</button>
 </div>
 <div style="margin-top: 4px;">
-  <app-driver-console [height]="'120px'" [log]="log"></app-driver-console>
-  <div id="vnc" style="height: 360px;"></div>
+  <nz-list nzItemLayout="vertical" nzSize="small">
+    <nz-list-item *ngFor="let item of drivers" style="padding: 4px;">
+      <div>
+        <div class="line">
+          <div class="img" nz-popover [nzPopoverContent]="previewTpl" nzPopoverTrigger="hover"
+            nzPopoverPlacement="leftTop">
+            <img *ngIf="item.screenCapture" [src]="getImgSrc(item)" />
+            <img *ngIf="!item.screenCapture" src="/assets/svg/chrome.svg" />
+            <ng-template #previewTpl>
+              <img *ngIf="item.screenCapture" style="width: 640px;height: 480px;object-fit: contain;"
+                [src]="getImgSrc(item)" />
+            </ng-template>
+          </div>
+          <div class="actions">
+            <div style="text-align: center;margin-top: 16px;">
+              <label nz-checkbox [(ngModel)]="item._checked">{{'btn.select'|translate}}</label>
+            </div>
+            <div style="margin-top: 12px;text-align: center;">
+              <img class="ctl-img" [style.filter]="showPanel(item._log)" src="/assets/svg/console.svg"
+                (click)="item._log=!item._log" />
+              <img style="margin-left: 4px;" class="ctl-img" [style.filter]="showPanel(item._vnc)"
+                src="/assets/svg/vnc.svg" (click)="item._vnc=!item._vnc" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <div *ngIf="item._log">
+            log
+          </div>
+          <div *ngIf="item._vnc">
+            vnc
+          </div>
+        </div>
+      </div>
+    </nz-list-item>
+  </nz-list>
 </div>
