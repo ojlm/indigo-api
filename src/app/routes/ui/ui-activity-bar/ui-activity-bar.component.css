@@ -16,3 +16,8 @@
   margin-left: 4px;
   height: 100%;
 }
+.content {
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

@@ -13,8 +13,10 @@
 }
 
 nz-sider {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 100%;
+  position: fixed;
 }
 
 nz-content {

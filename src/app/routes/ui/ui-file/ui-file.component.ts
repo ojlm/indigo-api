@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, HostListener, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { FileNodeService } from 'app/api/service/file.node.service'
 
@@ -11,10 +11,17 @@ import { FileNode } from '../ui.model'
 })
 export class UiFileComponent implements OnInit {
 
+  height = window.innerHeight
+
   group: string
   project: string
   id: string
   file: FileNode = {}
+
+  @HostListener('window:resize')
+  resize() {
+    this.height = window.innerHeight
+  }
 
   constructor(
     private fileNodeService: FileNodeService,

@@ -6,3 +6,9 @@
 .avatar {
   margin-right: 8px;
 }
+
+.tree {
+  background-color: white;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

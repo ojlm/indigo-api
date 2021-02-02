@@ -7,36 +7,34 @@
 <div style="margin-top: 4px;">
   <nz-list nzItemLayout="vertical" nzSize="small">
     <nz-list-item *ngFor="let item of drivers" style="padding: 4px;">
-      <div>
-        <div class="line">
-          <div class="img" nz-popover [nzPopoverContent]="previewTpl" nzPopoverTrigger="hover"
-            nzPopoverPlacement="leftTop">
-            <img *ngIf="item.screenCapture" [src]="getImgSrc(item)" />
-            <img *ngIf="!item.screenCapture" src="/assets/svg/chrome.svg" />
-            <ng-template #previewTpl>
-              <img *ngIf="item.screenCapture" style="width: 640px;height: 480px;object-fit: contain;"
-                [src]="getImgSrc(item)" />
-            </ng-template>
+      <div class="line">
+        <div class="img" nz-popover [nzPopoverContent]="previewTpl" nzPopoverTrigger="hover"
+          nzPopoverPlacement="leftTop">
+          <img *ngIf="item.screenCapture" [src]="getImgSrc(item)" />
+          <img *ngIf="!item.screenCapture" src="/assets/svg/chrome.svg" />
+          <ng-template #previewTpl>
+            <img *ngIf="item.screenCapture" style="width: 640px;height: 480px;object-fit: contain;"
+              [src]="getImgSrc(item)" />
+          </ng-template>
+        </div>
+        <div class="actions">
+          <div style="text-align: center;margin-top: 16px;">
+            <label nz-checkbox [(ngModel)]="item._checked">{{'btn.select'|translate}}</label>
           </div>
-          <div class="actions">
-            <div style="text-align: center;margin-top: 16px;">
-              <label nz-checkbox [(ngModel)]="item._checked">{{'btn.select'|translate}}</label>
-            </div>
-            <div style="margin-top: 12px;text-align: center;">
-              <img class="ctl-img" [style.filter]="showPanel(item._log)" src="/assets/svg/console.svg"
-                (click)="item._log=!item._log" />
-              <img style="margin-left: 4px;" class="ctl-img" [style.filter]="showPanel(item._vnc)"
-                src="/assets/svg/vnc.svg" (click)="item._vnc=!item._vnc" />
-            </div>
+          <div style="margin-top: 12px;text-align: center;">
+            <img class="ctl-img" [style.filter]="showPanel(item._log)" src="/assets/svg/console.svg"
+              (click)="item._log=!item._log" />
+            <img style="margin-left: 4px;" class="ctl-img" [style.filter]="showPanel(item._vnc)"
+              src="/assets/svg/vnc.svg" (click)="item._vnc=!item._vnc" />
           </div>
         </div>
-        <div>
-          <div *ngIf="item._log">
-            log
-          </div>
-          <div *ngIf="item._vnc">
-            vnc
-          </div>
+      </div>
+      <div>
+        <div *ngIf="item._log">
+          log
+        </div>
+        <div *ngIf="item._vnc">
+          vnc
         </div>
       </div>
     </nz-list-item>

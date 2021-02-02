@@ -11,11 +11,11 @@ export class UiActivityBarComponent implements OnInit, AfterViewInit {
 
   @ViewChild('drag') drag: ElementRef
   minWidth = 360
-  maxWidth = 800
+  maxWidth = window.innerWidth / 2
   width = 60
   lastWidth = 560
 
-  height = `${window.innerHeight}px`
+  height = window.innerHeight
   @Input() file: FileNode = {}
   tabBarStyle = {
     backgroundColor: 'ghostwhite',
@@ -24,7 +24,8 @@ export class UiActivityBarComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize')
   resize() {
-    this.height = `${window.innerHeight}px`
+    this.height = window.innerHeight
+    this.maxWidth = window.innerWidth / 2
   }
 
   tabIndex = 0

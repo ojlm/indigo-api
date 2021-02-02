@@ -49,6 +49,7 @@ export class UiHomeComponent extends PageSingleModel implements OnInit, AfterVie
   }
 
   goProject(p: Project) {
+    this.isCollapsed = false
     this.uiConfigService.goFiles(p.group, p.id)
   }
 

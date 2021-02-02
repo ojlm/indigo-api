@@ -1,4 +1,4 @@
-<div [style.width]="width+'px'" [style.height]="height">
+<div [style.width]="width+'px'" [style.height.px]="height">
   <div #drag [class]="hideAll?'':'drag-line'"></div>
   <nz-tabset class="tabs" nzTabPosition="right" nzSize="small" nzType="line" nzTabBarGutter="0"
     [nzTabBarStyle]="tabBarStyle" [(nzSelectedIndex)]="tabIndex" [nzHideAll]="hideAll">
@@ -9,7 +9,9 @@
         </div>
       </ng-template>
       <ng-template nz-tab>
-        <app-ui-activity-runner [file]="file"></app-ui-activity-runner>
+        <div class="content ui-scroll-bar" [style.height.px]="height">
+          <app-ui-activity-runner [file]="file"></app-ui-activity-runner>
+        </div>
       </ng-template>
     </nz-tab>
     <nz-tab [nzTitle]="hisTpl" (nzClick)="tabClick(1)">
@@ -19,7 +21,9 @@
         </div>
       </ng-template>
       <ng-template nz-tab>
-        <app-ui-activity-history [file]="file"></app-ui-activity-history>
+        <div class="content ui-scroll-bar" [style.height.px]="height">
+          <app-ui-activity-history [file]="file"></app-ui-activity-history>
+        </div>
       </ng-template>
     </nz-tab>
   </nz-tabset>

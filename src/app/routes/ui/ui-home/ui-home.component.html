@@ -1,7 +1,8 @@
 <nz-layout class="layout">
-  <nz-sider class="indigo-scroll-bar" nzCollapsible [(nzCollapsed)]="isCollapsed" nzTheme="light">
-    <div *ngIf="!isCollapsed" class="title">{{'title.spaces'|translate}}</div>
-    <ul nz-menu nzMode="inline">
+  <nz-sider class="ui-scroll-bar" nzCollapsible [(nzCollapsed)]="isCollapsed" nzTheme="light" [nzCollapsedWidth]="80"
+    [nzTrigger]="null">
+    <ul nz-menu nzMode="inline" style="height: 100%;">
+      <div *ngIf="!isCollapsed" class="title">{{'title.spaces'|translate}}</div>
       <li *ngFor="let g of groups" nz-submenu [nzTitle]="gTpl" [nzOpen]="!isCollapsed&&openMenu[g.id]"
         (nzOpenChange)="openChange($event, g)">
         <ng-template #gTpl>
@@ -20,7 +21,7 @@
       </li>
     </ul>
   </nz-sider>
-  <nz-content>
+  <nz-content [style.marginLeft.px]="isCollapsed?80:200">
     <router-outlet></router-outlet>
   </nz-content>
 </nz-layout>

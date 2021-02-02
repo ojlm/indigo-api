@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, HostListener, OnInit } from '@angular/core'
 
 @Component({
   selector: 'app-ui-file-container',
@@ -6,6 +6,13 @@ import { Component, OnInit } from '@angular/core'
   styleUrls: ['./ui-file-container.component.css']
 })
 export class UiFileContainerComponent implements OnInit {
+
+  height = window.innerHeight
+
+  @HostListener('window:resize')
+  resize() {
+    this.height = window.innerHeight
+  }
 
   constructor() { }
 
