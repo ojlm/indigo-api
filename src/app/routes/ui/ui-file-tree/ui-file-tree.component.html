@@ -28,7 +28,7 @@
     <nz-dropdown-menu #newMenu="nzDropdownMenu">
       <ul nz-menu>
         <li class="menu-item" nz-menu-item (click)="newMonkey(null)">
-          <img class="menu-img" src="/assets/svg/monkey.svg">
+          <img class="menu-img" src="/assets/svg/web.monkey.svg">
           <span>{{'app.monkey'|translate}}</span>
         </li>
         <li nz-menu-divider></li>
@@ -55,7 +55,7 @@
               <li *ngIf="!node.isLeaf" nz-menu-group [nzTitle]="newTpl">
                 <ul>
                   <li class="menu-item" nz-menu-item (click)="newMonkey(node)">
-                    <img class="menu-img" src="/assets/svg/monkey.svg">
+                    <img class="menu-img" src="/assets/svg/web.monkey.svg">
                     <span>{{'app.monkey'|translate}}</span>
                   </li>
                   <li class="menu-item" nz-menu-item (click)="newFolder(node)">

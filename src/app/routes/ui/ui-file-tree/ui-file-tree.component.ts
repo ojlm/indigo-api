@@ -78,7 +78,6 @@ export class UiFileTreeComponent extends PageSingleModel implements OnInit, OnDe
     this.openUploadDialog('title.upload.raw', APP.RAW, node)
   }
 
-
   openUploadDialog(titleKey: string, app: string, node: NzTreeNodeOptions) {
     this.modalService.create({
       nzTitle: this.i18nService.fanyi(titleKey),

@@ -8,7 +8,8 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd'
 import { UiConfigService } from '../ui-config.service'
 import { UiFolderDialogComponent } from '../ui-folder-dialog/ui-folder-dialog.component'
 import { UiMonkeyDialogComponent } from '../ui-monkey-dialog/ui-monkey-dialog.component'
-import { FileNode } from '../ui.model'
+import { UiUploadDialogComponent } from '../ui-upload-dialog/ui-upload-dialog.component'
+import { APP, FileNode } from '../ui.model'
 
 @Component({
   selector: 'app-ui-file-nodes',
@@ -53,21 +54,48 @@ export class UiFileNodesComponent extends PageSingleModel implements OnInit, OnD
   }
 
   uploadKarate() {
-    this.msgService.warning('TBD')
+    this.openUploadDialog('title.upload.karate', APP.KARATE)
   }
 
   uploadSoloPi() {
-    this.msgService.warning('TBD')
+    this.openUploadDialog('title.upload.solopi', APP.SOLOPI)
+  }
+
+  openUploadDialog(titleKey: string, app: string) {
+    this.modalService.create({
+      nzTitle: this.i18nService.fanyi(titleKey),
+      nzCancelText: null,
+      nzOkText: null,
+      nzFooter: null,
+      nzWidth: window.innerWidth * 0.5,
+      nzContent: UiUploadDialogComponent,
+      nzComponentParams: {
+        group: this.group,
+        project: this.project,
+        current: this.current,
+        app: app,
+      },
+    }).afterClose.subscribe((_: any) => {
+      this.load()
+    })
   }
 
   newMonkey() {
+    this.openNewFileDialog('title.monkey.new', UiMonkeyDialogComponent)
+  }
+
+  newFolder() {
+    this.openNewFileDialog('title.folder.new', UiFolderDialogComponent)
+  }
+
+  openNewFileDialog(titleKey: string, content: any) {
     this.modalService.create({
-      nzTitle: this.i18nService.fanyi('title.monkey.new'),
+      nzTitle: this.i18nService.fanyi(titleKey),
       nzCancelText: null,
       nzOkText: null,
       nzFooter: null,
       nzWidth: window.innerWidth * 0.6,
-      nzContent: UiMonkeyDialogComponent,
+      nzContent: content,
       nzComponentParams: {
         group: this.group,
         project: this.project,
@@ -80,24 +108,6 @@ export class UiFileNodesComponent extends PageSingleModel implements OnInit, OnD
     })
   }
 
-  newFolder() {
-    this.modalService.create({
-      nzTitle: this.i18nService.fanyi('title.folder.new'),
-      nzCancelText: null,
-      nzOkText: null,
-      nzFooter: null,
-      nzContent: UiFolderDialogComponent,
-      nzComponentParams: {
-        group: this.group,
-        project: this.project,
-        current: this.current,
-      },
-    }).afterClose.subscribe((res: NewResponse) => {
-      if (res && res.id) {
-        this.uiConfigService.goFile(this.group, this.project, res.id)
-      }
-    })
-  }
 
   reset() {
     this.files = []
