@@ -71,3 +71,11 @@ export const DRIVERS = {
   ANDROID: 'android',
   IOS: 'ios'
 }
+
+export function removeWindowSelection() {
+  if (document['selection']) {
+    document['selection'].empty()
+  } else {
+    window.getSelection().removeAllRanges()
+  }
+}

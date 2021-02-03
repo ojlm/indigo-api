@@ -1,14 +1,25 @@
-.title {
-  padding: 12px 12px 12px 24px;
-  color: lightgray;
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
 }
-
-.avatar {
-  margin-right: 8px;
+.drag-container {
+  display: flex;
 }
-
 .tree {
+  width: 100%;
   background-color: white;
   overflow-x: hidden;
   overflow-y: auto;
+}
+.drag-line {
+  width: 4px;
+  cursor: ew-resize;
+  border-left: 1px solid #f0f0f0;
+}
+.drag-line:hover {
+  background-color: #f0f0f0;
+}
+.content {
+  width: 100%;
 }

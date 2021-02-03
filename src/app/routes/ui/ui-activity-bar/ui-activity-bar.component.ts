@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core'
 
-import { FileNode } from '../ui.model'
+import { FileNode, removeWindowSelection } from '../ui.model'
 
 @Component({
   selector: 'app-ui-activity-bar',
@@ -13,7 +13,7 @@ export class UiActivityBarComponent implements OnInit, AfterViewInit {
   minWidth = 360
   maxWidth = window.innerWidth / 2
   width = 60
-  lastWidth = 560
+  lastWidth = 480
 
   height = window.innerHeight
   @Input() file: FileNode = {}
@@ -60,6 +60,7 @@ export class UiActivityBarComponent implements OnInit, AfterViewInit {
         const start = event.clientX
         const currentWidth = this.width
         document.onmousemove = (docEvent) => {
+          removeWindowSelection()
           const diff = start - docEvent.clientX
           const targetWidth = currentWidth + diff
           if (targetWidth > this.maxWidth) {
@@ -75,6 +76,7 @@ export class UiActivityBarComponent implements OnInit, AfterViewInit {
       }
       this.drag.nativeElement.onmouseup = () => {
         document.onmousemove = null
+        removeWindowSelection()
       }
     }
   }

@@ -49,7 +49,7 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
 
   loadDrivers() {
     this.uiService.getDriverList(this.group, this.project, DRIVERS.CHROME).subscribe(res => {
-      this.drivers = [...res.data, ...res.data, ...res.data]
+      this.drivers = res.data
     })
   }
 
