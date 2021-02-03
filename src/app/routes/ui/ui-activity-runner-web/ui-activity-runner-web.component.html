@@ -13,8 +13,11 @@
           <img *ngIf="item.screenCapture" [src]="getImgSrc(item)" />
           <img *ngIf="!item.screenCapture" src="/assets/svg/chrome.svg" />
           <ng-template #previewTpl>
-            <img *ngIf="item.screenCapture" style="width: 640px;height: 480px;object-fit: contain;"
-              [src]="getImgSrc(item)" />
+            <div>
+              <div style="font-size: small;color: lightgray;">{{getUpdateTime(item)}} {{item.hostname}}</div>
+              <img *ngIf="item.screenCapture" style="width: 640px;height: 480px;object-fit: contain;"
+                [src]="getImgSrc(item)" />
+            </div>
           </ng-template>
         </div>
         <div class="actions">

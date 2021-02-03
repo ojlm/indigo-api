@@ -79,6 +79,7 @@ export interface UiDriverInfo {
   port?: number
   password?: string
   type?: string
+  hostname?: string
   // mobile
   systemVersion?: string
   model?: string

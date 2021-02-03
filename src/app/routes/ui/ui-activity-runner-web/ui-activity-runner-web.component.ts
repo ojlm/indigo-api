@@ -53,6 +53,12 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
     })
   }
 
+  getUpdateTime(info: UiDriverInfo) {
+    if (info.timestamp) {
+      return new Date(info.timestamp).toLocaleString()
+    }
+  }
+
   ngOnDestroy(): void {
   }
 
