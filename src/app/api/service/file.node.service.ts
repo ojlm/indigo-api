@@ -7,6 +7,7 @@ import { Observable } from 'rxjs'
 import { ApiRes, QueryPage } from '../../model/api.model'
 import { API_FILES } from '../path'
 import { BaseService } from './base.service'
+import { DriverCommand } from './ui.service'
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,15 @@ export class FileNodeService extends BaseService {
       }
     } else {
       return undefined
+    }
+  }
+
+  toDriverCommand(file: FileNode): DriverCommand {
+    return {
+      name: file.name,
+      description: file.description,
+      type: file.app,
+      params: file.data,
     }
   }
 

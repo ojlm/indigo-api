@@ -1,7 +1,7 @@
 <div style="height: 32px;margin-top: 4px;">
   <label nz-checkbox [(ngModel)]="options.saveCommandLog">{{'tips.runner.saveCommandLog'|translate}}</label>
   <label nz-checkbox [(ngModel)]="options.saveDriverLog">{{'tips.runner.saveDriverLog'|translate}}</label>
-  <button style="margin-left: 16px;" nz-button nzType="primary" nzSize="small"
+  <button style="margin-left: 16px;" nz-button nzType="primary" nzSize="small" [nzLoading]="loading"
     (click)="startCommand()">{{'btn-send'|translate}}</button>
 </div>
 <div style="margin-top: 4px;">
@@ -14,7 +14,9 @@
           <img *ngIf="!item.screenCapture" src="/assets/svg/chrome.svg" />
           <ng-template #previewTpl>
             <div>
-              <div style="font-size: small;color: lightgray;">{{getUpdateTime(item)}} {{item.hostname}}</div>
+              <div style="font-size: small;color: lightgray;">
+                <div>{{item.host}}:{{item.port}} {{item.hostname}} {{getUpdateTime(item)}}</div>
+              </div>
               <img *ngIf="item.screenCapture" style="width: 640px;height: 480px;object-fit: contain;"
                 [src]="getImgSrc(item)" />
             </div>
@@ -25,19 +27,9 @@
             <label nz-checkbox [(ngModel)]="item._checked">{{'btn.select'|translate}}</label>
           </div>
           <div style="margin-top: 12px;text-align: center;">
-            <img class="ctl-img" [style.filter]="showPanel(item._log)" src="/assets/svg/console.svg"
-              (click)="item._log=!item._log" />
-            <img style="margin-left: 4px;" class="ctl-img" [style.filter]="showPanel(item._vnc)"
-              src="/assets/svg/vnc.svg" (click)="item._vnc=!item._vnc" />
+            <img class="ctl-img" src="/assets/svg/console.svg" />
+            <img style="margin-left: 4px;" class="ctl-img" src="/assets/svg/vnc.svg" />
           </div>
-        </div>
-      </div>
-      <div>
-        <div *ngIf="item._log">
-          log
-        </div>
-        <div *ngIf="item._vnc">
-          vnc
         </div>
       </div>
     </nz-list-item>

@@ -3,7 +3,7 @@ import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
-import { LogEntry, UiTaskReport } from 'app/routes/ui/ui.model'
+import { CommandOptions, LogEntry, UiTaskReport } from 'app/routes/ui/ui.model'
 import { newWS, newWSUrl } from 'app/util/ws'
 import { NzMessageService } from 'ng-zorro-antd'
 import { Subject } from 'rxjs'
@@ -28,6 +28,10 @@ export class UiService extends BaseService {
 
   runSolopi(group: string, project: string, id: string, params: RunTaskInBlob) {
     return this.http.post<ApiRes<UiTaskReport[]>>(`${API_UI}/task/run/solopi/${group}/${project}/${id}`, params)
+  }
+
+  runCommand(group: string, project: string, id: string, params: DriverCommand) {
+    return this.http.post<ApiRes<UiTaskReport[]>>(`${API_UI}/task/run/command/${group}/${project}/${id}`, params)
   }
 
   getReportLogsSubject(group: string, project: string, reportId: string, response: Subject<ApiRes<LogEntry[]>>) {
@@ -98,8 +102,6 @@ export interface UiDriverInfo {
   screenCapture?: string
   timestamp?: number
   _checked?: boolean
-  _vnc?: boolean
-  _log?: boolean
 }
 
 export interface CommandMeta {
@@ -115,12 +117,14 @@ export interface CommandMeta {
 }
 
 export interface DriverCommand {
-  summary?: string
+  name?: string
   description?: string
   type?: string
   creator?: string
   params?: any
   meta?: CommandMeta
+  servos?: ServoAddress[]
+  options?: CommandOptions
 }
 
 export interface DriverStatus {
@@ -187,7 +191,14 @@ export interface SearchAfterLogEntry extends SearchAfter {
   text?: string
 }
 
+export interface ServoAddress {
+  host?: string
+  port?: number
+  hostname?: string
+}
+
 export interface RunTaskInBlob {
   key?: string
-  servers?: { host?: string, port?: number }[]
+  servos?: ServoAddress[]
 }
+

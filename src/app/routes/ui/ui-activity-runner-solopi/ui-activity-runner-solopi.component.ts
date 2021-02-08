@@ -40,7 +40,7 @@ export class UiActivityRunnerSolopiComponent implements OnInit {
     if (this._file && this._file.data && this._file.data.blob && this._file.data.blob.key) {
       const params: RunTaskInBlob = {
         key: this._file.data.blob.key,
-        servers: drivers.map(item => { return { host: item.host, port: item.port } })
+        servos: drivers.map(item => { return { host: item.host, port: item.port, hostname: item.hostname } })
       }
       this.loading = true
       this.uiService.runSolopi(this.group, this.project, this._file._id, params).subscribe(res => {
