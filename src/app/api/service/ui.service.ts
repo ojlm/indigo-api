@@ -78,6 +78,25 @@ export class UiService extends BaseService {
 
 }
 
+export interface ChromeTargetPage {
+  id?: string
+  type?: string
+  title?: string
+  url?: string
+  parentId?: string
+  description?: string
+  devtoolsFrontendUrl?: string
+  webSocketDebuggerUrl?: string
+}
+
+export interface ChromeVersion {
+  browser?: string
+  protocolVersion?: string
+  userAgent?: string
+  v8Version?: string
+  webKitVersion?: string
+}
+
 export interface UiDriverInfo {
   host?: string
   port?: number
@@ -101,6 +120,12 @@ export interface UiDriverInfo {
   ram?: number
   screenCapture?: string
   timestamp?: number
+  status?: DriverStatus
+  targets?: ChromeTargetPage[]
+  version?: ChromeVersion
+  electron?: boolean
+  startUrl?: string
+  debuggerUrl?: string
   _checked?: boolean
 }
 
@@ -195,6 +220,7 @@ export interface ServoAddress {
   host?: string
   port?: number
   hostname?: string
+  electron?: boolean
 }
 
 export interface RunTaskInBlob {

@@ -45,7 +45,7 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
     if (this._file && this._file.data) {
       const command: DriverCommand = {
         ...this.fileNodeService.toDriverCommand(this._file),
-        servos: drivers.map(item => { return { host: item.host, port: item.port, hostname: item.hostname } }),
+        servos: drivers.map(item => { return { host: item.host, port: item.port, hostname: item.hostname, electron: item.electron } }),
         options: this.options,
       }
       this.loading = true
@@ -53,6 +53,23 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
         this.msgService.success('ok')
         this.loading = false
       }, _ => this.loading = false)
+    }
+  }
+
+  openConsole(item: UiDriverInfo) {
+    let url
+    if (item.targets && item.targets.length == 1) {
+      url = `http://${item.host}:${item.port}${item.targets[0].devtoolsFrontendUrl}`
+    } else if (item.targets.length > 1) {
+      if (item.debuggerUrl || item.startUrl) {
+        const target = item.targets.find(target => target.webSocketDebuggerUrl === item.debuggerUrl || target.url === item.startUrl)
+        if (target) {
+          url = `http://${item.host}:${item.port}${target.devtoolsFrontendUrl}`
+        }
+      }
+    }
+    if (url) {
+      window.open(url, item.hostname, 'toolbar=no,location=no,status=no')
     }
   }
 

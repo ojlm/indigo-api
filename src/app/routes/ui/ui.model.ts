@@ -55,6 +55,7 @@ export interface LogEntry extends BaseDoc {
 }
 
 export interface CommandOptions {
+  electron?: boolean
   saveCommandLog?: boolean
   saveDriverLog?: boolean
 }
