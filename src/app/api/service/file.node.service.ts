@@ -55,7 +55,7 @@ export class FileNodeService extends BaseService {
       name: file.name,
       description: file.description,
       type: file.app,
-      params: file.data,
+      params: file.data.data,
     }
   }
 

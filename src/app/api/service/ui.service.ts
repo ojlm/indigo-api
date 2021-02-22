@@ -190,6 +190,9 @@ export interface MonkeyCommandParams {
   checkInterval?: number
   checkScript?: string
   areaRatio?: AreaRatio[]
+  excludeArea?: AreaRatio[]
+  excludeChars?: string
+  disableMouseRightKey?: boolean
 }
 
 export interface DriverCommandLog {

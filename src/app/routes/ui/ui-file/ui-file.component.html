@@ -15,7 +15,7 @@
     </div>
     <div [ngSwitch]="file.app">
       <ng-container *ngSwitchCase="'web.monkey'">
-        <app-monkey-command [(params)]="file.data"></app-monkey-command>
+        <app-monkey-command [(params)]="file.data.data"></app-monkey-command>
       </ng-container>
       <ng-container *ngSwitchCase="'karate'">
         <app-ui-file-app-karate [file]="file"></app-ui-file-app-karate>

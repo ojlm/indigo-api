@@ -18,14 +18,17 @@ export class MonkeyCommandComponent implements OnInit {
     generateCount: 100,
     maxDuration: 0,
     areaRatio: [{}],
+    excludeArea: [{}],
   }
   @Input() set params(params: MonkeyCommandParams) {
     if (params) {
-      if (params.areaRatio) {
-        this.data = params
-      } else {
-        this.data = { ...params, areaRatio: [{}] }
+      if (!params.areaRatio) {
+        params.areaRatio = [{}]
       }
+      if (!params.excludeArea) {
+        params.excludeArea = [{}]
+      }
+      this.data = { ...params }
     } else {
       setTimeout(() => this.modelChange(), 1)
     }
@@ -43,6 +46,16 @@ export class MonkeyCommandComponent implements OnInit {
 
   removeArea(idx: number) {
     this.data.areaRatio.splice(idx, 1)
+    this.modelChange()
+  }
+
+  addExcludeArea() {
+    this.data.excludeArea.push({})
+    this.modelChange()
+  }
+
+  removeExcludeArea(idx: number) {
+    this.data.excludeArea.splice(idx, 1)
     this.modelChange()
   }
 
