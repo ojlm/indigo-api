@@ -13,7 +13,18 @@
             style="float: left;color: lightslategray;font-size: small;">{{item.version?item.version.browser:''}}</span>
           <span>
             <img *ngIf="item.electron" class="ctl-img" src="/assets/svg/electron.svg" />
-            <img style="margin-left: 4px;" class="ctl-img" src="/assets/svg/console.svg" (click)="openConsole(item)" />
+            <img *ngIf="item.password" style="margin-left: 4px;" class="ctl-img" src="/assets/svg/vnc.svg"
+              (click)="openVnc(item)" />
+            <img style="margin-left: 4px;" class="ctl-img" src="/assets/svg/console.svg" nz-popover
+              [nzPopoverContent]="targetTpl" nzPopoverPlacement="bottomRight" />
+            <ng-template #targetTpl>
+              <div style="max-width: 360px;">
+                <div *ngFor="let target of item.targets" class="target-line" (click)="openTarget(item, target)">
+                  <nz-tag [nzColor]="'cyan'">{{target.type}}</nz-tag>
+                  <span>{{target.title}}</span>
+                </div>
+              </div>
+            </ng-template>
           </span>
           <label nz-checkbox [(ngModel)]="item._checked">{{'btn.select'|translate}}</label>
         </div>

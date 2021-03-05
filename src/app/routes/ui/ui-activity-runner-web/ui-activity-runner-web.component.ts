@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
 import { FileNodeService } from 'app/api/service/file.node.service'
-import { DriverCommand, UiDriverInfo, UiService } from 'app/api/service/ui.service'
+import { ChromeTargetPage, DriverCommand, UiDriverInfo, UiService } from 'app/api/service/ui.service'
 import { NzMessageService } from 'ng-zorro-antd'
 
 import { CommandOptions, DRIVERS, FileNode } from '../ui.model'
@@ -56,21 +56,45 @@ export class UiActivityRunnerWebComponent implements OnInit, OnDestroy {
     }
   }
 
+  getDevtoolsUrl(host: string, port: number, target: ChromeTargetPage) {
+    return `http://${host}:${port}/devtools/inspector.html?ws=${host}:${port}/devtools/page/${target.id}`
+  }
+
+  openTarget(item: UiDriverInfo, target: ChromeTargetPage) {
+    const url = this.getDevtoolsUrl(item.host, item.port, target)
+    const width = window.screen.availWidth / 2
+    const height = window.screen.availHeight / 2
+    window.open(url, '_blank', `width=${width},height=${height},left=${width / 2},top=${height / 2}`)
+  }
+
   openConsole(item: UiDriverInfo) {
     let url
     if (item.targets && item.targets.length == 1) {
-      url = `http://${item.host}:${item.port}${item.targets[0].devtoolsFrontendUrl}`
+      url = this.getDevtoolsUrl(item.host, item.port, item.targets[0])
     } else if (item.targets.length > 1) {
       if (item.debuggerUrl || item.startUrl) {
         const target = item.targets.find(target => target.webSocketDebuggerUrl === item.debuggerUrl || target.url === item.startUrl)
         if (target) {
-          url = `http://${item.host}:${item.port}${target.devtoolsFrontendUrl}`
+          url = this.getDevtoolsUrl(item.host, item.port, target)
+        }
+      } else {
+        const target = item.targets.find(target => target.type === 'page')
+        if (target) {
+          url = this.getDevtoolsUrl(item.host, item.port, target)
         }
       }
     }
     if (url) {
-      window.open(url, item.hostname, 'toolbar=no,location=no,status=no')
+      const width = window.screen.availWidth / 2
+      const height = window.screen.availHeight / 2
+      window.open(url, '_blank', `width=${width},height=${height},left=${width / 2},top=${height / 2}`)
     }
+  }
+
+  openVnc(item: UiDriverInfo) {
+    const width = window.screen.availWidth / 2
+    const height = window.screen.availHeight / 2
+    window.open(`http://${item.host}:${item.port}/vnc?password=${item.password}`, '_blank', `width=${width},height=${height},left=${width / 2},top=${height / 2}`)
   }
 
   getImgSrc(item: UiDriverInfo) {

@@ -25,3 +25,15 @@
 .ctl-img:hover {
   transform: scale(1.1);
 }
+.target-line {
+  white-space: nowrap;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 64px auto;
+  margin-bottom: 2px;
+  background-color: aliceblue;
+}
+.target-line:hover {
+  background-color: azure;
+  cursor: default;
+}
