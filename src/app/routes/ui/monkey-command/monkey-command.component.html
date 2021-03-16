@@ -57,14 +57,20 @@
       </nz-input-number>
     </div>
     <div class="line" nz-col nzSpan="12">
-      <div>{{'tips.monkey.excludeChars'|translate}}</div>
-      <input nz-input [(ngModel)]="data.excludeChars" (ngModelChange)="modelChange()" />
-    </div>
-    <div class="line" nz-col nzSpan="12">
       <div>{{'tips.monkey.disableMouseRightKey'|translate}}</div>
       <label nz-checkbox [(ngModel)]="data.disableMouseRightKey" (ngModelChange)="modelChange()">
         {{'tips.monkey.disableMouseRightKey'|translate}}
       </label>
+    </div>
+    <div class="line" nz-col nzSpan="12">
+      <div>{{'tips.monkey.useCvDetectPoints'|translate}}</div>
+      <label nz-checkbox [(ngModel)]="data.useCvDetectPoints" (ngModelChange)="modelChange()">
+        {{'tips.monkey.useCvDetectPoints'|translate}}
+      </label>
+    </div>
+    <div class="line" nz-col nzSpan="24">
+      <div>{{'tips.monkey.excludeChars'|translate}}</div>
+      <input nz-input [(ngModel)]="data.excludeChars" (ngModelChange)="modelChange()" />
     </div>
   </div>
   <nz-divider class="margin" [nzText]="areaRatioTpl" nzOrientation="left">
@@ -83,6 +89,12 @@
         <nz-input-number style="width: 100%;" [(ngModel)]="item.ratio" (ngModelChange)="modelChange()" [nzMin]="0"
           [nzMax]="1" [nzStep]="0.1" [nzPrecision]="1">
         </nz-input-number>
+      </div>
+      <div nz-col nzFlex="1">
+        <label nz-checkbox style="white-space: nowrap;" [(ngModel)]="item.useCvDetectPoints"
+          (ngModelChange)="modelChange()">
+          {{'tips.monkey.useCvDetectPoints'|translate}}
+        </label>
       </div>
       <div nz-col nzFlex="24px">
         <i class="click-icon" style="vertical-align: bottom;" nz-icon nzType="delete" nzTheme="outline"

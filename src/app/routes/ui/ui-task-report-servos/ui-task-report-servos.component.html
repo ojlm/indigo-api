@@ -1,0 +1,10 @@
+<div>
+  <nz-tag *ngFor="let item of servos" class="tag" [nzColor]="item.ok?'success':'warning'" nz-popover
+    [nzPopoverContent]="!item.ok?popContentTpl:null" nzPopoverPlacement="bottomLeft">
+    <i nz-icon [nzType]="item.ok?'check-circle':'exclamation-circle'"></i>
+    <span style="margin-left: 4px;">{{item._k}}</span>
+    <ng-template #popContentTpl>
+      <pre>{{item.msg}}</pre>
+    </ng-template>
+  </nz-tag>
+</div>

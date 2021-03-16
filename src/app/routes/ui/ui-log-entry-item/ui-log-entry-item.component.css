@@ -1,5 +1,7 @@
 .line {
   font-size: small;
+  display: grid;
+  grid-template-columns: 156px 56px auto 300px;
 }
 .line:hover {
   background-color: wheat;
@@ -8,7 +10,6 @@
   color: darkblue;
 }
 .level {
-  width: 52px;
   display: inline-block;
   text-align: center;
 }
@@ -17,7 +18,8 @@
 }
 .right {
   float: right;
-  padding-right: 8px;
+  display: grid;
+  grid-template-columns: auto 52px 100px 16px;
 }
 .type {
   color: darkgray;
@@ -29,6 +31,16 @@
   color: darkgray;
   display: inline-block;
   text-align: right;
+}
+.hostname {
+  width: 80px;
+  color: darkgray;
+}
+.wrap {
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .bug {
 }

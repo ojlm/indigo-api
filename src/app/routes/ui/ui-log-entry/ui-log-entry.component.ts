@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { SearchAfterLogEntry, UiService } from 'app/api/service/ui.service'
+import { AggsResult, SearchAfterLogEntry, UiService } from 'app/api/service/ui.service'
 import { ApiRes } from 'app/model/api.model'
+import { NameValue } from 'app/model/common.model'
 import { Subject } from 'rxjs'
 
 import { LogEntry, UiTaskReport } from '../ui.model'
@@ -12,7 +13,15 @@ import { LogEntry, UiTaskReport } from '../ui.model'
 })
 export class UiLogEntryComponent implements OnInit {
 
-  searchFeed: SearchAfterLogEntry = { size: 200 }
+  type: NameValue
+  source: NameValue
+  method: NameValue
+  hostname = ''
+
+  sourceItems: NameValue[] = []
+  methodItems: NameValue[] = []
+
+  searchFeed: SearchAfterLogEntry = { size: 100, desc: false }
   searchFeedSubject: Subject<SearchAfterLogEntry>
   searchFeedResponse: Subject<ApiRes<LogEntry[]>> = new Subject()
   hasMoreFeeds = true
@@ -26,6 +35,7 @@ export class UiLogEntryComponent implements OnInit {
     { label: 'warning', value: 'warning', },
     { label: 'error', value: 'error' },
   ]
+  @Input() aggs: AggsResult
   _height = '480px'
   @Input()
   set height(val: number) {
@@ -52,6 +62,11 @@ export class UiLogEntryComponent implements OnInit {
     private uiService: UiService,
   ) { }
 
+  changeSort() {
+    this.searchFeed.desc = !this.searchFeed.desc
+    this.reset()
+  }
+
   levelsChange() {
     this.searchFeed.levels = this.levels.filter(item => item.checked).map(item => item.value)
     this.reset()
@@ -72,6 +87,10 @@ export class UiLogEntryComponent implements OnInit {
     if (this.hasMoreFeeds) {
       const search: SearchAfterLogEntry = {
         ...this.searchFeed,
+        type: this.type ? [this.type.name] : undefined,
+        source: this.source ? [this.source.name] : undefined,
+        method: this.method ? [this.method.name] : undefined,
+        hostname: this.hostname ? [this.hostname] : undefined,
         sort: this.feedSort,
       }
       this.searchFeedSubject.next(search)

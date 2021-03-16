@@ -1,11 +1,60 @@
-<div style="height: 32px;">
+<div class="toolbar">
+  <nz-divider nzType="vertical"></nz-divider>
+  <a>
+    <i class="click-icon" nz-icon [nzType]="searchFeed.desc?'sort-descending':'sort-ascending'" nzTheme="outline"
+      (click)="changeSort()">
+    </i>
+  </a>
+  <nz-divider nzType="vertical"></nz-divider>
+  <nz-select style="width: 120px;" nzSize="small" [nzPlaceHolder]="'tips.log.type'|translate" nzAllowClear nzShowSearch
+    [(ngModel)]="type" (ngModelChange)="reset()">
+    <ng-container *ngIf="aggs.type">
+      <nz-option *ngFor="let item of aggs.type" [nzValue]="item" [nzLabel]="item.name" nzCustomContent>
+        <span>{{item.name}}</span>
+        <span class="count">({{item.value}})</span>
+      </nz-option>
+    </ng-container>
+  </nz-select>
+  <ng-container *ngIf="type&&type.extra&&type.extra.source&&type.extra.source.length>0">
+    <nz-divider nzType="vertical"></nz-divider>
+    <nz-select style="width: 120px;" nzSize="small" [nzPlaceHolder]="'tips.log.source'|translate" nzAllowClear
+      nzShowSearch [(ngModel)]="source" (ngModelChange)="reset()">
+      <nz-option *ngFor="let item of type.extra.source" [nzValue]="item" [nzLabel]="item.name" nzCustomContent>
+        <span>{{item.name}}</span>
+        <span class="count">({{item.value}})</span>
+      </nz-option>
+    </nz-select>
+  </ng-container>
+  <ng-container *ngIf="type&&type.extra&&type.extra.method&&type.extra.method.length>0">
+    <nz-divider nzType="vertical"></nz-divider>
+    <nz-select style="width: 200px;" nzSize="small" [nzPlaceHolder]="'tips.log.method'|translate" nzAllowClear
+      nzShowSearch [(ngModel)]="method" (ngModelChange)="reset()">
+      <nz-option *ngFor="let item of type.extra.method" [nzValue]="item" [nzLabel]="item.name" nzCustomContent>
+        <span>{{item.name}}</span>
+        <span class="count">({{item.value}})</span>
+      </nz-option>
+    </nz-select>
+  </ng-container>
+  <nz-divider nzType="vertical"></nz-divider>
   <nz-checkbox-group [(ngModel)]="levels" (ngModelChange)="levelsChange()"></nz-checkbox-group>
-  <nz-input-group style="width: auto;" [nzSuffix]="suffixTpl">
+  <nz-divider nzType="vertical"></nz-divider>
+  <nz-input-group style="width: auto;" nzSize="small" [nzSuffix]="suffixTpl">
     <input type="text" nz-input [(ngModel)]="searchFeed.text" (keydown.enter)="reset()" />
     <ng-template #suffixTpl>
       <i nz-icon nzType="search"></i>
     </ng-template>
   </nz-input-group>
+  <nz-select class="host" nzSize="small" [nzPlaceHolder]="'tips.log.hostname'|translate" nzAllowClear nzShowSearch
+    [(ngModel)]="hostname" (ngModelChange)="reset()">
+    <ng-container *ngIf="aggs.hostname">
+      <nz-option *ngFor="let item of aggs.hostname" [nzValue]="item.name" [nzLabel]="item.name" nzCustomContent>
+        <div>
+          <span>{{item.name}}</span>
+          <span class="count">({{item.value}})</span>
+        </div>
+      </nz-option>
+    </ng-container>
+  </nz-select>
 </div>
 <div [style.height]="_height" class="feed indigo-scroll-bar" infiniteScroll [infiniteScrollDistance]="2"
   [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">

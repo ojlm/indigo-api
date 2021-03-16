@@ -25,12 +25,16 @@ export class BlobService extends BaseService {
     return this.http.post<ApiRes<BlobMetaData>>(`${API_BLOB}/${group}/${project}/upload`, formData)
   }
 
-  readAsString(group: string, project: string, key: string) {
-    return this.http.get(`${API_BLOB}/${group}/${project}/readAsString/${key}`)
+  readAsString(group: string, project: string, key: string, engine: string = null) {
+    return this.http.get(`${API_BLOB}/${group}/${project}/readAsString/${key}${engine ? '?engine=' + engine : ''}`)
   }
 
-  downloadBlob(group: string, project: string, key: string, fileName: string) {
-    this.http.get(`${API_BLOB}/${group}/${project}/download/${key}`, null, { responseType: 'blob' }).subscribe(res => {
+  readAsBytes(group: string, project: string, key: string, engine: string = null) {
+    return this.http.get(`${API_BLOB}/${group}/${project}/readAsBytes/${key}${engine ? '?engine=' + engine : ''}`)
+  }
+
+  downloadBlob(group: string, project: string, key: string, fileName: string, engine: string = null) {
+    this.http.get(`${API_BLOB}/${group}/${project}/download/${key}${engine ? '?engine=' + engine : ''}`, null, { responseType: 'blob' }).subscribe(res => {
       if (res.type === 'application/json') {
         res.text().then(txt => {
           try {

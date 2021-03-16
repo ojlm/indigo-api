@@ -20,8 +20,15 @@ export interface FileNode extends BaseDoc {
   data?: FileNodeData
 }
 
+export interface ReportResultItem {
+  _k?: string
+  msg?: string
+  ok?: boolean
+  type?: string
+}
+
 export interface UiTaskReportData {
-  result?: any
+  result?: { [k: string]: ReportResultItem }
 }
 
 export interface UiTaskReport extends BaseDoc {
@@ -41,6 +48,8 @@ export interface UiTaskReport extends BaseDoc {
 }
 
 export interface LogEntry extends BaseDoc {
+  group?: string
+  project?: string
   taskId?: string
   reportId?: string
   type?: string
@@ -51,7 +60,7 @@ export interface LogEntry extends BaseDoc {
   source?: string
   text?: string
   timestamp?: number
-  data?: object
+  data?: any
 }
 
 export interface CommandOptions {

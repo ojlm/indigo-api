@@ -1,5 +1,19 @@
+.toolbar {
+  height: 32px;
+  padding-top: 4px;
+}
 .feed {
   overflow: auto;
   width: 100%;
   background-color: beige;
+}
+.count {
+  font-size: 8px;
+  color: lightslategray;
+  margin-left: 2px;
+}
+.host {
+  float: right;
+  margin-right: 8px;
+  width: 200px;
 }

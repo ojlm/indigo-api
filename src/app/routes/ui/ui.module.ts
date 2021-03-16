@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { SharedModule } from '@shared/shared.module'
+import { FilesizePipe } from 'app/pipe/file-size.pipe'
 import { NzLayoutModule } from 'ng-zorro-antd'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
@@ -16,6 +17,7 @@ import { UiActivityHistoryComponent } from './ui-activity-history/ui-activity-hi
 import { UiActivityRunnerSolopiComponent } from './ui-activity-runner-solopi/ui-activity-runner-solopi.component'
 import { UiActivityRunnerWebComponent } from './ui-activity-runner-web/ui-activity-runner-web.component'
 import { UiActivityRunnerComponent } from './ui-activity-runner/ui-activity-runner.component'
+import { UiBlobstoreViewerComponent } from './ui-blobstore-viewer/ui-blobstore-viewer.component'
 import { UiDeviceInfoPreviewComponent } from './ui-device-info-preview/ui-device-info-preview.component'
 import { UiDriverVncComponent } from './ui-driver-vnc/ui-driver-vnc.component'
 import { UiFileAppKarateComponent } from './ui-file-app-karate/ui-file-app-karate.component'
@@ -32,6 +34,7 @@ import { UiLogEntryComponent } from './ui-log-entry/ui-log-entry.component'
 import { UiMonkeyDialogComponent } from './ui-monkey-dialog/ui-monkey-dialog.component'
 import { UiRoutingModule } from './ui-routing.module'
 import { UiRunningJobComponent } from './ui-running-job/ui-running-job.component'
+import { UiTaskReportServosComponent } from './ui-task-report-servos/ui-task-report-servos.component'
 import { UiTaskReportComponent } from './ui-task-report/ui-task-report.component'
 import { UiUploadDialogComponent } from './ui-upload-dialog/ui-upload-dialog.component'
 
@@ -65,11 +68,14 @@ const COMPONENT = [
   UiDeviceInfoPreviewComponent,
   UiDriverVncComponent,
   UiDriverVncComponent,
+  UiTaskReportServosComponent,
+  UiBlobstoreViewerComponent,
 ]
 
 const COMPONENT_NOROUNT = [
   UiFolderDialogComponent,
   UiUploadDialogComponent,
+  UiBlobstoreViewerComponent,
 ]
 
 @NgModule({
@@ -83,7 +89,7 @@ const COMPONENT_NOROUNT = [
     UiRoutingModule,
   ],
   exports: [...COMPONENT],
-  providers: [],
+  providers: [FilesizePipe],
   declarations: [...COMPONENT, ...COMPONENT_NOROUNT],
   entryComponents: COMPONENT_NOROUNT,
 })

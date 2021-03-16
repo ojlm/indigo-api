@@ -1,11 +1,19 @@
 .detail {
-  height: 84px;
+  padding-top: 4px;
+  height: 88px;
 }
 .desc {
   margin-left: 8px;
   color: lightgray;
   font-size: small;
 }
-.right {
-  margin-left: 12px;
+.time {
+  float: right;
+  font-size: small;
+  color: lightslategray;
+}
+.type-img {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
 }

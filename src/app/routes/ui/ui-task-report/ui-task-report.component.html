@@ -3,20 +3,23 @@
     <nz-alert *ngIf="report.result" nzShowIcon [nzType]="report.result==='success'?'success':'error'"
       [nzMessage]="msgTpl" [nzDescription]="descTpl">
       <ng-template #msgTpl>
-        <span>{{report.summary}}</span>
-        <span class="desc">{{report.description}}</span>
-      </ng-template>
-      <ng-template #descTpl>
         <div>
-          <span>{{report.errorMsg}}</span>
-          <span clsss="right">
-            <span>startAt: {{timeStr(report.startAt)}}</span>
+          <span>
+            <img class="type-img" [src]="getImgSrc()">
+          </span>
+          <span>{{report.summary}}</span>
+          <span class="desc">{{report.description}}</span>
+          <span class="time">
+            <span>{{'field-start-date'|translate}}: {{timeStr(report.startAt)}}</span>
             <nz-divider nzType="vertical"></nz-divider>
-            <span>endAt: {{timeStr(report.endAt)}}</span>
+            <span>{{'field-end-date'|translate}}: {{timeStr(report.endAt)}}</span>
           </span>
         </div>
       </ng-template>
+      <ng-template #descTpl>
+        <app-ui-task-report-servos [report]="report"></app-ui-task-report-servos>
+      </ng-template>
     </nz-alert>
   </div>
-  <app-ui-log-entry [report]="report" [height]="logsHeight"></app-ui-log-entry>
+  <app-ui-log-entry [aggs]="aggs" [report]="report" [height]="logsHeight"></app-ui-log-entry>
 </div>

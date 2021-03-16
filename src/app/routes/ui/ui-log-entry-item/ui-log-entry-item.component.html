@@ -1,10 +1,18 @@
 <div class="line">
-  <span class="time">{{timeStr()}}</span>
-  <span class="level" [style.color]="levelColor()">{{levelStr()}}</span>
-  <span class="text">{{textStr()}}</span>
+  <span class="time wrap">{{timeStr()}}</span>
+  <span class="level wrap" [style.color]="levelColor()">{{levelStr()}}</span>
+  <span class="text wrap" (dblclick)="debug()">
+    <a *ngIf="_item.source==='screen'" (click)="openViewer()">
+      <span style="text-decoration: underline;color: darkblue;">
+        {{'tips.screen'|translate}}{{screenCaptureStr()}}
+      </span>
+    </a>
+    <span *ngIf="_item.source!='screen'">{{textStr()}}</span>
+  </span>
   <span class="right">
-    <span class="method">{{_item.method}}</span>
-    <span class="type">{{_item.type}}</span>
+    <span class="method wrap">{{_item.method}}</span>
+    <span class="type wrap">{{_item.type}}</span>
+    <span class="hostname wrap">{{_item.hostname}}</span>
     <span class="bug" (click)="debug()"><i class="click-icon" nz-icon nzType="bug" nzTheme="outline"></i></span>
   </span>
 </div>

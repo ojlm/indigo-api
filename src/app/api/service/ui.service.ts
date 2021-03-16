@@ -3,6 +3,7 @@ import { I18NService } from '@core'
 import { I18nKey } from '@core/i18n/i18n.message'
 import { DA_SERVICE_TOKEN, TokenService } from '@delon/auth'
 import { _HttpClient } from '@delon/theme'
+import { NameValue } from 'app/model/common.model'
 import { CommandOptions, LogEntry, UiTaskReport } from 'app/routes/ui/ui.model'
 import { newWS, newWSUrl } from 'app/util/ws'
 import { NzMessageService } from 'ng-zorro-antd'
@@ -32,6 +33,10 @@ export class UiService extends BaseService {
 
   runCommand(group: string, project: string, id: string, params: DriverCommand) {
     return this.http.post<ApiRes<UiTaskReport[]>>(`${API_UI}/task/run/command/${group}/${project}/${id}`, params)
+  }
+
+  getAggs(group: string, project: string, reportId: string, day: string) {
+    return this.http.get<ApiRes<AggsResult>>(`${API_UI}/task/report/aggs/${group}/${project}/${reportId}?day=${day}`)
   }
 
   getReportLogsSubject(group: string, project: string, reportId: string, response: Subject<ApiRes<LogEntry[]>>) {
@@ -174,6 +179,7 @@ export interface DriverCommandResult {
 export interface AreaRatio {
   locator?: string
   ratio?: number
+  useCvDetectPoints?: boolean
 }
 
 export interface MonkeyCommandParams {
@@ -193,6 +199,7 @@ export interface MonkeyCommandParams {
   excludeArea?: AreaRatio[]
   excludeChars?: string
   disableMouseRightKey?: boolean
+  useCvDetectPoints?: boolean
 }
 
 export interface DriverCommandLog {
@@ -217,6 +224,11 @@ export interface SearchAfterLogEntry extends SearchAfter {
   reportId?: string
   levels?: string[]
   text?: string
+  type?: string[]
+  source?: string[]
+  hostname?: string[]
+  method?: string[]
+  desc?: boolean
 }
 
 export interface ServoAddress {
@@ -231,3 +243,7 @@ export interface RunTaskInBlob {
   servos?: ServoAddress[]
 }
 
+export interface AggsResult {
+  hostname?: NameValue[]
+  type?: NameValue[]
+}

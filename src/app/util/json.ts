@@ -32,7 +32,9 @@ export function syntaxHighlight(json: string | Object, newWindow = true) {
             <body>
         `
   if (newWindow) {
-    const w = window.open('', '', 'resizable=yes,scrollbars=yes,status=yes,width=800,height=640,centerscreen=true')
+    const width = window.screen.availWidth / 2
+    const height = window.screen.availHeight / 2
+    const w = window.open('json', '_blank', `width=${width},height=${height},left=${width / 2},top=${height / 2}`)
     w.document.write(html)
   } else {
     return html
